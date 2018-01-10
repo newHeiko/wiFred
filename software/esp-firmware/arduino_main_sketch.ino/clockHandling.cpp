@@ -218,8 +218,13 @@ void clockHandler(void)
       }
 
       // simple cases first
-      // if we are close enough, set same rate (if we can run as fast)
-      if( (delta < CLOCK_DELTA || delta > 12 * 3600 - CLOCK_DELTA) && networkTime.rate10 <= clockMaxRate * 10)
+      // if we are already at same speed and close enough, keep doing it
+      if( (delta < CLOCK_DELTA || delta > 12 * 3600 - CLOCK_DELTA) && networkTime.rate10 == ourTime.rate10)
+      {
+        // do nothing
+      }
+      // if we are into a smaller window, set same rate (if we can run as fast)
+      else if( (delta < CLOCK_DELTA / 2 || delta > 12 * 3600 - CLOCK_DELTA / 2) && networkTime.rate10 <= clockMaxRate * 10)
       {
         ourTime.rate10 = networkTime.rate10;
       }

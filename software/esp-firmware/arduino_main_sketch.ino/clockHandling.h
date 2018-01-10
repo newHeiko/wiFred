@@ -10,7 +10,7 @@
 #define CLOCK2_PIN 14
 
 // maximum value for which times are considered to be the same
-#define CLOCK_DELTA 5
+#define CLOCK_DELTA 10
 
 extern uint8_t clockPulseLength;
 extern uint8_t clockMaxRate;
