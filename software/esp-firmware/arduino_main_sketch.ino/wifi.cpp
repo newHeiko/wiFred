@@ -9,7 +9,19 @@ t_wlan wlan;
 
 WiFiServer server(80);
 
-#define DEBUG
+Ticker stopWebServer;
+
+IPAddress myIP;
+
+void shutdownAP(void)
+{
+  ESP.deepSleep(0);
+}
+
+void shutdownConfigSTA(void)
+{
+  WiFi.config(myIP, WiFi.gatewayIP(), WiFi.subnetMask());
+}
 
 void initWiFi(void)
 {
@@ -41,6 +53,7 @@ void initWiFi(void)
             Serial.print("Successfully connected, local IP ");
             Serial.println(WiFi.localIP());
             #endif
+            myIP = WiFi.localIP();
             break;
           }
         }
@@ -58,6 +71,9 @@ void initWiFi(void)
     Serial.println(ssid);
     #endif
     WiFi.softAP(ssid.c_str());
+
+    // shut down system if no activity comes by within 10 minutes
+    stopWebServer.once(600, shutdownAP);
   }
   // start configuration webserver
   server.begin();
@@ -140,6 +156,8 @@ void handleWiFi(void)
   WiFiClient client = server.available();
   if(client)
   {
+    // connection to web server received, so keep running
+    stopWebServer.detach();
     while(!client.available())
     {
       yield();
@@ -321,8 +339,24 @@ void handleWiFi(void)
       // whatever we read above, respond with general page
       writeMainPage(client);
     }
-    // request is about function mapping
     delay(1);
+  }
+  
+  // change IP address to config page if all loco selectors are turned off
+  if(e_allLocosOff == true)
+  {
+    e_allLocosOff = false;
+
+    if(WiFi.status() == WL_CONNECTED)
+    {
+      // replace last byte in IP address with 252 (configuration IP address)
+      IPAddress configIP = myIP;
+      configIP[3] = 252;
+      WiFi.config(configIP, WiFi.gatewayIP(), WiFi.subnetMask());
+
+      // start 30 second timer to avoid "crowding" the band
+      stopWebServer.once(30, shutdownConfigSTA);
+    }
   }
 }
 
