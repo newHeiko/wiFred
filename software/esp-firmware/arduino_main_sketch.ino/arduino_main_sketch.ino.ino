@@ -27,4 +27,6 @@ void loop() {
   clockHandler();
   yield();
   lowBatteryHandler();
+  yield();
+  locoHandler();
 }

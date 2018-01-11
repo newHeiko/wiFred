@@ -4,6 +4,10 @@
 locoInfo locos[4];
 bool locoActive = false;
 
+bool locoRunning[4];
+
+bool e_allLocosOff;
+
 serverInfo locoServer;
 
 void locoInit(void)
@@ -16,6 +20,15 @@ void locoInit(void)
 
 void locoHandler(void)
 {
-  
+  static uint32_t debounceCounter;
+  static int8_t switchState[4];
+
+  // debounce inputs every 10ms
+  if(millis() > debounceCounter)
+  {
+    debounceCounter += 10;
+
+//    if(
+  }
 }
 
