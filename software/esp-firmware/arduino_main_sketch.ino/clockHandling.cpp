@@ -4,6 +4,7 @@
 
 #include "clockHandling.h"
 #include "config.h"
+#include "lowbat.h"
 
 uint8_t clockPulseLength = 40;
 uint8_t clockMaxRate = 10;
@@ -59,20 +60,23 @@ void setClockOutputs(void)
   {
     return;
   }
-  static bool positiveEdge;
-  if(positiveEdge)
+  static uint8_t edgeCounter;
+  edgeCounter++;
+  edgeCounter %= 4;
+  if(edgeCounter == 0)
   {
     digitalWrite(CLOCK1_PIN, LOW);
-    positiveEdge = false;
   }
-  else
+  else if( (edgeCounter == 2 && !lowBattery) || (edgeCounter == 3 && lowBattery) )
   {
     digitalWrite(CLOCK2_PIN, LOW);
-    positiveEdge = true;
   }
-  oneShot.once_ms(clockPulseLength, resetClockOutputs);
-  plusOneSecond(&ourTime);
-  flagNewTime = true;
+  if(edgeCounter % 2 == 0)
+  {
+    oneShot.once_ms(clockPulseLength, resetClockOutputs);
+    plusOneSecond(&ourTime);
+    flagNewTime = true;
+  }
 }
 
 void networkSecondHandler(void)
@@ -131,6 +135,8 @@ void clockHandler(void)
   {
     digitalWrite(CLOCK1_PIN, HIGH);
     digitalWrite(CLOCK2_PIN, HIGH);
+    ourSecond.detach();
+    networkSecond.detach();
   }
   else
   {
@@ -260,7 +266,7 @@ void clockHandler(void)
       {
         if(ourTime.rate10 != 0)
         {
-          ourSecond.attach(10.0 / ourTime.rate10, setClockOutputs);
+          ourSecond.attach(5.0 / ourTime.rate10, setClockOutputs);
         }
         else
         {

@@ -3,6 +3,7 @@
 #include "locoHandling.h"
 #include "clockHandling.h"
 #include "config.h"
+#include "Ticker.h"
 
 t_wlan wlan;
 

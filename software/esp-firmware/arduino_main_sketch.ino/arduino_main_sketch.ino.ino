@@ -2,6 +2,7 @@
 #include "wifi.h"
 #include "config.h"
 #include "locoHandling.h"
+#include "lowbat.h"
 
 #define DEBUG
 
@@ -11,6 +12,7 @@ void setup() {
   initConfig();
   locoInit();
   initClock();
+  lowBatteryInit();
   
   Serial.begin(115200);
   delay(100);
@@ -21,6 +23,8 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   handleWiFi();
-
+  yield();
   clockHandler();
+  yield();
+  lowBatteryHandler();
 }
