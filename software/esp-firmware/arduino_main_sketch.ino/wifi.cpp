@@ -358,5 +358,11 @@ void handleWiFi(void)
       stopWebServer.once(30, shutdownConfigSTA);
     }
   }
+
+  // change IP address back to normal once any loco selection switch is enabled
+  if(locoRunning[0] || locoRunning[1] || locoRunning[2] || locoRunning[3])
+  {
+    shutdownConfigSTA();
+  }
 }
 
