@@ -32,7 +32,7 @@ void lowBatteryHandler(void)
     {
       // shut down entirely
       #warning "Re-enable Deep Sleep when connected to battery"
-      ESP.deepSleep(0);
+      // ESP.deepSleep(0);
     }
     buffer = index = 0;
   }
