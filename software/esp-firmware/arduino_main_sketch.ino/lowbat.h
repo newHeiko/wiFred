@@ -32,4 +32,10 @@ void lowBatteryInit(void);
  */
 void lowBatteryHandler(void);
 
+/**
+ * Battery voltage in milliVolt (capped at 2V)
+ */
+extern uint16_t batteryVoltage;
+
 #endif
+

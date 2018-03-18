@@ -98,7 +98,7 @@ void saveClockConfig()
 
   clockSaved = true;
   
-  if(locoSaved && wifiSaved)
+  if(wifiSaved)
   {
     EEPROM.write(ID, EEPROM_VALID);
   }
@@ -112,7 +112,7 @@ void saveGeneralConfig()
   eepromWriteBlock(NAME, (uint8_t *) throttleName, sizeof(throttleName)/sizeof(throttleName[0]));
 
   wifiSaved = true;
-  if(locoSaved && clockSaved)
+  if(locoSaved || clockSaved)
   {
     EEPROM.write(ID, EEPROM_VALID);
   }
@@ -131,7 +131,7 @@ void saveLocoConfig(bool mainSave)
   if(mainSave)
   {
     locoSaved = true;
-    if(wifiSaved && clockSaved)
+    if(wifiSaved)
     {
       EEPROM.write(ID, EEPROM_VALID);
     }

@@ -276,4 +276,3 @@ void clockHandler(void)
     }
   }
 }
-

@@ -3,6 +3,7 @@
 #include "lowbat.h"
 
 bool lowBattery;
+uint16_t batteryVoltage;
 
 void lowBatteryInit(void)
 {
@@ -17,24 +18,32 @@ void lowBatteryHandler(void)
   static uint16_t buffer = 0;
   static uint8_t index = 0;
 
-  buffer += analogRead(A0);
+  static uint32_t lastRead = 0;
 
-  index++;
-  if(index == NUM_AD_SAMPLES)
+  if(millis() > lastRead)
   {
-    // calculate battery voltage in millivolts ( * 2 to account for for hardware voltage divider)
-    uint16_t value = buffer / NUM_AD_SAMPLES * 2;
-    if(value < LOW_BATTERY_MILLIVOLTS)
+    lastRead += 16000 / NUM_AD_SAMPLES;
+
+    buffer += analogRead(A0);
+    index++;
+    if(index == NUM_AD_SAMPLES)
     {
-      lowBattery = true;
+      // calculate battery voltage in millivolts ( * 2 to account for for hardware voltage divider)
+      uint16_t value = buffer / NUM_AD_SAMPLES * 2;
+      if(value < LOW_BATTERY_MILLIVOLTS)
+      {
+        lowBattery = true;
+      }
+      if(value < EMPTY_BATTERY_MILLIVOLTS)
+      {
+        // shut down entirely
+        #warning "Re-enable Deep Sleep when connected to battery"
+        // ESP.deepSleep(0);
+      }
+      batteryVoltage = value;
+      buffer = index = 0;
     }
-    if(value < EMPTY_BATTERY_MILLIVOLTS)
-    {
-      // shut down entirely
-      #warning "Re-enable Deep Sleep when connected to battery"
-      // ESP.deepSleep(0);
-    }
-    buffer = index = 0;
   }
 }
+
 

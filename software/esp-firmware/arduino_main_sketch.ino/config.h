@@ -57,3 +57,4 @@ void saveGeneralConfig();
 void saveLocoConfig(bool mainSave = true);
 
 #endif
+

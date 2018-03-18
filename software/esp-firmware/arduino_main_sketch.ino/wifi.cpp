@@ -1,13 +1,18 @@
 #include <ESP8266WiFi.h>
+#include <WiFiClient.h>
+#include <ESP8266WebServer.h>
 #include "wifi.h"
 #include "locoHandling.h"
 #include "clockHandling.h"
 #include "config.h"
+#include "lowbat.h"
 #include "Ticker.h"
+
+#define DEBUG
 
 t_wlan wlan;
 
-WiFiServer server(80);
+ESP8266WebServer server(80);
 
 Ticker stopWebServer;
 
@@ -23,75 +28,32 @@ void shutdownConfigSTA(void)
   WiFi.config(myIP, WiFi.gatewayIP(), WiFi.subnetMask());
 }
 
-void initWiFi(void)
+void readString(char * dest, size_t maxLength, String input)
 {
-  // check inputs of loco selection switches at startup and 
-  // start in normal mode if at least one is selected
-  if(digitalRead(LOCO1_INPUT) == LOW || digitalRead(LOCO2_INPUT) == LOW ||
-     digitalRead(LOCO3_INPUT) == LOW || digitalRead(LOCO4_INPUT) == LOW || true)
-     {
-        WiFi.mode(WIFI_STA);
-
-        delay(100);
-        
-        #ifdef DEBUG
-        Serial.print("Attempting connection to ");
-        Serial.print(wlan.ssid);
-        Serial.print(" with key ");
-        Serial.println(wlan.key);
-        #endif
-
-        WiFi.begin(wlan.ssid, wlan.key);
-        
-        for(uint8_t i=0; i<20; i++)
-        {
-          delay(500);
-          if(WiFi.status() == WL_CONNECTED)
-          {
-            WiFi.mode(WIFI_STA);
-            #ifdef DEBUG
-            Serial.print("Successfully connected, local IP ");
-            Serial.println(WiFi.localIP());
-            #endif
-            myIP = WiFi.localIP();
-            break;
-          }
-        }
-     }
-
-  if(WiFi.status() != WL_CONNECTED)
-  {
-    // open an AP for configuration if connection failed above
-    WiFi.mode(WIFI_AP);
-    uint8_t mac[6];
-    WiFi.macAddress(mac);
-    String ssid = "wfred-config" + String(mac[0], 16) + String(mac[5], 16);
-    #ifdef DEBUG
-    Serial.print("Not connected, setting up AP at ");
-    Serial.println(ssid);
-    #endif
-    WiFi.softAP(ssid.c_str());
-
-    // shut down system if no activity comes by within 10 minutes
-    stopWebServer.once(600, shutdownAP);
-  }
-  // start configuration webserver
-  server.begin();
-
+  strncpy(dest, input.c_str(), maxLength - 1);
+  dest[maxLength - 1] = '\0';
 }
 
-void writeMainPage(WiFiClient c)
+void writeMainPage()
 {
-  char startupString[9];
-  snprintf(startupString, sizeof(startupString)/sizeof(startupString[0]), "%02d:%02d:%02d", startupTime.hours, startupTime.minutes, startupTime.seconds);
+  // disable countdown timer
+  stopWebServer.detach();
 
-  String resp = String("HTTP/1.1 200 OK\r\n")
-              + "Content-Type: text/html\r\n"
-              + "Connection: close\r\n\r\n"
-              + "<!DOCTYPE HTML>\r\n"
-              + "<html><head><title>wfred, WILMA and wfred-clock configuration page</title></head>\r\n"
-              + "<body><h1>wfred, WILMA and wfred-clock configuration page</h1>\r\n"
-              + "<hr>WiFi and throttle configuration<hr>\r\n"
+  // check if this is a configuration request
+  if(server.hasArg("throttleName") && server.hasArg("wifi.ssid") && server.hasArg("wifi.key"))
+  {
+    readString(throttleName, sizeof(throttleName)/sizeof(throttleName[0]), server.arg("throttleName"));
+    readString(wlan.ssid, sizeof(wlan.ssid)/sizeof(wlan.ssid[0]), server.arg("wifi.ssid"));
+    readString(wlan.key, sizeof(wlan.key)/sizeof(wlan.key[0]), server.arg("wifi.key"));
+
+    saveGeneralConfig();
+  }
+  String myThrottleName = server.arg("throttleName");
+
+  String resp = String("<!DOCTYPE HTML>\r\n")
+              + "<html><head><title>wiFred configuration page</title></head>\r\n"
+              + "<body><h1>wiFred configuration page</h1>\r\n"
+              + "<hr>General configuration<hr>\r\n"
               + "<form action=\"index.html\" method=\"get\"><table border=0>"
               + "<tr><td>Throttle name (max " + String(sizeof(throttleName)/sizeof(throttleName[0]) - 1) + " chars):</td><td><input type=\"text\" name=\"throttleName\" value=\"" + throttleName + "\"></td></tr>"
               + "<tr><td>WiFi SSID (max " + String(sizeof(wlan.ssid)/sizeof(wlan.ssid[0]) - 1) + " chars):</td><td><input type=\"text\" name=\"wifi.ssid\" value=\"" + wlan.ssid + "\"></td></tr>"
@@ -100,19 +62,17 @@ void writeMainPage(WiFiClient c)
               + "<tr><td colspan=2><input type=\"submit\"></td></tr></table></form>\r\n"
 
               + "<hr>Clock configuration<hr>\r\n"
-              + "<form action=\"index.html\" method=\"get\"><table border=0>"
-              + "<tr><td>Enabled?</td><td><input type=\"checkbox\" name=\"clock.enabled\"" + (clockActive ? " checked" : "") + "></td></tr>"
-              + "<tr><td>Clock server and port: </td>"
-                + "<td>http://<input type=\"text\" name=\"clock.serverName\" value=\"" + clockServer.name + "\">:<input type=\"text\" name=\"clock.serverPort\" value=\"" + clockServer.port + "\">/json/time</td></tr>"
-              + "<tr><td>Startup time (format: H:M:S):</td><td><input type=\"text\" name=\"clock.startUp\" value=\"" + startupString + "\"></td></tr>"
-              + "<tr><td>Clock offset from UTC (hours):</td><td><input type=\"text\" name=\"clock.offset\" value=\"" + clockOffset + "\"></td></tr>"
-              + "<tr><td>Startup clock rate:</td><td><input type=\"text\" name=\"clock.startupRate\" value=\"" + startupTime.rate10 / 10.0 + "\"></td></tr>"
-              + "<tr><td>Maximum clock rate:</td><td><input type=\"text\" name=\"clock.maxClockRate\" value=\"" + clockMaxRate + "\"></td></tr>"
-              + "<tr><td>Pulse length for clock (milliseconds):</td><td><input type=\"text\" name=\"clock.pulseLength\" value=\"" + clockPulseLength + "\"></td></tr>"
-              + "<tr><td colspan=2><input type=\"submit\"></td></tr></table></form>\r\n";
-  c.print(resp);
+              + "<a href=clock.html>Clock configuration subpage</a>\r\n"
+              + "<hr>Loco configuration<hr>\r\n"
+              + "<a href=loco.html>Loco configuration subpage</a>\r\n"
+              + "<hr>Restart system to enable new WiFi settings<hr>\r\n"
+              + "<a href=restart.html>Restart system to enable new WiFi settings</a>\r\n"
+              + "<hr><hr>Status page<hr>\r\n"
+              + "<a href=status.html>wiFred status subpage</a>\r\n"
+              + "</body></html>";
+  server.send(200, "text/html", resp);
 
-  resp        = String("<hr>Loco configuration<hr>\r\n")
+/*  resp        = String("<hr>Loco configuration<hr>\r\n")
               + "<form action=\"index.html\" method=\"get\"><table border=0>"
               + "<tr><td>Enabled?</td><td><input type=\"checkbox\" name=\"loco.enabled\"" + (locoActive ? " checked" : "") + "></td></tr>"
               + "<tr><td>Loco server and port: </td>"
@@ -127,18 +87,120 @@ void writeMainPage(WiFiClient c)
               + "<hr>Restart device (to reconnect to WLAN as configured above)<form action=\"restart.html\" method=\"get\"><input type=\"submit\"></form><hr>\r\n"
               + "</body></html>";
 
-  c.print(resp);
+  c.print(resp); */
 }
 
-void readString(char * dest, size_t maxLength, String input, const char * filter, size_t filterLength)
+void writeClockPage()
 {
-  if(input.indexOf(filter) != -1)
+  char startupString[9];
+  snprintf(startupString, sizeof(startupString)/sizeof(startupString[0]), "%02d:%02d:%02d", startupTime.hours, startupTime.minutes, startupTime.seconds);
+
+  String resp = String("<!DOCTYPE HTML>\r\n")
+              + "<html><head><title>wiFred configuration page</title></head>\r\n"
+              + "<body><h1>wiFred configuration page</h1>\r\n"
+              + "<hr>Clock configuration<hr>\r\n"
+              + "<form action=\"clock.html\" method=\"get\"><table border=0>"
+              + "<tr><td>Enabled?</td><td><input type=\"checkbox\" name=\"clock.enabled\"" + (clockActive ? " checked" : "") + "></td></tr>"
+              + "<tr><td>Clock server and port: </td>"
+                + "<td>http://<input type=\"text\" name=\"clock.serverName\" value=\"" + clockServer.name + "\">:<input type=\"text\" name=\"clock.serverPort\" value=\"" + clockServer.port + "\">/json/time</td></tr>"
+              + "<tr><td>Startup time (format: H:M:S):</td><td><input type=\"text\" name=\"clock.startUp\" value=\"" + startupString + "\"></td></tr>"
+              + "<tr><td>Clock offset from UTC (hours):</td><td><input type=\"text\" name=\"clock.offset\" value=\"" + clockOffset + "\"></td></tr>"
+              + "<tr><td>Startup clock rate:</td><td><input type=\"text\" name=\"clock.startupRate\" value=\"" + startupTime.rate10 / 10.0 + "\"></td></tr>"
+              + "<tr><td>Maximum clock rate:</td><td><input type=\"text\" name=\"clock.maxClockRate\" value=\"" + clockMaxRate + "\"></td></tr>"
+              + "<tr><td>Pulse length for clock (milliseconds):</td><td><input type=\"text\" name=\"clock.pulseLength\" value=\"" + clockPulseLength + "\"></td></tr>"
+              + "<tr><td><input type=\"submit\"></td><td><a href=/>Return to main page</a></td></tr></table></form>\r\n"
+              + "</body></html>";
+  server.send(200, "text/html", resp);
+}
+
+void writeStatusPage()
+{
+  char timeString[9];
+  snprintf(timeString, sizeof(timeString)/sizeof(timeString[0]), "%02d:%02d:%02d", ourTime.hours, ourTime.minutes, ourTime.seconds);
+  String resp = String("<!DOCTYPE HTML>\r\n")
+              + "<html><head><title>wiFred status page</title></head>\r\n"
+              + "<body><h1>wiFred status</h1>\r\n"
+              + "<table border=0>"
+              + "<tr><td>Battery voltage: </td><td>" + batteryVoltage + " mV</td></tr>\r\n"
+              + "<tr><td>System time: </td><td>" + timeString + "</td></tr>\r\n";
+  snprintf(timeString, sizeof(timeString)/sizeof(timeString[0]), "%02d:%02d:%02d", networkTime.hours, networkTime.minutes, networkTime.seconds);
+  resp        += String("<tr><td>Network time: </td><td>") + timeString + "</td></tr>\r\n"
+              + "<tr><td>Clock rate: </td><td>" + ourTime.rate10 / 10.0 + "</td></tr>\r\n"
+              + "<tr><td colspan=2><a href=/>Return to main page</a></td></tr></table>\r\n"
+              + "</body></html>";
+  server.send(200, "text/html", resp);
+}
+
+void restartESP()
+{
+  ESP.restart();
+}
+
+void initWiFi(void)
+{
+  // check inputs of loco selection switches at startup and 
+  // start in normal mode if at least one is selected or this is not a clock system
+  if(digitalRead(LOCO1_INPUT) == LOW || digitalRead(LOCO2_INPUT) == LOW ||
+     digitalRead(LOCO3_INPUT) == LOW || digitalRead(LOCO4_INPUT) == LOW || !clockActive)
+     {
+        WiFi.disconnect();
+        WiFi.mode(WIFI_STA);
+
+        delay(100);
+        
+        #ifdef DEBUG
+        Serial.print("Attempting connection to ");
+        Serial.print(wlan.ssid);
+        Serial.print(" with key ");
+        Serial.println(wlan.key);
+        #endif
+
+        WiFi.begin(wlan.ssid, wlan.key);
+
+        #warning "Increase loop counter for more retries"
+        for(uint8_t i=0; i<20; i++)
+        {
+          delay(500);
+          if(WiFi.status() == WL_CONNECTED)
+          {
+            #ifdef DEBUG
+            Serial.println();
+            Serial.print("Successfully connected, local IP ");
+            Serial.println(WiFi.localIP());
+            #endif
+            myIP = WiFi.localIP();
+            break;
+          }
+        }
+     }
+
+  if(WiFi.status() != WL_CONNECTED)
   {
-    size_t pos = input.indexOf(filter);
-    size_t endpos = input.indexOf("&", pos);
-    strncpy(dest, input.substring(pos + filterLength, endpos).c_str(), maxLength - 1);
-    dest[maxLength - 1] = '\0';
+    // open an AP for configuration if connection failed above
+    WiFi.disconnect();
+    WiFi.mode(WIFI_AP);
+    uint8_t mac[6];
+    WiFi.macAddress(mac);
+    String ssid = "wfred-config" + String(mac[0], 16) + String(mac[5], 16);
+    #ifdef DEBUG
+    Serial.println();
+    Serial.print("Not connected, setting up AP at ");
+    Serial.println(ssid);
+    #endif
+    WiFi.softAP(ssid.c_str());
+    Serial.println("Ready to connect.");
+
+    // shut down system if no activity comes by within 10 minutes
+    stopWebServer.once(600, shutdownAP);
   }
+  server.on("/", writeMainPage);
+  server.on("/clock.html", writeClockPage);
+  server.on("/status.html", writeStatusPage);
+  server.on("/restart.html", restartESP);
+  server.onNotFound(writeMainPage);
+  
+  // start configuration webserver
+  server.begin();
 }
 
 int32_t readInteger(String input, const char * filter, size_t filterLength)
@@ -153,23 +215,9 @@ int32_t readInteger(String input, const char * filter, size_t filterLength)
 
 void handleWiFi(void)
 {
-  WiFiClient client = server.available();
-  if(client)
-  {
-    // connection to web server received, so keep running
-    stopWebServer.detach();
-    while(!client.available())
-    {
-      yield();
-    }
-
-    String req = client.readStringUntil('\r');
-
-#ifdef DEBUG
-    Serial.println(req);
-#endif
-
-    // request is function mapping page
+  server.handleClient();
+  
+/*  // request is function mapping page
     if(req.indexOf("funcmap") != -1)
     {
       size_t pos = req.indexOf("funcmap");
@@ -231,24 +279,9 @@ void handleWiFi(void)
       resp        = String("<hr><a href=\"index.html\">Back to main configuration page (unsaved data will be lost)</a><hr></body></html>");
       client.print(resp);
     }
-    // request is about restarting the ESP
-    else if(req.indexOf("restart.html") != -1)
-    {
-      ESP.restart();
-    }
     // everything else will be caught by general configuration
     else
     {
-      // request is about general configuration
-      if(req.indexOf("throttleName") != -1)
-      {
-        readString(throttleName, sizeof(throttleName)/sizeof(throttleName[0]), req, "throttleName", sizeof("throttleName"));
-        readString(wlan.ssid, sizeof(wlan.ssid)/sizeof(wlan.ssid[0]), req, "wifi.ssid", sizeof("wifi.ssid"));
-        readString(wlan.key, sizeof(wlan.key)/sizeof(wlan.key[0]), req, "wifi.key", sizeof("wifi.key"));
-
-        saveGeneralConfig();
-      }
-
       // request is about clock configuration
       if(req.indexOf("clock.") != -1)
       {
@@ -340,10 +373,10 @@ void handleWiFi(void)
       writeMainPage(client);
     }
     delay(1);
-  }
+  } */
   
-  // change IP address to config page if all loco selectors are turned off
-  if(e_allLocosOff == true)
+  // change IP address to config page if all loco selectors are turned off and this is a clock system
+  if(e_allLocosOff == true && clockActive)
   {
     e_allLocosOff = false;
 
@@ -365,4 +398,3 @@ void handleWiFi(void)
     shutdownConfigSTA();
   }
 }
-
