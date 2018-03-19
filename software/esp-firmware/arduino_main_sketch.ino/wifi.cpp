@@ -71,23 +71,6 @@ void writeMainPage()
               + "<a href=status.html>wiFred status subpage</a>\r\n"
               + "</body></html>";
   server.send(200, "text/html", resp);
-
-/*  resp        = String("<hr>Loco configuration<hr>\r\n")
-              + "<form action=\"index.html\" method=\"get\"><table border=0>"
-              + "<tr><td>Enabled?</td><td><input type=\"checkbox\" name=\"loco.enabled\"" + (locoActive ? " checked" : "") + "></td></tr>"
-              + "<tr><td>Loco server and port: </td>"
-                + "<td><input type=\"text\" name=\"loco.serverName\" value=\"" + locoServer.name + "\">:<input type=\"text\" name=\"loco.serverPort\" value=\"" + locoServer.port + "\"></td></tr>";
-                
-  for(uint8_t i=0; i<4; i++)
-  {
-    resp      += String("<tr><td>Loco ") + (i+1) + " address:</td><td><input type=\"text\" name=\"loco.address" + (i+1) + "\" value=\"" + locos[i].address + "\"></td></tr>"
-              + "<tr><td>Reverse? <input type=\"checkbox\" name=\"loco.reverse" + (i+1) + "\"" + (locos[i].reverse ? " checked" : "" ) + "></td>"              + "<td><a href=\"funcmap" + (i+1) + ".html\">Function mapping</a></td></tr>";
-  }
-  resp        += String("<tr><td colspan=2><input type=\"submit\"></td></tr></table></form>\r\n")
-              + "<hr>Restart device (to reconnect to WLAN as configured above)<form action=\"restart.html\" method=\"get\"><input type=\"submit\"></form><hr>\r\n"
-              + "</body></html>";
-
-  c.print(resp); */
 }
 
 void writeClockPage()
@@ -110,6 +93,27 @@ void writeClockPage()
               + "<tr><td>Pulse length for clock (milliseconds):</td><td><input type=\"text\" name=\"clock.pulseLength\" value=\"" + clockPulseLength + "\"></td></tr>"
               + "<tr><td><input type=\"submit\"></td><td><a href=/>Return to main page</a></td></tr></table></form>\r\n"
               + "</body></html>";
+  server.send(200, "text/html", resp);
+}
+
+void writeLocoPage()
+{
+  String resp = String("<!DOCTYPE HTML>\r\n")
+              + "<html><head><title>wiFred configuration page</title></head>\r\n"
+              + "<body><h1>wiFred configuration page</h1>\r\n"
+              + "<hr>Loco configuration<hr>\r\n"
+              + "<form action=\"index.html\" method=\"get\"><table border=0>"
+              + "<tr><td>Enabled?</td><td><input type=\"checkbox\" name=\"loco.enabled\"" + (locoActive ? " checked" : "") + "></td></tr>"
+              + "<tr><td>Loco server and port: </td>"
+              + "<td><input type=\"text\" name=\"loco.serverName\" value=\"" + locoServer.name + "\">:<input type=\"text\" name=\"loco.serverPort\" value=\"" + locoServer.port + "\"></td></tr>";
+  for(uint8_t i=0; i<4; i++)
+  {
+    resp      += String("<tr><td>Loco ") + (i+1) + " address:</td><td><input type=\"text\" name=\"loco.address" + (i+1) + "\" value=\"" + locos[i].address + "\"></td></tr>"
+              + "<tr><td>Reverse? <input type=\"checkbox\" name=\"loco.reverse" + (i+1) + "\"" + (locos[i].reverse ? " checked" : "" ) + "></td>"              + "<td><a href=\"funcmap" + (i+1) + ".html\">Function mapping</a></td></tr>";
+  }
+  resp        += String("<tr><td><input type=\"submit\"></td><td><a href=/>Return to main page</a></td></tr></table></form>\r\n")
+              + "</body></html>";
+  
   server.send(200, "text/html", resp);
 }
 
@@ -195,6 +199,7 @@ void initWiFi(void)
   }
   server.on("/", writeMainPage);
   server.on("/clock.html", writeClockPage);
+  server.on("/loco.html", writeLocoPage);
   server.on("/status.html", writeStatusPage);
   server.on("/restart.html", restartESP);
   server.onNotFound(writeMainPage);
