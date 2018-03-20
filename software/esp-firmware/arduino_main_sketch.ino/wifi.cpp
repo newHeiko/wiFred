@@ -39,7 +39,7 @@ void writeMainPage()
   // disable countdown timer
   stopWebServer.detach();
 
-  // check if this is a configuration request
+  // check if this is a "set configuration" request
   if(server.hasArg("throttleName") && server.hasArg("wifi.ssid") && server.hasArg("wifi.key"))
   {
     readString(throttleName, sizeof(throttleName)/sizeof(throttleName[0]), server.arg("throttleName"));
@@ -48,12 +48,10 @@ void writeMainPage()
 
     saveGeneralConfig();
   }
-  String myThrottleName = server.arg("throttleName");
 
   String resp = String("<!DOCTYPE HTML>\r\n")
               + "<html><head><title>wiFred configuration page</title></head>\r\n"
-              + "<body><h1>wiFred configuration page</h1>\r\n"
-              + "<hr>General configuration<hr>\r\n"
+              + "<body><h1>General configuration</h1>\r\n"
               + "<form action=\"index.html\" method=\"get\"><table border=0>"
               + "<tr><td>Throttle name (max " + String(sizeof(throttleName)/sizeof(throttleName[0]) - 1) + " chars):</td><td><input type=\"text\" name=\"throttleName\" value=\"" + throttleName + "\"></td></tr>"
               + "<tr><td>WiFi SSID (max " + String(sizeof(wlan.ssid)/sizeof(wlan.ssid[0]) - 1) + " chars):</td><td><input type=\"text\" name=\"wifi.ssid\" value=\"" + wlan.ssid + "\"></td></tr>"
@@ -80,8 +78,7 @@ void writeClockPage()
 
   String resp = String("<!DOCTYPE HTML>\r\n")
               + "<html><head><title>wiFred configuration page</title></head>\r\n"
-              + "<body><h1>wiFred configuration page</h1>\r\n"
-              + "<hr>Clock configuration<hr>\r\n"
+              + "<body><h1>Clock configuration</h1>\r\n"
               + "<form action=\"clock.html\" method=\"get\"><table border=0>"
               + "<tr><td>Enabled?</td><td><input type=\"checkbox\" name=\"clock.enabled\"" + (clockActive ? " checked" : "") + "></td></tr>"
               + "<tr><td>Clock server and port: </td>"
@@ -91,7 +88,7 @@ void writeClockPage()
               + "<tr><td>Startup clock rate:</td><td><input type=\"text\" name=\"clock.startupRate\" value=\"" + startupTime.rate10 / 10.0 + "\"></td></tr>"
               + "<tr><td>Maximum clock rate:</td><td><input type=\"text\" name=\"clock.maxClockRate\" value=\"" + clockMaxRate + "\"></td></tr>"
               + "<tr><td>Pulse length for clock (milliseconds):</td><td><input type=\"text\" name=\"clock.pulseLength\" value=\"" + clockPulseLength + "\"></td></tr>"
-              + "<tr><td><input type=\"submit\"></td><td><a href=/>Return to main page</a></td></tr></table></form>\r\n"
+              + "<tr><td><input type=\"submit\"></td><td><a href=\"/\">Back to main configuration page (unsaved data will be lost)</a></td></tr></table></form>\r\n"
               + "</body></html>";
   server.send(200, "text/html", resp);
 }
@@ -100,20 +97,51 @@ void writeLocoPage()
 {
   String resp = String("<!DOCTYPE HTML>\r\n")
               + "<html><head><title>wiFred configuration page</title></head>\r\n"
-              + "<body><h1>wiFred configuration page</h1>\r\n"
-              + "<hr>Loco configuration<hr>\r\n"
+              + "<body><h1>Loco configuration</h1>\r\n"
               + "<form action=\"index.html\" method=\"get\"><table border=0>"
               + "<tr><td>Enabled?</td><td><input type=\"checkbox\" name=\"loco.enabled\"" + (locoActive ? " checked" : "") + "></td></tr>"
               + "<tr><td>Loco server and port: </td>"
               + "<td><input type=\"text\" name=\"loco.serverName\" value=\"" + locoServer.name + "\">:<input type=\"text\" name=\"loco.serverPort\" value=\"" + locoServer.port + "\"></td></tr>";
   for(uint8_t i=0; i<4; i++)
   {
-    resp      += String("<tr><td>Loco ") + (i+1) + " address:</td><td><input type=\"text\" name=\"loco.address" + (i+1) + "\" value=\"" + locos[i].address + "\"></td></tr>"
-              + "<tr><td>Reverse? <input type=\"checkbox\" name=\"loco.reverse" + (i+1) + "\"" + (locos[i].reverse ? " checked" : "" ) + "></td>"              + "<td><a href=\"funcmap" + (i+1) + ".html\">Function mapping</a></td></tr>";
+    resp      += String("<tr><td>Loco ") + (i+1) + " DCC address: ([1..9999] is valid, -1 to disable)</td><td><input type=\"text\" name=\"loco.address" + (i+1) + "\" value=\"" + locos[i].address + "\"></td></tr>"
+              + "<tr><td>Reverse? <input type=\"checkbox\" name=\"loco.reverse" + (i+1) + "\"" + (locos[i].reverse ? " checked" : "" ) + "></td>"              + "<td><a href=\"funcmap.html?loco=" + (i+1) + "\">Function mapping</a></td></tr>";
   }
-  resp        += String("<tr><td><input type=\"submit\"></td><td><a href=/>Return to main page</a></td></tr></table></form>\r\n")
+  resp        += String("<tr><td><input type=\"submit\"></td><td><a href=\"/\">Back to main configuration page (unsaved data will be lost)</a></td></tr></table></form>\r\n")
               + "</body></html>";
   
+  server.send(200, "text/html", resp);
+}
+
+void writeFuncMapPage()
+{
+  uint8_t loco = server.arg("loco").toInt();
+  
+  String resp = String("<!DOCTYPE HTML>\r\n")
+              + "<html><head><title>wiFred configuration page</title></head>\r\n"
+              + "<body><h1>Function mapping for Loco: " + loco + "</h1>\r\n";
+  if(loco < 1 || loco > 4)
+  {
+    resp      += String("Loco ") + loco + " is not valid. Valid locos are in the range [1..4].";
+  }
+  else
+  {
+    resp      += String("<hr>Function configuration for loco ") + loco + " (DCC address: " + locos[loco-1].address + ")<hr>"
+              + "<form action=\"funcmap.html?loco=" + loco + "\" method=\"get\"><table border=0>";
+    for(uint8_t i=0; i<=MAX_FUNCTION; i++)
+    {
+      resp    += String("<tr><td>Function ") + i + ":</td>"
+              + "<td><input type=\"radio\" name=\"f" + i + "\" value=\"" + ALWAYS_ON + "\"" 
+                + (locos[loco-1].functions[i] == ALWAYS_ON ? " checked" : "" ) + ">Always On</td>"
+              + "<td><input type=\"radio\" name=\"f" + i + "\" value=\"" + THROTTLE + "\"" 
+                + (locos[loco-1].functions[i] == THROTTLE ? " checked" : "" ) + ">Throttle controlled</td>"
+              + "<td><input type=\"radio\" name=\"f" + i + "\" value=\"" + ALWAYS_OFF + "\"" 
+                + (locos[loco-1].functions[i] == ALWAYS_OFF ? " checked" : "" ) + ">Always Off</td><tr>";
+    }
+    resp      += String("<tr><td colspan=4><input type=\"submit\"></td></tr></table></form>\r\n");
+  }
+  resp        += String("<hr><a href=\"loco.html\">Back to loco configuration page (unsaved data will be lost)</a>")
+              + "<hr><a href=\"/\">Back to main configuration page (unsaved data will be lost)</a><hr></body></html>";
   server.send(200, "text/html", resp);
 }
 
@@ -130,7 +158,7 @@ void writeStatusPage()
   snprintf(timeString, sizeof(timeString)/sizeof(timeString[0]), "%02d:%02d:%02d", networkTime.hours, networkTime.minutes, networkTime.seconds);
   resp        += String("<tr><td>Network time: </td><td>") + timeString + "</td></tr>\r\n"
               + "<tr><td>Clock rate: </td><td>" + ourTime.rate10 / 10.0 + "</td></tr>\r\n"
-              + "<tr><td colspan=2><a href=/>Return to main page</a></td></tr></table>\r\n"
+              + "<tr><td colspan=2><a href=\"/\">Back to main configuration page</a></td></tr></table>\r\n"
               + "</body></html>";
   server.send(200, "text/html", resp);
 }
@@ -200,22 +228,13 @@ void initWiFi(void)
   server.on("/", writeMainPage);
   server.on("/clock.html", writeClockPage);
   server.on("/loco.html", writeLocoPage);
+  server.on("/funcmap.html", writeFuncMapPage);
   server.on("/status.html", writeStatusPage);
   server.on("/restart.html", restartESP);
   server.onNotFound(writeMainPage);
   
   // start configuration webserver
   server.begin();
-}
-
-int32_t readInteger(String input, const char * filter, size_t filterLength)
-{
-  if(input.indexOf(filter) != -1)
-  {
-    size_t pos = input.indexOf(filter);
-    return input.substring(pos+filterLength).toInt();
-  }
-  return -1;
 }
 
 void handleWiFi(void)
@@ -250,39 +269,6 @@ void handleWiFi(void)
 
       saveLocoConfig(false);
 
-      String resp = String("HTTP/1.1 200 OK\r\n")
-                  + "Content-Type: text/html\r\n"
-                  + "Connection: close\r\n\r\n"
-                  + "<!DOCTYPE HTML>\r\n"
-                  + "<html><head><title>wfred and WILMA function configuration page</title></head>\r\n"
-                  + "<body><h1>wfred and WILMA function configuration page</h1>\r\n";
-      client.print(resp);
-      if(loco < 1 || loco > 4)
-      {
-        resp      = String("Loco ") + loco + " is not valid. Valid locos are in the range [1..4].";
-        client.print(resp);
-      }
-      else
-      {
-        resp      = String("<hr>Function configuration for loco ") + loco + " (DCC address: " + locos[loco-1].address + ")<hr>"
-                  + "<form action=\"funcmap" + loco + ".html\" method=\"get\"><table border=0>";
-        client.print(resp);
-        for(uint8_t i=0; i<=MAX_FUNCTION; i++)
-        {
-          resp    = String("<tr><td>Function ") + i + ":</td>"
-                  + "<td><input type=\"radio\" name=\"f" + i + "\" value=\"" + ALWAYS_ON + "\"" 
-                    + (locos[loco-1].functions[i] == ALWAYS_ON ? " checked" : "" ) + ">Always On</td>"
-                  + "<td><input type=\"radio\" name=\"f" + i + "\" value=\"" + THROTTLE + "\"" 
-                    + (locos[loco-1].functions[i] == THROTTLE ? " checked" : "" ) + ">Throttle controlled</td>"
-                  + "<td><input type=\"radio\" name=\"f" + i + "\" value=\"" + ALWAYS_OFF + "\"" 
-                    + (locos[loco-1].functions[i] == ALWAYS_OFF ? " checked" : "" ) + ">Always Off</td><tr>";
-          client.print(resp); 
-        }
-        resp      = String("<tr><td colspan=4><input type=\"submit\"></td></tr></table></form>\r\n");
-        client.print(resp);
-      }
-      resp        = String("<hr><a href=\"index.html\">Back to main configuration page (unsaved data will be lost)</a><hr></body></html>");
-      client.print(resp);
     }
     // everything else will be caught by general configuration
     else
@@ -374,10 +360,7 @@ void handleWiFi(void)
         saveLocoConfig();
       }
 
-      // whatever we read above, respond with general page
-      writeMainPage(client);
     }
-    delay(1);
   } */
   
   // change IP address to config page if all loco selectors are turned off and this is a clock system
