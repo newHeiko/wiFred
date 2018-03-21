@@ -73,6 +73,36 @@ void writeMainPage()
 
 void writeClockPage()
 {
+  // check if this is a "set configuration" request
+  if(server.hasArg("clock.serverName") && server.hasArg("clock.serverPort") && server.hasArg("clock.startUp"))
+  {
+    clockActive = server.hasArg("clock.enabled");
+    readString(clockServer.name, sizeof(clockServer.name)/sizeof(clockServer.name[0]), server.arg("clock.serverName"));
+    clockServer.port = server.arg("clock.serverPort").toInt();
+    String startupString = server.arg("clock.startUp");
+    uint8_t hours, minutes, seconds;
+    if(sscanf(startupString.c_str(), "%u%%3A%u%%3A%u", &hours, &minutes, &seconds) == 3)
+    {
+      if(hours < 24 && minutes < 60 && seconds < 60)
+      {
+        startupTime.hours = hours;
+        startupTime.minutes = minutes;
+        startupTime.seconds = seconds;
+      }
+    }
+    clockOffset = server.arg("clock.offset").toInt();
+    clockMaxRate = server.arg("clock.maxClockRate").toInt();
+    startupTime.rate10 = (uint8_t) 10 * server.arg("clock.startupRate").toFloat();
+    if(startupTime.rate10 > 10 * clockMaxRate)
+    {
+      startupTime.rate10 = 10 * clockMaxRate;
+    }
+    clockPulseLength = server.arg("clock.pulseLength").toInt();
+
+    saveClockConfig();
+  }
+  
+  
   char startupString[9];
   snprintf(startupString, sizeof(startupString)/sizeof(startupString[0]), "%02d:%02d:%02d", startupTime.hours, startupTime.minutes, startupTime.seconds);
 
@@ -127,7 +157,7 @@ void writeFuncMapPage()
   else
   {
     resp      += String("<hr>Function configuration for loco ") + loco + " (DCC address: " + locos[loco-1].address + ")<hr>"
-              + "<form action=\"funcmap.html?loco=" + loco + "\" method=\"get\"><table border=0>";
+              + "<form action=\"funcmap.html\" method=\"get\"><table border=0>";
     for(uint8_t i=0; i<=MAX_FUNCTION; i++)
     {
       resp    += String("<tr><td>Function ") + i + ":</td>"
@@ -138,7 +168,7 @@ void writeFuncMapPage()
               + "<td><input type=\"radio\" name=\"f" + i + "\" value=\"" + ALWAYS_OFF + "\"" 
                 + (locos[loco-1].functions[i] == ALWAYS_OFF ? " checked" : "" ) + ">Always Off</td><tr>";
     }
-    resp      += String("<tr><td colspan=4><input type=\"submit\"></td></tr></table></form>\r\n");
+    resp      += String("<tr><td colspan=4><input type=\"hidden\" name=\"loco\" value=\"") + loco + "\"><input type=\"submit\"></td></tr></table></form>\r\n";
   }
   resp        += String("<hr><a href=\"loco.html\">Back to loco configuration page (unsaved data will be lost)</a>")
               + "<hr><a href=\"/\">Back to main configuration page (unsaved data will be lost)</a><hr></body></html>";
@@ -273,51 +303,6 @@ void handleWiFi(void)
     // everything else will be caught by general configuration
     else
     {
-      // request is about clock configuration
-      if(req.indexOf("clock.") != -1)
-      {
-        if(req.indexOf("clock.enabled=on") != -1)
-        {
-          clockActive = true;
-        }
-        else
-        {
-          clockActive = false;
-        }
-        clockMaxRate = readInteger(req, "clock.maxClockRate", sizeof("clock.maxClockRate"));
-        clockPulseLength = readInteger(req, "clock.pulseLength", sizeof("clock.pulseLength"));
-        clockOffset = readInteger(req, "clock.offset", sizeof("clock.offset"));
-        {
-          size_t pos = req.indexOf("clock.startUp");
-          uint8_t hours, minutes, seconds;
-          hours = req.substring(pos+sizeof("clock.startUp")).toInt();
-          pos = req.indexOf("%3A", pos);
-          minutes = req.substring(pos + sizeof("%3A") - 1).toInt();
-          pos = req.indexOf("%3A", pos + 1);
-          seconds = req.substring(pos + sizeof("%3A") - 1).toInt();      
-          {
-            if(hours < 24 && minutes < 60 && seconds < 60)
-            {
-              startupTime.hours = hours;
-              startupTime.minutes = minutes;
-              startupTime.seconds = seconds;
-            }
-          }
-        }
-        {
-          size_t pos = req.indexOf("clock.startupRate");
-          startupTime.rate10 = (uint8_t) 10 * req.substring(pos+sizeof("clock.startupRate")).toFloat();
-          if(startupTime.rate10 > 10 * clockMaxRate)
-          {
-            startupTime.rate10 = 10 * clockMaxRate;
-          }
-        }
-        readString(clockServer.name, sizeof(clockServer.name)/sizeof(clockServer.name[0]), req, "clock.serverName", sizeof("clock.serverName"));
-        clockServer.port = readInteger(req, "clock.serverPort", sizeof("clock.serverPort"));        
-
-        saveClockConfig();
-      }
-
       // request is about loco configuration
       if(req.indexOf("loco.") != -1)
       {
