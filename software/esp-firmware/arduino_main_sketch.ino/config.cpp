@@ -37,31 +37,33 @@ void initConfig(void)
   EEPROM.begin(512);
 
   // check for valid EEPROM data
-  uint8_t id = EEPROM.read(ID);
-  if(id != EEPROM_VALID) // EEPROM data not valid
-  {
-    memcpy(wlan.ssid, "undef", sizeof("undef"));
-    memcpy(wlan.key, "undef", sizeof("undef"));
-    memcpy(throttleName, "undef", sizeof("undef"));
-    memcpy(locoServer.name, "undef", sizeof("undef"));
-    memcpy(clockServer.name, "undef", sizeof("undef"));
-    locoServer.port = 12090;
-    clockServer.port = 12080;
+  uint8_t idClock = EEPROM.read(ID_CLOCK);
+  uint8_t idLoco = EEPROM.read(ID_LOCOS);
 
-    for(int i=0; i<4; i++)
-    {
-      locos[i].address = -1;
-      locos[i].reverse = false;
-    }
-    startupTime.hours = 5;
-    startupTime.minutes = 30;
-    startupTime.seconds = 0;
-    startupTime.rate10 = 10;
-    clockMaxRate = 10;
-    clockPulseLength = 40;
-    clockOffset = 2;
+// initialize to default values
+  memcpy(wlan.ssid, "undef", sizeof("undef"));
+  memcpy(wlan.key, "undef", sizeof("undef"));
+  memcpy(throttleName, "undef", sizeof("undef"));
+  memcpy(locoServer.name, "undef", sizeof("undef"));
+  memcpy(clockServer.name, "undef", sizeof("undef"));
+  locoServer.port = 12090;
+  clockServer.port = 12080;
+
+  for(int i=0; i<4; i++)
+  {
+    locos[i].address = -1;
+    locos[i].reverse = false;
   }
-  else
+  startupTime.hours = 5;
+  startupTime.minutes = 30;
+  startupTime.seconds = 0;
+  startupTime.rate10 = 10;
+  clockMaxRate = 10;
+  clockPulseLength = 40;
+  clockOffset = 2;
+
+  
+  if(idClock == EEPROM_VALID || idLoco == EEPROM_VALID) // general EEPROM data is valid
   {
     eepromReadBlock((uint8_t *) wlan.ssid, WLAN_SSID, sizeof(wlan.ssid)/sizeof(wlan.ssid[0]));
     wlan.ssid[sizeof(wlan.ssid)/sizeof(wlan.ssid[0]) - 1] = '\0';
@@ -69,20 +71,27 @@ void initConfig(void)
     wlan.key[sizeof(wlan.key)/sizeof(wlan.key[0]) - 1] = '\0';
     eepromReadBlock((uint8_t *) throttleName, NAME, sizeof(throttleName)/sizeof(throttleName[0]));
     throttleName[sizeof(throttleName)/sizeof(throttleName[0]) - 1] = '\0';
-
+    wifiSaved = true;
+  }
+  if(idClock == EEPROM_VALID) // clock EEPROM data is valid
+  {
     clockActive = (bool) EEPROM.read(CLOCK_ACTIVE);
     clockMaxRate = EEPROM.read(CLOCK_MAX_RATE);
     clockPulseLength = EEPROM.read(CLOCK_PULSE_LENGTH);
     clockOffset = (int8_t) EEPROM.read(CLOCK_OFFSET);
     eepromReadBlock((uint8_t *) &startupTime, CLOCK_STARTUP, sizeof(startupTime));
-    eepromReadBlock((uint8_t *) &clockServer, CLOCK_SERVER, sizeof(clockServer)); 
-
+    eepromReadBlock((uint8_t *) &clockServer, CLOCK_SERVER, sizeof(clockServer));
+    clockSaved = true;
+  }
+  if(idLoco == EEPROM_VALID) // loco EEPROM data is valid
+  {
     locoActive = (bool) EEPROM.read(LOCO_ACTIVE);
     eepromReadBlock((uint8_t *) &locoServer, LOCO_SERVER, sizeof(locoServer)); 
     eepromReadBlock((uint8_t *) &(locos[0]), LOCO1, sizeof(locos[0]));
     eepromReadBlock((uint8_t *) &(locos[1]), LOCO2, sizeof(locos[1]));
     eepromReadBlock((uint8_t *) &(locos[2]), LOCO3, sizeof(locos[2]));
-    eepromReadBlock((uint8_t *) &(locos[3]), LOCO4, sizeof(locos[3]));    
+    eepromReadBlock((uint8_t *) &(locos[3]), LOCO4, sizeof(locos[3]));
+    locoSaved = true;
   }
 }
 
@@ -100,7 +109,7 @@ void saveClockConfig()
   
   if(wifiSaved)
   {
-    EEPROM.write(ID, EEPROM_VALID);
+    EEPROM.write(ID_CLOCK, EEPROM_VALID);
   }
   EEPROM.commit();
 }
@@ -112,9 +121,13 @@ void saveGeneralConfig()
   eepromWriteBlock(NAME, (uint8_t *) throttleName, sizeof(throttleName)/sizeof(throttleName[0]));
 
   wifiSaved = true;
-  if(locoSaved || clockSaved)
+  if(clockSaved)
   {
-    EEPROM.write(ID, EEPROM_VALID);
+    EEPROM.write(ID_CLOCK, EEPROM_VALID);
+  }
+  if(locoSaved)
+  {
+    EEPROM.write(ID_LOCOS, EEPROM_VALID);
   }
   EEPROM.commit();
 }
@@ -133,7 +146,7 @@ void saveLocoConfig(bool mainSave)
     locoSaved = true;
     if(wifiSaved)
     {
-      EEPROM.write(ID, EEPROM_VALID);
+      EEPROM.write(ID_LOCOS, EEPROM_VALID);
     }
   }
   EEPROM.commit();
