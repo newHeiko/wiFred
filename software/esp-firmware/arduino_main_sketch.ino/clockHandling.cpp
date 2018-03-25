@@ -66,14 +66,15 @@ void setClockOutputs(void)
   if(edgeCounter == 0)
   {
     digitalWrite(CLOCK1_PIN, LOW);
+    oneShot.once_ms(clockPulseLength, resetClockOutputs);
   }
   else if( (edgeCounter == 2 && !lowBattery) || (edgeCounter == 3 && lowBattery) )
   {
     digitalWrite(CLOCK2_PIN, LOW);
+    oneShot.once_ms(clockPulseLength, resetClockOutputs);
   }
   if(edgeCounter % 2 == 0)
   {
-    oneShot.once_ms(clockPulseLength, resetClockOutputs);
     plusOneSecond(&ourTime);
     flagNewTime = true;
   }
@@ -112,7 +113,7 @@ void initClock(void)
 
   if(ourTime.rate10 != 0)
   {
-    ourSecond.attach(10.0 / ourTime.rate10, setClockOutputs);
+    ourSecond.attach(10.0 / ourTime.rate10 / 2, setClockOutputs);
   }
   else
   {
@@ -266,7 +267,7 @@ void clockHandler(void)
       {
         if(ourTime.rate10 != 0)
         {
-          ourSecond.attach(5.0 / ourTime.rate10, setClockOutputs);
+          ourSecond.attach(10.0 / ourTime.rate10 / 2, setClockOutputs);
         }
         else
         {
