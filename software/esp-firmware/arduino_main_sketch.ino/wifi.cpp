@@ -125,6 +125,33 @@ void writeClockPage()
 
 void writeLocoPage()
 {
+  // check if this is a "set configuration" request
+  if(server.hasArg("loco.serverName") && server.hasArg("loco.serverPort"))
+  {
+    locoActive = server.hasArg("loco.enabled");
+    readString(locoServer.name, sizeof(locoServer.name)/sizeof(locoServer.name[0]), server.arg("loco.serverName"));
+    locoServer.port = server.arg("loco.serverPort").toInt();
+
+    locos[0].address = server.arg("loco.address1").toInt();
+    locos[1].address = server.arg("loco.address2").toInt();
+    locos[2].address = server.arg("loco.address3").toInt();
+    locos[3].address = server.arg("loco.address4").toInt();
+    for(uint8_t i=0; i<4; i++)
+    {
+      if(locos[i].address > 9999 || locos[i].address < 0)
+      {
+        locos[i].address = -1;
+      }
+    }
+
+    locos[0].reverse = server.hasArg("loco.reverse1");
+    locos[1].reverse = server.hasArg("loco.reverse2");
+    locos[2].reverse = server.hasArg("loco.reverse3");
+    locos[3].reverse = server.hasArg("loco.reverse4");
+
+    saveLocoConfig();
+  }
+
   String resp = String("<!DOCTYPE HTML>\r\n")
               + "<html><head><title>wiFred configuration page</title></head>\r\n"
               + "<body><h1>Loco configuration</h1>\r\n"
@@ -146,7 +173,18 @@ void writeLocoPage()
 void writeFuncMapPage()
 {
   uint8_t loco = server.arg("loco").toInt();
-  
+
+  // check if this is a "set configuration" request
+  if(loco >= 1 && loco <= 4 && server.hasArg("f0") && server.hasArg("f1"))
+  {
+    for(uint8_t i=0; i<= MAX_FUNCTION; i++)
+    {
+      locos[loco-1].functions[i] = (functionInfo) server.arg(String("f") + i).toInt();
+    }
+
+    saveLocoConfig(false);
+  }
+
   String resp = String("<!DOCTYPE HTML>\r\n")
               + "<html><head><title>wiFred configuration page</title></head>\r\n"
               + "<body><h1>Function mapping for Loco: " + loco + "</h1>\r\n";
@@ -183,7 +221,7 @@ void writeStatusPage()
               + "<html><head><title>wiFred status page</title></head>\r\n"
               + "<body><h1>wiFred status</h1>\r\n"
               + "<table border=0>"
-              + "<tr><td>Battery voltage: </td><td>" + batteryVoltage + " mV</td></tr>\r\n"
+              + "<tr><td>Battery voltage: </td><td>" + batteryVoltage + " mV" + (lowBattery ? " Battery LOW" : "" ) + "</td></tr>\r\n"
               + "<tr><td>System time: </td><td>" + timeString + "</td></tr>\r\n";
   snprintf(timeString, sizeof(timeString)/sizeof(timeString[0]), "%02d:%02d:%02d", networkTime.hours, networkTime.minutes, networkTime.seconds);
   resp        += String("<tr><td>Network time: </td><td>") + timeString + "</td></tr>\r\n"
@@ -270,84 +308,7 @@ void initWiFi(void)
 void handleWiFi(void)
 {
   server.handleClient();
-  
-/*  // request is function mapping page
-    if(req.indexOf("funcmap") != -1)
-    {
-      size_t pos = req.indexOf("funcmap");
-      uint8_t loco = req.substring(pos + sizeof("funcmap") - 1).toInt();
-
-      for(uint8_t i=0; i<10 && i <= MAX_FUNCTION; i++)
-      {
-        char filter[] = "f0";
-        snprintf(filter, sizeof(filter)/sizeof(filter[0]), "f%d", i);
-        if(req.indexOf(filter) != -1)
-        {
-          locos[loco-1].functions[i] = (functionInfo) readInteger(req, filter, sizeof(filter)/sizeof(filter[0]));
-        }
-      }
-
-      for(uint8_t i=10; i <= MAX_FUNCTION; i++)
-      {
-        char filter[] = "f10";
-        snprintf(filter, sizeof(filter)/sizeof(filter[0]), "f%d", i);
-        if(req.indexOf(filter) != -1)
-        {
-          locos[loco-1].functions[i] = (functionInfo) readInteger(req, filter, sizeof(filter)/sizeof(filter[0]));
-        }
-      }
-
-      saveLocoConfig(false);
-
-    }
-    // everything else will be caught by general configuration
-    else
-    {
-      // request is about loco configuration
-      if(req.indexOf("loco.") != -1)
-      {
-        if(req.indexOf("loco.enabled=on") != -1)
-        {
-          locoActive = true;
-        }
-        else
-        {
-          locoActive = false;
-        }
-        readString(locoServer.name, sizeof(locoServer.name)/sizeof(locoServer.name[0]), req, "loco.serverName", sizeof("loco.serverName"));
-        locoServer.port = readInteger(req, "loco.serverPort", sizeof("loco.serverPort"));
-
-        for(uint8_t i=0; i<4; i++)
-        {
-          {
-            char filter[] = "loco.address0";
-            snprintf(filter, sizeof(filter)/sizeof(filter[0]), "loco.address%d", i+1);
-            locos[i].address=readInteger(req, filter, sizeof(filter)/sizeof(filter[0]));
-            if(locos[i].address > 9999 || locos[i].address < 0)
-            {
-              locos[i].address = -1;
-            }
-          }
-
-          {
-            char filter[] = "loco.reverse0=on";
-            snprintf(filter, sizeof(filter)/sizeof(filter[0]), "loco.reverse%d=on", i+1);
-            if(req.indexOf(filter) != -1)
-            { 
-              locos[i].reverse = true;
-            } 
-            else
-            {
-              locos[i].reverse = false;
-            }
-          }
-        }
-        saveLocoConfig();
-      }
-
-    }
-  } */
-  
+    
   // change IP address to config page if all loco selectors are turned off and this is a clock system
   if(e_allLocosOff == true && clockActive)
   {

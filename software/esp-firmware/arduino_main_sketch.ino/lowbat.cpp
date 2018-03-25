@@ -37,8 +37,7 @@ void lowBatteryHandler(void)
       if(value < EMPTY_BATTERY_MILLIVOLTS)
       {
         // shut down entirely
-        #warning "Re-enable Deep Sleep when connected to battery"
-        // ESP.deepSleep(0);
+        ESP.deepSleep(0);
       }
       batteryVoltage = value;
       buffer = index = 0;
