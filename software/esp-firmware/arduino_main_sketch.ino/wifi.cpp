@@ -7,6 +7,7 @@
 #include "config.h"
 #include "lowbat.h"
 #include "Ticker.h"
+#include "stateMachine.h"
 
 #define DEBUG
 
@@ -14,19 +15,7 @@ t_wlan wlan;
 
 ESP8266WebServer server(80);
 
-Ticker stopWebServer;
-
 IPAddress myIP;
-
-void shutdownAP(void)
-{
-  ESP.deepSleep(0);
-}
-
-void shutdownConfigSTA(void)
-{
-  WiFi.config(myIP, WiFi.gatewayIP(), WiFi.subnetMask());
-}
 
 void readString(char * dest, size_t maxLength, String input)
 {
@@ -34,10 +23,69 @@ void readString(char * dest, size_t maxLength, String input)
   dest[maxLength - 1] = '\0';
 }
 
+void handleWiFi(void)
+{
+  server.handleClient();
+}
+
+void initWiFiConfigSTA(void)
+{
+  // change IP address to config page if all loco selectors are turned off and this is a clock system
+  // replace last byte in IP address with 252 (configuration IP address)
+  myIP = WiFi.localIP();
+  IPAddress configIP = myIP;
+  configIP[3] = 252;
+  WiFi.config(configIP, WiFi.gatewayIP(), WiFi.subnetMask());
+}
+
+void shutdownWiFiConfigSTA(void)
+{
+  WiFi.config(myIP, WiFi.gatewayIP(), WiFi.subnetMask());
+}
+
+void initWiFiSTA(void)
+{
+  WiFi.disconnect();
+  WiFi.mode(WIFI_STA);
+       
+  #ifdef DEBUG
+  Serial.print("Attempting connection to ");
+  Serial.print(wlan.ssid);
+  Serial.print(" with key ");
+  Serial.println(wlan.key);
+  #endif
+
+  WiFi.begin(wlan.ssid, wlan.key);
+}
+
+void shutdownWiFiSTA(void)
+{
+  WiFi.disconnect();
+  WiFi.mode(WIFI_OFF);
+}
+
+void initWiFiAP(void)
+{
+  // open an AP for configuration if connection failed
+  WiFi.disconnect();
+  WiFi.mode(WIFI_AP);
+  uint8_t mac[6];
+  WiFi.macAddress(mac);
+  String ssid = "wfred-config" + String(mac[0], 16) + String(mac[5], 16);
+  #ifdef DEBUG
+  Serial.println();
+  Serial.print("Not connected, setting up AP at ");
+  Serial.println(ssid);
+  #endif
+  WiFi.softAP(ssid.c_str());
+}
+
 void writeMainPage()
 {
-  // disable countdown timer
-  stopWebServer.detach();
+  if(wiFredState == STATE_CONFIG_STATION_WAITING)
+  {
+    switchState(STATE_CONFIG_STATION);
+  }
 
   // check if this is a "set configuration" request
   if(server.hasArg("throttleName") && server.hasArg("wifi.ssid") && server.hasArg("wifi.key"))
@@ -238,61 +286,6 @@ void restartESP()
 
 void initWiFi(void)
 {
-  // check inputs of loco selection switches at startup and 
-  // start in normal mode if at least one is selected or this is not a clock system
-  if(digitalRead(LOCO1_INPUT) == LOW || digitalRead(LOCO2_INPUT) == LOW ||
-     digitalRead(LOCO3_INPUT) == LOW || digitalRead(LOCO4_INPUT) == LOW || !clockActive)
-     {
-        WiFi.disconnect();
-        WiFi.mode(WIFI_STA);
-
-        delay(100);
-        
-        #ifdef DEBUG
-        Serial.print("Attempting connection to ");
-        Serial.print(wlan.ssid);
-        Serial.print(" with key ");
-        Serial.println(wlan.key);
-        #endif
-
-        WiFi.begin(wlan.ssid, wlan.key);
-
-        #warning "Increase loop counter for more retries"
-        for(uint8_t i=0; i<20; i++)
-        {
-          delay(500);
-          if(WiFi.status() == WL_CONNECTED)
-          {
-            #ifdef DEBUG
-            Serial.println();
-            Serial.print("Successfully connected, local IP ");
-            Serial.println(WiFi.localIP());
-            #endif
-            myIP = WiFi.localIP();
-            break;
-          }
-        }
-     }
-
-  if(WiFi.status() != WL_CONNECTED)
-  {
-    // open an AP for configuration if connection failed above
-    WiFi.disconnect();
-    WiFi.mode(WIFI_AP);
-    uint8_t mac[6];
-    WiFi.macAddress(mac);
-    String ssid = "wfred-config" + String(mac[0], 16) + String(mac[5], 16);
-    #ifdef DEBUG
-    Serial.println();
-    Serial.print("Not connected, setting up AP at ");
-    Serial.println(ssid);
-    #endif
-    WiFi.softAP(ssid.c_str());
-    Serial.println("Ready to connect.");
-
-    // shut down system if no activity comes by within 10 minutes
-    stopWebServer.once(600, shutdownAP);
-  }
   server.on("/", writeMainPage);
   server.on("/clock.html", writeClockPage);
   server.on("/loco.html", writeLocoPage);
@@ -303,32 +296,4 @@ void initWiFi(void)
   
   // start configuration webserver
   server.begin();
-}
-
-void handleWiFi(void)
-{
-  server.handleClient();
-    
-  // change IP address to config page if all loco selectors are turned off and this is a clock system
-  if(e_allLocosOff == true && clockActive)
-  {
-    e_allLocosOff = false;
-
-    if(WiFi.status() == WL_CONNECTED)
-    {
-      // replace last byte in IP address with 252 (configuration IP address)
-      IPAddress configIP = myIP;
-      configIP[3] = 252;
-      WiFi.config(configIP, WiFi.gatewayIP(), WiFi.subnetMask());
-
-      // start 30 second timer to avoid "crowding" the band
-      stopWebServer.once(30, shutdownConfigSTA);
-    }
-  }
-
-  // change IP address back to normal once any loco selection switch is enabled
-  if(locoRunning[0] || locoRunning[1] || locoRunning[2] || locoRunning[3])
-  {
-    shutdownConfigSTA();
-  }
 }

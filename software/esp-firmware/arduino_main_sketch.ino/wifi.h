@@ -14,6 +14,16 @@ extern t_wlan wlan;
 
 void initWiFi(void);
 
+void initWiFiSTA(void);
+
+void shutdownWiFiSTA(void);
+
+void initWiFiAP(void);
+
+void initWiFiConfigSTA(void);
+
+void shutdownWiFiConfigSTA(void);
+
 void handleWiFi(void);
 
 #endif

@@ -37,5 +37,9 @@ void locoInit(void);
 
 void locoHandler(void);
 
+bool getInputState(uint8_t input);
+
+bool getInputChanged(uint8_t input);
+
 #endif
 
