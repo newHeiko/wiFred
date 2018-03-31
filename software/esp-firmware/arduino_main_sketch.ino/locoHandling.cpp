@@ -1,15 +1,18 @@
 #include "locoHandling.h"
 #include "config.h"
+#include "stateMachine.h"
 
 locoInfo locos[4];
 bool locoActive = false;
 
 bool locoRunning[4];
 
-bool e_allLocosOff;
-
 bool inputState[4];
 bool inputChanged[4];
+
+const uint8_t inputPins[] = {LOCO1_INPUT, LOCO2_INPUT, LOCO3_INPUT, LOCO4_INPUT};
+
+eLocoState locoState = LOCO_OFFLINE;
 
 serverInfo locoServer;
 
@@ -20,23 +23,14 @@ void locoInit(void)
   pinMode(LOCO3_INPUT, INPUT_PULLUP);
   pinMode(LOCO4_INPUT, INPUT_PULLUP);
 
-  delay(20);
+  delay(50);
 
-  if(digitalRead(LOCO1_INPUT) == LOW)
+  for (uint8_t i = 0; i < 4; i++)
   {
-    inputState[0] = true;
-  }
-  if(digitalRead(LOCO2_INPUT) == LOW)
-  {
-    inputState[1] = true;
-  }
-  if(digitalRead(LOCO3_INPUT) == LOW)
-  {
-    inputState[2] = true;
-  }
-  if(digitalRead(LOCO4_INPUT) == LOW)
-  {
-    inputState[3] = true;
+    if (digitalRead(inputPins[i]) == LOW)
+    {
+      inputState[i] = true;
+    }
   }
 }
 
@@ -44,87 +38,63 @@ void locoHandler(void)
 {
   static uint32_t debounceCounter;
   static uint8_t switchState[4];
+  static uint8_t speedIn = 0, speedOut = 0;
+  static bool reverseIn, reverseOut;
+  static bool functions[MAX_FUNCTION + 1];
+
+  static WiFiClient client;
 
   // debounce inputs every 10ms
-  if(millis() > debounceCounter)
+  if (millis() > debounceCounter)
   {
     debounceCounter += 10;
 
-    if(digitalRead(LOCO1_INPUT) == LOW && inputState[0] == false)
+    for (uint8_t i = 0; i < 4; i++)
     {
-      if(switchState[0] >= 4)
+      if (digitalRead(inputPins[i]) == LOW && inputState[i] == false)
       {
-        inputState[0] = true;
-        inputChanged[0] = true;
+        if (switchState[i] >= 4)
+        {
+          inputState[i] = true;
+          inputChanged[i] = true;
+        }
+        else
+        {
+          switchState[i]++;
+        }
       }
-      else
+      else if (digitalRead(inputPins[i]) == HIGH && inputState[i] == true)
       {
-        switchState[0]++;
+        switchState[i] = 0;
+        inputState[i] = false;
+        inputChanged[i] = true;
       }
     }
-    else if(digitalRead(LOCO1_INPUT) == HIGH && inputState[0] == true)
-    {
-        switchState[0] = 0;
-        inputState[0] = false;
-        inputChanged[0] = true;      
-    }
+  }
 
-    if(digitalRead(LOCO2_INPUT) == LOW && inputState[1] == false)
-    {
-      if(switchState[1] >= 4)
-      {
-        inputState[1] = true;
-        inputChanged[1] = true;
-      }
-      else
-      {
-        switchState[1]++;
-      }
-    }
-    else if(digitalRead(LOCO2_INPUT) == HIGH && inputState[1] == true)
-    {
-        switchState[1] = 0;
-        inputState[1] = false;
-        inputChanged[1] = true;      
-    }
+  if (!locoActive)
+  {
+    return;
+  }
 
-    if(digitalRead(LOCO3_INPUT) == LOW && inputState[2] == false)
-    {
-      if(switchState[2] >= 4)
+  switch (locoState)
+  {
+    case LOCO_OFFLINE:
+      if (wiFredState == STATE_CONNECTED)
       {
-        inputState[2] = true;
-        inputChanged[2] = true;
+        if (client.connect(locoServer.name, locoServer.port))
+        {
+          client.setNoDelay(true);
+          client.setTimeout(10);
+          locoState = LOCO_CONNECTED;
+        }
       }
-      else
-      {
-        switchState[2]++;
-      }
-    }
-    else if(digitalRead(LOCO3_INPUT) == HIGH && inputState[2] == true)
-    {
-        switchState[2] = 0;
-        inputState[2] = false;
-        inputChanged[2] = true;      
-    }
+      break;
 
-    if(digitalRead(LOCO4_INPUT) == LOW && inputState[3] == false)
-    {
-      if(switchState[3] >= 4)
-      {
-        inputState[3] = true;
-        inputChanged[3] = true;
-      }
-      else
-      {
-        switchState[3]++;
-      }
-    }
-    else if(digitalRead(LOCO4_INPUT) == HIGH && inputState[3] == true)
-    {
-        switchState[3] = 0;
-        inputState[3] = false;
-        inputChanged[3] = true;      
-    }
+    case LOCO_CONNECTED:
+    case LOCO_ONLINE:
+      break;
+
   }
 }
 
@@ -135,7 +105,7 @@ bool getInputState(uint8_t input)
 
 bool getInputChanged(uint8_t input)
 {
-  if(inputChanged[input])
+  if (inputChanged[input])
   {
     inputChanged[input] = false;
     return true;

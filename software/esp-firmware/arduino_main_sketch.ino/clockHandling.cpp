@@ -5,6 +5,7 @@
 #include "clockHandling.h"
 #include "config.h"
 #include "lowbat.h"
+#include "stateMachine.h"
 
 uint8_t clockPulseLength = 40;
 uint8_t clockMaxRate = 10;
@@ -142,7 +143,7 @@ void clockHandler(void)
   else
   {
     // try to get time from network if we are connected to WLAN
-    if(flagGetTime && WiFi.status() == WL_CONNECTED)
+    if(flagGetTime && wiFredState == STATE_CONNECTED)
     {
       static WiFiClient client;
 

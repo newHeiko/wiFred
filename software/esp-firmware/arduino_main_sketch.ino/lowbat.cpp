@@ -19,6 +19,13 @@ void lowBatteryHandler(void)
   static uint8_t index = 0;
 
   static uint32_t lastRead = 0;
+  static uint32_t lastSent = 0;
+
+  if(millis() > lastSent && lowBattery)
+  {
+    lastSent = millis() + 5000;
+    Serial.println("LowBattery");
+  }
 
   if(millis() > lastRead)
   {

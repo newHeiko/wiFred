@@ -8,10 +8,11 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-enum functionInfo
-{
-  THROTTLE, ALWAYS_ON, ALWAYS_OFF
-};
+enum functionInfo { THROTTLE, ALWAYS_ON, ALWAYS_OFF };
+
+enum eLocoState { LOCO_OFFLINE, LOCO_CONNECTED, LOCO_ONLINE };
+
+extern eLocoState locoState;
 
 typedef struct
 {
@@ -32,6 +33,8 @@ extern bool e_allLocosOff;
 #define LOCO2_INPUT 4
 #define LOCO3_INPUT 12
 #define LOCO4_INPUT 13
+
+extern const uint8_t inputPins[];
 
 void locoInit(void);
 
