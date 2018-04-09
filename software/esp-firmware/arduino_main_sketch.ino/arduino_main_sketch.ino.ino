@@ -117,6 +117,13 @@ void loop() {
 void switchState(state newState, uint32_t timeout)
 {
   wiFredState = newState;
-  stateTimeout = millis() + timeout;
+  if(timeout == UINT32_MAX)
+  {
+    stateTimeout = timeout;
+  }
+  else
+  {
+    stateTimeout = millis() + timeout;
+  }
 }
 
