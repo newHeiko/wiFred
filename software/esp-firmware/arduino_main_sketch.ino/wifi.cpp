@@ -1,3 +1,4 @@
+// #include <stdalign>
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
@@ -126,27 +127,13 @@ void writeClockPage()
   // check if this is a "set configuration" request
   if(server.hasArg("clock.serverName") && server.hasArg("clock.serverPort") && server.hasArg("clock.startUp"))
   {
-    #ifdef DEBUG
-    Serial.println("Clock config");
-    #endif
     clockActive = server.hasArg("clock.enabled");
-    #ifdef DEBUG
-    Serial.println(String("Clock enabled: ") + clockActive);
-    #endif
     readString(clockServer.name, sizeof(clockServer.name)/sizeof(clockServer.name[0]), server.arg("clock.serverName"));
-    #ifdef DEBUG
-    Serial.println(String("Clock server name: ") + clockServer.name);
-    #endif
     clockServer.port = server.arg("clock.serverPort").toInt();
-    #ifdef DEBUG
-    Serial.println(String("Clock server port: ") + clockServer.port);
-    #endif
     String startupString = server.arg("clock.startUp");
-    #ifdef DEBUG
-    Serial.println(String("Clock startup: ") + startupString);
-    #endif
-    uint8_t hours, minutes, seconds;
-    if(sscanf(startupString.c_str(), "%u%%3A%u%%3A%u", &hours, &minutes, &seconds) == 3)
+    alignas(4) uint8_t hours, minutes, seconds;
+    
+    if(sscanf(startupString.c_str(), "%u:%u:%u", &hours, &minutes, &seconds) == 3)
     {
       if(hours < 24 && minutes < 60 && seconds < 60)
       {
@@ -155,9 +142,6 @@ void writeClockPage()
         startupTime.seconds = seconds;
       }
     }
-    #ifdef DEBUG
-    Serial.println(String("Clock startup: ") + hours + ":" + minutes + ":" + seconds);
-    #endif
     clockOffset = server.arg("clock.offset").toInt();
     clockMaxRate = server.arg("clock.maxClockRate").toInt();
     startupTime.rate10 = (uint8_t) 10 * server.arg("clock.startupRate").toFloat();
