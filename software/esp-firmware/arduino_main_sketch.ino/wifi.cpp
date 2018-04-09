@@ -16,8 +16,6 @@ t_wlan wlan;
 
 ESP8266WebServer server(80);
 
-IPAddress myIP;
-
 void readString(char * dest, size_t maxLength, String input)
 {
   strncpy(dest, input.c_str(), maxLength - 1);
@@ -31,22 +29,24 @@ void handleWiFi(void)
 
 void initWiFiConfigSTA(void)
 {
-  // change IP address to config page if all loco selectors are turned off and this is a clock system
-  // replace last byte in IP address with 252 (configuration IP address)
-  myIP = WiFi.localIP();
-  IPAddress configIP = myIP;
-  configIP[3] = 252;
+  // change IP address to config page
+  // replace last byte in IP address with 253 (configuration IP address)
+  IPAddress configIP = WiFi.localIP();;
+  configIP[3] = 253;
   WiFi.config(configIP, WiFi.gatewayIP(), WiFi.subnetMask());
 }
 
 void shutdownWiFiConfigSTA(void)
 {
-  WiFi.config(myIP, WiFi.gatewayIP(), WiFi.subnetMask());
+  // re-enable dhcp
+  WiFi.config(0u, 0u, 0u);
 }
 
 void initWiFiSTA(void)
 {
   WiFi.disconnect();
+  WiFi.config(0u, 0u, 0u);
+
   WiFi.mode(WIFI_STA);
        
   #ifdef DEBUG
@@ -137,7 +137,7 @@ void writeClockPage()
     {
       if(hours < 24 && minutes < 60 && seconds < 60)
       {
-        startupTime.hours = hours;
+        startupTime.hours = hours % 12;
         startupTime.minutes = minutes;
         startupTime.seconds = seconds;
       }

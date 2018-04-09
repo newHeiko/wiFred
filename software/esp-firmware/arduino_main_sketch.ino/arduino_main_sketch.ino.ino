@@ -40,7 +40,7 @@ void loop() {
       {
         initWiFiSTA();
         #warning "Increase timeout for reliable connection!"
-        switchState(STATE_CONNECTING, 2 * 1000);
+        switchState(STATE_CONNECTING, 10 * 1000);
       }
       else
       {
