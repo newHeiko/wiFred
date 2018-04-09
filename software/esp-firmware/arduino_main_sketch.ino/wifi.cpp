@@ -104,7 +104,6 @@ void writeMainPage()
               + "<tr><td>Throttle name (max " + String(sizeof(throttleName)/sizeof(throttleName[0]) - 1) + " chars):</td><td><input type=\"text\" name=\"throttleName\" value=\"" + throttleName + "\"></td></tr>"
               + "<tr><td>WiFi SSID (max " + String(sizeof(wlan.ssid)/sizeof(wlan.ssid[0]) - 1) + " chars):</td><td><input type=\"text\" name=\"wifi.ssid\" value=\"" + wlan.ssid + "\"></td></tr>"
               + "<tr><td>WiFi PSK (max " + String(sizeof(wlan.key)/sizeof(wlan.key[0]) - 1) + " chars):</td><td><input type=\"text\" name=\"wifi.key\" value=\"" + wlan.key + "\"></td></tr>"
-              + "<input type=\"hidden\" name=\"dummy\" value=\"dummy\">"
               + "<tr><td colspan=2><input type=\"submit\"></td></tr></table></form>\r\n"
 
               + "<hr>Clock configuration<hr>\r\n"
@@ -121,13 +120,31 @@ void writeMainPage()
 
 void writeClockPage()
 {
+  #ifdef DEBUG
+  Serial.println("Clock page");
+  #endif
   // check if this is a "set configuration" request
   if(server.hasArg("clock.serverName") && server.hasArg("clock.serverPort") && server.hasArg("clock.startUp"))
   {
+    #ifdef DEBUG
+    Serial.println("Clock config");
+    #endif
     clockActive = server.hasArg("clock.enabled");
+    #ifdef DEBUG
+    Serial.println(String("Clock enabled: ") + clockActive);
+    #endif
     readString(clockServer.name, sizeof(clockServer.name)/sizeof(clockServer.name[0]), server.arg("clock.serverName"));
+    #ifdef DEBUG
+    Serial.println(String("Clock server name: ") + clockServer.name);
+    #endif
     clockServer.port = server.arg("clock.serverPort").toInt();
+    #ifdef DEBUG
+    Serial.println(String("Clock server port: ") + clockServer.port);
+    #endif
     String startupString = server.arg("clock.startUp");
+    #ifdef DEBUG
+    Serial.println(String("Clock startup: ") + startupString);
+    #endif
     uint8_t hours, minutes, seconds;
     if(sscanf(startupString.c_str(), "%u%%3A%u%%3A%u", &hours, &minutes, &seconds) == 3)
     {
@@ -138,6 +155,9 @@ void writeClockPage()
         startupTime.seconds = seconds;
       }
     }
+    #ifdef DEBUG
+    Serial.println(String("Clock startup: ") + hours + ":" + minutes + ":" + seconds);
+    #endif
     clockOffset = server.arg("clock.offset").toInt();
     clockMaxRate = server.arg("clock.maxClockRate").toInt();
     startupTime.rate10 = (uint8_t) 10 * server.arg("clock.startupRate").toFloat();
