@@ -145,59 +145,9 @@ void clockHandler(void)
     // try to get time from network if we are connected to WLAN
     if(flagGetTime && wiFredState == STATE_CONNECTED)
     {
-      static WiFiClient client;
+      WiFiClient client;
 
-      if(client.connected())
-      {
-          if(client.available())
-          {
-            String line = client.readStringUntil('\n');
-
-            // valid data received
-            if(line.indexOf("{\"type\":\"time\"") != -1)
-            {
-              flagGetTime = false;
-
-              clockInfo temp;
-              size_t pos;
-              pos = line.indexOf("T");
-              temp.hours = line.substring(pos + 1).toInt();
-              temp.minutes = line.substring(pos + 4).toInt();
-              temp.seconds = line.substring(pos + 7).toInt();
-
-              pos = line.indexOf("rate");
-              temp.rate10 = (uint8_t) (line.substring(pos + sizeof("rate") + 1).toFloat() * 10);
-
-              pos = line.indexOf("state");
-              uint8_t state = line.substring(pos + sizeof("state") + 1).toInt();
-              if(state == 4)
-              {
-                temp.rate10 = 0;
-              }
-
-              if(temp.hours < 24 && temp.minutes < 60 && temp.seconds < 60)
-              {
-                temp.hours += clockOffset;
-                temp.hours %= 12;
-                // only change networkSecond timer if rate has changed to avoid glitches
-                if(temp.rate10 != networkTime.rate10)
-                {
-                  if(temp.rate10 != 0)
-                  {
-                    networkSecond.attach(10.0 / temp.rate10, networkSecondHandler);
-                  }
-                  else
-                  {
-                    networkSecond.detach();
-                  }
-                }
-                memcpy(&networkTime, &temp, sizeof(networkTime));
-                flagNewTime = true;
-              }
-            }
-          }
-      }
-      else if(client.connect(clockServer.name, clockServer.port))
+      if(client.connect(clockServer.name, clockServer.port))
       {
         client.setNoDelay(true);
         client.setTimeout(10);
@@ -206,7 +156,56 @@ void clockHandler(void)
              "Connection: close\r\n" +
              "\r\n"
             );
-      }      
+        
+        delay(10);
+        
+        while(client.available())
+        {
+          String line = client.readStringUntil('\n');
+          // valid data received
+          if(line.indexOf("{\"type\":\"time\"") != -1)
+          {
+            flagGetTime = false;
+
+            clockInfo temp;
+            size_t pos;
+            pos = line.indexOf("T");
+            temp.hours = line.substring(pos + 1).toInt();
+            temp.minutes = line.substring(pos + 4).toInt();
+            temp.seconds = line.substring(pos + 7).toInt();
+
+            pos = line.indexOf("rate");
+            temp.rate10 = (uint8_t) (line.substring(pos + sizeof("rate") + 1).toFloat() * 10);
+
+            pos = line.indexOf("state");
+            uint8_t state = line.substring(pos + sizeof("state") + 1).toInt();
+            if(state == 4)
+            {
+              temp.rate10 = 0;
+            }
+
+            if(temp.hours < 24 && temp.minutes < 60 && temp.seconds < 60)
+            {
+              temp.hours += clockOffset;
+              temp.hours %= 12;
+              // only change networkSecond timer if rate has changed to avoid glitches
+              if(temp.rate10 != networkTime.rate10)
+              {
+                if(temp.rate10 != 0)
+                {
+                  networkSecond.attach(10.0 / temp.rate10, networkSecondHandler);
+                }
+                else
+                {
+                  networkSecond.detach();
+                }
+              }
+              memcpy(&networkTime, &temp, sizeof(networkTime));
+              flagNewTime = true;
+            }
+          }
+        }
+      }
     }
     if(flagNewTime)
     {

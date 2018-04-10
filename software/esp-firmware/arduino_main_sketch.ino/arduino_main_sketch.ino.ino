@@ -33,6 +33,14 @@ void loop() {
   lowBatteryHandler();
   locoHandler();
 
+  static uint32_t test = 0;
+
+  if(test < millis())
+  {
+    test = millis() + 5000;
+    Serial.println(ESP.getFreeHeap());
+  }
+
   switch(wiFredState)
   {
     case STATE_STARTUP:
