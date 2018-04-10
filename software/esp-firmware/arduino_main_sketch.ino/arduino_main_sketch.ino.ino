@@ -73,6 +73,13 @@ void loop() {
         {
           switchState(STATE_LOWPOWER_WAITING, 30 * 1000);
         }
+        break;
+      }
+
+      if(WiFi.status() != WL_CONNECTED)
+      {
+        initWiFiSTA();
+        switchState(STATE_CONNECTING, 30 * 1000);
       }
       break;
 
