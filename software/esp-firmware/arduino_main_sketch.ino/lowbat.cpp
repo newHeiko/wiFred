@@ -36,7 +36,7 @@ void lowBatteryHandler(void)
     if(index == NUM_AD_SAMPLES)
     {
       // calculate battery voltage in millivolts ( / 47 * 147 to account for for hardware voltage divider)
-      uint16_t value = buffer / NUM_AD_SAMPLES / 47 * 147;
+      uint16_t value = buffer / NUM_AD_SAMPLES / * 147 / 47 * 1000 / 1024;
       if(value < LOW_BATTERY_MILLIVOLTS)
       {
         lowBattery = true;
