@@ -29,14 +29,14 @@ void lowBatteryHandler(void)
 
   if(millis() > lastRead)
   {
-    lastRead += 16000 / NUM_AD_SAMPLES;
+    lastRead += 8000 / NUM_AD_SAMPLES;
 
     buffer += analogRead(A0);
     index++;
     if(index == NUM_AD_SAMPLES)
     {
-      // calculate battery voltage in millivolts ( * 2 to account for for hardware voltage divider)
-      uint16_t value = buffer / NUM_AD_SAMPLES * 2;
+      // calculate battery voltage in millivolts ( / 47 * 147 to account for for hardware voltage divider)
+      uint16_t value = buffer / NUM_AD_SAMPLES / 47 * 147;
       if(value < LOW_BATTERY_MILLIVOLTS)
       {
         lowBattery = true;
