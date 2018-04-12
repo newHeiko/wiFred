@@ -11,11 +11,11 @@
  * Battery voltage for the device to detect low battery status
  * Will change behaviour of device
  */
-#define LOW_BATTERY_MILLIVOLTS 2150
+#define LOW_BATTERY_MILLIVOLTS 2100
 /**
  * Battery voltage for the device to shut down (deep sleep, never wakeup)
  */
-#define EMPTY_BATTERY_MILLIVOLTS 2100
+#define EMPTY_BATTERY_MILLIVOLTS 2000
 
 /**
  * Set to true when the device detects a battery voltage below @LOW_BATTERY_MILLIVOLTS above
