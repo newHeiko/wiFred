@@ -145,27 +145,17 @@ void clockHandler(void)
     // try to get time from network if we are connected to WLAN
     if(flagGetTime && wiFredState == STATE_CONNECTED)
     {
-      WiFiClient client;
+      static WiFiClient client;
 
-      if(client.connect(clockServer.name, clockServer.port))
+      if(client.available())
       {
-        client.setNoDelay(true);
-        client.setTimeout(10);
-        client.print(String("GET /json/time") + " HTTP/1.1\r\n" +
-             "Host: " + clockServer.name + "\r\n" +
-             "Connection: close\r\n" +
-             "\r\n"
-            );
-        
-        delay(10);
-        
-        while(client.available())
-        {
           String line = client.readStringUntil('\n');
-          // valid data received
+          // is this the data line we are looking for?
           if(line.indexOf("{\"type\":\"time\"") != -1)
           {
             flagGetTime = false;
+
+            client.flush();
 
             clockInfo temp;
             size_t pos;
@@ -204,7 +194,22 @@ void clockHandler(void)
               flagNewTime = true;
             }
           }
-        }
+      }
+      else if(client.connected())
+      {
+        client.setNoDelay(true);
+        client.setTimeout(10);
+        client.print(String("GET /json/time") + " HTTP/1.1\r\n" +
+             "Host: " + clockServer.name + "\r\n" +
+             "Connection: close\r\n" +
+             "\r\n"
+            );
+      }
+      else
+      {
+// the following line is a workaround for a memory leak bug in arduino 2.4.0/2.4.1: https://github.com/esp8266/Arduino/issues/4497
+        client = WiFiClient();
+        client.connect(clockServer.name, clockServer.port);
       }
     }
     if(flagNewTime)
