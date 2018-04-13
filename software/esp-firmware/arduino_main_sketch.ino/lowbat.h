@@ -15,7 +15,7 @@
 /**
  * Battery voltage for the device to shut down (deep sleep, never wakeup)
  */
-#define EMPTY_BATTERY_MILLIVOLTS 2000
+#define EMPTY_BATTERY_MILLIVOLTS 1800
 
 /**
  * Set to true when the device detects a battery voltage below @LOW_BATTERY_MILLIVOLTS above
