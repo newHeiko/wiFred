@@ -1,0 +1,55 @@
+\documentclass[11pt,a4paper]{scrartcl}
+
+\usepackage{graphicx,hyperref}
+\usepackage[tocentry,tablegrid]{vhistory}
+
+\date{\vhCurrentDate}
+\author{\vhListAllAuthors}
+\title{wiFred documentation -- Documentation for WiFi throttle with withrottle interface and wireless clock driver}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+
+This document describes the usage and configuration of the wiFred -- a very simple wireless throttle to connect to withrottle servers like JMRI -- and the wireless clock driver used to drive a simple wallclock to the timing of JMRIs FastClock system. It also contains schematics and BOMs for both devices as well as programming instructions and assembly tips, and also an overview of options for the server side of things.
+
+The most recent version of this document can be found at: \textit{}
+
+Skip the following section if you are not interested in the why and more into the how.
+
+\section{Background for wiFred development}
+
+As of the writing of this document, JMRI~\cite{jmri} has a long track record of offering a server for using smartphones as wireless model railroad throttles, along with apps like withrottle~\cite{withrottleApp}\footnote{withrottle is also the name JMRI uses for the protocol and the server.} and EngineDriver~\cite{EngineDriver}. This server will enable WiFi throttles to control locos any model railroading layout to which JMRI can build a connection~\cite{jmrihardwaresupport}. In addition, Digitrax~\cite{digitrax} and MRC~\cite{mrc} offer specific hardware solutions to enable the connection of the abovementioned smartphone apps to their DCC systems through a WiFi network.
+
+The Fremo~\cite{fremo} is a European modular model railroading club whose unique requirements on it's DCC throttles led to the creation of the throttles FRED and FREDI~\cite{fred} -- a series of LocoNet\textregistered-throttle which started it's life a hobbyist project with large numbers in circulation but is also commercially available from Uhlenbrock~\cite{uhlenbrock}.
+
+\subsection{Wishlist}
+
+In modular railroading events, particularly of the Fremo-americaN-group\~cite{fremo}, some people have evaluated the smartphone throttle solutions and found them lacking a nice, haptical feedback. So a wishlist was compiled to 
+
+\section{Wireless throttle}
+
+\section{Clock driver}
+
+\section{Server setup with JMRI}
+
+\begin{thebibliography}{99}
+\bibitem{jmri}{JMRI: A Java Model Railroad Interface, \textit{http://www.jmri.org}}
+\bibitem{jmrihardwaresupport}{JMRI: Hardware Support, \textit{http://www.jmri.org/help/en/html/hardware/index.shtml}}
+\bibitem{withrottleApp}{WiThrottle, \textit{http://www.withrottle.com/html/home.html}}
+\bibitem{EngineDriver}{Home \textbar\ EngineDriver, textit{https://enginedriver.mstevetodd.com/}}
+\bibitem{fremo}{Home - FREMO - Freundeskreis Europ\"aischer Modelleisenbahner e.V., \textit{https://www.fremo-net.eu/en/home/}}
+\bibitem{fred}{Throttle, \textit{http://fremodcc.sourceforge.net/throttle/throttle.en.html}}
+\bibitem{uhlenbrock}{Uhlenbrock \textbar\ FRED, der Handregler für die Intellibox, \textit{https://uhlenbrock.de/de\_DE/produkte/prodarch/I62AD172-001.htm!ArcEntryInfo=0004.41.I62AD172}}
+\bibitem{mrc}{Prodigy WiFi, \textit{http://www.modelrectifier.com/Prodigy-WiFi-s/332.htm}}
+\bibitem{digitrax}{LocoNet WiFi interface, \textit{http://www.digitrax.com/products/wireless/lnwi/}}
+\end{thebibliography}
+
+\begin{versionhistory}
+  \vhEntry{0.1}{2018-05-19}{Heiko Rosemann}{Setup first document structure.}
+\end{versionhistory}
+
+\end{document}
