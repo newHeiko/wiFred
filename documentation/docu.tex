@@ -1,13 +1,18 @@
 \documentclass[11pt,a4paper]{scrartcl}
 
+\parskip 0.5em plus 0.5em
+
+\pagestyle{headings}
+
 \usepackage{graphicx,hyperref}
-\usepackage[tocentry,tablegrid]{vhistory}
+\usepackage[tablegrid]{vhistory}
 
 \date{\vhCurrentDate}
 \author{\vhListAllAuthors}
 \title{wiFred documentation -- Documentation for WiFi throttle with withrottle interface and wireless clock driver}
 
 \begin{document}
+\thispagestyle{empty}
 \maketitle
 
 \tableofcontents
@@ -16,19 +21,23 @@
 
 This document describes the usage and configuration of the wiFred -- a very simple wireless throttle to connect to withrottle servers like JMRI -- and the wireless clock driver used to drive a simple wallclock to the timing of JMRIs FastClock system. It also contains schematics and BOMs for both devices as well as programming instructions and assembly tips, and also an overview of options for the server side of things.
 
-The most recent version of this document can be found at: \textit{}
+The most recent version of this document can be found at:
 
-Skip the following section if you are not interested in the why and more into the how.
+\textit{https://github.com/newHeiko/wiFred/blob/master/documentation/docu.pdf} and
+
+\textit{https://github.com/newHeiko/wiFred/blob/master/documentation/docu.tex}.
+
+Skip the following section about the background for the wiFred development if you are not interested in the why and more into the how.
 
 \section{Background for wiFred development}
 
 As of the writing of this document, JMRI~\cite{jmri} has a long track record of offering a server for using smartphones as wireless model railroad throttles, along with apps like withrottle~\cite{withrottleApp}\footnote{withrottle is also the name JMRI uses for the protocol and the server.} and EngineDriver~\cite{EngineDriver}. This server will enable WiFi throttles to control locos any model railroading layout to which JMRI can build a connection~\cite{jmrihardwaresupport}. In addition, Digitrax~\cite{digitrax} and MRC~\cite{mrc} offer specific hardware solutions to enable the connection of the abovementioned smartphone apps to their DCC systems through a WiFi network.
 
-The Fremo~\cite{fremo} is a European modular model railroading club whose unique requirements on it's DCC throttles led to the creation of the throttles FRED and FREDI~\cite{fred} -- a series of LocoNet\textregistered-throttle which started it's life a hobbyist project with large numbers in circulation but is also commercially available from Uhlenbrock~\cite{uhlenbrock}.
+The Fremo~\cite{fremo} is a European modular model railroading club whose unique requirements on it's DCC throttles led to the creation of the throttles FRED and FREDI~\cite{fred} -- a series of LocoNet\textregistered-throttles which started their life as hobbyist projects with large numbers in circulation but were also commercially available from Uhlenbrock~\cite{uhlenbrock}.
 
 \subsection{Wishlist}
 
-In modular railroading events, particularly of the Fremo-americaN-group\~cite{fremo}, some people have evaluated the smartphone throttle solutions and found them lacking a nice, haptical feedback. So a wishlist was compiled to 
+In modular railroading events, particularly of the Fremo-americaN-group~\cite{fremo}, some people have evaluated the smartphone throttle solutions and found them lacking a nice, haptical feedback. So a wishlist was compiled to 
 
 \section{Wireless throttle}
 
