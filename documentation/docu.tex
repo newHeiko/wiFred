@@ -39,7 +39,7 @@ The Fremo~\cite{fremo} is a European modular model railroading club whose unique
 
 \subsection{Specification wishlist}
 
-In modular railroading events, particularly of the Fremo-americaN-group~\cite{fremo}, some people have evaluated the smartphone throttle solutions and found them lacking a nice, haptical feedback. So a wishlist was compiled to define the requirements for a wireless throttle:
+In modular railroading events, particularly of the Fremo-americaN-group~\cite{fremo}, some people have evaluated the smartphone throttle solutions and found them lacking a nice, haptical feedback. But the idea of wireless control without locking into a specific vendor and their necessarily expensive equipment found great approval. So a wishlist was compiled to define the requirements for a wireless throttle:
 \begin{itemize}
 \item Same form factor as the FRED~\cite{fred} with similar controls
 \item Option to control at least two, better four locomotives for double/triple traction (similar to the double FRED)
@@ -61,23 +61,67 @@ During the development of this wiFred another topic came up in the americaN grou
 \item Re-use existing systems as much as possible -- in the case of the clock system, use JMRIs fast clock server
 \end{itemize}
 
+\clearpage
+
 \section{wiFred Wireless throttle}
 
 \subsection{Usage}
 
-\subsection{Configuration}
+\begin{figure}
+
+  \caption{Controls and features of the wiFred-throttle} \label{throttleControls}
+\end{figure}
+
+Figure~\ref{throttleControls} shows the controls of the wireless throttle. They consist of the following:
+
+\begin{itemize}
+\item Four loco selection switches (loco 1 on the left, loco 4 on the right, move towards speed potentiometer to enable)
+\item Speed potentiometer (Counter-clockwise endstop: Stop, clockwise endstop: Full speed)
+\item Direction switch
+\item Black function keys F0 to F4
+\item Two yellow shift keys to trigger F5-F8 and F9-F12
+\item Red emergency stop key
+\item Two green direction indicator LEDs
+\item One red status LED
+\item Battery compartment (on the rear) for two AA cells, 1.2\,V to 1.5\,V nominal voltage
+\end{itemize}
+
+As soon as a pair of batteries is inserted into the battery compartment as the symbols inside the battery compartment show, the throttle will boot up and try to connect to a wireless network. The throttle will not be damaged if batteries are inserted wrongly, but it will not work either. Use NiMH- or primary AA cells with 1.2\,V to 1.5\,V nominal voltage, low self discharge NiMH cells like Eneloop\textregistered\ or similar are recommended. Do not insert 3\,V or 3.6\,V AA size lithium batteries as this may damage the throttle.
+
+If no connection to the network configured into the device can be established within 60 seconds, the throttle will create it's own wireless network named \textit{wiFred-config} plus four hex digits taken from the MAC address of the throttle WiFi interface, for example \textit{wiFred-config0CAC}, to enable configuration as described in the next section.
+
+Four different locos with long DCC addresses can be assigned to the four loco selection switches. Commands derived from the speed potentiometer, the direction switch and the function keys will be transmitted to all selected locos (near) simultaneously, with a certain translation table enabling some locos to go backwards when others go forwards and also limiting function keys to some of the four locos only -- this is described in more detail in sections~\ref{throttle_LocoConf} and~\ref{throttle_FunctionConf}.
+
+Pushing the red emergency stop key will cause the throttle to send an emergency stop signal to all four locos attached. After an emergency stop, turn the speed potentiometer to zero to re-enable control of the locos.
+
+Pushing the red emergency stop key while holding down either of the shift keys will place the device into configuration mode (as well as issueing an emergency stop to all attached locos). See section~\ref{throttle_Conf} for more details on how to access the throttle to do the configuration.
+
+Any change in the loco selection switches will cause the throttle to send a stop (zero speed) command to all attached locos. This makes sure that any loco that is deselected will stop on the layout and avoids newly selected locos suddenly taking off at speed. The same is true for a change in the direction switch, to avoid high-speed reverse maneuvers. Turn the speed potentiometer to zero to re-enable control of the locos.
+
+When all four loco selection switches are set to the disabled state, the throttle will send a stop (zero speed) command to all four locos attached and -- after a wait time of 30 seconds -- it will disconnect from the network and go into low power mode. To reconnect, re-enable any loco selection switch.
+
+The same happens when the batteries are empty, but the throttle will not reactivate before changing the batteries. Expected runtime with a pair of 2500\,mAh-NiMH-batteries is around 8-10 hours of full time operations, more if the throttle is placed in low power mode when the locos are not running.
+
+During startup and operation, the LEDs will show the patterns explained in table~\ref{ledTable}.
+
+\begin{table}
+  \caption{LED patterns and their meaning on the wiFred throttle} \label{ledTable}
+
+\end{table}
+
+\subsection{Configuration} \label{throttle_Conf}
 
 \subsubsection{General configuration} \label{throttle_GeneralConf}
 
-\subsubsection{Loco configuration}
+\subsubsection{Loco configuration} \label{throttle_LocoConf}
 
-\subsubsection{DCC function configuration}
+\subsubsection{DCC function configuration} \label{throttle_FunctionConf}
 
 \subsection{Hardware description}
 
 \subsection{Programming instructions}
 
-\section{Clock driver}
+\section{Wireless clock driver}
 
 \subsection{Usage}
 
@@ -104,7 +148,7 @@ For general configuration (WiFi etc.) see section~\ref{throttle_GeneralConf}, as
 \end{thebibliography}
 
 \begin{versionhistory}
-  \vhEntry{0.1}{2018-05-24}{Heiko Rosemann}{Setup first document structure.}
+  \vhEntry{0.1}{2018-05-25}{Heiko Rosemann}{Setup first document structure.}
 \end{versionhistory}
 
 \end{document}
