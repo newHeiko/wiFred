@@ -35,11 +35,13 @@ void loop() {
 
   static uint32_t test = 0;
 
+#ifdef DEBUG
   if(test < millis())
   {
     test = millis() + 5000;
     Serial.println(ESP.getFreeHeap());
   }
+#endif
 
   switch(wiFredState)
   {
@@ -47,8 +49,7 @@ void loop() {
       if(!clockActive || getInputState(0) == true || getInputState(1) == true || getInputState(2) == true || getInputState(3) == true)
       {
         initWiFiSTA();
-        #warning "Increase timeout for reliable connection!"
-        switchState(STATE_CONNECTING, 10 * 1000);
+        switchState(STATE_CONNECTING, 60 * 1000);
       }
       else
       {

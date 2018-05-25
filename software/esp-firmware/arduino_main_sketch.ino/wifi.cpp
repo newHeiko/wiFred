@@ -72,7 +72,7 @@ void initWiFiAP(void)
   WiFi.mode(WIFI_AP);
   uint8_t mac[6];
   WiFi.macAddress(mac);
-  String ssid = "wfred-config" + String(mac[0], 16) + String(mac[5], 16);
+  String ssid = "wiFred-config" + String(mac[0], 16) + String(mac[5], 16);
   #ifdef DEBUG
   Serial.println();
   Serial.print("Not connected, setting up AP at ");
