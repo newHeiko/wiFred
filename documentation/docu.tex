@@ -69,6 +69,13 @@ During the development of this wiFred another topic came up in the americaN grou
 
 \begin{figure}
 
+  \centering
+  \includegraphics[height=100mm]{images/throttle_Front.jpg}
+  \hspace{1em}
+  \includegraphics[height=100mm]{images/throttle_Back.jpg}
+  \hspace{1em}
+  \includegraphics[height=100mm]{images/throttle_Back_openBattery.jpg}
+  
   \caption{Controls and features of the wiFred-throttle} \label{throttleControls}
 \end{figure}
 
@@ -107,6 +114,42 @@ During startup and operation, the LEDs will show the patterns explained in table
 \begin{table}
   \caption{LED patterns and their meaning on the wiFred throttle} \label{ledTable}
 
+  \centering
+  \begin{tabular}{| m{6em} | m{6em} | m{6em} | m{15em} |}
+    \hline
+    Red LED & Green LED (Left) & Green LED (Right) & Status \\
+    \hline
+    \hline
+    Slow Blinking (1\,Hz) & Off & Off & Trying to connect to WiFi network \\
+    \hline
+    Fast Blinking (3\,Hz) & Off & Off & Successful WiFi connection, trying to connect to wiThrottle server and acquire locos \\
+    \hline
+    \hline
+    Off & Off & On & Regular operation, forward direction \\
+    \hline
+    Off & On & Off & Regular operation, reverse direction \\
+    \hline
+    Off & Blinking & On & Emergency stop, forward direction. Turn speed potentiometer to zero to re-gain control. Also happens when switching direction with speed potentiometer not at zero \\
+    \hline
+    Off & On & Blinking & Emergency stop, reverse direction. Turn speed potentiometer to zero to re-gain control. Also happens when switching direction with speed potentiometer not at zero \\
+    \hline
+    \hline
+    Off & Off & Blinking & Battery low, regular operation, forward direction \\
+    \hline
+    Off & Blinking & Off & Battery low, regular operation, reverse direction \\
+    \hline
+    Short flashes & Off & Off & Throttle in low-power mode \\
+    \hline
+    Off & Off & Off & Battery empty or no battery inserted \\
+    \hline
+    \hline
+    On & Off & Off & No connection to existing WiFi network. Created internal configuration WiFi network \\
+    \hline
+    On & On & On & Configuration mode enabled while connected to existing WiFi network. All locos emergency stop to avoid runaways. Push SHIFT + ESTOP again to exit configuration mode and turn speed potentiometer to zero to re-gain control \\
+    \hline
+    
+  \end{tabular}
+  
 \end{table}
 
 \subsection{Configuration} \label{throttle_Conf}
@@ -148,7 +191,7 @@ For general configuration (WiFi etc.) see section~\ref{throttle_GeneralConf}, as
 \end{thebibliography}
 
 \begin{versionhistory}
-  \vhEntry{0.1}{2018-05-25}{Heiko Rosemann}{Setup first document structure.}
+  \vhEntry{0.1}{WIP}{Heiko Rosemann}{Setup first document structure.}
 \end{versionhistory}
 
 \end{document}
