@@ -24,6 +24,7 @@ int main(void)
   
   initADC();
   initUART();
+  initLEDs();
 
   sei();
 

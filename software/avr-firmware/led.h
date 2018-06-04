@@ -15,9 +15,10 @@ typedef struct
 {
   uint8_t onTime;
   uint8_t cycleTime;
+  uint8_t portPin;
 } ledInfo;
 
-volatile ledInfo LEDs[3];
+extern volatile ledInfo LEDs[3];
 
 void initLEDs(void);
 

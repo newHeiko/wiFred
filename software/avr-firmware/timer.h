@@ -19,7 +19,7 @@
 /**
  * Countdown for keep alive timeout
  */
-volatile uint8_t keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
+extern volatile uint8_t keepaliveCountdownSeconds;
 
 /**
  * Initialize timers

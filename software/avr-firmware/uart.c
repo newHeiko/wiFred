@@ -109,7 +109,7 @@ void uartHandler(void)
   ledInfo temp;
   uint8_t led;
 
-  if(sscanf_P(buffer, PSTR("L %hhu : %hhu/%hhu"),
+  if(sscanf_P(buffer, PSTR("L%hhu: %hhu/%hhu"),
 	      &led, &temp.onTime, &temp.cycleTime) == 3)
     {
       if(led >= 1 && led <= 3 && temp.onTime <= temp.cycleTime)
