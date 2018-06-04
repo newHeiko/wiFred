@@ -20,6 +20,11 @@
  */
 void initUART(void)
 {
+  UCSR0A = (USE_2X<<U2X0);
+  UCSR0B = (1<<RXCIE0) | (1<<RXEN0) | (1<<TXEN0);
+  UCSR0C = (1<<UCSZ01) | (1<<UCSZ00);
+  UBRR0H = UBRRH_VALUE;
+  UBRR0L = UBRRL_VALUE;
 }
 
 /**
