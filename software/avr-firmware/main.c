@@ -17,6 +17,9 @@ int main(void)
 {
   initADC();
 
+  // initialize power save settings
+  PRR = (1<<PRTWI) | (1<<PRSPI);
+  
   while(true)
     {
       ;
