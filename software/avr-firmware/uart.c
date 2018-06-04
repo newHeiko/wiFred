@@ -112,10 +112,10 @@ void uartHandler(void)
   if(sscanf_P(buffer, PSTR("L %hhu : %hhu/%hhu"),
 	      &led, &temp.onTime, &temp.cycleTime) == 3)
     {
-      if(led <= 3 && temp.onTime <= temp.cycleTime)
+      if(led >= 1 && led <= 3 && temp.onTime <= temp.cycleTime)
 	{
-	  LEDs[led].onTime = temp.onTime;
-	  LEDs[led].cycleTime = temp.cycleTime;
+	  LEDs[led-1].onTime = temp.onTime;
+	  LEDs[led-1].cycleTime = temp.cycleTime;
 	}
       else
 	{

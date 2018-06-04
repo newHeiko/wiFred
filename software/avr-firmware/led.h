@@ -17,7 +17,7 @@ typedef struct
   uint8_t cycleTime;
 } ledInfo;
 
-ledInfo LEDs[3];
+volatile ledInfo LEDs[3];
 
 void initLEDs(void);
 
