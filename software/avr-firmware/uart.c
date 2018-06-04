@@ -50,11 +50,11 @@ void uartSendData(uint8_t * data, uint8_t length)
     }
 
   // check if UART is active
-  if(! (UCSRB & (1<<UDRIE)) )
+  if(! (UCSR0B & (1<<UDRIE0)) )
     {
       // transmit first byte if not
-      UCSRB |= (1<<UDRIE);
-      UDR = txBuffer[readIndex++];
+      UCSR0B |= (1<<UDRIE0);
+      UDR0 = txBuffer[readIndex++];
       if(readIndex >= TX_BUFFER_SIZE)
 	{
 	  readIndex = 0;
@@ -69,7 +69,7 @@ ISR(USART_UDRE_vect)
 {
   if(readIndex != writeIndex)
     {
-      UDR = txBuffer[readIndex++];
+      UDR0 = txBuffer[readIndex++];
       if(readIndex >= TX_BUFFER_SIZE)
 	{
 	  readIndex = 0;
@@ -77,13 +77,13 @@ ISR(USART_UDRE_vect)
     }
   else
     {
-      UCSRB &= ~(1<<UDRIE);
+      UCSR0B &= ~(1<<UDRIE0);
     }
 }
 
-ISR(USART_RXC_vect)
+ISR(USART_RX_vect)
 {
-  char data = UDR;
+  char data = UDR0;
 
   static uint8_t rx_in = 0;
 
