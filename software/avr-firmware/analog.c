@@ -27,7 +27,10 @@ volatile uint8_t currentSpeed = 0;
  */
 void initADC(void)
 {
-  
+  ADMUX = (1<<REFS0) | 7;
+  ADCSRA = (1<<ADEN) | (1<<ADATE) | (1<<ADIE) | (1<<ADPS2) | (1<<ADPS1);
+  ADCSRB = 0;
+  ADCSRA |= (1<<ADSC);
 }
 
 /**
@@ -64,7 +67,7 @@ ISR(ADC_vect)
   #warning "Change data type of buffer to accomodate more than 16 samples"
   #endif
   static uint16_t buffer = 0;
-  static uint8_t counter;
+  static uint8_t counter = 0;
 
   buffer += ADC;
   if(counter++ >= NUM_AD_SAMPLES)
