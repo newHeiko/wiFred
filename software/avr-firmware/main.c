@@ -10,16 +10,23 @@
 #include <stdbool.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <avr/power.h>
 
 #include "analog.h"
+#include "uart.h"
 
 int main(void)
 {
-  initADC();
-
-  // initialize power save settings
-  PRR = (1<<PRTWI) | (1<<PRSPI);
+  // initialize power save settings and system clock prescaler
+  power_spi_disable();
+  power_twi_disable();
+  clock_prescale_set(clock_div_4);
   
+  initADC();
+  initUART();
+
+  sei();
+
   while(true)
     {
       ;
