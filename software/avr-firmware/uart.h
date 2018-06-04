@@ -26,6 +26,11 @@ void initUART(void);
 /**
  * Enqueue data to be sent
  */
-void uartSendData(uint8_t * data, uint8_t length);
+void uartSendData(char * data, uint8_t length);
+
+/**
+ * Handle fully received UART strings if there are any
+ */
+void uartHandler(void);
 
 #endif

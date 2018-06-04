@@ -29,6 +29,6 @@ int main(void)
 
   while(true)
     {
-      ;
+      uartHandler();
     }
 }

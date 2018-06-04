@@ -8,9 +8,14 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <string.h>
+#include <stdio.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <avr/pgmspace.h>
 #include "uart.h"
+#include "led.h"
+#include "timer.h"
 
 #define BAUD 115200
 #include <util/setbaud.h>
@@ -32,7 +37,9 @@ void initUART(void)
  */
 volatile char txBuffer[TX_BUFFER_SIZE];
 volatile char rxBuffer[RX_BUFFER_SIZE];
-
+/**
+ * Flag to show an entire line (ended in \n) has been received
+ */
 volatile bool rxDone = false;
 
 /**
@@ -43,7 +50,7 @@ volatile uint8_t readIndex = 0, writeIndex = 0;
 /**
  * Enqueue data to be sent
  */
-void uartSendData(uint8_t * data, uint8_t length)
+void uartSendData(char * data, uint8_t length)
 {
   while(length-- != 0)
     {
@@ -85,6 +92,48 @@ ISR(USART_UDRE_vect)
       UCSR0B &= ~(1<<UDRIE0);
     }
 }
+
+/**
+ * Handle fully received UART strings if there are any
+ */
+void uartHandler(void)
+{
+  if(!rxDone)
+    {
+      return;
+    }
+
+  char buffer[RX_BUFFER_SIZE];
+  strncpy(buffer, rxBuffer, RX_BUFFER_SIZE);
+
+  ledInfo temp;
+  uint8_t led;
+
+  if(sscanf_P(buffer, PSTR("L %hhu : %hhu/%hhu"),
+	      &led, &temp.onTime, &temp.cycleTime) == 3)
+    {
+      if(led <= 3 && temp.onTime <= temp.cycleTime)
+	{
+	  LEDs[led].onTime = temp.onTime;
+	  LEDs[led].cycleTime = temp.cycleTime;
+	}
+      else
+	{
+	  uartSendData("Wrong parameters for LED settings",
+		       sizeof("Wrong parameters for LED settings"));
+	}
+    }
+  else if(buffer[0] == 'K')
+    {
+      keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
+    }
+  else
+    {
+      uartSendData("Unknown command", sizeof("Unknown command"));
+    }
+	      
+}
+
 
 ISR(USART_RX_vect)
 {
