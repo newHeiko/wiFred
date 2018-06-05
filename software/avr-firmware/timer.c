@@ -66,7 +66,7 @@ ISR(TIMER0_OVF_vect)
 	  DDRD |= (1<<LEDs[i].portPin);
 	  ledOntimeCountdown[i] = 1;
 	}
-      if(--ledCycletimeCountdown[i] == 0)
+      if(ledCycletimeCountdown[i] == 0 || --ledCycletimeCountdown[i] == 0)
 	{
 	  DDRD &= ~(1<<LEDs[i].portPin);
 	  ledCycletimeCountdown[i] = LEDs[i].cycleTime;
