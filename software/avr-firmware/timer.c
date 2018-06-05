@@ -19,16 +19,6 @@
 volatile uint8_t keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
 
 /**
- * Countdown for LED on time
- */
-volatile uint8_t ledOntimeCountdown[3];
-
-/**
- * Countdown for LED cycle time
- */
-volatile uint8_t ledCycletimeCountdown[3];
-
-/**
  * Initialize timers
  */
 void initTimers(void)
@@ -59,6 +49,9 @@ ISR(TIMER0_OVF_vect)
 
   // add in here: keypad debouncing
 
+  static uint8_t ledOntimeCountdown[3];
+  static uint8_t ledCycletimeCountdown[3];
+  
   for(uint8_t i = 0; i < 3; i++)
     {
       if(ledOntimeCountdown[i] == 0 || --ledOntimeCountdown[i] == 0)
