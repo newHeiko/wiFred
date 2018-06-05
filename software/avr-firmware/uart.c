@@ -112,7 +112,7 @@ void uartHandler(void)
   if(sscanf_P(buffer, PSTR("L%hhu: %hhu/%hhu"),
 	      &led, &temp.onTime, &temp.cycleTime) == 3)
     {
-      if(led >= 1 && led <= 3 && temp.onTime <= temp.cycleTime)
+      if(led >= 1 && led <= 3)
 	{
 	  LEDs[led-1].onTime = temp.onTime;
 	  LEDs[led-1].cycleTime = temp.cycleTime;
@@ -129,7 +129,7 @@ void uartHandler(void)
     }
   else
     {
-      uartSendData("Unknown command", sizeof("Unknown command"));
+      uartSendData("Unknown or misspelled command", sizeof("Unknown or misspelled command"));
     }
 	      
 }
