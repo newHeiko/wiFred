@@ -56,18 +56,18 @@ ISR(TIMER0_OVF_vect)
     {
       if(ledOntimeCountdown[i] == 0 || --ledOntimeCountdown[i] == 0)
 	{
-	  DDRD |= (1<<LEDs[i].portPin);
+	  DDRD |= LEDs[i].portBitmask;
 	  ledOntimeCountdown[i] = 1;
 	}
       if(ledCycletimeCountdown[i] == 0 || --ledCycletimeCountdown[i] == 0)
 	{
-	  DDRD &= ~(1<<LEDs[i].portPin);
+	  DDRD &= ~LEDs[i].portBitmask;
 	  ledCycletimeCountdown[i] = LEDs[i].cycleTime;
 	  ledOntimeCountdown[i] = LEDs[i].onTime;
 	}
       if(ledOntimeCountdown[i] == 0)
 	{
-	  DDRD |= (1<<LEDs[i].portPin);
+	  DDRD |= LEDs[i].portBitmask;
 	}
     }
 }
