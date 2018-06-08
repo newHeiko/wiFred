@@ -12,6 +12,7 @@
 #include <avr/sleep.h>
 #include "timer.h"
 #include "led.h"
+#include "keypad.h"
 
 /**
  * Countdown for keep alive timeout
@@ -47,7 +48,7 @@ ISR(TIMER0_OVF_vect)
       secondCountdown = 100;
     }
 
-  // add in here: keypad debouncing
+  debounceKeys();
 
   static uint8_t ledOntimeCountdown[3];
   static uint8_t ledCycletimeCountdown[3];
