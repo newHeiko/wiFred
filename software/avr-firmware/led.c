@@ -18,14 +18,5 @@ void initLEDs(void)
   LEDs[1].portBitmask = (1<<PD3);
   LEDs[2].portBitmask = (1<<PD5);
 
-  LEDs[0].cycleTime = 100;
-  LEDs[0].onTime = 50;
-
-  LEDs[1].cycleTime = 200;
-  LEDs[1].onTime = 50;
-
-  LEDs[2].cycleTime = 100;
-  LEDs[2].onTime = 80;
-
   DDRD = (1<<PD2) | (1<<PD3) | (1<<PD5);
 }

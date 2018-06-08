@@ -19,7 +19,7 @@
 /**
  * Timeout for sending speed and direction data (10ms units) if not changed
  */
-#define SPEED_INTERVAL 100
+#define SPEED_INTERVAL 250
 
 /**
  * Countdown for speed and direction data timeout
