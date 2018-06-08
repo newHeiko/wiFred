@@ -20,6 +20,11 @@
 volatile uint8_t keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
 
 /**
+ * Countdown for speed and direction data timeout
+ */
+volatile uint8_t speedTimeout = SPEED_INTERVAL;
+
+/**
  * Initialize timers
  */
 void initTimers(void)
@@ -48,6 +53,11 @@ ISR(TIMER0_OVF_vect)
       secondCountdown = 100;
     }
 
+  if(speedTimeout > 0)
+    {
+      speedTimeout--;
+    }
+  
   debounceKeys();
 
   static uint8_t ledOntimeCountdown[3];

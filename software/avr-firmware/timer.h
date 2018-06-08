@@ -17,6 +17,16 @@
 #define SYSTEM_KEEPALIVE_TIMEOUT 60
 
 /**
+ * Timeout for sending speed and direction data (10ms units) if not changed
+ */
+#define SPEED_INTERVAL 100
+
+/**
+ * Countdown for speed and direction data timeout
+ */
+extern volatile uint8_t speedTimeout;
+
+/**
  * Countdown for keep alive timeout
  */
 extern volatile uint8_t keepaliveCountdownSeconds;

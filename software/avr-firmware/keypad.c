@@ -7,8 +7,10 @@
  */
 
 #include <stdint.h>
+#include <stdio.h>
 #include <util/atomic.h>
 #include "keypad.h"
+#include "uart.h"
 
 typedef union
 {
@@ -30,6 +32,45 @@ volatile keyInfo keyPress;
  * Variable to save key release detections
  */
 volatile keyInfo keyRelease;
+
+/**
+ * Handle function keys F1 ... F4
+ *
+ * Returns: Number of characters written to dest
+ * Parameters: dest: buffer to write string to (minimum sizeof("F00_DN") bytes)
+ *                f: Number of function (1..4)
+ */
+int8_t functionHandler(char * dest, uint8_t f)
+{
+  static uint8_t funcNum[] = {1, 2, 3, 4};
+  const uint16_t keyMask[] = {KEY_F1, KEY_F2, KEY_F3, KEY_F4};
+
+  f--;
+
+  if(f > 3)
+    {
+      return -1;
+    }
+  
+  if(getKeyPresses(keyMask[f]))
+    {
+      funcNum[f] = f+1;
+      if(getKeyState(KEY_SHIFT))
+	{
+	  funcNum[f] += 4;
+	}
+      if(getKeyState(KEY_SHIFT2))
+	{
+	  funcNum[f] += 8;
+	}
+      return snprintf(dest, sizeof("F00_DN\n"), "F%u_DN\n", funcNum[f]) + 1;
+    }
+  if(getKeyReleases(keyMask[f]))
+    {
+      return snprintf(dest, sizeof("F00_UP\n"), "F%u_UP\n", funcNum[f]) + 1;
+    }
+  return 0;
+}	
 
 /**
  * Return current key status

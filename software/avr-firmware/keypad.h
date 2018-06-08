@@ -44,4 +44,13 @@ uint16_t getKeyReleases(uint16_t keyMask);
  */
 void debounceKeys(void);
 
+/**
+ * Handle function keys F1 ... F4
+ *
+ * Returns: Number of characters written to dest
+ * Parameters: dest: buffer to write string to (minimum sizeof("F00_DN") bytes)
+ *                f: Number of function (1..4)
+ */
+int8_t functionHandler(char * dest, uint8_t f);
+
 #endif
