@@ -119,8 +119,8 @@ void uartHandler(void)
 	}
       else
 	{
-	  uartSendData("Wrong parameters for LED settings",
-		       sizeof("Wrong parameters for LED settings"));
+	  uartSendData("Wrong parameters for LED settings\r\n",
+		       sizeof("Wrong parameters for LED settings\r\n"));
 	}
     }
   else if(buffer[0] == 'K')
@@ -129,8 +129,10 @@ void uartHandler(void)
     }
   else
     {
-      uartSendData("Unknown or misspelled command", sizeof("Unknown or misspelled command"));
+      uartSendData("Unknown or misspelled command\r\n", sizeof("Unknown or misspelled command\r\n"));
     }
+
+  rxDone = false;
 	      
 }
 
