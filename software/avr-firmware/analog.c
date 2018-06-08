@@ -70,7 +70,7 @@ ISR(ADC_vect)
   static uint8_t counter = 0;
 
   buffer += ADC;
-  if(counter++ >= NUM_AD_SAMPLES)
+  if(++counter >= NUM_AD_SAMPLES)
     {
       uint8_t temp;
       counter = 0;
@@ -78,7 +78,7 @@ ISR(ADC_vect)
       #if NUM_AD_SAMPLES != 16
       #warning "Change divisor so 1023 * NUM_AD_SAMPLES / divisor = 126"
       #endif
-      temp = buffer / 129;
+      temp = 126 - (buffer / 129);
       if(temp != currentSpeed)
 	{
 	  newSpeed = true;

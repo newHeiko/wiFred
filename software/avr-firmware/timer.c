@@ -31,11 +31,11 @@ void initTimers(void)
 {
   TCCR0A = (1<<WGM01);
   OCR0A = F_CPU / 1024 / 100;
-  TCCR0B = (1<<CS02) | (1<<CS01) | (1<<CS00);
-  TIMSK0 = (1<<TOIE0);
+  TCCR0B = (1<<CS02) | (1<<CS00);
+  TIMSK0 = (1<<OCIE0A);
 }
 
-ISR(TIMER0_OVF_vect)
+ISR(TIMER0_COMPA_vect)
 {
   static uint8_t secondCountdown;
   if(--secondCountdown == 0)
@@ -67,18 +67,18 @@ ISR(TIMER0_OVF_vect)
     {
       if(ledOntimeCountdown[i] == 0 || --ledOntimeCountdown[i] == 0)
 	{
-	  DDRD |= LEDs[i].portBitmask;
+	  PORTD |= LEDs[i].portBitmask;
 	  ledOntimeCountdown[i] = 1;
 	}
       if(ledCycletimeCountdown[i] == 0 || --ledCycletimeCountdown[i] == 0)
 	{
-	  DDRD &= ~LEDs[i].portBitmask;
+	  PORTD &= ~LEDs[i].portBitmask;
 	  ledCycletimeCountdown[i] = LEDs[i].cycleTime;
 	  ledOntimeCountdown[i] = LEDs[i].onTime;
 	}
       if(ledOntimeCountdown[i] == 0)
 	{
-	  DDRD |= LEDs[i].portBitmask;
+	  PORTD |= LEDs[i].portBitmask;
 	}
     }
 }

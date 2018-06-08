@@ -65,12 +65,12 @@ void uartSendData(char * data, uint8_t length)
   if(! (UCSR0B & (1<<UDRIE0)) )
     {
       // transmit first byte if not
-      UCSR0B |= (1<<UDRIE0);
       UDR0 = txBuffer[readIndex++];
       if(readIndex >= TX_BUFFER_SIZE)
 	{
 	  readIndex = 0;
 	}
+      UCSR0B |= (1<<UDRIE0);
     }
 }
 

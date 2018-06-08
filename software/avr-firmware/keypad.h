@@ -11,8 +11,8 @@
 #ifndef _KEYPAD_H_
 #define _KEYPAD_H_
 
-#define KEY_FORWARD (1<<PB0)
-#define KEY_REVERSE (1<<PB1)
+#define KEY_REVERSE (1<<PB0)
+#define KEY_FORWARD (1<<PB1)
 #define KEY_ESTOP   (1<<PB3)
 #define KEY_SHIFT   (1<<PB4)
 #define KEY_SHIFT2  (1<<PB5)
