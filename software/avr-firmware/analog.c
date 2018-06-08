@@ -79,7 +79,10 @@ ISR(ADC_vect)
       #warning "Change divisor so 1023 * NUM_AD_SAMPLES / divisor = 126"
       #endif
       temp = 126 - (buffer / 129);
-      if(temp != currentSpeed)
+      if(temp > currentSpeed + SPEED_TOLERANCE
+	 || currentSpeed > temp + SPEED_TOLERANCE
+	 || (temp == 126 && currentSpeed >= 126 - SPEED_TOLERANCE)
+	 || (temp == 0 && currentSpeed <= SPEED_TOLERANCE) )
 	{
 	  newSpeed = true;
 	  currentSpeed = temp;
