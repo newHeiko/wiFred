@@ -316,7 +316,7 @@ gccversion :
 
 # Program the device - FLASH only
 program: $(TARGET).hex
-	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_READ_EEPROM)
+#	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_READ_EEPROM)
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH)
 # Write EEPROM contents to device
 eeprom: $(TARGET).eep
