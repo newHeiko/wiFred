@@ -24,7 +24,6 @@
 
 #define KEY_ALL     KEY_FORWARD | KEY_REVERSE | KEY_ESTOP | KEY_SHIFT | KEY_SHIFT2 | KEY_F0 | KEY_F1 | KEY_F2 | KEY_F3 | KEY_F4
 
-
 /**
  * Return current key status
  */
@@ -34,6 +33,11 @@ uint16_t getKeyState(uint16_t keyMask);
  * Return new key presses since last call
  */
 uint16_t getKeyPresses(uint16_t keyMask);
+
+/**
+ * Return new key releases since last call
+ */
+uint16_t getKeyReleases(uint16_t keyMask);
 
 /**
  * To be called every 10ms from ISR - handle key input
