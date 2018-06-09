@@ -10,7 +10,7 @@
 
 enum functionInfo { THROTTLE, ALWAYS_ON, ALWAYS_OFF };
 
-enum eLocoState { LOCO_OFFLINE, LOCO_CONNECTED, LOCO_ONLINE };
+enum eLocoState { LOCO_OFFLINE, LOCO_CONNECTED, LOCO_ACQUIRING, LOCO_ONLINE };
 
 extern eLocoState locoState;
 
@@ -44,6 +44,13 @@ void locoHandler(void);
 bool getInputState(uint8_t input);
 
 bool getInputChanged(uint8_t input);
+
+/**
+ * Acquire a new loco for this throttle, including function setting according to function infos
+ * 
+ * Will return the same value if needs to be called more than once, loco + 1 if finished
+ */
+uint8_t requestLoco(uint8_t loco);
 
 #endif
 

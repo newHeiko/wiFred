@@ -14,4 +14,11 @@
  */
 void setLEDvalues(String led1, String led2, String led3);
 
+/**
+ * Periodically check serial port for new information from the AVR
+ * 
+ * Return a string to be sent to wiThrottle server, may include multiple newlines
+ */
+String handleThrottle(void);
+
 #endif
