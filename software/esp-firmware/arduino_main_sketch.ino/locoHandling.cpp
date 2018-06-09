@@ -1,6 +1,7 @@
 #include "locoHandling.h"
 #include "config.h"
 #include "stateMachine.h"
+#include "throttleHandling.h"
 
 locoInfo locos[4];
 bool locoActive = false;
@@ -9,6 +10,8 @@ bool locoRunning[4];
 
 bool inputState[4];
 bool inputChanged[4];
+
+WiFiClient client;
 
 const uint8_t inputPins[] = {LOCO1_INPUT, LOCO2_INPUT, LOCO3_INPUT, LOCO4_INPUT};
 
@@ -36,13 +39,11 @@ void locoInit(void)
 
 void locoHandler(void)
 {
+  static uint32_t timeout;
   static uint32_t debounceCounter;
   static uint8_t switchState[4];
   static uint8_t speedIn = 0, speedOut = 0;
   static bool reverseIn, reverseOut;
-  static bool functions[MAX_FUNCTION + 1];
-
-  static WiFiClient client;
 
   // debounce inputs every 10ms
   if (millis() > debounceCounter)
@@ -57,6 +58,7 @@ void locoHandler(void)
         {
           inputState[i] = true;
           inputChanged[i] = true;
+          switchState[i] = 0;
         }
         else
         {
@@ -65,9 +67,20 @@ void locoHandler(void)
       }
       else if (digitalRead(inputPins[i]) == HIGH && inputState[i] == true)
       {
+        if (switchState[i] >= 4)
+        {
+          inputState[i] = false;
+          inputChanged[i] = true;
+          switchState[i] = 0;
+        }
+        else
+        {
+          switchState[i]++;
+        }
+      }
+      else
+      {
         switchState[i] = 0;
-        inputState[i] = false;
-        inputChanged[i] = true;
       }
     }
   }
@@ -79,6 +92,8 @@ void locoHandler(void)
 
   switch (locoState)
   {
+      static uint8_t currentLoco;
+
     case LOCO_OFFLINE:
       if (wiFredState == STATE_CONNECTED)
       {
@@ -87,15 +102,94 @@ void locoHandler(void)
           client.setNoDelay(true);
           client.setTimeout(10);
           locoState = LOCO_CONNECTED;
+          timeout = millis() + 1000;
+          currentLoco = 0;
         }
       }
       break;
 
     case LOCO_CONNECTED:
-    case LOCO_ONLINE:
+      if (client.available())
+      {
+        String line = client.readStringUntil('\n');
+        if (line.startsWith("VN2.0"))
+        {
+          // flush all input data
+          while (client.read() > -1)
+            ;
+          uint8_t mac[6];
+          WiFi.macAddress(mac);
+          String id = String(mac[0], 16) + String(mac[5], 16);
+          client.print("HU" + id + "\n");
+          client.print(String("N") + throttleName + "\n");
+        }
+        else if (line.startsWith("*"))
+        {
+          client.print("*+");
+          locoState = LOCO_ACQUIRING;
+        }
+      }
+      else if (millis() > timeout)
+      {
+        locoState = LOCO_OFFLINE;
+      }
       break;
+    case LOCO_ACQUIRING:
+      if (getInputState(currentLoco) == false || locos[currentLoco].address == -1)
+      {
+        currentLoco++;
+      }
+      else
+      {
+        currentLoco = requestLoco(currentLoco);
+      }
+      if (currentLoco >= 4)
+      {
+        locoState = LOCO_ONLINE;
+      }
+      else if (millis() > timeout)
+      {
+        locoState = LOCO_OFFLINE;
+      }
+      break;
+    case LOCO_ONLINE:
 
+      // send any information coming from the keypad/potentiometer
+      client.print(handleThrottle());
+
+      if (!client.connected())
+      {
+        locoState = LOCO_OFFLINE;
+        setLEDvalues("0/0", "0/0", "25/50");
+      }
+      break;
   }
+}
+
+/**
+   Acquire a new loco for this throttle, including function setting according to function infos
+
+   Will return the same value if needs to be called more than once, loco + 1 if finished
+*/
+uint8_t requestLoco(uint8_t loco)
+{
+  static uint8_t step = 0;
+  switch (step)
+  {
+    case 0:
+      if (locos[loco].longAddress)
+      {
+        client.print(String("MT+") + loco + "<;>L" + locos[loco].address + "\n");
+        step = 1;
+      }
+      else
+      {
+        client.print(String("MT+") + loco + "<;>S" + locos[loco].address + "\n");
+        step = 1;
+      }
+      break;
+  }
+  return loco;
 }
 
 bool getInputState(uint8_t input)
