@@ -1,7 +1,7 @@
 #ifndef _LOCO_HANDLING_H_
 #define _LOCO_HANDLING_H_
 
-#define MAX_FUNCTION 12
+#define MAX_FUNCTION 16
 
 #include <ESP8266WiFi.h>
 
