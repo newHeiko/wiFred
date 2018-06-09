@@ -8,6 +8,7 @@
 #include "lowbat.h"
 #include "Ticker.h"
 #include "stateMachine.h"
+#include "throttleHandling.h"
 
 #define DEBUG
 
@@ -133,7 +134,7 @@ void writeClockPage()
     String startupString = server.arg("clock.startUp");
     alignas(4) uint8_t hours, minutes, seconds;
     
-    if(sscanf(startupString.c_str(), "%u:%u:%u", &hours, &minutes, &seconds) == 3)
+    if(sscanf(startupString.c_str(), "%u:%u:%u", (unsigned int *) &hours, (unsigned int *) &minutes, (unsigned int *) &seconds) == 3)
     {
       if(hours < 24 && minutes < 60 && seconds < 60)
       {
@@ -188,9 +189,19 @@ void writeLocoPage()
     locos[1].address = server.arg("loco.address2").toInt();
     locos[2].address = server.arg("loco.address3").toInt();
     locos[3].address = server.arg("loco.address4").toInt();
+
+    locos[0].longAddress = server.hasArg("loco.longAddress1");
+    locos[1].longAddress = server.hasArg("loco.longAddress2");
+    locos[2].longAddress = server.hasArg("loco.longAddress3");
+    locos[3].longAddress = server.hasArg("loco.longAddress4");
+    
     for(uint8_t i=0; i<4; i++)
     {
-      if(locos[i].address > 9999 || locos[i].address < 0)
+      if(locos[i].address > 10239 || locos[i].address < 0)
+      {
+        locos[i].address = -1;
+      }
+      if(!locos[i].longAddress && (locos[i].address > 127 || locos[i].address < 1))
       {
         locos[i].address = -1;
       }
@@ -214,7 +225,8 @@ void writeLocoPage()
   for(uint8_t i=0; i<4; i++)
   {
     resp      += String("<tr><td>Loco ") + (i+1) + " DCC address: ([1..9999] is valid, -1 to disable)</td><td><input type=\"text\" name=\"loco.address" + (i+1) + "\" value=\"" + locos[i].address + "\"></td></tr>"
-              + "<tr><td>Reverse? <input type=\"checkbox\" name=\"loco.reverse" + (i+1) + "\"" + (locos[i].reverse ? " checked" : "" ) + "></td>"              + "<td><a href=\"funcmap.html?loco=" + (i+1) + "\">Function mapping</a></td></tr>";
+              + "<tr><td>Reverse? <input type=\"checkbox\" name=\"loco.reverse" + (i+1) + "\"" + (locos[i].reverse ? " checked" : "" ) + "></td>"               + "<td></td></tr>"
+              + "<tr><td>Long Address? <input type=\"checkbox\" name=\"loco.longAddress" + (i+1) + "\"" + (locos[i].longAddress ? " checked" : "" ) + "></td>"  + "<td><a href=\"funcmap.html?loco=" + (i+1) + "\">Function mapping</a></td></tr>";
   }
   resp        += String("<tr><td><input type=\"submit\"></td><td><a href=\"/\">Back to main configuration page (unsaved data will be lost)</a></td></tr></table></form>\r\n")
               + "</body></html>";

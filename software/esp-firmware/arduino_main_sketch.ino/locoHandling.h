@@ -17,6 +17,7 @@ extern eLocoState locoState;
 typedef struct
 {
   int16_t address;
+  bool longAddress;
   functionInfo functions[MAX_FUNCTION + 1];
   bool reverse;
 } locoInfo;

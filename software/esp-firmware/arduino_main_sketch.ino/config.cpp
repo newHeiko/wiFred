@@ -53,6 +53,7 @@ void initConfig(void)
   {
     locos[i].address = -1;
     locos[i].reverse = false;
+    locos[i].longAddress = true;
   }
   startupTime.hours = 5;
   startupTime.minutes = 30;
