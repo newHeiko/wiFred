@@ -3,6 +3,7 @@
 #include "locoHandling.h"
 #include "lowbat.h"
 #include "stateMachine.h"
+#include "throttleHandling.h"
 
 #define DEBUG
 
@@ -35,6 +36,9 @@ void loop() {
 
   static uint32_t test = 0;
 
+  // properly setup LEDs
+  setLEDvalues("0/0", "0/0", "100/200");
+
 #ifdef DEBUG
   if(test < millis())
   {
@@ -50,11 +54,13 @@ void loop() {
       {
         initWiFiSTA();
         switchState(STATE_CONNECTING, 60 * 1000);
+        setLEDvalues("0/0", "0/0", "100/200");
       }
       else
       {
         initWiFiAP();
         switchState(STATE_CONFIG_AP);
+        setLEDvalues("0/0", "0/0", "200/200");
       }
       break;
       
@@ -62,11 +68,13 @@ void loop() {
       if(WiFi.status() == WL_CONNECTED)
       {
         switchState(STATE_CONNECTED);
+        setLEDvalues("0/0", "0/0", "25/50");
       }
       else if(millis() > stateTimeout)
       {
         initWiFiAP();
         switchState(STATE_CONFIG_AP);
+        setLEDvalues("0/0", "0/0", "200/200");
       }
       break;
 
@@ -77,10 +85,12 @@ void loop() {
         {
           initWiFiConfigSTA();
           switchState(STATE_CONFIG_STATION_WAITING, 30 * 1000);
+          setLEDvalues("200/200", "200/200", "200/200");
         }
         else
         {
           switchState(STATE_LOWPOWER_WAITING, 30 * 1000);
+          setLEDvalues("0/0", "0/0", "1/250");
         }
         break;
       }
@@ -89,6 +99,7 @@ void loop() {
       {
         initWiFiSTA();
         switchState(STATE_CONNECTING, 30 * 1000);
+        setLEDvalues("0/0", "0/0", "100/200");
       }
       break;
 
@@ -97,6 +108,7 @@ void loop() {
       {
         shutdownWiFiSTA();
         switchState(STATE_LOWPOWER);
+        setLEDvalues("0/0", "0/0", "1/250");
         break;
       }
     // break;
@@ -106,6 +118,7 @@ void loop() {
       {
         shutdownWiFiConfigSTA();
         switchState(STATE_CONNECTED);
+        setLEDvalues("0/0", "0/0", "25/50");
       }
       break;
 
@@ -114,6 +127,7 @@ void loop() {
       {
         shutdownWiFiSTA();
         switchState(STATE_LOWPOWER);
+        setLEDvalues("0/0", "0/0", "1/250");
       }
     // break;
     // intentional fall-through
@@ -121,6 +135,7 @@ void loop() {
       if(getInputState(0) == true || getInputState(1) == true || getInputState(2) == true || getInputState(3) == true)
       {
          switchState(STATE_STARTUP);
+         setLEDvalues("0/0", "0/0", "100/200");
       }
       break;
       

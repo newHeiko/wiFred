@@ -85,6 +85,7 @@ void writeMainPage()
   if(wiFredState == STATE_CONFIG_STATION_WAITING)
   {
     switchState(STATE_CONFIG_STATION);
+    setLEDvalues("100/100", "100/100", "100/100");
   }
 
   // check if this is a "set configuration" request
