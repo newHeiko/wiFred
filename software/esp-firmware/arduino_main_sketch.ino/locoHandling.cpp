@@ -119,11 +119,7 @@ void locoHandler(void)
             ;
           uint8_t mac[6];
           WiFi.macAddress(mac);
-<<<<<<< HEAD
           String id = String(mac[0], 16) + String(mac[1], 16) + String(mac[2], 16) + String(mac[3], 16) + String(mac[4], 16) + String(mac[5], 16);
-=======
-          String id = String(mac[0], 16) + String(mac[5], 16);
->>>>>>> 49316d23beaadc1c54f8dabc742400930f06bd94
           client.print("HU" + id + "\n");
           client.print(String("N") + throttleName + "\n");
         }
