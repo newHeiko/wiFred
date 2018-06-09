@@ -15,7 +15,11 @@ All three are built around ESP12E/ESP12F WiFi modules, powered by 2xAA cells and
 
 The ESP source code consists of an Arduino sketch which contains the firmware for all three, configurable by a web interface (WIP).
 
-No AVR source code available yet (2018-01-02).
+Barely tested AVR source code available for wiThrottle-compatible throttle.
+
+In-Progress-Version of documentation available in documentation/ subfolder.
+
+Fred-to-wiThrottle interface sent to back burner, may never be done.
 
 I have ordered PCBs around Christmas 2017 and hope to have a proof of concept plus more/better organized docs by summer (2018).
 
