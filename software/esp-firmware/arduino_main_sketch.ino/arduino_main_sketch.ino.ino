@@ -19,12 +19,16 @@ void setup() {
   lowBatteryInit();
   
   Serial.begin(115200);
+  Serial.setTimeout(10);
   #ifdef DEBUG
   Serial.setDebugOutput(true);
   #endif
   delay(100);
 
   initWiFi();
+
+  // properly setup LEDs
+  setLEDvalues("0/0", "0/0", "100/200");
 }
 
 void loop() {
@@ -35,9 +39,6 @@ void loop() {
   locoHandler();
 
   static uint32_t test = 0;
-
-  // properly setup LEDs
-  setLEDvalues("0/0", "0/0", "100/200");
 
 #ifdef DEBUG
   if(test < millis())
@@ -114,7 +115,7 @@ void loop() {
     // break;
     // intentional fall-through
     case STATE_CONFIG_STATION:
-      if(getInputState(0) == true || getInputState(1) == true || getInputState(2) == true || getInputState(3) == true)
+      if(clockActive && (getInputState(0) == true || getInputState(1) == true || getInputState(2) == true || getInputState(3) == true))
       {
         shutdownWiFiConfigSTA();
         switchState(STATE_CONNECTED);

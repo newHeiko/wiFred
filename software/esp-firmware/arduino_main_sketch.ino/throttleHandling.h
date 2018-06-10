@@ -21,4 +21,9 @@ void setLEDvalues(String led1, String led2, String led3);
  */
 String handleThrottle(void);
 
+/**
+ * Set current throttle status to ESTOP
+ */
+void setESTOP(void);
+
 #endif

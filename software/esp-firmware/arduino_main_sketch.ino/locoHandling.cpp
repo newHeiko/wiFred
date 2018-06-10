@@ -42,8 +42,6 @@ void locoHandler(void)
   static uint32_t timeout;
   static uint32_t debounceCounter;
   static uint8_t switchState[4];
-  static uint8_t speedIn = 0, speedOut = 0;
-  static bool reverseIn, reverseOut;
 
   // debounce inputs every 10ms
   if (millis() > debounceCounter)
@@ -122,10 +120,7 @@ void locoHandler(void)
           String id = String(mac[0], 16) + String(mac[1], 16) + String(mac[2], 16) + String(mac[3], 16) + String(mac[4], 16) + String(mac[5], 16);
           client.print("HU" + id + "\n");
           client.print(String("N") + throttleName + "\n");
-        }
-        else if (line.startsWith("*"))
-        {
-          client.print("*+");
+          timeout = millis() + 1000;
           locoState = LOCO_ACQUIRING;
         }
       }
@@ -134,6 +129,7 @@ void locoHandler(void)
         locoState = LOCO_OFFLINE;
       }
       break;
+
     case LOCO_ACQUIRING:
       if (getInputState(currentLoco) == false || locos[currentLoco].address == -1)
       {
@@ -151,12 +147,72 @@ void locoHandler(void)
       {
         locoState = LOCO_OFFLINE;
       }
+      // if the connection is broken, return to connect state
+      if (!client.connected())
+      {
+        locoState = LOCO_OFFLINE;
+        setLEDvalues("0/0", "0/0", "25/50");
+      }
       break;
-    case LOCO_ONLINE:
 
+    case ACQUIRE_SINGLE:
+      // acquire loco - if done, switch back to normal state
+      if(requestLoco(currentLoco) > currentLoco)
+      {
+        locoState = LOCO_ONLINE;
+      }
+      // if the connection is broken, return to connect state
+      if (!client.connected())
+      {
+        locoState = LOCO_OFFLINE;
+        setLEDvalues("0/0", "0/0", "25/50");
+      }
+      break;
+
+    case LOCO_ONLINE:
       // send any information coming from the keypad/potentiometer
       client.print(handleThrottle());
 
+      // flush all input data
+      while (client.read() > -1)
+        ;
+
+      // check if any of the loco selectors have been changed
+      for(currentLoco = 0; currentLoco < 4; currentLoco++)
+      {
+        if(getInputChanged(currentLoco))
+        {
+          // make sure no loco (currently attached) is moving
+          setESTOP();
+          // send ESTOP command
+          client.print(handleThrottle());
+          // if the new state is selected, acquire the new loco and skip out of loop
+          if(getInputState(currentLoco))
+          {
+            locoState = ACQUIRE_SINGLE;
+            break;
+          }
+          // if not, release loco and remove the loco from the throttle
+          else
+          {
+            client.print(String("MTA") + currentLoco + "<;>r\n");
+            if (locos[currentLoco].longAddress)
+            {
+              client.print(String("MT-") + currentLoco + "<;>L" + locos[currentLoco].address + "\n");
+            }
+            else
+            {
+              client.print(String("MT-") + currentLoco + "<;>S" + locos[currentLoco].address + "\n");
+            }
+          }
+        }
+      }
+
+      // flush all input data
+      while (client.read() > -1)
+        ;
+
+      // if the connection is broken, return to connect state
       if (!client.connected())
       {
         locoState = LOCO_OFFLINE;
@@ -167,10 +223,10 @@ void locoHandler(void)
 }
 
 /**
-   Acquire a new loco for this throttle, including function setting according to function infos
-
-   Will return the same value if needs to be called more than once, loco + 1 if finished
-*/
+ * Acquire a new loco for this throttle, including function setting according to function infos
+ *
+ * Will return the same value if needs to be called more than once, loco + 1 if finished
+ */
 uint8_t requestLoco(uint8_t loco)
 {
   static uint8_t step = 0;
