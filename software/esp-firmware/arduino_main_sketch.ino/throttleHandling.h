@@ -26,4 +26,9 @@ String handleThrottle(void);
  */
 void setESTOP(void);
 
+/**
+ * Get current direction - returns true when reverse
+ */
+bool getReverse(void);
+
 #endif

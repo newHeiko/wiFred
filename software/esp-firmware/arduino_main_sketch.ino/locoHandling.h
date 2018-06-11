@@ -8,9 +8,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-enum functionInfo { THROTTLE, ALWAYS_ON, ALWAYS_OFF };
+enum functionInfo { THROTTLE, ALWAYS_ON, ALWAYS_OFF, UNKNOWN = THROTTLE };
 
-enum eLocoState { LOCO_OFFLINE, LOCO_CONNECTED, LOCO_ACQUIRING, ACQUIRE_SINGLE, LOCO_ONLINE };
+enum eLocoState { LOCO_OFFLINE, LOCO_CONNECTED, LOCO_ACQUIRING, LOCO_ACQUIRE_SINGLE, LOCO_ONLINE };
 
 extern eLocoState locoState;
 

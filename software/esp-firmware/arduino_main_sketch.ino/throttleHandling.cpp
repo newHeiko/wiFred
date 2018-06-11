@@ -18,6 +18,11 @@
 bool eSTOP = true;
 
 /**
+ * Remember current direction setting
+ */
+bool reverseOut = false;
+
+/**
  * Send LED settings to AVR - Strings are of the shape "20/100" meaning 20*10ms on time and 100*10ms total cycle time
  */
 void setLEDvalues(String led1, String led2, String led3)
@@ -40,6 +45,14 @@ void setESTOP(void)
 }
 
 /**
+ * Get current direction - returns true when reverse
+ */
+bool getReverse(void)
+{
+  return reverseOut;
+}
+
+/**
  * Periodically check serial port for new information from the AVR
  * 
  * Return a string to be sent to wiThrottle server, may include multiple newlines
@@ -47,7 +60,7 @@ void setESTOP(void)
 String handleThrottle(void)
 {
   static uint8_t speedIn = 0, speedOut = 0;
-  static bool reverseIn, reverseOut;
+  static bool reverseIn;
 
   String ret = "";
 
@@ -146,11 +159,11 @@ String handleThrottle(void)
       {
         if(reverseOut ^ locos[l].reverse)
         {
-          ret += String("MTA") + l + "<;>R1\n";
+          ret += String("MTA") + l + "<;>R0\n";
         }
         else
         {
-          ret += String("MTA") + l + "<;>R0\n";          
+          ret += String("MTA") + l + "<;>R1\n";          
         }
       }
     }
