@@ -36,7 +36,6 @@ void loop() {
   handleWiFi();
   clockHandler();
   lowBatteryHandler();
-  locoHandler();
 
   static uint32_t test = 0;
 
@@ -144,6 +143,9 @@ void loop() {
     // no way to get out of here except for restart
       break;
   }
+
+  locoHandler();
+
 }
 
 void switchState(state newState, uint32_t timeout)

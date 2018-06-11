@@ -137,6 +137,13 @@ void locoHandler(void)
       {
         locoState = LOCO_OFFLINE;
       }
+ 
+      // if the connection is broken, return to connect state
+      if (!client.connected())
+      {
+        locoState = LOCO_OFFLINE;
+        setLEDvalues("0/0", "0/0", "25/50");
+      }
       break;
 
     case LOCO_ACQUIRING:

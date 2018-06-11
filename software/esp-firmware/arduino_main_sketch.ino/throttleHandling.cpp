@@ -70,7 +70,8 @@ bool getReverse(void)
  */
 String handleThrottle(void)
 {
-  static uint8_t speedIn = 0, speedOut = 0;
+  alignas(4) static uint8_t speedIn = 0;
+  static uint8_t speedOut = 0;
   static bool reverseIn;
 
   String ret = "";
@@ -106,11 +107,9 @@ String handleThrottle(void)
 
     // Speed and direction command received
     case 'S':
-      char direction;
+      alignas(4) char direction;
       if(sscanf(inputLine.c_str(), "S:%u:%c", &speedIn, &direction) == 2)
       {
-        Serial.println(speedIn);
-        Serial.println(direction);
         if(speedIn <= 126)
         {
           speedOut = speedIn;
@@ -220,14 +219,19 @@ String handleThrottle(void)
 
   // Remove eSTOP setting on zero speed if set
   if(eSTOP)
-  {
-    ret += String("MTA*<;>X\n");
+  { 
+    static uint32_t timeout = 0;
+    if(millis() > timeout)
+      {
+        ret += String("MTA*<;>X\n");
+        timeout = millis() + 1000;
+      }
     if(speedOut == 0)
     {
       eSTOP = false;
     }
   }
-  // Send speed command if there is a new speed or if timeout has been reached
+  // If eSTOP not set, send speed command if there is a new speed or if timeout has been reached
   else
   {
     static uint32_t timeout = 0;
