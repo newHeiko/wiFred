@@ -134,7 +134,7 @@ void writeClockPage()
     String startupString = server.arg("clock.startUp");
     alignas(4) uint8_t hours, minutes, seconds;
     
-    if(sscanf(startupString.c_str(), "%u:%u:%u", (unsigned int *) &hours, (unsigned int *) &minutes, (unsigned int *) &seconds) == 3)
+    if(sscanf(startupString.c_str(), "%u:%u:%u", &hours, &minutes, &seconds) == 3)
     {
       if(hours < 24 && minutes < 60 && seconds < 60)
       {

@@ -107,8 +107,10 @@ String handleThrottle(void)
     // Speed and direction command received
     case 'S':
       char direction;
-      if(sscanf(inputLine.c_str(), "S:%u:%c", (unsigned int *) &speedIn, &direction) == 2)
+      if(sscanf(inputLine.c_str(), "S:%u:%c", &speedIn, &direction) == 2)
       {
+        Serial.println(speedIn);
+        Serial.println(direction);
         if(speedIn <= 126)
         {
           speedOut = speedIn;
