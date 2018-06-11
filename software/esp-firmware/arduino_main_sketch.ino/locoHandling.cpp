@@ -39,7 +39,7 @@ void locoInit(void)
 
 void locoHandler(void)
 {
-  static uint32_t timeout;
+  static uint32_t timeout = 0;
   static uint32_t debounceCounter;
   static uint8_t switchState[4];
 
@@ -95,13 +95,19 @@ void locoHandler(void)
     case LOCO_OFFLINE:
       if (wiFredState == STATE_CONNECTED)
       {
-        if (client.connect(locoServer.name, locoServer.port))
+        if(millis() > timeout)
         {
-          client.setNoDelay(true);
-          client.setTimeout(10);
-          locoState = LOCO_CONNECTED;
+          // the following line is a workaround for a memory leak bug in arduino 2.4.0/2.4.1: https://github.com/esp8266/Arduino/issues/4497
+          client = WiFiClient();
+          client.setTimeout(1000);
+          if (client.connect(locoServer.name, locoServer.port))
+          {
+            client.setNoDelay(true);
+            client.setTimeout(10);
+            locoState = LOCO_CONNECTED;
+            currentLoco = 0;
+          }
           timeout = millis() + 1000;
-          currentLoco = 0;
         }
       }
       break;

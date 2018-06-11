@@ -218,7 +218,7 @@ void writeLocoPage()
   String resp = String("<!DOCTYPE HTML>\r\n")
               + "<html><head><title>wiFred configuration page</title></head>\r\n"
               + "<body><h1>Loco configuration</h1>\r\n"
-              + "<form action=\"index.html\" method=\"get\"><table border=0>"
+              + "<form action=\"loco.html\" method=\"get\"><table border=0>"
               + "<tr><td>Enabled?</td><td><input type=\"checkbox\" name=\"loco.enabled\"" + (locoActive ? " checked" : "") + "></td></tr>"
               + "<tr><td>Loco server and port: </td>"
               + "<td><input type=\"text\" name=\"loco.serverName\" value=\"" + locoServer.name + "\">:<input type=\"text\" name=\"loco.serverPort\" value=\"" + locoServer.port + "\"></td></tr>";
