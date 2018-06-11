@@ -124,11 +124,11 @@ void loop() {
       break;
 
     case STATE_LOWPOWER_WAITING:
+      setLEDvalues("0/0", "0/0", "1/250");
       if(millis() > stateTimeout)
       {
         shutdownWiFiSTA();
         switchState(STATE_LOWPOWER);
-        setLEDvalues("0/0", "0/0", "1/250");
       }
     // break;
     // intentional fall-through

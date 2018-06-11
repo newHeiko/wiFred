@@ -98,6 +98,7 @@ void locoHandler(void)
         if(millis() > timeout)
         {
           // the following line is a workaround for a memory leak bug in arduino 2.4.0/2.4.1: https://github.com/esp8266/Arduino/issues/4497
+          client.stop();
           client = WiFiClient();
           client.setTimeout(1000);
           if (client.connect(locoServer.name, locoServer.port))
@@ -105,9 +106,8 @@ void locoHandler(void)
             client.setNoDelay(true);
             client.setTimeout(10);
             locoState = LOCO_CONNECTED;
-            currentLoco = 0;
           }
-          timeout = millis() + 1000;
+          timeout = millis() + 2000;
         }
       }
       break;
@@ -126,8 +126,11 @@ void locoHandler(void)
           String id = String(mac[0], 16) + String(mac[1], 16) + String(mac[2], 16) + String(mac[3], 16) + String(mac[4], 16) + String(mac[5], 16);
           client.print("HU" + id + "\n");
           client.print(String("N") + throttleName + "\n");
-          timeout = millis() + 1000;
+          client.print("*+\n");
+          timeout = millis() + 2000;
           locoState = LOCO_ACQUIRING;
+          currentLoco = 0;
+          client.flush();
         }
       }
       else if (millis() > timeout)
@@ -143,6 +146,7 @@ void locoHandler(void)
       }
       else
       {
+        getInputChanged(currentLoco);
         currentLoco = requestLoco(currentLoco);
       }
       if (currentLoco >= 4)
@@ -202,7 +206,7 @@ void locoHandler(void)
           if(getInputState(currentLoco))
           {
             locoState = LOCO_ACQUIRE_SINGLE;
-            timeout = millis() + 1000;
+            timeout = millis() + 2000;
             break;
           }
           // if not, release loco and remove the loco from the throttle
@@ -224,6 +228,14 @@ void locoHandler(void)
       // flush all input data
       while (client.read() > -1)
         ;
+
+      // if throttle is going into low power mode (all locos deselected), also quit the client
+      if(wiFredState == STATE_LOWPOWER_WAITING)
+      {
+        client.print("Q\n");
+        client.flush();
+        client.stop();
+      }
 
       // if the connection is broken, return to connect state
       if (!client.connected())
