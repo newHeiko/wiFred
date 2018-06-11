@@ -27,13 +27,24 @@ bool reverseOut = false;
  */
 void setLEDvalues(String led1, String led2, String led3)
 {
+  static uint32_t timeout = 0;
+  static String oldLed1 = "", oldLed2 = "", oldLed3 = "";
   if(!locoActive)
   {
     return;
   }
-  Serial.println("L1:" + led1);
-  Serial.println("L2:" + led2);
-  Serial.println("L3:" + led3);
+  if(millis() > timeout || oldLed1 != led1 || oldLed2 != led2 || oldLed3 != led3)
+  {
+    Serial.println("L1:" + led1);
+    Serial.println("L2:" + led2);
+    Serial.println("L3:" + led3);
+
+    oldLed1 = led1;
+    oldLed2 = led2;
+    oldLed3 = led3;
+
+    timeout = millis() + 1000;
+  }
 }
 
 /**
