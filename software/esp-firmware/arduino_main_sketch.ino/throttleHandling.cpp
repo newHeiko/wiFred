@@ -94,6 +94,8 @@ String handleThrottle(void)
       {
         if(wiFredState == STATE_CONNECTED)
         {
+          // disconnect and start config mode
+          ret += "Q\n";
           initWiFiConfigSTA();
           switchState(STATE_CONFIG_STATION);
         }
@@ -185,7 +187,7 @@ String handleThrottle(void)
   if(wiFredState == STATE_CONFIG_STATION)
   {
     setLEDvalues("200/200", "200/200", "200/200");
-    // make sure no locos move while someone configures the throttle on the WiFi system
+    // make sure no locos move while or after someone configures the throttle on the WiFi system
     setESTOP();
   }
   else

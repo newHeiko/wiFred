@@ -97,8 +97,12 @@ void locoHandler(void)
       {
         if(millis() > timeout)
         {
-          // the following line is a workaround for a memory leak bug in arduino 2.4.0/2.4.1: https://github.com/esp8266/Arduino/issues/4497
+          // flush input and output buffers
+          client.flush();
+          while(client.read() > -1)
+            ;
           client.stop();
+          // the following line is a workaround for a memory leak bug in arduino 2.4.0/2.4.1: https://github.com/esp8266/Arduino/issues/4497
           client = WiFiClient();
           client.setTimeout(1000);
           if (client.connect(locoServer.name, locoServer.port))
@@ -106,9 +110,17 @@ void locoHandler(void)
             client.setNoDelay(true);
             client.setTimeout(10);
             locoState = LOCO_CONNECTED;
+            timeout = millis() + 5000;
           }
-          timeout = millis() + 2000;
+          else
+          {
+            timeout = millis() + 2000;
+          }
         }
+      }
+      else if(wiFredState == STATE_CONFIG_STATION)
+      {
+        handleThrottle();
       }
       break;
 
@@ -147,12 +159,14 @@ void locoHandler(void)
       break;
 
     case LOCO_ACQUIRING:
+    case LOCO_ACQUIRING_FUNCTIONS:
       if (getInputState(currentLoco) == false || locos[currentLoco].address == -1)
       {
         currentLoco++;
       }
       else
       {
+        // ignore all input changes while initially acquiring locos
         getInputChanged(currentLoco);
         currentLoco = requestLoco(currentLoco);
       }
@@ -174,6 +188,7 @@ void locoHandler(void)
       break;
 
     case LOCO_ACQUIRE_SINGLE:
+    case LOCO_ACQUIRE_SINGLE_FUNCTIONS:
       // acquire loco - if done, switch back to normal state
       if(requestLoco(currentLoco) > currentLoco)
       {
@@ -266,101 +281,98 @@ uint8_t requestLoco(uint8_t loco)
                                              UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN,
                                              UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN,
                                              UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN };
-  static uint8_t step = 0;
-  switch (step)
+//  static uint8_t lastLoco = 15;
+  // first step for new loco: Send "loco acquire" command and send ESTOP command right afterwards to make sure loco is not moving
+  if(locoState == LOCO_ACQUIRING || locoState == LOCO_ACQUIRE_SINGLE)
   {
-    // first step: Send "loco acquire" command and send ESTOP command right afterwards to make sure loco is not moving
-    case 0:
-      if (locos[loco].longAddress)
-      {
-        client.print(String("MT+") + loco + "<;>L" + locos[loco].address + "\n");
-        step = 1;
-      }
-      else
-      {
-        client.print(String("MT+") + loco + "<;>S" + locos[loco].address + "\n");
-        step = 1;
-      }
-      setESTOP();
-      client.print(String("MTA") + loco + "<;>X\n");
-      break;
-
-    // second step: Evaluate response
-    case 1:
-      String line = client.readStringUntil('\n');
-      if(line.startsWith(String("MTA") + loco))
-      {
-        bool set = false;
-        uint8_t f = 0;
-        
-        switch(line.charAt(7))
-        {
-          // responding with function status
-          case 'F':
-            f = line.substring(9).toInt();
-            // only work on functions up to our maximum
-            if(f > MAX_FUNCTION)
-            {
-              break;
-            }
-            if(line.charAt(8) == '1')
-            {
-              set = true;
-            }
-            if(locos[loco].functions[f] == THROTTLE)
-            {
-              // if this is the first loco that has this function controlled by our function keys, copy state
-              if(globalFunctionStatus[f] == UNKNOWN)
-              {
-                if(set)
-                {
-                  globalFunctionStatus[f] = ALWAYS_ON;
-                }
-                else
-                {
-                  globalFunctionStatus[f] = ALWAYS_OFF;
-                }
-              }
-              // if this is not the first loco, match function status to other locos
-              // note: This does not work properly with momentary functions
-              else if( (set && globalFunctionStatus[f] == ALWAYS_OFF) || (!set && globalFunctionStatus[f] == ALWAYS_ON) )
-              {
-                client.print(String("MTA") + loco + "<;>F1" + f + "\n");
-                client.print(String("MTA") + loco + "<;>F0" + f + "\n");
-              }
-            }
-            // if the function is not throttle controlled, match function status to requested function status
-            // note: This does not work properly with momentary functions
-            if( (set && locos[loco].functions[f] == ALWAYS_OFF) || (!set && locos[loco].functions[f] == ALWAYS_ON) )
-            {
-                client.print(String("MTA") + loco + "<;>F1" + f + "\n");
-                client.print(String("MTA") + loco + "<;>F0" + f + "\n");            
-            }
-            break;
-
-          // responding with direction status - take this as our chance to set correct direction (ignoring the one set before)
-          case 'R':
-            if(getReverse() ^ locos[loco].reverse)
-            {
-              client.print(String("MTA") + loco + "<;>R0\n");
-            }
-            else
-            {
-              client.print(String("MTA") + loco + "<;>R1\n");
-            }
-            break;
-
-          // last line of regular response, everything should be done by now, so switch to next loco and flush client buffer
-          case 's':
-            loco++;
-            step = 0;
-            // flush all input data
-            while (client.read() > -1)
-              ;
-            break;
-        }
-      }
+    if (locos[loco].longAddress)
+    {
+      client.print(String("MT+") + loco + "<;>L" + locos[loco].address + "\n");
+    }
+    else
+    {
+      client.print(String("MT+") + loco + "<;>S" + locos[loco].address + "\n");
+    }
+    setESTOP();
+    client.print(String("MTA") + loco + "<;>X\n");
+    locoState = (eLocoState) (locoState + 1);
   }
+  else
+  {
+    String line = client.readStringUntil('\n');
+    if(line.startsWith(String("MTA") + loco))
+    {
+      bool set = false;
+      uint8_t f = 0;
+      
+      switch(line.charAt(7))
+      {
+        // responding with function status
+        case 'F':
+          f = line.substring(9).toInt();
+          // only work on functions up to our maximum
+          if(f > MAX_FUNCTION)
+          {
+            break;
+          }
+          if(line.charAt(8) == '1')
+          {
+            set = true;
+          }
+          if(locos[loco].functions[f] == THROTTLE)
+          {
+            // if this is the first loco that has this function controlled by our function keys, copy state
+            if(globalFunctionStatus[f] == UNKNOWN)
+            {
+              if(set)
+              {
+                globalFunctionStatus[f] = ALWAYS_ON;
+              }
+              else
+              {
+                globalFunctionStatus[f] = ALWAYS_OFF;
+              }
+            }
+            // if this is not the first loco, match function status to other locos
+            // note: This does not work properly with momentary functions
+            else if( (set && globalFunctionStatus[f] == ALWAYS_OFF) || (!set && globalFunctionStatus[f] == ALWAYS_ON) )
+            {
+              client.print(String("MTA") + loco + "<;>F1" + f + "\n");
+              client.print(String("MTA") + loco + "<;>F0" + f + "\n");
+            }
+          }
+          // if the function is not throttle controlled, match function status to requested function status
+          // note: This does not work properly with momentary functions
+          if( (set && locos[loco].functions[f] == ALWAYS_OFF) || (!set && locos[loco].functions[f] == ALWAYS_ON) )
+          {
+            client.print(String("MTA") + loco + "<;>F1" + f + "\n");
+            client.print(String("MTA") + loco + "<;>F0" + f + "\n");            
+          }
+          break;
+
+        // responding with direction status - take this as our chance to set correct direction (ignoring the one set before)
+        case 'R':
+          if(getReverse() ^ locos[loco].reverse)
+          {
+            client.print(String("MTA") + loco + "<;>R0\n");
+          }
+          else
+          {
+            client.print(String("MTA") + loco + "<;>R1\n");
+          }
+          break;
+         // last line of regular response, everything should be done by now, so switch to next loco and flush client buffer
+        case 's':
+          locoState = (eLocoState) (locoState - 1);
+          loco++;
+          // flush all input data
+          while (client.read() > -1)
+            ;
+          break;
+      }
+    }
+  }
+  client.flush();
   return loco;
 }
 
