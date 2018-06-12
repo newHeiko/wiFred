@@ -1,4 +1,5 @@
 EESchema Schematic File Version 2
+LIBS:wfred_rev2-rescue
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -94,7 +95,7 @@ Wire Wire Line
 	5500 2200 5500 3100
 Connection ~ 5500 2200
 $Comp
-L C C101
+L C-RESCUE-wfred_rev2 C101
 U 1 1 5920B38E
 P 2150 2900
 F 0 "C101" H 2150 3000 40  0000 L CNN
@@ -106,7 +107,7 @@ F 4 "X5R-G0805 22/25" H 2150 2900 60  0001 C CNN "Reichelt"
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR01
+L GND-RESCUE-wfred_rev2 #PWR01
 U 1 1 5920B390
 P 2150 3300
 F 0 "#PWR01" H 2150 3300 30  0001 C CNN
@@ -117,7 +118,7 @@ F 3 "" H 2150 3300 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR02
+L GND-RESCUE-wfred_rev2 #PWR02
 U 1 1 5920B391
 P 1850 3300
 F 0 "#PWR02" H 1850 3300 30  0001 C CNN
@@ -128,7 +129,7 @@ F 3 "" H 1850 3300 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR03
+L GND-RESCUE-wfred_rev2 #PWR03
 U 1 1 5920B392
 P 2450 3300
 F 0 "#PWR03" H 2450 3300 30  0001 C CNN
@@ -174,7 +175,7 @@ F 3 "" H 4300 900 60  0001 C CNN
 $EndComp
 NoConn ~ 3600 2200
 $Comp
-L C C103
+L C-RESCUE-wfred_rev2 C103
 U 1 1 5920B397
 P 3300 2900
 F 0 "C103" H 3300 3000 40  0000 L CNN
@@ -186,7 +187,7 @@ F 4 "X7R-G0805 100N" H 3300 2900 60  0001 C CNN "Reichelt"
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR06
+L GND-RESCUE-wfred_rev2 #PWR06
 U 1 1 5920B398
 P 3300 3300
 F 0 "#PWR06" H 3300 3300 30  0001 C CNN
@@ -197,7 +198,7 @@ F 3 "" H 3300 3300 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR07
+L GND-RESCUE-wfred_rev2 #PWR07
 U 1 1 5920B399
 P 3500 3300
 F 0 "#PWR07" H 3500 3300 30  0001 C CNN
@@ -220,7 +221,7 @@ F 3 "" H 5200 2000 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR09
+L GND-RESCUE-wfred_rev2 #PWR09
 U 1 1 5920B39D
 P 6300 3300
 F 0 "#PWR09" H 6300 3300 30  0001 C CNN
@@ -231,7 +232,7 @@ F 3 "" H 6300 3300 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR010
+L GND-RESCUE-wfred_rev2 #PWR010
 U 1 1 5920B39E
 P 6600 3300
 F 0 "#PWR010" H 6600 3300 30  0001 C CNN
@@ -254,7 +255,7 @@ F0 "User Interface" 60
 F1 "User_interface_rev2.sch" 60
 $EndSheet
 $Comp
-L C C102
+L C-RESCUE-wfred_rev2 C102
 U 1 1 59210DD0
 P 2450 2900
 F 0 "C102" H 2450 3000 40  0000 L CNN
@@ -266,7 +267,7 @@ F 4 "X5R-G0805 22/25" H 2450 2900 60  0001 C CNN "Reichelt"
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C104
+L C-RESCUE-wfred_rev2 C104
 U 1 1 59210E13
 P 6300 2600
 F 0 "C104" H 6300 2700 40  0000 L CNN
@@ -278,7 +279,7 @@ F 4 "X5R-G0805 22/25" H 6300 2600 60  0001 C CNN "Reichelt"
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C105
+L C-RESCUE-wfred_rev2 C105
 U 1 1 59210E8B
 P 6600 2600
 F 0 "C105" H 6600 2700 40  0000 L CNN

@@ -1,4 +1,5 @@
 EESchema Schematic File Version 2
+LIBS:wfred_rev2-rescue
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -30,12 +31,12 @@ LIBS:contrib
 LIBS:valves
 LIBS:my_devices
 LIBS:ESP8266
-LIBS:wfred_loconet_clock-cache
+LIBS:wfred_rev2-cache
 EELAYER 25 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 4 5
+Sheet 4 4
 Title "Wireless FREDI (and clock interface)"
 Date "2017-11-19"
 Rev "0.2"
@@ -70,7 +71,7 @@ $EndComp
 Wire Wire Line
 	2500 1500 2500 1800
 $Comp
-L R R401
+L R-RESCUE-wfred_rev2 R401
 U 1 1 5A11AE00
 P 2500 2050
 F 0 "R401" V 2580 2050 40  0000 C CNN
@@ -82,7 +83,7 @@ F 4 "603-RC0805JR-07100KL" V 2500 2050 60  0001 C CNN "Mouser"
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R402
+L R-RESCUE-wfred_rev2 R402
 U 1 1 5A11AE49
 P 2500 2750
 F 0 "R402" V 2580 2750 40  0000 C CNN
@@ -99,7 +100,7 @@ Wire Wire Line
 	3400 2400 2500 2400
 Connection ~ 2500 2400
 $Comp
-L GND #PWR037
+L GND-RESCUE-wfred_rev2 #PWR037
 U 1 1 5A11B098
 P 2500 3700
 F 0 "#PWR037" H 2500 3700 30  0001 C CNN
@@ -139,7 +140,7 @@ Wire Wire Line
 	3400 2500 2700 2500
 Connection ~ 2700 2500
 $Comp
-L GND #PWR039
+L GND-RESCUE-wfred_rev2 #PWR039
 U 1 1 5A11E30D
 P 6700 3700
 F 0 "#PWR039" H 6700 3700 30  0001 C CNN
@@ -206,7 +207,7 @@ $EndComp
 Wire Wire Line
 	5200 2700 6750 2700
 $Comp
-L GND #PWR041
+L GND-RESCUE-wfred_rev2 #PWR041
 U 1 1 5A11FC27
 P 7850 2500
 F 0 "#PWR041" H 7850 2500 30  0001 C CNN
@@ -217,7 +218,7 @@ F 3 "" H 7850 2500 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R403
+L R-RESCUE-wfred_rev2 R403
 U 1 1 5A11FF91
 P 6100 1950
 F 0 "R403" V 6180 1950 40  0000 C CNN
@@ -229,7 +230,7 @@ F 4 "603-RC0805JR-0710KL" V 6100 1950 60  0001 C CNN "Mouser"
 	-1   0    0    1   
 $EndComp
 $Comp
-L R R404
+L R-RESCUE-wfred_rev2 R404
 U 1 1 5A11FFE4
 P 6100 3350
 F 0 "R404" V 6180 3350 40  0000 C CNN
@@ -241,7 +242,7 @@ F 4 "603-RC0805JR-0710KL" V 6100 3350 60  0001 C CNN "Mouser"
 	-1   0    0    1   
 $EndComp
 $Comp
-L R R405
+L R-RESCUE-wfred_rev2 R405
 U 1 1 5A120047
 P 6300 1950
 F 0 "R405" V 6380 1950 40  0000 C CNN
@@ -285,7 +286,7 @@ Connection ~ 6300 1600
 Wire Wire Line
 	6100 2900 6100 3100
 $Comp
-L GND #PWR042
+L GND-RESCUE-wfred_rev2 #PWR042
 U 1 1 5A120E87
 P 6100 3700
 F 0 "#PWR042" H 6100 3700 30  0001 C CNN
@@ -327,9 +328,11 @@ Wire Wire Line
 Wire Wire Line
 	5400 2600 5200 2600
 $Comp
-L C C401
+L C-RESCUE-wfred_rev2 C401
 U 1 1 5A127BCA
 P 1400 2400
+AR Path="/5A127BCA" Ref="C401"  Part="1" 
+AR Path="/5A122619/5A127BCA" Ref="C401"  Part="1" 
 F 0 "C401" H 1400 2500 40  0000 L CNN
 F 1 "100n" H 1406 2315 40  0000 L CNN
 F 2 "Capacitors_SMD:C_0805_HandSoldering" H 1438 2250 30  0001 C CNN
@@ -352,7 +355,7 @@ $EndComp
 Wire Wire Line
 	1400 1800 1400 2200
 $Comp
-L GND #PWR044
+L GND-RESCUE-wfred_rev2 #PWR044
 U 1 1 5A127CDB
 P 1400 2900
 F 0 "#PWR044" H 1400 2900 30  0001 C CNN
@@ -365,9 +368,11 @@ $EndComp
 Wire Wire Line
 	1400 2900 1400 2600
 $Comp
-L C C402
+L C-RESCUE-wfred_rev2 C402
 U 1 1 5A199174
 P 1700 2400
+AR Path="/5A199174" Ref="C402"  Part="1" 
+AR Path="/5A122619/5A199174" Ref="C402"  Part="1" 
 F 0 "C402" H 1700 2500 40  0000 L CNN
 F 1 "22u" H 1706 2315 40  0000 L CNN
 F 2 "Capacitors_SMD:C_0805_HandSoldering" H 1738 2250 30  0001 C CNN

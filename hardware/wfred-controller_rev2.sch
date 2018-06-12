@@ -1,4 +1,5 @@
 EESchema Schematic File Version 2
+LIBS:wfred_rev2-rescue
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -30,12 +31,12 @@ LIBS:contrib
 LIBS:valves
 LIBS:my_devices
 LIBS:ESP8266
-LIBS:wfred_loconet_clock-cache
+LIBS:wfred_rev2-cache
 EELAYER 25 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 2 5
+Sheet 2 4
 Title "Wireless FREDI (and clock interface)"
 Date "2017-11-19"
 Rev "0.2"
@@ -46,9 +47,11 @@ Comment3 ""
 Comment4 "Main controller and directly related peripheral stuff"
 $EndDescr
 $Comp
-L C C205
+L C-RESCUE-wfred_rev2 C205
 U 1 1 5920CFB6
 P 7700 3600
+AR Path="/5920CFB6" Ref="C205"  Part="1" 
+AR Path="/5920C945/5920CFB6" Ref="C205"  Part="1" 
 F 0 "C205" H 7700 3700 40  0000 L CNN
 F 1 "22p" H 7706 3515 40  0000 L CNN
 F 2 "Capacitors_SMD:C_0805_HandSoldering" H 7738 3450 30  0001 C CNN
@@ -58,9 +61,11 @@ F 4 "NPO-G0805 22P" H 7700 3600 60  0001 C CNN "Reichelt"
 	0    -1   1    0   
 $EndComp
 $Comp
-L C C206
+L C-RESCUE-wfred_rev2 C206
 U 1 1 5920D023
 P 7700 4400
+AR Path="/5920D023" Ref="C206"  Part="1" 
+AR Path="/5920C945/5920D023" Ref="C206"  Part="1" 
 F 0 "C206" H 7700 4500 40  0000 L CNN
 F 1 "22p" H 7706 4315 40  0000 L CNN
 F 2 "Capacitors_SMD:C_0805_HandSoldering" H 7738 4250 30  0001 C CNN
@@ -70,9 +75,11 @@ F 4 "NPO-G0805 22P" H 7700 4400 60  0001 C CNN "Reichelt"
 	0    -1   1    0   
 $EndComp
 $Comp
-L C C202
+L C-RESCUE-wfred_rev2 C202
 U 1 1 5920D0A7
 P 4400 2100
+AR Path="/5920D0A7" Ref="C202"  Part="1" 
+AR Path="/5920C945/5920D0A7" Ref="C202"  Part="1" 
 F 0 "C202" H 4400 2200 40  0000 L CNN
 F 1 "100n" H 4406 2015 40  0000 L CNN
 F 2 "Capacitors_SMD:C_0805_HandSoldering" H 4438 1950 30  0001 C CNN
@@ -82,9 +89,11 @@ F 4 "X7R-G0805 100N" H 4400 2100 60  0001 C CNN "Reichelt"
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C203
+L C-RESCUE-wfred_rev2 C203
 U 1 1 5920E33B
 P 4700 2100
+AR Path="/5920E33B" Ref="C203"  Part="1" 
+AR Path="/5920C945/5920E33B" Ref="C203"  Part="1" 
 F 0 "C203" H 4700 2200 40  0000 L CNN
 F 1 "100n" H 4706 2015 40  0000 L CNN
 F 2 "Capacitors_SMD:C_0805_HandSoldering" H 4738 1950 30  0001 C CNN
@@ -94,9 +103,11 @@ F 4 "X7R-G0805 100N" H 4700 2100 60  0001 C CNN "Reichelt"
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C204
+L C-RESCUE-wfred_rev2 C204
 U 1 1 5920E379
 P 5000 2100
+AR Path="/5920E379" Ref="C204"  Part="1" 
+AR Path="/5920C945/5920E379" Ref="C204"  Part="1" 
 F 0 "C204" H 5000 2200 40  0000 L CNN
 F 1 "100n" H 5006 2015 40  0000 L CNN
 F 2 "Capacitors_SMD:C_0805_HandSoldering" H 5038 1950 30  0001 C CNN
@@ -106,9 +117,11 @@ F 4 "X7R-G0805 100N" H 5000 2100 60  0001 C CNN "Reichelt"
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C201
+L C-RESCUE-wfred_rev2 C201
 U 1 1 5920E47C
 P 2100 4300
+AR Path="/5920E47C" Ref="C201"  Part="1" 
+AR Path="/5920C945/5920E47C" Ref="C201"  Part="1" 
 F 0 "C201" H 2100 4400 40  0000 L CNN
 F 1 "100n" H 2106 4215 40  0000 L CNN
 F 2 "Capacitors_SMD:C_0805_HandSoldering" H 2138 4150 30  0001 C CNN
@@ -130,7 +143,7 @@ F 4 "SL 2X10G SMD2,54 / SL 2X10G 2,54" H 3500 2250 60  0001 C CNN "Reichelt"
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R201
+L R-RESCUE-wfred_rev2 R201
 U 1 1 5920FD60
 P 3550 1700
 F 0 "R201" V 3630 1700 40  0000 C CNN
@@ -159,7 +172,7 @@ F 3 "" H 2100 3800 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR014
+L GND-RESCUE-wfred_rev2 #PWR014
 U 1 1 5920D54C
 P 8100 4600
 F 0 "#PWR014" H 8100 4600 30  0001 C CNN
@@ -170,7 +183,7 @@ F 3 "" H 8100 4600 60  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L GND #PWR015
+L GND-RESCUE-wfred_rev2 #PWR015
 U 1 1 5920D60E
 P 4400 2700
 F 0 "#PWR015" H 4400 2700 30  0001 C CNN
@@ -383,7 +396,7 @@ Wire Wire Line
 	2700 3600 3000 3600
 Connection ~ 2700 3400
 $Comp
-L GND #PWR019
+L GND-RESCUE-wfred_rev2 #PWR019
 U 1 1 592F4690
 P 2100 4700
 F 0 "#PWR019" H 2100 4700 30  0001 C CNN
@@ -394,7 +407,7 @@ F 3 "" H 2100 4700 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR020
+L GND-RESCUE-wfred_rev2 #PWR020
 U 1 1 592F46BC
 P 2700 5900
 F 0 "#PWR020" H 2700 5900 30  0001 C CNN
@@ -450,7 +463,7 @@ L myCRYSTAL X201
 U 1 1 5A171DD9
 P 7200 4000
 F 0 "X201" H 7200 4150 60  0000 C CNN
-F 1 "myCRYSTAL" H 7200 3850 60  0000 C CNN
+F 1 "14.7456MHz" H 7200 3850 60  0000 C CNN
 F 2 "Crystals:Crystal_SMD_TXC_7M-4pin_3.2x2.5mm_HandSoldering" H 7200 4000 60  0001 C CNN
 F 3 "" H 7200 4000 60  0000 C CNN
 F 4 "449-LFXTAL036338CUTT" H 7200 4000 60  0001 C CNN "Mouser"
@@ -458,7 +471,7 @@ F 4 "449-LFXTAL036338CUTT" H 7200 4000 60  0001 C CNN "Mouser"
 	0    1    1    0   
 $EndComp
 $Comp
-L GND #PWR021
+L GND-RESCUE-wfred_rev2 #PWR021
 U 1 1 5A171EC6
 P 7000 4600
 F 0 "#PWR021" H 7000 4600 30  0001 C CNN
@@ -469,7 +482,7 @@ F 3 "" H 7000 4600 60  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L GND #PWR022
+L GND-RESCUE-wfred_rev2 #PWR022
 U 1 1 5A171EEF
 P 6800 3800
 F 0 "#PWR022" H 6800 3800 30  0001 C CNN
