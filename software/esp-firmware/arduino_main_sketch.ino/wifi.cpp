@@ -221,12 +221,15 @@ void writeLocoPage()
               + "<form action=\"loco.html\" method=\"get\"><table border=0>"
               + "<tr><td>Enabled?</td><td><input type=\"checkbox\" name=\"loco.enabled\"" + (locoActive ? " checked" : "") + "></td></tr>"
               + "<tr><td>Loco server and port: </td>"
-              + "<td><input type=\"text\" name=\"loco.serverName\" value=\"" + locoServer.name + "\">:<input type=\"text\" name=\"loco.serverPort\" value=\"" + locoServer.port + "\"></td></tr>";
+              + "<td><input type=\"text\" name=\"loco.serverName\" value=\"" + locoServer.name + "\">:<input type=\"text\" name=\"loco.serverPort\" value=\"" + locoServer.port + "\"></td></tr>"
+              + "<tr><td colspan=2><hr></td></tr>";
   for(uint8_t i=0; i<4; i++)
   {
-    resp      += String("<tr><td>Loco ") + (i+1) + " DCC address: ([1..9999] is valid, -1 to disable)</td><td><input type=\"text\" name=\"loco.address" + (i+1) + "\" value=\"" + locos[i].address + "\"></td></tr>"
-              + "<tr><td>Reverse? <input type=\"checkbox\" name=\"loco.reverse" + (i+1) + "\"" + (locos[i].reverse ? " checked" : "" ) + "></td>"               + "<td></td></tr>"
-              + "<tr><td>Long Address? <input type=\"checkbox\" name=\"loco.longAddress" + (i+1) + "\"" + (locos[i].longAddress ? " checked" : "" ) + "></td>"  + "<td><a href=\"funcmap.html?loco=" + (i+1) + "\">Function mapping</a></td></tr>";
+    resp      += String("<tr><td>Loco ") + (i+1) + " DCC address: (-1 to disable)</td><td><input type=\"text\" name=\"loco.address" + (i+1) + "\" value=\"" + locos[i].address + "\">"
+              + "Long Address? <input type=\"checkbox\" name=\"loco.longAddress" + (i+1) + "\"" + (locos[i].longAddress ? " checked" : "" ) + "></td></tr>"
+              + "<tr><td>Reverse? <input type=\"checkbox\" name=\"loco.reverse" + (i+1) + "\"" + (locos[i].reverse ? " checked" : "" ) + "></td>"
+              + "<td><a href=\"funcmap.html?loco=" + (i+1) + "\">Function mapping</a></td></tr>"
+              + "<tr><td colspan=2><hr></td></tr>";
   }
   resp        += String("<tr><td><input type=\"submit\"></td><td><a href=\"/\">Back to main configuration page (unsaved data will be lost)</a></td></tr></table></form>\r\n")
               + "</body></html>";
