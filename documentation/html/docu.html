@@ -55,7 +55,7 @@ td p{margin:0px;}
 <body >
 <!--HEVEA command line is: hevea article.hva ../docu.tex -->
 <!--CUT STYLE article--><!--CUT DEF section 1 --><table class="title"><tr><td style="padding:1ex"><h1 class="titlemain">wiFred documentation &#X2013; Documentation for WiFi throttle with withrottle interface and wireless clock driver</h1></td></tr>
-</table><blockquote class="abstract"><span style="font-weight:bold">Abstract: </span><p>This document describes the usage and configuration of the wiFred &#X2013; a very simple wireless throttle to connect to withrottle servers like JMRI &#X2013; and the wireless clock driver used to drive a simple wallclock to the timing of JMRIs FastClock system. It also contains schematics and BOMs for both devices as well as programming instructions and assembly tips, and also an overview of options for the server side of things.</p><p>The most recent version of this document can be found at:</p><p><span style="font-style:italic">https://github.com/newHeiko/wiFred/raw/master/documentation/docu.pdf</span> and</p><p><span style="font-style:italic">https://github.com/newHeiko/wiFred/blob/master/documentation/docu.tex</span>.</p><p>Skip section&#XA0;<a href="#background">1</a> about the background for the wiFred development if you are not interested in the why and more into the how.</p></blockquote><!--TOC section id="sec1" Contents-->
+</table><blockquote class="abstract"><span style="font-weight:bold">Abstract: </span><p>This document describes the usage and configuration of the wiFred &#X2013; a very simple wireless throttle to connect to withrottle servers like JMRI &#X2013; and the wireless clock driver used to drive a simple wallclock to the timing of JMRIs FastClock system. It also contains schematics and BOMs for both devices as well as programming instructions and assembly tips, and also an overview of options for the server side of things.</p><p>The most recent version of this document can be found at:</p><p><span style="font-style:italic">https://github.com/newHeiko/wiFred/raw/master/documentation/docu.pdf</span> and</p><p><span style="font-style:italic">https://github.com/newHeiko/wiFred/blob/master/documentation/docu.tex</span>.</p><p>Skip right ahead to section&#XA0;<a href="#throttle">2</a> or&#XA0;<a href="#clock">3</a> if you are not interested in the why and more into the how.</p></blockquote><!--TOC section id="sec1" Contents-->
 <h2 id="sec1" class="section">Contents</h2><!--SEC END --><ul class="toc"><li class="li-toc">
 <a href="#sec2">1&#XA0;&#XA0;Background for wiFred development</a>
 <ul class="toc"><li class="li-toc">
@@ -104,7 +104,7 @@ Battery runtime of at least eight hours to have some backup for long days
 </li><li class="li-itemize">Re-use existing systems as much as possible &#X2013; in the case of the clock system, use JMRIs fast clock server
 </li></ul>
 <!--TOC section id="sec5" wiFred Wireless throttle-->
-<h2 id="sec5" class="section">2&#XA0;&#XA0;wiFred Wireless throttle</h2><!--SEC END -->
+<h2 id="sec5" class="section">2&#XA0;&#XA0;wiFred Wireless throttle</h2><!--SEC END --><p> <a id="throttle"></a></p>
 <!--TOC subsection id="sec6" Usage-->
 <h3 id="sec6" class="subsection">2.1&#XA0;&#XA0;Usage</h3><!--SEC END --><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div><p><img src="docu001.png">
 &#XA0;
@@ -115,9 +115,9 @@ Battery runtime of at least eight hours to have some backup for long days
 <a id="throttleControls"></a></p><div class="center"><hr style="width:80%;height:2"></div></blockquote><p>Figure&#XA0;<a href="#throttleControls">1</a> shows the controls of the wireless throttle. They consist of the following:</p><ul class="itemize"><li class="li-itemize">
 Four loco selection switches (loco 1 on the left, loco 4 on the right, move towards speed potentiometer to enable)
 </li><li class="li-itemize">Speed potentiometer (Counter-clockwise endstop: Stop, clockwise endstop: Full speed)
-</li><li class="li-itemize">Direction switch
+</li><li class="li-itemize">Direction switch &#X2013; move right for forward movement, left for reverse movement
 </li><li class="li-itemize">Black function keys F0 to F4
-</li><li class="li-itemize">Two yellow shift keys to trigger F5-F8 and F9-F12
+</li><li class="li-itemize">Two yellow shift keys to trigger F5-F8 (SHIFT1, upper key), F9-F12 (SHIFT2, lower key) and F13-F16 (both shift keys)
 </li><li class="li-itemize">Red emergency stop key
 </li><li class="li-itemize">Two green direction indicator LEDs
 </li><li class="li-itemize">One red status LED
@@ -153,7 +153,7 @@ Four loco selection switches (loco 1 on the left, loco 4 on the right, move towa
 <!--TOC subsection id="sec12" Programming instructions-->
 <h3 id="sec12" class="subsection">2.4&#XA0;&#XA0;Programming instructions</h3><!--SEC END -->
 <!--TOC section id="sec13" Wireless clock driver-->
-<h2 id="sec13" class="section">3&#XA0;&#XA0;Wireless clock driver</h2><!--SEC END -->
+<h2 id="sec13" class="section">3&#XA0;&#XA0;Wireless clock driver</h2><!--SEC END --><p> <a id="clock"></a></p>
 <!--TOC subsection id="sec14" Usage-->
 <h3 id="sec14" class="subsection">3.1&#XA0;&#XA0;Usage</h3><!--SEC END -->
 <!--TOC subsection id="sec15" Configuration-->
