@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="generator" content="hevea 2.29">
+<style type="text/css">
+.li-itemize{margin:1ex 0ex;}
+.li-enumerate{margin:1ex 0ex;}
+.dd-description{margin:0ex 0ex 1ex 4ex;}
+.dt-description{margin:0ex;}
+.toc{list-style:none;}
+.footnotetext{margin:0ex; padding:0ex;}
+div.footnotetext P{margin:0px; text-indent:1em;}
+.thefootnotes{text-align:left;margin:0ex;}
+.dt-thefootnotes{margin:0em;}
+.dd-thefootnotes{margin:0em 0em 0em 2em;}
+.footnoterule{margin:1em auto 1em 0px;width:50%;}
+.caption{padding-left:2ex; padding-right:2ex; margin-left:auto; margin-right:auto}
+.title{margin:2ex auto;text-align:center}
+.titlemain{margin:1ex 2ex 2ex 1ex;}
+.titlerest{margin:0ex 2ex;}
+.center{text-align:center;margin-left:auto;margin-right:auto;}
+.flushleft{text-align:left;margin-left:0ex;margin-right:auto;}
+.flushright{text-align:right;margin-left:auto;margin-right:0ex;}
+div table{margin-left:inherit;margin-right:inherit;margin-bottom:2px;margin-top:2px}
+td table{margin:auto;}
+table{border-collapse:collapse;}
+td{padding:0;}
+.cellpadding0 tr td{padding:0;}
+.cellpadding1 tr td{padding:1px;}
+pre{text-align:left;margin-left:0ex;margin-right:auto;}
+blockquote{margin-left:4ex;margin-right:4ex;text-align:left;}
+td p{margin:0px;}
+.boxed{border:1px solid black}
+.textboxed{border:1px solid black}
+.vbar{border:none;width:2px;background-color:black;}
+.hbar{border:none;height:2px;width:100%;background-color:black;}
+.hfill{border:none;height:1px;width:200%;background-color:black;}
+.vdisplay{border-collapse:separate;border-spacing:2px;width:auto; empty-cells:show; border:2px solid red;}
+.vdcell{white-space:nowrap;padding:0px; border:2px solid green;}
+.display{border-collapse:separate;border-spacing:2px;width:auto; border:none;}
+.dcell{white-space:nowrap;padding:0px; border:none;}
+.dcenter{margin:0ex auto;}
+.vdcenter{border:solid #FF8000 2px; margin:0ex auto;}
+.minipage{text-align:left; margin-left:0em; margin-right:auto;}
+.marginpar{border:solid thin black; width:20%; text-align:left;}
+.marginparleft{float:left; margin-left:0ex; margin-right:1ex;}
+.marginparright{float:right; margin-left:1ex; margin-right:0ex;}
+.theorem{text-align:left;margin:1ex auto 1ex 0ex;}
+.part{margin:2ex auto;text-align:center}
+</style>
+<title>wiFred documentation -- Documentation for WiFi throttle with withrottle interface and wireless clock driver
+</title>
+</head>
+<body >
+<!--HEVEA command line is: hevea article.hva ../docu.tex -->
+<!--CUT STYLE article--><!--CUT DEF section 1 --><table class="title"><tr><td style="padding:1ex"><h1 class="titlemain">wiFred documentation &#X2013; Documentation for WiFi throttle with withrottle interface and wireless clock driver</h1></td></tr>
+</table><blockquote class="abstract"><span style="font-weight:bold">Abstract: </span><p>This document describes the usage and configuration of the wiFred &#X2013; a very simple wireless throttle to connect to withrottle servers like JMRI &#X2013; and the wireless clock driver used to drive a simple wallclock to the timing of JMRIs FastClock system. It also contains schematics and BOMs for both devices as well as programming instructions and assembly tips, and also an overview of options for the server side of things.</p><p>The most recent version of this document can be found at:</p><p><span style="font-style:italic">https://github.com/newHeiko/wiFred/raw/master/documentation/docu.pdf</span> and</p><p><span style="font-style:italic">https://github.com/newHeiko/wiFred/blob/master/documentation/docu.tex</span>.</p><p>Skip section&#XA0;<a href="#background">1</a> about the background for the wiFred development if you are not interested in the why and more into the how.</p></blockquote><!--TOC section id="sec1" Contents-->
+<h2 id="sec1" class="section">Contents</h2><!--SEC END --><ul class="toc"><li class="li-toc">
+<a href="#sec2">1&#XA0;&#XA0;Background for wiFred development</a>
+<ul class="toc"><li class="li-toc">
+<a href="#sec3">1.1&#XA0;&#XA0;Specification wishlist</a>
+</li><li class="li-toc"><a href="#sec4">1.2&#XA0;&#XA0;Wireless clock</a>
+</li></ul>
+</li><li class="li-toc"><a href="#sec5">2&#XA0;&#XA0;wiFred Wireless throttle</a>
+<ul class="toc"><li class="li-toc">
+<a href="#sec6">2.1&#XA0;&#XA0;Usage</a>
+</li><li class="li-toc"><a href="#sec7">2.2&#XA0;&#XA0;Configuration</a>
+<ul class="toc"><li class="li-toc">
+<a href="#sec8">2.2.1&#XA0;&#XA0;General configuration</a>
+</li><li class="li-toc"><a href="#sec9">2.2.2&#XA0;&#XA0;Loco configuration</a>
+</li><li class="li-toc"><a href="#sec10">2.2.3&#XA0;&#XA0;DCC function configuration</a>
+</li></ul>
+</li><li class="li-toc"><a href="#sec11">2.3&#XA0;&#XA0;Hardware description</a>
+</li><li class="li-toc"><a href="#sec12">2.4&#XA0;&#XA0;Programming instructions</a>
+</li></ul>
+</li><li class="li-toc"><a href="#sec13">3&#XA0;&#XA0;Wireless clock driver</a>
+<ul class="toc"><li class="li-toc">
+<a href="#sec14">3.1&#XA0;&#XA0;Usage</a>
+</li><li class="li-toc"><a href="#sec15">3.2&#XA0;&#XA0;Configuration</a>
+</li><li class="li-toc"><a href="#sec16">3.3&#XA0;&#XA0;Hardware description</a>
+</li><li class="li-toc"><a href="#sec17">3.4&#XA0;&#XA0;Programming instructions</a>
+</li></ul>
+</li><li class="li-toc"><a href="#sec18">4&#XA0;&#XA0;Server setup with JMRI</a>
+</li></ul>
+<!--TOC section id="sec2" Background for wiFred development-->
+<h2 id="sec2" class="section">1&#XA0;&#XA0;Background for wiFred development</h2><!--SEC END --><p> <a id="background"></a></p><p>As of the writing of this document, JMRI&#XA0;[<a href="#jmri">1</a>] has a long track record of offering a server for using smartphones as wireless model railroad throttles, along with apps like withrottle&#XA0;[<a href="#withrottleApp">3</a>]<sup><a id="text1" href="#note1">1</a></sup> and EngineDriver&#XA0;[<a href="#EngineDriver">4</a>]. This server will enable WiFi throttles to control locos any model railroading layout to which JMRI can build a connection&#XA0;[<a href="#jmrihardwaresupport">2</a>]. In addition, Digitrax&#XA0;[<a href="#digitrax">9</a>] and MRC&#XA0;[<a href="#mrc">8</a>] offer specific hardware solutions to enable the connection of the abovementioned smartphone apps to their DCC systems through a WiFi network.</p><p>The Fremo&#XA0;[<a href="#fremo">5</a>] is a European modular model railroading club whose unique requirements on it&#X2019;s DCC throttles led to the creation of the throttles FRED and FREDI&#XA0;[<a href="#fred">6</a>] &#X2013; a series of LocoNet&#XAE;-throttles which started their life as hobbyist projects with large numbers in circulation but were also commercially available from Uhlenbrock&#XA0;[<a href="#uhlenbrock">7</a>].</p>
+<!--TOC subsection id="sec3" Specification wishlist-->
+<h3 id="sec3" class="subsection">1.1&#XA0;&#XA0;Specification wishlist</h3><!--SEC END --><p>In modular railroading events, particularly of the Fremo-americaN-group&#XA0;[<a href="#fremo">5</a>], some people have evaluated the smartphone throttle solutions and found them lacking a nice, haptical feedback. But the idea of wireless control without locking into a specific vendor and their necessarily expensive equipment found great approval. So a wishlist was compiled to define the requirements for a wireless throttle:
+</p><ul class="itemize"><li class="li-itemize">
+Same form factor as the FRED&#XA0;[<a href="#fred">6</a>] with similar controls
+</li><li class="li-itemize">Option to control at least two, better four locomotives for double/triple traction (similar to the double FRED)
+</li><li class="li-itemize">Battery runtime of at least six hours
+</li><li class="li-itemize">Exchangeable batteries, so when the battery runs down, they can be quickly exchanged for a charged set or cheap primary cells
+</li><li class="li-itemize">Easy configuration, but not too easy to prevent operators from accidentally selecting other locomotives
+</li><li class="li-itemize">As little change to the existing Fremo Loconet&#XAE; network as possible
+</li><li class="li-itemize">Use of withrottle protocol, so the server side of the communication can be assumed to work and does not have to be developed as well
+</li></ul>
+<!--TOC subsection id="sec4" Wireless clock-->
+<h3 id="sec4" class="subsection">1.2&#XA0;&#XA0;Wireless clock</h3><!--SEC END --><p>During the development of this wiFred another topic came up in the americaN group of the Fremo, namely wireless clocks with adjustable clock rate for Timetable &amp; Trainorder operations. Contrary to other Fremo groups, the americaN group standard does not call for any cabling for fast clocks and the group does not have the equipment for setting up a fast clock network, so first trails were done with regular Quartz clocks at 1:1 rate which had to be adjusted to timetable starting time every timetable morning. So a new solution was required, adding the following to the specification above:</p><ul class="itemize"><li class="li-itemize">
+Battery runtime of at least eight hours to have some backup for long days
+</li><li class="li-itemize">Able to control cheap Quartz clocks
+</li><li class="li-itemize">Clock rate adjustable centrally in small increments in case the timetable planner has misjudged the capacity of the layout or operators
+</li><li class="li-itemize">Re-use existing systems as much as possible &#X2013; in the case of the clock system, use JMRIs fast clock server
+</li></ul>
+<!--TOC section id="sec5" wiFred Wireless throttle-->
+<h2 id="sec5" class="section">2&#XA0;&#XA0;wiFred Wireless throttle</h2><!--SEC END -->
+<!--TOC subsection id="sec6" Usage-->
+<h3 id="sec6" class="subsection">2.1&#XA0;&#XA0;Usage</h3><!--SEC END --><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div><p><img src="docu001.png">
+&#XA0;
+<img src="docu002.png">
+&#XA0;
+<img src="docu003.png"></p><div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 1: Controls and features of the wiFred-throttle</td></tr>
+</table></div><p>
+<a id="throttleControls"></a></p><div class="center"><hr style="width:80%;height:2"></div></blockquote><p>Figure&#XA0;<a href="#throttleControls">1</a> shows the controls of the wireless throttle. They consist of the following:</p><ul class="itemize"><li class="li-itemize">
+Four loco selection switches (loco 1 on the left, loco 4 on the right, move towards speed potentiometer to enable)
+</li><li class="li-itemize">Speed potentiometer (Counter-clockwise endstop: Stop, clockwise endstop: Full speed)
+</li><li class="li-itemize">Direction switch
+</li><li class="li-itemize">Black function keys F0 to F4
+</li><li class="li-itemize">Two yellow shift keys to trigger F5-F8 and F9-F12
+</li><li class="li-itemize">Red emergency stop key
+</li><li class="li-itemize">Two green direction indicator LEDs
+</li><li class="li-itemize">One red status LED
+</li><li class="li-itemize">Battery compartment (on the rear) for two AA cells, 1.2&#XA0;V to 1.5&#XA0;V nominal voltage
+</li></ul><p>As soon as a pair of batteries is inserted into the battery compartment as the symbols inside the battery compartment show, the throttle will boot up and try to connect to a wireless network. The throttle will not be damaged if batteries are inserted wrongly, but it will not work either. Use NiMH- or primary AA cells with 1.2&#XA0;V to 1.5&#XA0;V nominal voltage, low self discharge NiMH cells like Eneloop&#XAE; or similar are recommended. Do not insert 3&#XA0;V or 3.6&#XA0;V AA size lithium batteries as this may damage the throttle.</p><p>If no connection to the network configured into the device can be established within 60 seconds, the throttle will create it&#X2019;s own wireless network named <span style="font-style:italic">wiFred-config</span> plus four hex digits taken from the MAC address of the throttle WiFi interface, for example <span style="font-style:italic">wiFred-config0CAC</span>, to enable configuration as described in the next section.</p><p>Four different locos with long DCC addresses can be assigned to the four loco selection switches. Commands derived from the speed potentiometer, the direction switch and the function keys will be transmitted to all selected locos (near) simultaneously, with a certain translation table enabling some locos to go backwards when others go forwards and also limiting function keys to some of the four locos only &#X2013; this is described in more detail in sections&#XA0;<a href="#throttle_LocoConf">2.2.2</a> and&#XA0;<a href="#throttle_FunctionConf">2.2.3</a>.</p><p>Pushing the red emergency stop key will cause the throttle to send an emergency stop signal to all four locos attached. After an emergency stop, turn the speed potentiometer to zero to re-enable control of the locos.</p><p>Pushing the red emergency stop key while holding down either of the shift keys will place the device into configuration mode (as well as issueing an emergency stop to all attached locos). See section&#XA0;<a href="#throttle_Conf">2.2</a> for more details on how to access the throttle to do the configuration.</p><p>Any change in the loco selection switches will cause the throttle to send a stop (zero speed) command to all attached locos. This makes sure that any loco that is deselected will stop on the layout and avoids newly selected locos suddenly taking off at speed. The same is true for a change in the direction switch, to avoid high-speed reverse maneuvers. Turn the speed potentiometer to zero to re-enable control of the locos.</p><p>When all four loco selection switches are set to the disabled state, the throttle will send a stop (zero speed) command to all four locos attached and &#X2013; after a wait time of 30 seconds &#X2013; it will disconnect from the network and go into low power mode. To reconnect, re-enable any loco selection switch.</p><p>The same happens when the batteries are empty, but the throttle will not reactivate before changing the batteries. Expected runtime with a pair of 2500&#XA0;mAh-NiMH-batteries is around 8-10 hours of full time operations, more if the throttle is placed in low power mode when the locos are not running.</p><p>During startup and operation, the LEDs will show the patterns explained in table&#XA0;<a href="#ledTable">1</a>.</p><blockquote class="table"><div class="center"><hr style="width:80%;height:2"></div>
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Table 1: LED patterns and their meaning on the wiFred throttle</td></tr>
+</table></div> <a id="ledTable"></a><table border=1  style="border-spacing:0;" class="cellpadding1"><tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Red LED</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Green LED (Left)</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Green LED (Right)</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Status </td></tr>
+<tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Slow Blinking (0.5&#XA0;Hz)</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Trying to connect to WiFi network </td></tr>
+<tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Fast Blinking (2&#XA0;Hz)</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Successful WiFi connection, trying to connect to wiThrottle server and acquire locos </td></tr>
+<tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Regular operation, forward direction </td></tr>
+<tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Regular operation, reverse direction </td></tr>
+<tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Flashing</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Emergency stop, forward direction. Turn speed potentiometer to zero to re-gain control. Also happens when switching direction with speed potentiometer not at zero </td></tr>
+<tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Flashing</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Emergency stop, reverse direction. Turn speed potentiometer to zero to re-gain control. Also happens when switching direction with speed potentiometer not at zero </td></tr>
+<tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Blinking</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Battery low, regular operation, forward direction </td></tr>
+<tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Blinking</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Battery low, regular operation, reverse direction </td></tr>
+<tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Flashing</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Blinking</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Battery low, Emergency stop, forward direction </td></tr>
+<tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Blinking</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Flashing</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Battery low, Emergency stop, reverse direction </td></tr>
+<tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Short flashes</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Throttle in low-power mode </td></tr>
+<tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Battery empty or no battery inserted </td></tr>
+<tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >No connection to existing WiFi network. Created internal configuration WiFi network </td></tr>
+<tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Configuration mode enabled while connected to existing WiFi network. All locos emergency stop to avoid runaways. Push SHIFT + ESTOP again to exit configuration mode and turn speed potentiometer to zero to re-gain control </td></tr>
+</table><div class="center"><hr style="width:80%;height:2"></div></blockquote>
+<!--TOC subsection id="sec7" Configuration-->
+<h3 id="sec7" class="subsection">2.2&#XA0;&#XA0;Configuration</h3><!--SEC END --><p> <a id="throttle_Conf"></a></p>
+<!--TOC subsubsection id="sec8" General configuration-->
+<h4 id="sec8" class="subsubsection">2.2.1&#XA0;&#XA0;General configuration</h4><!--SEC END --><p> <a id="throttle_GeneralConf"></a></p>
+<!--TOC subsubsection id="sec9" Loco configuration-->
+<h4 id="sec9" class="subsubsection">2.2.2&#XA0;&#XA0;Loco configuration</h4><!--SEC END --><p> <a id="throttle_LocoConf"></a></p>
+<!--TOC subsubsection id="sec10" DCC function configuration-->
+<h4 id="sec10" class="subsubsection">2.2.3&#XA0;&#XA0;DCC function configuration</h4><!--SEC END --><p> <a id="throttle_FunctionConf"></a></p>
+<!--TOC subsection id="sec11" Hardware description-->
+<h3 id="sec11" class="subsection">2.3&#XA0;&#XA0;Hardware description</h3><!--SEC END -->
+<!--TOC subsection id="sec12" Programming instructions-->
+<h3 id="sec12" class="subsection">2.4&#XA0;&#XA0;Programming instructions</h3><!--SEC END -->
+<!--TOC section id="sec13" Wireless clock driver-->
+<h2 id="sec13" class="section">3&#XA0;&#XA0;Wireless clock driver</h2><!--SEC END -->
+<!--TOC subsection id="sec14" Usage-->
+<h3 id="sec14" class="subsection">3.1&#XA0;&#XA0;Usage</h3><!--SEC END -->
+<!--TOC subsection id="sec15" Configuration-->
+<h3 id="sec15" class="subsection">3.2&#XA0;&#XA0;Configuration</h3><!--SEC END --><p>For general configuration (WiFi etc.) see section&#XA0;<a href="#throttle_GeneralConf">2.2.1</a>, as it&#X2019;s the same.</p>
+<!--TOC subsection id="sec16" Hardware description-->
+<h3 id="sec16" class="subsection">3.3&#XA0;&#XA0;Hardware description</h3><!--SEC END -->
+<!--TOC subsection id="sec17" Programming instructions-->
+<h3 id="sec17" class="subsection">3.4&#XA0;&#XA0;Programming instructions</h3><!--SEC END -->
+<!--TOC section id="sec18" Server setup with JMRI-->
+<h2 id="sec18" class="section">4&#XA0;&#XA0;Server setup with JMRI</h2><!--SEC END --><!--TOC section id="sec19" References-->
+<h2 id="sec19" class="section">References</h2><!--SEC END --><dl class="thebibliography"><dt class="dt-thebibliography">
+
+<a id="jmri">[1]</a></dt><dd class="dd-thebibliography">JMRI: A Java Model Railroad Interface, <span style="font-style:italic">http://www.jmri.org</span>
+</dd><dt class="dt-thebibliography"><a id="jmrihardwaresupport">[2]</a></dt><dd class="dd-thebibliography">JMRI: Hardware Support, <span style="font-style:italic">http://www.jmri.org/help/en/html/hardware/index.shtml</span>
+</dd><dt class="dt-thebibliography"><a id="withrottleApp">[3]</a></dt><dd class="dd-thebibliography">WiThrottle, <span style="font-style:italic">http://www.withrottle.com/html/home.html</span>
+</dd><dt class="dt-thebibliography"><a id="EngineDriver">[4]</a></dt><dd class="dd-thebibliography">Home | EngineDriver, <span style="font-style:italic">https://enginedriver.mstevetodd.com/</span>
+</dd><dt class="dt-thebibliography"><a id="fremo">[5]</a></dt><dd class="dd-thebibliography">Home - FREMO - Freundeskreis Europ&#XE4;ischer Modelleisenbahner e.V., <span style="font-style:italic">https://www.fremo-net.eu/en/home/</span>
+</dd><dt class="dt-thebibliography"><a id="fred">[6]</a></dt><dd class="dd-thebibliography">Throttle, <span style="font-style:italic">http://fremodcc.sourceforge.net/throttle/throttle.en.html</span>
+</dd><dt class="dt-thebibliography"><a id="uhlenbrock">[7]</a></dt><dd class="dd-thebibliography">Uhlenbrock | FRED, der Handregler f&#XFC;r die Intellibox, <span style="font-style:italic">https://uhlenbrock.de/de_DE/produkte/prodarch/I62AD172-001.htm!ArcEntryInfo=0004.41.I62AD172</span>
+</dd><dt class="dt-thebibliography"><a id="mrc">[8]</a></dt><dd class="dd-thebibliography">Prodigy WiFi, <span style="font-style:italic">http://www.modelrectifier.com/Prodigy-WiFi-s/332.htm</span>
+</dd><dt class="dt-thebibliography"><a id="digitrax">[9]</a></dt><dd class="dd-thebibliography">LocoNet WiFi interface, <span style="font-style:italic">http://www.digitrax.com/products/wireless/lnwi/</span>
+</dd></dl><p>
+0.1WIPHeiko RosemannSetup first document structure.
+</p><!--BEGIN NOTES document-->
+<hr class="footnoterule"><dl class="thefootnotes"><dt class="dt-thefootnotes">
+<a id="note1" href="#text1">1</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">withrottle is also the name JMRI uses for the protocol and the server.</div></dd></dl>
+<!--END NOTES-->
+<!--CUT END -->
+<!--HTMLFOOT-->
+<!--ENDHTML-->
+<!--FOOTER-->
+<hr style="height:2"><blockquote class="quote"><em>This document was translated from L<sup>A</sup>T<sub>E</sub>X by
+</em><a href="http://hevea.inria.fr/index.html"><em>H</em><em><span style="font-size:small"><sup>E</sup></span></em><em>V</em><em><span style="font-size:small"><sup>E</sup></span></em><em>A</em></a><em>.</em></blockquote></body>
+</html>
