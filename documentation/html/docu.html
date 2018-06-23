@@ -67,21 +67,22 @@ td p{margin:0px;}
 <a href="#sec6">2.1&#XA0;&#XA0;Usage</a>
 </li><li class="li-toc"><a href="#sec7">2.2&#XA0;&#XA0;Configuration</a>
 <ul class="toc"><li class="li-toc">
-<a href="#sec8">2.2.1&#XA0;&#XA0;General configuration</a>
-</li><li class="li-toc"><a href="#sec9">2.2.2&#XA0;&#XA0;Loco configuration</a>
-</li><li class="li-toc"><a href="#sec10">2.2.3&#XA0;&#XA0;DCC function configuration</a>
+<a href="#sec8">2.2.1&#XA0;&#XA0;Entering configuration mode</a>
+</li><li class="li-toc"><a href="#sec9">2.2.2&#XA0;&#XA0;General configuration</a>
+</li><li class="li-toc"><a href="#sec10">2.2.3&#XA0;&#XA0;Loco configuration</a>
+</li><li class="li-toc"><a href="#sec11">2.2.4&#XA0;&#XA0;DCC function configuration</a>
 </li></ul>
-</li><li class="li-toc"><a href="#sec11">2.3&#XA0;&#XA0;Hardware description</a>
-</li><li class="li-toc"><a href="#sec12">2.4&#XA0;&#XA0;Programming instructions</a>
+</li><li class="li-toc"><a href="#sec12">2.3&#XA0;&#XA0;Hardware description</a>
+</li><li class="li-toc"><a href="#sec13">2.4&#XA0;&#XA0;Programming instructions</a>
 </li></ul>
-</li><li class="li-toc"><a href="#sec13">3&#XA0;&#XA0;Wireless clock driver</a>
+</li><li class="li-toc"><a href="#sec14">3&#XA0;&#XA0;Wireless clock driver</a>
 <ul class="toc"><li class="li-toc">
-<a href="#sec14">3.1&#XA0;&#XA0;Usage</a>
-</li><li class="li-toc"><a href="#sec15">3.2&#XA0;&#XA0;Configuration</a>
-</li><li class="li-toc"><a href="#sec16">3.3&#XA0;&#XA0;Hardware description</a>
-</li><li class="li-toc"><a href="#sec17">3.4&#XA0;&#XA0;Programming instructions</a>
+<a href="#sec15">3.1&#XA0;&#XA0;Usage</a>
+</li><li class="li-toc"><a href="#sec16">3.2&#XA0;&#XA0;Configuration</a>
+</li><li class="li-toc"><a href="#sec17">3.3&#XA0;&#XA0;Hardware description</a>
+</li><li class="li-toc"><a href="#sec18">3.4&#XA0;&#XA0;Programming instructions</a>
 </li></ul>
-</li><li class="li-toc"><a href="#sec18">4&#XA0;&#XA0;Server setup with JMRI</a>
+</li><li class="li-toc"><a href="#sec19">4&#XA0;&#XA0;Options for server setup</a>
 </li></ul>
 <!--TOC section id="sec2" Background for wiFred development-->
 <h2 id="sec2" class="section">1&#XA0;&#XA0;Background for wiFred development</h2><!--SEC END --><p> <a id="background"></a></p><p>As of the writing of this document, JMRI&#XA0;[<a href="#jmri">1</a>] has a long track record of offering a server for using smartphones as wireless model railroad throttles, along with apps like withrottle&#XA0;[<a href="#withrottleApp">3</a>]<sup><a id="text1" href="#note1">1</a></sup> and EngineDriver&#XA0;[<a href="#EngineDriver">4</a>]. This server will enable WiFi throttles to control locos any model railroading layout to which JMRI can build a connection&#XA0;[<a href="#jmrihardwaresupport">2</a>]. In addition, Digitrax&#XA0;[<a href="#digitrax">9</a>] and MRC&#XA0;[<a href="#mrc">8</a>] offer specific hardware solutions to enable the connection of the abovementioned smartphone apps to their DCC systems through a WiFi network.</p><p>The Fremo&#XA0;[<a href="#fremo">5</a>] is a European modular model railroading club whose unique requirements on it&#X2019;s DCC throttles led to the creation of the throttles FRED and FREDI&#XA0;[<a href="#fred">6</a>] &#X2013; a series of LocoNet&#XAE;-throttles which started their life as hobbyist projects with large numbers in circulation but were also commercially available from Uhlenbrock&#XA0;[<a href="#uhlenbrock">7</a>].</p>
@@ -122,15 +123,15 @@ Four loco selection switches (loco 1 on the left, loco 4 on the right, move towa
 </li><li class="li-itemize">Two green direction indicator LEDs
 </li><li class="li-itemize">One red status LED
 </li><li class="li-itemize">Battery compartment (on the rear) for two AA cells, 1.2&#XA0;V to 1.5&#XA0;V nominal voltage
-</li></ul><p>As soon as a pair of batteries is inserted into the battery compartment as the symbols inside the battery compartment show, the throttle will boot up and try to connect to a wireless network. The throttle will not be damaged if batteries are inserted wrongly, but it will not work either. Use NiMH- or primary AA cells with 1.2&#XA0;V to 1.5&#XA0;V nominal voltage, low self discharge NiMH cells like Eneloop&#XAE; or similar are recommended. Do not insert 3&#XA0;V or 3.6&#XA0;V AA size lithium batteries as this may damage the throttle.</p><p>If no connection to the network configured into the device can be established within 60 seconds, the throttle will create it&#X2019;s own wireless network named <span style="font-style:italic">wiFred-config</span> plus four hex digits taken from the MAC address of the throttle WiFi interface, for example <span style="font-style:italic">wiFred-config0CAC</span>, to enable configuration as described in the next section.</p><p>Four different locos with long DCC addresses can be assigned to the four loco selection switches. Commands derived from the speed potentiometer, the direction switch and the function keys will be transmitted to all selected locos (near) simultaneously, with a certain translation table enabling some locos to go backwards when others go forwards and also limiting function keys to some of the four locos only &#X2013; this is described in more detail in sections&#XA0;<a href="#throttle_LocoConf">2.2.2</a> and&#XA0;<a href="#throttle_FunctionConf">2.2.3</a>.</p><p>Pushing the red emergency stop key will cause the throttle to send an emergency stop signal to all four locos attached. After an emergency stop, turn the speed potentiometer to zero to re-enable control of the locos.</p><p>Pushing the red emergency stop key while holding down either of the shift keys will place the device into configuration mode (as well as issueing an emergency stop to all attached locos). See section&#XA0;<a href="#throttle_Conf">2.2</a> for more details on how to access the throttle to do the configuration.</p><p>Any change in the loco selection switches will cause the throttle to send a stop (zero speed) command to all attached locos. This makes sure that any loco that is deselected will stop on the layout and avoids newly selected locos suddenly taking off at speed. The same is true for a change in the direction switch, to avoid high-speed reverse maneuvers. Turn the speed potentiometer to zero to re-enable control of the locos.</p><p>When all four loco selection switches are set to the disabled state, the throttle will send a stop (zero speed) command to all four locos attached and &#X2013; after a wait time of 30 seconds &#X2013; it will disconnect from the network and go into low power mode. To reconnect, re-enable any loco selection switch.</p><p>The same happens when the batteries are empty, but the throttle will not reactivate before changing the batteries. Expected runtime with a pair of 2500&#XA0;mAh-NiMH-batteries is around 8-10 hours of full time operations, more if the throttle is placed in low power mode when the locos are not running.</p><p>During startup and operation, the LEDs will show the patterns explained in table&#XA0;<a href="#ledTable">1</a>.</p><blockquote class="table"><div class="center"><hr style="width:80%;height:2"></div>
+</li></ul><p>As soon as a pair of batteries is inserted into the battery compartment as the symbols inside the battery compartment show, the throttle will boot up and try to connect to a wireless network. The throttle will not be damaged if batteries are inserted wrongly, but it will not work either. Use NiMH- or primary AA cells with 1.2&#XA0;V to 1.5&#XA0;V nominal voltage, low self discharge NiMH cells like Eneloop&#XAE; or similar are recommended. Do not insert 3&#XA0;V or 3.6&#XA0;V AA size lithium batteries as this may damage the throttle.</p><p>If no connection to the network configured into the device can be established within 60 seconds, the throttle will create it&#X2019;s own wireless network named <span style="font-style:italic">wiFred-config</span> plus four hex digits taken from the MAC address of the throttle WiFi interface, for example <span style="font-style:italic">wiFred-config0CAC</span>, to enable configuration as described in the next section.</p><p>Four different locos with long DCC addresses can be assigned to the four loco selection switches. Commands derived from the speed potentiometer, the direction switch and the function keys will be transmitted to all selected locos (near) simultaneously, with a certain translation table enabling some locos to go backwards when others go forwards and also limiting function keys to some of the four locos only &#X2013; this is described in more detail in sections&#XA0;<a href="#throttle_LocoConf">2.2.3</a> and&#XA0;<a href="#throttle_FunctionConf">2.2.4</a>.</p><p>Pushing the red emergency stop key will cause the throttle to send an emergency stop signal to all four locos attached. After an emergency stop, turn the speed potentiometer to zero to re-enable control of the locos.</p><p>Pushing the red emergency stop key while holding down either of the shift keys will place the device into configuration mode (as well as issueing an emergency stop to all attached locos). See section&#XA0;<a href="#throttle_Conf">2.2</a> for more details on how to access the throttle to do the configuration.</p><p>Any change in the loco selection switches will cause the throttle to send a stop (zero speed) command to all attached locos. This makes sure that any loco that is deselected will stop on the layout and avoids newly selected locos suddenly taking off at speed. The same is true for a change in the direction switch, to avoid high-speed reverse maneuvers. Turn the speed potentiometer to zero to re-enable control of the locos.</p><p>When all four loco selection switches are set to the disabled state, the throttle will send a stop (zero speed) command to all four locos attached and &#X2013; after a wait time of 30 seconds &#X2013; it will disconnect from the network and go into low power mode. To reconnect, re-enable any loco selection switch.</p><p>The same happens when the batteries are empty, but the throttle will not reactivate before changing the batteries. Expected runtime with a pair of 2500&#XA0;mAh-NiMH-batteries is around 8-10 hours of full time operations, more if the throttle is placed in low power mode when the locos are not running.</p><p>During startup and operation, the LEDs will show the patterns explained in table&#XA0;<a href="#ledTable">1</a>.</p><blockquote class="table"><div class="center"><hr style="width:80%;height:2"></div>
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Table 1: LED patterns and their meaning on the wiFred throttle</td></tr>
 </table></div> <a id="ledTable"></a><table border=1  style="border-spacing:0;" class="cellpadding1"><tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Red LED</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Green LED (Left)</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Green LED (Right)</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Status </td></tr>
 <tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Slow Blinking (0.5&#XA0;Hz)</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Trying to connect to WiFi network </td></tr>
 <tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Fast Blinking (2&#XA0;Hz)</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Successful WiFi connection, trying to connect to wiThrottle server and acquire locos </td></tr>
 <tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Regular operation, forward direction </td></tr>
 <tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Regular operation, reverse direction </td></tr>
-<tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Flashing</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Emergency stop, forward direction. Turn speed potentiometer to zero to re-gain control. Also happens when switching direction with speed potentiometer not at zero </td></tr>
-<tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Flashing</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Emergency stop, reverse direction. Turn speed potentiometer to zero to re-gain control. Also happens when switching direction with speed potentiometer not at zero </td></tr>
+<tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Flashing</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Emergency stop, forward direction. Also happens when switching direction with speed potentiometer not at zero </td></tr>
+<tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Flashing</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Emergency stop, reverse direction. Also happens when switching direction with speed potentiometer not at zero </td></tr>
 <tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Blinking</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Battery low, regular operation, forward direction </td></tr>
 <tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Blinking</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Battery low, regular operation, reverse direction </td></tr>
 <tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Flashing</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Blinking</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Battery low, Emergency stop, forward direction </td></tr>
@@ -138,33 +139,57 @@ Four loco selection switches (loco 1 on the left, loco 4 on the right, move towa
 <tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Short flashes</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Throttle in low-power mode </td></tr>
 <tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Battery empty or no battery inserted </td></tr>
 <tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Off</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >No connection to existing WiFi network. Created internal configuration WiFi network </td></tr>
-<tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Configuration mode enabled while connected to existing WiFi network. All locos emergency stop to avoid runaways. Push SHIFT + ESTOP again to exit configuration mode and turn speed potentiometer to zero to re-gain control </td></tr>
-</table><div class="center"><hr style="width:80%;height:2"></div></blockquote>
+<tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Configuration mode enabled while connected to existing WiFi network. All locos emergency stop to avoid runaways. Push SHIFT + ESTOP again to exit configuration mode </td></tr>
+</table><p>To recover from an emergency stop, turn speed potentiometer to zero to re-gain control.</p><div class="center"><hr style="width:80%;height:2"></div></blockquote>
 <!--TOC subsection id="sec7" Configuration-->
-<h3 id="sec7" class="subsection">2.2&#XA0;&#XA0;Configuration</h3><!--SEC END --><p> <a id="throttle_Conf"></a></p>
-<!--TOC subsubsection id="sec8" General configuration-->
-<h4 id="sec8" class="subsubsection">2.2.1&#XA0;&#XA0;General configuration</h4><!--SEC END --><p> <a id="throttle_GeneralConf"></a></p>
-<!--TOC subsubsection id="sec9" Loco configuration-->
-<h4 id="sec9" class="subsubsection">2.2.2&#XA0;&#XA0;Loco configuration</h4><!--SEC END --><p> <a id="throttle_LocoConf"></a></p>
-<!--TOC subsubsection id="sec10" DCC function configuration-->
-<h4 id="sec10" class="subsubsection">2.2.3&#XA0;&#XA0;DCC function configuration</h4><!--SEC END --><p> <a id="throttle_FunctionConf"></a></p>
-<!--TOC subsection id="sec11" Hardware description-->
-<h3 id="sec11" class="subsection">2.3&#XA0;&#XA0;Hardware description</h3><!--SEC END -->
-<!--TOC subsection id="sec12" Programming instructions-->
-<h3 id="sec12" class="subsection">2.4&#XA0;&#XA0;Programming instructions</h3><!--SEC END -->
-<!--TOC section id="sec13" Wireless clock driver-->
-<h2 id="sec13" class="section">3&#XA0;&#XA0;Wireless clock driver</h2><!--SEC END --><p> <a id="clock"></a></p>
-<!--TOC subsection id="sec14" Usage-->
-<h3 id="sec14" class="subsection">3.1&#XA0;&#XA0;Usage</h3><!--SEC END -->
-<!--TOC subsection id="sec15" Configuration-->
-<h3 id="sec15" class="subsection">3.2&#XA0;&#XA0;Configuration</h3><!--SEC END --><p>For general configuration (WiFi etc.) see section&#XA0;<a href="#throttle_GeneralConf">2.2.1</a>, as it&#X2019;s the same.</p>
-<!--TOC subsection id="sec16" Hardware description-->
-<h3 id="sec16" class="subsection">3.3&#XA0;&#XA0;Hardware description</h3><!--SEC END -->
-<!--TOC subsection id="sec17" Programming instructions-->
-<h3 id="sec17" class="subsection">3.4&#XA0;&#XA0;Programming instructions</h3><!--SEC END -->
-<!--TOC section id="sec18" Server setup with JMRI-->
-<h2 id="sec18" class="section">4&#XA0;&#XA0;Server setup with JMRI</h2><!--SEC END --><!--TOC section id="sec19" References-->
-<h2 id="sec19" class="section">References</h2><!--SEC END --><dl class="thebibliography"><dt class="dt-thebibliography">
+<h3 id="sec7" class="subsection">2.2&#XA0;&#XA0;Configuration</h3><!--SEC END --><p> <a id="throttle_Conf"></a></p><p>Before using the device, it must be configured. At the very least, the General Configuration&#XA0;<a href="#throttle_GeneralConf">2.2.2</a> and Loco Configuration&#XA0;<a href="#throttle_LocoConf">2.2.3</a> pages have to be submitted once to be saved to non-volatile memory. If no valid configuration is detected at startup, the device will start with a default configuration with no locos enabled and trying to connect to a network named &#X201C;undef&#X201D; with a key named &#X201C;undef&#X201D;, which will probably fail.</p>
+<!--TOC subsubsection id="sec8" Entering configuration mode-->
+<h4 id="sec8" class="subsubsection">2.2.1&#XA0;&#XA0;Entering configuration mode</h4><!--SEC END --><p>There are two ways to enter configuration mode:</p><ol class="enumerate" type=1><li class="li-enumerate">
+Power up the throttle when the configured WiFi network is not in range (or when there is no valid configuration &#X2013; your first startup will probably fall into this category
+</li><li class="li-enumerate">Press SHIFT (either key) and ESTOP together when the throttle is connected
+</li></ol><p>In the first case, the throttle will create a wireless network named <span style="font-style:italic">wiFred-config</span> plus four hex digits taken from the MAC address of the throttle WiFi interface, for example <span style="font-style:italic">wiFred-config0CAC</span>. Use any web browser to connect to that network and open a webbrowser to point to <span style="font-style:italic">http://192.168.4.1</span>.</p><p>In the second case, the throttle will change the last tuple if it&#X2019;s IP address to .253 &#X2013; so if you have your wireless network at <span style="font-style:italic">192.168.100.x</span> as highlitghted in figure&#XA0;<a href="#withrottleScreenshot">2</a>, point your webbrowser to <span style="font-style:italic">http://192.168.100.253</span>.</p><p>If you know the IP address of your throttle during normal operation, you can also access the configuration page by pointing a webbrowser to it at any time while it is connected. Note that this is not recommended while you are running locos.</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
+<img src="docu004.png">
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 2: Screenshot of wiThrottle screen showing one throttle connected</td></tr>
+</table></div>
+<a id="withrottleScreenshot"></a>
+<div class="center"><hr style="width:80%;height:2"></div></div></blockquote>
+<!--TOC subsubsection id="sec9" General configuration-->
+<h4 id="sec9" class="subsubsection">2.2.2&#XA0;&#XA0;General configuration</h4><!--SEC END --><p> <a id="throttle_GeneralConf"></a></p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
+<img src="docu005.png">
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 3: Screenshot of wiFred main configuration page</td></tr>
+</table></div>
+<a id="throttleConfMainPage"></a>
+<div class="center"><hr style="width:80%;height:2"></div></div></blockquote><p>Figure&#XA0;<a href="#throttleConfMainPage">3</a> shows the first page you will see when you point a web browser at your wiFred throttle. It allows to continue to the subpages as well as do some general configuration of the following items:</p><dl class="description"><dt class="dt-description">
+</dt><dd class="dd-description">Throttle name: This is a free-form identification string of the throttle. It shows up in the wiThrottle window of JMRI as shown in figure&#XA0;<a href="#withrottleScreenshot">2</a> and you can identify the throttle you are currently configuring by it.
+</dd><dt class="dt-description"></dt><dd class="dd-description">WiFi SSID: The name of the wireless network you want to connect to.
+</dd><dt class="dt-description"></dt><dd class="dd-description">WiFi PSK: The so-called password<sup><a id="text2" href="#note2">2</a></sup> for the wireless network you want to connect to. 
+</dd></dl><p><span style="font-weight:bold">Remember: You will need to hit &#X201C;Submit Query&#X201D; to save the settings you just changed.</span></p><p>Do not restart a new device without saving either the loco or the clock configuration page if you want the device to save the general configuration.</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
+<img src="docu006.png">
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 4: Screenshot of wiFred status page</td></tr>
+</table></div>
+<a id="throttleConfigStatusPage"></a>
+<div class="center"><hr style="width:80%;height:2"></div></div></blockquote><p>This page also gives you links to the configuration sub pages for locos and clock settings as well as a link to the status page shown in figure&#XA0;<a href="#throttleConfigStatusPage">4</a> which gives information about the current clock settings and battery voltage and may be enhanced in the future.</p>
+<!--TOC subsubsection id="sec10" Loco configuration-->
+<h4 id="sec10" class="subsubsection">2.2.3&#XA0;&#XA0;Loco configuration</h4><!--SEC END --><p> <a id="throttle_LocoConf"></a></p>
+<!--TOC subsubsection id="sec11" DCC function configuration-->
+<h4 id="sec11" class="subsubsection">2.2.4&#XA0;&#XA0;DCC function configuration</h4><!--SEC END --><p> <a id="throttle_FunctionConf"></a></p>
+<!--TOC subsection id="sec12" Hardware description-->
+<h3 id="sec12" class="subsection">2.3&#XA0;&#XA0;Hardware description</h3><!--SEC END -->
+<!--TOC subsection id="sec13" Programming instructions-->
+<h3 id="sec13" class="subsection">2.4&#XA0;&#XA0;Programming instructions</h3><!--SEC END -->
+<!--TOC section id="sec14" Wireless clock driver-->
+<h2 id="sec14" class="section">3&#XA0;&#XA0;Wireless clock driver</h2><!--SEC END --><p> <a id="clock"></a></p>
+<!--TOC subsection id="sec15" Usage-->
+<h3 id="sec15" class="subsection">3.1&#XA0;&#XA0;Usage</h3><!--SEC END -->
+<!--TOC subsection id="sec16" Configuration-->
+<h3 id="sec16" class="subsection">3.2&#XA0;&#XA0;Configuration</h3><!--SEC END --><p>For general configuration (WiFi etc.) see section&#XA0;<a href="#throttle_GeneralConf">2.2.2</a>, as it&#X2019;s the same.</p>
+<!--TOC subsection id="sec17" Hardware description-->
+<h3 id="sec17" class="subsection">3.3&#XA0;&#XA0;Hardware description</h3><!--SEC END -->
+<!--TOC subsection id="sec18" Programming instructions-->
+<h3 id="sec18" class="subsection">3.4&#XA0;&#XA0;Programming instructions</h3><!--SEC END -->
+<!--TOC section id="sec19" Options for server setup-->
+<h2 id="sec19" class="section">4&#XA0;&#XA0;Options for server setup</h2><!--SEC END --><!--TOC section id="sec20" References-->
+<h2 id="sec20" class="section">References</h2><!--SEC END --><dl class="thebibliography"><dt class="dt-thebibliography">
 
 <a id="jmri">[1]</a></dt><dd class="dd-thebibliography">JMRI: A Java Model Railroad Interface, <span style="font-style:italic">http://www.jmri.org</span>
 </dd><dt class="dt-thebibliography"><a id="jmrihardwaresupport">[2]</a></dt><dd class="dd-thebibliography">JMRI: Hardware Support, <span style="font-style:italic">http://www.jmri.org/help/en/html/hardware/index.shtml</span>
@@ -179,7 +204,7 @@ Four loco selection switches (loco 1 on the left, loco 4 on the right, move towa
 0.1WIPHeiko RosemannSetup first document structure.
 </p><!--BEGIN NOTES document-->
 <hr class="footnoterule"><dl class="thefootnotes"><dt class="dt-thefootnotes">
-<a id="note1" href="#text1">1</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">withrottle is also the name JMRI uses for the protocol and the server.</div></dd></dl>
+<a id="note1" href="#text1">1</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">withrottle is also the name JMRI uses for the protocol and the server.</div></dd><dt class="dt-thefootnotes"><a id="note2" href="#text2">2</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Technically correct term: Pre-Shared Key</div></dd></dl>
 <!--END NOTES-->
 <!--CUT END -->
 <!--HTMLFOOT-->

@@ -29,7 +29,11 @@ Skip right ahead to section~\ref{throttle} or~\ref{clock} if you are not interes
 
 \end{abstract}
 
+\clearpage
+
 \tableofcontents
+
+\clearpage
 
 \section{Background for wiFred development} \label{background}
 
@@ -117,6 +121,8 @@ During startup and operation, the LEDs will show the patterns explained in table
 \begin{table}
   \caption{LED patterns and their meaning on the wiFred throttle} \label{ledTable}
 
+  \vspace{0.5em}
+
   \centering
   \begin{tabular}{| m{6em} | m{6em} | m{6em} | m{15em} |}
     \hline
@@ -132,9 +138,9 @@ During startup and operation, the LEDs will show the patterns explained in table
     \hline
     Off & On & Off & Regular operation, reverse direction \\
     \hline
-    Off & Flashing & On & Emergency stop, forward direction. Turn speed potentiometer to zero to re-gain control. Also happens when switching direction with speed potentiometer not at zero \\
+    Off & Flashing & On & Emergency stop, forward direction. Also happens when switching direction with speed potentiometer not at zero \\
     \hline
-    Off & On & Flashing & Emergency stop, reverse direction. Turn speed potentiometer to zero to re-gain control. Also happens when switching direction with speed potentiometer not at zero \\
+    Off & On & Flashing & Emergency stop, reverse direction. Also happens when switching direction with speed potentiometer not at zero \\
     \hline
     \hline
     Off & Off & Blinking & Battery low, regular operation, forward direction \\
@@ -152,16 +158,72 @@ During startup and operation, the LEDs will show the patterns explained in table
     \hline
     On & Off & Off & No connection to existing WiFi network. Created internal configuration WiFi network \\
     \hline
-    On & On & On & Configuration mode enabled while connected to existing WiFi network. All locos emergency stop to avoid runaways. Push SHIFT + ESTOP again to exit configuration mode and turn speed potentiometer to zero to re-gain control \\
+    On & On & On & Configuration mode enabled while connected to existing WiFi network. All locos emergency stop to avoid runaways. Push SHIFT + ESTOP again to exit configuration mode \\
     \hline
     
   \end{tabular}
+
+  \vspace{0.5em}
+
+  To recover from an emergency stop, turn speed potentiometer to zero to re-gain control.
   
 \end{table}
 
 \subsection{Configuration} \label{throttle_Conf}
 
+Before using the device, it must be configured. At the very least, the General Configuration~\ref{throttle_GeneralConf} and Loco Configuration~\ref{throttle_LocoConf}  pages have to be submitted once to be saved to non-volatile memory. If no valid configuration is detected at startup, the device will start with a default configuration with no locos enabled and trying to connect to a network named ``undef'' with a key named ``undef'', which will probably fail.
+
+\subsubsection{Entering configuration mode}
+
+There are two ways to enter configuration mode:
+
+\begin{enumerate}
+\item Power up the throttle when the configured WiFi network is not in range (or when there is no valid configuration -- your first startup will probably fall into this category
+\item Press SHIFT (either key) and ESTOP together when the throttle is connected
+\end{enumerate}
+
+In the first case, the throttle will create a wireless network named \textit{wiFred-config} plus four hex digits taken from the MAC address of the throttle WiFi interface, for example \textit{wiFred-config0CAC}. Use any web browser to connect to that network and open a webbrowser to point to \textit{http://192.168.4.1}.
+
+In the second case, the throttle will change the last tuple if it's IP address to .253 -- so if you have your wireless network at \textit{192.168.100.x} as highlitghted in figure~\ref{withrottleScreenshot}, point your webbrowser to \textit{http://192.168.100.253}.
+
+If you know the IP address of your throttle during normal operation, you can also access the configuration page by pointing a webbrowser to it at any time while it is connected. Note that this is not recommended while you are running locos.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8 \textwidth]{images/withrottle_Screenshot}
+  \caption{Screenshot of wiThrottle screen showing one throttle connected}
+  \label{withrottleScreenshot}
+\end{figure}
+
 \subsubsection{General configuration} \label{throttle_GeneralConf}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8 \textwidth]{images/screenShot_main}
+  \caption{Screenshot of wiFred main configuration page}
+  \label{throttleConfMainPage}
+\end{figure}
+
+Figure~\ref{throttleConfMainPage} shows the first page you will see when you point a web browser at your wiFred throttle. It allows to continue to the subpages as well as do some general configuration of the following items:
+
+\begin{description}
+\item{Throttle name:} This is a free-form identification string of the throttle. It shows up in the wiThrottle window of JMRI as shown in figure~\ref{withrottleScreenshot} and you can identify the throttle you are currently configuring by it.
+\item{WiFi SSID:} The name of the wireless network you want to connect to.
+\item{WiFi PSK:} The so-called password\footnote{Technically correct term: Pre-Shared Key} for the wireless network you want to connect to.  
+\end{description}
+
+\textbf{Remember: You will need to hit ``Submit Query'' to save the settings you just changed.}
+
+Do not restart a new device without saving either the loco or the clock configuration page if you want the device to save the general configuration.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8 \textwidth]{images/screenShot_status}
+  \caption{Screenshot of wiFred status page}
+  \label{throttleConfigStatusPage}
+\end{figure}
+
+This page also gives you links to the configuration sub pages for locos and clock settings as well as a link to the status page shown in figure~\ref{throttleConfigStatusPage} which gives information about the current clock settings and battery voltage and may be enhanced in the future.
 
 \subsubsection{Loco configuration} \label{throttle_LocoConf}
 
@@ -183,7 +245,7 @@ For general configuration (WiFi etc.) see section~\ref{throttle_GeneralConf}, as
 
 \subsection{Programming instructions}
 
-\section{Server setup with JMRI}
+\section{Options for server setup}
 
 \begin{thebibliography}{99}
 \bibitem{jmri}{JMRI: A Java Model Railroad Interface, \textit{http://www.jmri.org}}
