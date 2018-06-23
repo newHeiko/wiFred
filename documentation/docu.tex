@@ -178,15 +178,15 @@ Before using the device, it must be configured. At the very least, the General C
 There are two ways to enter configuration mode:
 
 \begin{enumerate}
-\item Power up the throttle when the configured WiFi network is not in range (or when there is no valid configuration -- your first startup will probably fall into this category
+\item Power up the throttle when the configured WiFi network is not in range (or when there is no valid configuration -- the first startup of a new throttle will fall into this category
 \item Press SHIFT (either key) and ESTOP together when the throttle is connected
 \end{enumerate}
 
-In the first case, the throttle will create a wireless network named \textit{wiFred-config} plus four hex digits taken from the MAC address of the throttle WiFi interface, for example \textit{wiFred-config0CAC}. Use any web browser to connect to that network and open a webbrowser to point to \textit{http://192.168.4.1}.
+In the first case, the throttle will create a wireless network named \textit{wiFred-config} plus four hex digits taken from the MAC address of the throttle WiFi interface, for example \textit{wiFred-config0CAC}. Any WiFi device with a web browser can connect to that network and open a web browser to point to \textit{http://192.168.4.1}.
 
-In the second case, the throttle will change the last tuple if it's IP address to .253 -- so if you have your wireless network at \textit{192.168.100.x} as highlitghted in figure~\ref{withrottleScreenshot}, point your webbrowser to \textit{http://192.168.100.253}.
+In the second case, the throttle will change the last tuple of it's IP address to .253 -- so if the wireless network is configured with IP addresses in the \textit{192.168.100.x}-range as highlitghted in figure~\ref{withrottleScreenshot}, any web browser can access the configuration at \textit{http://192.168.100.253}.
 
-If you know the IP address of your throttle during normal operation, you can also access the configuration page by pointing a webbrowser to it at any time while it is connected. Note that this is not recommended while you are running locos.
+If the IP address of the throttle during normal operation is known, the configuration page can also be accessed by pointing a web browser to it at any time while it is connected. Note that this is not recommended while the throttle is running locos.
 
 \begin{figure}
   \centering
@@ -204,17 +204,17 @@ If you know the IP address of your throttle during normal operation, you can als
   \label{throttleConfMainPage}
 \end{figure}
 
-Figure~\ref{throttleConfMainPage} shows the first page you will see when you point a web browser at your wiFred throttle. It allows to continue to the subpages as well as do some general configuration of the following items:
+Figure~\ref{throttleConfMainPage} shows the first page you will see when you point a web browser at your wiFred throttle. It has some general configuration settings for the following items:
 
 \begin{description}
-\item{Throttle name:} This is a free-form identification string of the throttle. It shows up in the wiThrottle window of JMRI as shown in figure~\ref{withrottleScreenshot} and you can identify the throttle you are currently configuring by it.
-\item{WiFi SSID:} The name of the wireless network you want to connect to.
-\item{WiFi PSK:} The so-called password\footnote{Technically correct term: Pre-Shared Key} for the wireless network you want to connect to.  
+\item{Throttle name:} This is a free-form identification string of the throttle. It shows up in the wiThrottle window of JMRI as shown in figure~\ref{withrottleScreenshot} and can be used to identify the throttle during configuration.
+\item{WiFi SSID:} The name of the wireless network the throttle shall connect to.
+\item{WiFi PSK:} The so-called password\footnote{Technically correct term: Pre-Shared Key} for the wireless network.  
 \end{description}
 
-\textbf{Remember: You will need to hit ``Submit Query'' to save the settings you just changed.}
+\textbf{Reminder: Changes are saved using the ``Submit Query'' button which may look different in different web browsers (firefox shown).}
 
-Do not restart a new device without saving either the loco or the clock configuration page if you want the device to save the general configuration.
+A new device will not read a saved configuration at startup unless both the main page and one of either the loco configuration subpage or the clock configuration subpage has been saved at least once.
 
 \begin{figure}
   \centering
@@ -223,11 +223,52 @@ Do not restart a new device without saving either the loco or the clock configur
   \label{throttleConfigStatusPage}
 \end{figure}
 
-This page also gives you links to the configuration sub pages for locos and clock settings as well as a link to the status page shown in figure~\ref{throttleConfigStatusPage} which gives information about the current clock settings and battery voltage and may be enhanced in the future.
+This page also includes links to the configuration sub pages for locos and clock settings as well as a link to the status page shown in figure~\ref{throttleConfigStatusPage} which gives information about the current clock settings and battery voltage and may be enhanced in the future.
 
 \subsubsection{Loco configuration} \label{throttle_LocoConf}
 
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8 \textwidth]{images/screenShot_loco}
+  \caption{Screenshot of wiFred loco configuration page}
+  \label{throttleConfigLocoPage}
+\end{figure}
+
+On this page, shown in figure~\ref{throttleConfigLocoPage}, the (up to four) locomotives to be controlled with this throttle and some settings for all locomotives are available.
+
+Right on top, the checkbox next to \texttt{Enabled?} determines if the wiFred is to be used as a throttle. All the configuration settings are available if it is not, but it will not connect to the withrottle server and several other features described in this document may not work either unless this checkbox is enabled.
+
+Next the server settings can be found. The correct settings can be read from the JMRI withrottle server screen, as highlighted in figure~\ref{withrottleScreenshot}. Normally the port does not need to be changed, as 12090 is the default setting.
+
+Following the server configuration, there are four identical sections assigned to the four different locomotives which can be controlled with this throttle. Each section consists of the following settings:
+
+\begin{description}
+\item{DCC address:} Can be a short address between 1 and 127 (also used for consists) or a long address between 0 and 10239. Note: Short addresses between 1 and 127 are not the same as long addresses between 1 and 127. If this is set to -1, the corresponding loco is disabled.
+\item{Long address?:} Checkbox to change the behaviour of the DCC address input field described above.
+\item{Reverse?:} If checked, the corresponding loco will invert it's travel direction. Mainly intended for back-to-back consists without decoder reconfiguration.
+\item{Function mapping:} Link to the function mapping subpage for the corresponding loco, as described in section~\ref{throttle_FunctionConf}. Clicking this link will lose all information entered on the current page and take the web browser to a different subpage.
+\end{description}
+
+\textbf{Reminder: Changes are saved using the ``Submit Query'' button which may look different in different web browsers (firefox shown).}
+
 \subsubsection{DCC function configuration} \label{throttle_FunctionConf}
+
+By default, if a function key is pressed, the throttle will send the appropriate commands to every loco under control. Under certain circumstances, this may not be desired -- the obvious example being a loco in the middle of a multi-unit consist, which should not have lights or ditchlights. So this page -- shown in figure~\ref{throttleConfigFunctionPage} -- offers the option to chose between three different settings for every function on each of the four locomotives (one page per locomotive):
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8 \textwidth]{images/screenShot_functions}
+  \caption{Screenshot of wiFred function handling config page}
+  \label{throttleConfigFunctionPage}
+\end{figure}
+
+\begin{description}
+\item{Always Off:} When the loco is enabled by moving the selection switch to the ``selected'' position, the current status of the function is queried. If the function is on, a function key press will be simulated to turn it off. No other function key events will be sent to this loco for this function.
+\item{Throttle controlled:} When the first loco is enabled by moving the selection switch to the ``selected'' position, the current status of the function is queried and saved. When selecting the next loco, the status is queried. If it does not match the first loco, the function status is changed by simulating a function key press. Afterwards, key presses are handed through to the loco.
+\item{Always On:} Similar to the ``Always Off'' setting, but the throttle will attempt to enable the function when the locomotive is selected and ignore any further function key presses. This will probably not work with so-called momentary functions that are only active as long as the function key is pressed.
+\end{description}
+
+\textbf{Reminder: Changes are saved using the ``Submit Query'' button which may look different in different web browsers (firefox shown).}
 
 \subsection{Hardware description}
 
