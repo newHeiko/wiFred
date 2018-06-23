@@ -141,6 +141,7 @@ String handleThrottle(void)
       char upDown;
       if(sscanf(inputLine.c_str(), "F%u_%c", (unsigned int *) &f, &upDown) == 2)
       {
+        bool firstLoco = true;
         for(uint8_t l = 0; l < 4 && f <= MAX_FUNCTION; l++)
         {
           if(locos[l].functions[f] == THROTTLE)
@@ -148,7 +149,21 @@ String handleThrottle(void)
             if(upDown == 'D')
             {
               ret += String("MTA") + l + "<;>F1" + f + "\n";
-            }
+              // if this is the first loco which uses this function
+              if(firstLoco)
+              {
+                firstLoco = false;
+                // remember function status to match new locos
+                if(globalFunctionStatus[f] == ALWAYS_ON)
+                {
+                  globalFunctionStatus[f] = ALWAYS_OFF;
+                }
+                else if(globalFunctionStatus[f] == ALWAYS_OFF)
+                {
+                  globalFunctionStatus[f] = ALWAYS_ON;
+                }
+              }
+            } 
             else if(upDown == 'U')
             {
               ret += String("MTA") + l + "<;>F0" + f + "\n";

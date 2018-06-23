@@ -17,6 +17,8 @@ enum eLocoState { LOCO_OFFLINE, LOCO_CONNECTED,
 
 extern eLocoState locoState;
 
+extern functionInfo globalFunctionStatus[MAX_FUNCTION + 1];;
+
 typedef struct
 {
   int16_t address;

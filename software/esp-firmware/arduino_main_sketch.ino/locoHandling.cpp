@@ -17,6 +17,12 @@ const uint8_t inputPins[] = {LOCO1_INPUT, LOCO2_INPUT, LOCO3_INPUT, LOCO4_INPUT}
 
 eLocoState locoState = LOCO_OFFLINE;
 
+functionInfo globalFunctionStatus[MAX_FUNCTION + 1] = { UNKNOWN,
+                                             UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN,
+                                             UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN,
+                                             UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN,
+                                             UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN };
+
 serverInfo locoServer;
 
 void locoInit(void)
@@ -276,12 +282,6 @@ void locoHandler(void)
  */
 uint8_t requestLoco(uint8_t loco)
 {
-  static functionInfo globalFunctionStatus[MAX_FUNCTION + 1] = { UNKNOWN,
-                                             UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN,
-                                             UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN,
-                                             UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN,
-                                             UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN };
-//  static uint8_t lastLoco = 15;
   // first step for new loco: Send "loco acquire" command and send ESTOP command right afterwards to make sure loco is not moving
   if(locoState == LOCO_ACQUIRING || locoState == LOCO_ACQUIRE_SINGLE)
   {
