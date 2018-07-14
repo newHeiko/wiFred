@@ -5,7 +5,7 @@
 #include "stateMachine.h"
 #include "throttleHandling.h"
 
-#define DEBUG
+// #define DEBUG
 
 state wiFredState = STATE_STARTUP;
 uint32_t stateTimeout = UINT32_MAX;
@@ -22,13 +22,12 @@ void setup() {
   Serial.setTimeout(10);
   #ifdef DEBUG
   Serial.setDebugOutput(true);
+  #else
+  Serial.setDebugOutput(false);
   #endif
   delay(100);
 
   initWiFi();
-
-  // properly setup LEDs
-  setLEDvalues("0/0", "0/0", "100/200");
 }
 
 void loop() {
@@ -50,31 +49,29 @@ void loop() {
   switch(wiFredState)
   {
     case STATE_STARTUP:
+      setLEDvalues("0/0", "0/0", "100/200");
       if(!clockActive || getInputState(0) == true || getInputState(1) == true || getInputState(2) == true || getInputState(3) == true)
       {
         initWiFiSTA();
         switchState(STATE_CONNECTING, 60 * 1000);
-        setLEDvalues("0/0", "0/0", "100/200");
       }
       else
       {
         initWiFiAP();
         switchState(STATE_CONFIG_AP);
-        setLEDvalues("0/0", "0/0", "200/200");
       }
       break;
       
     case STATE_CONNECTING:
+      setLEDvalues("0/0", "0/0", "100/200");
       if(WiFi.status() == WL_CONNECTED)
       {
         switchState(STATE_CONNECTED);
-        setLEDvalues("0/0", "0/0", "25/50");
       }
       else if(millis() > stateTimeout)
       {
         initWiFiAP();
         switchState(STATE_CONFIG_AP);
-        setLEDvalues("0/0", "0/0", "200/200");
       }
       break;
 
@@ -85,12 +82,10 @@ void loop() {
         {
           initWiFiConfigSTA();
           switchState(STATE_CONFIG_STATION_WAITING, 30 * 1000);
-          setLEDvalues("200/200", "200/200", "200/200");
         }
         else
         {
           switchState(STATE_LOWPOWER_WAITING, 30 * 1000);
-          setLEDvalues("0/0", "0/0", "1/250");
         }
         break;
       }
@@ -99,26 +94,25 @@ void loop() {
       {
         initWiFiSTA();
         switchState(STATE_CONNECTING, 30 * 1000);
-        setLEDvalues("0/0", "0/0", "100/200");
       }
       break;
 
     case STATE_CONFIG_STATION_WAITING:
+      setLEDvalues("200/200", "200/200", "200/200");
       if(millis() > stateTimeout)
       {
         shutdownWiFiSTA();
         switchState(STATE_LOWPOWER);
-        setLEDvalues("0/0", "0/0", "1/250");
         break;
       }
     // break;
     // intentional fall-through
     case STATE_CONFIG_STATION:
+      setLEDvalues("200/200", "200/200", "200/200");
       if(clockActive && (getInputState(0) == true || getInputState(1) == true || getInputState(2) == true || getInputState(3) == true))
       {
         shutdownWiFiConfigSTA();
         switchState(STATE_CONNECTED);
-        setLEDvalues("0/0", "0/0", "25/50");
       }
       break;
 
@@ -132,20 +126,27 @@ void loop() {
     // break;
     // intentional fall-through
     case STATE_LOWPOWER:
+      setLEDvalues("0/0", "0/0", "1/250");
       if(getInputState(0) == true || getInputState(1) == true || getInputState(2) == true || getInputState(3) == true)
       {
          switchState(STATE_STARTUP);
-         setLEDvalues("0/0", "0/0", "100/200");
       }
       break;
       
     case STATE_CONFIG_AP:
     // no way to get out of here except for restart
+      setLEDvalues("0/0", "0/0", "200/200");
       break;
   }
 
   locoHandler();
 
+  // in case there is too much serial data received
+  // flush the buffer
+  while(Serial.available() > 128)
+  {
+    Serial.read();
+  }
 }
 
 void switchState(state newState, uint32_t timeout)

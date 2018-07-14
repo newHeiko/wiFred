@@ -10,7 +10,7 @@
 #include "stateMachine.h"
 #include "throttleHandling.h"
 
-#define DEBUG
+// #define DEBUG
 
 t_wlan wlan;
 

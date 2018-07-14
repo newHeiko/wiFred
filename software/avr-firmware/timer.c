@@ -37,14 +37,14 @@ void initTimers(void)
 
 ISR(TIMER0_COMPA_vect)
 {
-  static uint8_t secondCountdown;
+  static uint8_t secondCountdown = 100;
   if(--secondCountdown == 0)
     {
       if(--keepaliveCountdownSeconds == 0)
 	{
 	  // shutdown system
-	  //	  #warning "Re-enable this after debugging!"
-	  PORTD = LEDs[0].portBitmask | LEDs[1].portBitmask | LEDs[2].portBitmask;
+#warning "Re-enable this after debugging!"
+	  /*	  PORTD = LEDs[0].portBitmask | LEDs[1].portBitmask | LEDs[2].portBitmask;
 	  sleep_bod_disable();
 	  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 	  sleep_mode();

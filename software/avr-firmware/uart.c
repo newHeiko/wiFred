@@ -37,6 +37,7 @@ void initUART(void)
  */
 volatile char txBuffer[TX_BUFFER_SIZE];
 volatile char rxBuffer[RX_BUFFER_SIZE];
+
 /**
  * Flag to show an entire line (ended in \n) has been received
  */

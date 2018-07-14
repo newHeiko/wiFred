@@ -101,6 +101,7 @@ void locoHandler(void)
     case LOCO_OFFLINE:
       if (wiFredState == STATE_CONNECTED)
       {
+        setLEDvalues("0/0", "0/0", "25/50");
         if(millis() > timeout)
         {
           // flush input and output buffers
@@ -160,7 +161,6 @@ void locoHandler(void)
       if (!client.connected())
       {
         locoState = LOCO_OFFLINE;
-        setLEDvalues("0/0", "0/0", "25/50");
       }
       break;
 
@@ -191,7 +191,7 @@ void locoHandler(void)
         locoState = LOCO_OFFLINE;
         setLEDvalues("0/0", "0/0", "25/50");
       }
-      break;
+     break;
 
     case LOCO_ACQUIRE_SINGLE:
     case LOCO_ACQUIRE_SINGLE_FUNCTIONS:
@@ -269,7 +269,6 @@ void locoHandler(void)
       if (!client.connected())
       {
         locoState = LOCO_OFFLINE;
-        setLEDvalues("0/0", "0/0", "25/50");
       }
       break;
   }
