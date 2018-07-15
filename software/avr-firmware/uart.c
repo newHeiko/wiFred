@@ -39,14 +39,15 @@ volatile char txBuffer[TX_BUFFER_SIZE];
 volatile char rxBuffer[RX_BUFFER_SIZE];
 
 /**
- * Flag to show an entire line (ended in \n) has been received
+ * Number of entire lines (ending in \n) that have been received
  */
 volatile bool rxDone = false;
 
 /**
- * Indexes for UART TX queue
+ * Indexes for UART TX queue and RX queue
  */
-volatile uint8_t readIndex = 0, writeIndex = 0;
+volatile uint8_t txReadIndex = 0, txWriteIndex = 0;
+volatile uint8_t rxReadIndex = 0, rxWriteIndex = 0;
 
 /**
  * Enqueue data to be sent
@@ -55,10 +56,10 @@ void uartSendData(char * data, uint8_t length)
 {
   while(length-- != 0)
     {
-      txBuffer[writeIndex++] = *data++;
-      if(writeIndex >= TX_BUFFER_SIZE)
+      txBuffer[txWriteIndex++] = *data++;
+      if(txWriteIndex >= TX_BUFFER_SIZE)
 	{
-	  writeIndex = 0;
+	  txWriteIndex = 0;
 	}
     }
 
@@ -66,10 +67,10 @@ void uartSendData(char * data, uint8_t length)
   if(! (UCSR0B & (1<<UDRIE0)) )
     {
       // transmit first byte if not
-      UDR0 = txBuffer[readIndex++];
-      if(readIndex >= TX_BUFFER_SIZE)
+      UDR0 = txBuffer[txReadIndex++];
+      if(txReadIndex >= TX_BUFFER_SIZE)
 	{
-	  readIndex = 0;
+	  txReadIndex = 0;
 	}
       UCSR0B |= (1<<UDRIE0);
     }
@@ -80,12 +81,12 @@ void uartSendData(char * data, uint8_t length)
  */
 ISR(USART_UDRE_vect)
 {
-  if(readIndex != writeIndex)
+  if(txReadIndex != txWriteIndex)
     {
-      UDR0 = txBuffer[readIndex++];
-      if(readIndex >= TX_BUFFER_SIZE)
+      UDR0 = txBuffer[txReadIndex++];
+      if(txReadIndex >= TX_BUFFER_SIZE)
 	{
-	  readIndex = 0;
+	  txReadIndex = 0;
 	}
     }
   else
@@ -99,14 +100,28 @@ ISR(USART_UDRE_vect)
  */
 void uartHandler(void)
 {
-  if(!rxDone)
+  if(rxDone == 0)
     {
       return;
     }
 
+  rxDone--;
+  
   char buffer[RX_BUFFER_SIZE];
-  strncpy(buffer, rxBuffer, RX_BUFFER_SIZE);
 
+  uint8_t index = 0;
+  
+  while(rxBuffer[rxReadIndex] != 0  &&  rxReadIndex != rxWriteIndex)
+    {
+      buffer[index++] = rxBuffer[rxReadIndex++];
+      if(rxReadIndex >= RX_BUFFER_SIZE)
+	{
+	  rxReadIndex = 0;
+	}
+    }
+  buffer[index] = 0;
+  rxReadIndex++;
+  
   ledInfo temp;
   uint8_t led;
 
@@ -132,9 +147,6 @@ void uartHandler(void)
     {
       uartSendData("ERR\r\n", sizeof("ERR\r\n"));
     }
-
-  rxDone = false;
-	      
 }
 
 
@@ -142,34 +154,26 @@ ISR(USART_RX_vect)
 {
   char data = UDR0;
 
-  static uint8_t rx_in = 0;
-
   if(data == '\n' || data == '\r')
     {
       // check if any data has been received before
-      if(rx_in != 0)
+      if( (rxWriteIndex == 0 && rxBuffer[RX_BUFFER_SIZE - 1] != 0) ||
+	  (rxWriteIndex != 0 && rxBuffer[rxWriteIndex - 1] != 0) )
 	{
 	  // reception has been completed
-	  rxDone = true;
-	  if(rx_in < RX_BUFFER_SIZE)
-	    {	      
-	      rxBuffer[rx_in] = 0;
-	    }
-	  else
-	    {
-	      rxBuffer[RX_BUFFER_SIZE - 1] = 0;
-	    }
-	  rx_in = 0;
+	  rxBuffer[rxWriteIndex++] = 0;
+	  rxDone++;
 	}
     }
   else
     {
-      // guard against buffer overflow
-      if(rx_in < RX_BUFFER_SIZE)
-	{
-	  rxBuffer[rx_in] = data;
-	}
-      rx_in++;
+      // read data into buffer
+      rxBuffer[rxWriteIndex++] = data;
     }
-  
+
+  // wrap around if buffer full
+  if(rxWriteIndex >= RX_BUFFER_SIZE)
+    {
+      rxWriteIndex = 0;
+    }  
 }
