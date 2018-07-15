@@ -13,6 +13,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
+#include <util/atomic.h>
 #include "uart.h"
 #include "led.h"
 #include "timer.h"
@@ -41,13 +42,13 @@ volatile char rxBuffer[RX_BUFFER_SIZE];
 /**
  * Number of entire lines (ending in \n) that have been received
  */
-volatile bool rxDone = false;
+volatile uint8_t rxDone = 0;
 
 /**
  * Indexes for UART TX queue and RX queue
  */
 volatile uint8_t txReadIndex = 0, txWriteIndex = 0;
-volatile uint8_t rxReadIndex = 0, rxWriteIndex = 0;
+volatile uint8_t rxWriteIndex = 0, rxReadIndex = 0;
 
 /**
  * Enqueue data to be sent
@@ -105,13 +106,16 @@ void uartHandler(void)
       return;
     }
 
-  rxDone--;
-  
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+  {
+    rxDone--;
+  }
+
   char buffer[RX_BUFFER_SIZE];
 
   uint8_t index = 0;
   
-  while(rxBuffer[rxReadIndex] != 0  &&  rxReadIndex != rxWriteIndex)
+  while(rxBuffer[rxReadIndex] != '\r' && rxBuffer[rxReadIndex] != '\n' && rxReadIndex != rxWriteIndex && index < RX_BUFFER_SIZE - 1)
     {
       buffer[index++] = rxBuffer[rxReadIndex++];
       if(rxReadIndex >= RX_BUFFER_SIZE)
@@ -119,13 +123,18 @@ void uartHandler(void)
 	  rxReadIndex = 0;
 	}
     }
-  buffer[index] = 0;
+
+  // skip over delimiter
   rxReadIndex++;
+
   if(rxReadIndex >= RX_BUFFER_SIZE)
     {
       rxReadIndex = 0;
     }
-  
+
+  // make sure buffer is properly terminated
+  buffer[index] = 0;
+
   ledInfo temp;
   uint8_t led;
 
@@ -136,16 +145,18 @@ void uartHandler(void)
 	{
 	  LEDs[led-1].onTime = temp.onTime;
 	  LEDs[led-1].cycleTime = temp.cycleTime;
+	  uartSendData("LOK\r\n", sizeof("LOK\r\n"));		      
 	}
       else
 	{
-	  uartSendData("Wrong parameters for LED settings\r\n",
-		       sizeof("Wrong parameters for LED settings\r\n"));
+	  uartSendData("LERR\r\n",
+		       sizeof("LERR\r\n"));
 	}
     }
   else if(buffer[0] == 'K')
     {
       keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
+      uartSendData("KOK\r\n", sizeof("KOK\r\n"));
     }
   else
     {
@@ -160,22 +171,14 @@ ISR(USART_RX_vect)
 
   if(data == '\n' || data == '\r')
     {
-      // check if any data has been received before
-      if( (rxWriteIndex == 0 && rxBuffer[RX_BUFFER_SIZE - 1] != 0) ||
-	  (rxWriteIndex != 0 && rxBuffer[rxWriteIndex - 1] != 0) )
-	{
-	  // reception has been completed
-	  rxBuffer[rxWriteIndex++] = 0;
-	  rxDone++;
-	}
-    }
-  else
-    {
-      // read data into buffer
-      rxBuffer[rxWriteIndex++] = data;
+      // reception has been completed
+      rxDone++;
     }
 
-  // wrap around if buffer full
+  // read data into buffer
+  rxBuffer[rxWriteIndex++] = data;
+
+  // wrap around if end of buffer
   if(rxWriteIndex >= RX_BUFFER_SIZE)
     {
       rxWriteIndex = 0;
