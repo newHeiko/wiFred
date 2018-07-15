@@ -130,7 +130,7 @@ void uartHandler(void)
     }
   else
     {
-      uartSendData("Unknown or misspelled command\r\n", sizeof("Unknown or misspelled command\r\n"));
+      uartSendData("ERR\r\n", sizeof("ERR\r\n"));
     }
 
   rxDone = false;
