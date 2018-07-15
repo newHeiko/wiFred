@@ -35,18 +35,31 @@ void setLEDvalues(String led1, String led2, String led3)
   {
     return;
   }
-  if(millis() > timeout || oldLed1 != led1 || oldLed2 != led2 || oldLed3 != led3)
+
+  if(oldLed1 != led1)
+  {
+    Serial.println("L1:" + led1);
+    oldLed1 = led1;
+  }
+  else if(oldLed2 != led2)
+  {
+    Serial.println("L2:" + led2);
+    oldLed2 = led2;
+  }
+  else if(oldLed3 != led3)
+  {
+    Serial.println("L3:" + led3);
+    oldLed3 = led3;
+  }
+  else if(millis() > timeout)
   {
     Serial.println("L1:" + led1);
     Serial.println("L2:" + led2);
     Serial.println("L3:" + led3);
 
-    oldLed1 = led1;
-    oldLed2 = led2;
-    oldLed3 = led3;
-
-    timeout = millis() + 1000;
+    timeout = millis() + 5000;
   }
+  Serial.flush();
 }
 
 /**
@@ -179,7 +192,7 @@ String handleThrottle(void)
   // Set ESTOP on direction change when not stopped, else copy actual direction and set correct directions for all locos
   if(reverseIn != reverseOut)
   {
-    if(speedOut != 0)
+    if(speedIn != 0)
     {
       setESTOP();
     }
@@ -228,11 +241,11 @@ String handleThrottle(void)
     }
     if(reverseOut)
     {
-      setLEDvalues(ledReverse, ledForward, "0/100");
+      setLEDvalues(ledForward, ledReverse, "0/100");
     }
     else
     {
-      setLEDvalues(ledForward, ledReverse, "0/100");
+      setLEDvalues(ledReverse, ledForward, "0/100");
     }
   }
 
