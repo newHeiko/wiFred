@@ -245,7 +245,7 @@ String handleThrottle(void)
         ret += String("MTA*<;>X\n");
         timeout = millis() + 1000;
       }
-    if(speedOut == 0)
+    if(speedIn == 0)
     {
       eSTOP = false;
     }
