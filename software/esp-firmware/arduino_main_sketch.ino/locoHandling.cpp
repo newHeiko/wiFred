@@ -176,13 +176,11 @@ void locoHandler(void)
       else if (millis() > timeout)
       {
         locoState = LOCO_OFFLINE;
-        setLEDvalues("0/0", "0/0", "25/50");
       }
       // if the connection is broken, return to connect state
       if (!client.connected())
       {
         locoState = LOCO_OFFLINE;
-        setLEDvalues("0/0", "0/0", "25/50");
       }
      break;
 
@@ -196,13 +194,11 @@ void locoHandler(void)
       else if(millis() > timeout)
       {
         locoState = LOCO_OFFLINE;        
-        setLEDvalues("0/0", "0/0", "25/50");
       }
       // if the connection is broken, return to connect state
       if (!client.connected())
       {
         locoState = LOCO_OFFLINE;
-        setLEDvalues("0/0", "0/0", "25/50");
       }
       break;
 
