@@ -110,14 +110,15 @@ String handleThrottle(void)
         if(wiFredState == STATE_CONNECTED)
         {
           // disconnect and start config mode
+          ret += String("MTA*<;>X\n");
+          setESTOP();
           ret += "Q\n";
-          initWiFiConfigSTA();
-          switchState(STATE_CONFIG_STATION);
+          switchState(STATE_CONFIG_STATION_COMING, 100);
         }
         else if(wiFredState == STATE_CONFIG_STATION)
         {
           shutdownWiFiConfigSTA();
-          switchState(STATE_CONNECTED);
+          switchState(STATE_CONNECTING);
         }
       }
       break;
@@ -188,7 +189,7 @@ String handleThrottle(void)
       }
       break;
   }
-
+  
   // Set ESTOP on direction change when not stopped, else copy actual direction and set correct directions for all locos
   if(reverseIn != reverseOut)
   {

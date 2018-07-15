@@ -124,6 +124,15 @@ void loop() {
       }
       break;
 
+    case STATE_CONFIG_STATION_COMING:
+      setLEDvalues("200/200", "200/200", "200/200");
+      if(millis() > stateTimeout)
+      {
+         initWiFiConfigSTA();
+         switchState(STATE_CONFIG_STATION);
+      }
+      break;
+
     case STATE_LOWPOWER_WAITING:
       setLEDvalues("0/0", "0/0", "1/250");
       if(millis() > stateTimeout)

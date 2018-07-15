@@ -96,7 +96,7 @@ void locoHandler(void)
 
   switch (locoState)
   {
-      static uint8_t currentLoco;
+    static uint8_t currentLoco;
 
     case LOCO_OFFLINE:
       if (wiFredState == STATE_CONNECTED)
@@ -125,8 +125,10 @@ void locoHandler(void)
           }
         }
       }
-      else if(wiFredState == STATE_CONFIG_STATION)
+      else if(wiFredState == STATE_CONFIG_STATION || wiFredState == STATE_CONFIG_STATION_COMING)
       {
+        client.flush();
+        client.stop();
         handleThrottle();
       }
       break;
@@ -168,7 +170,14 @@ void locoHandler(void)
     case LOCO_ACQUIRING_FUNCTIONS:
       // ignore all input changes while initially acquiring locos
       getInputChanged(currentLoco);
-      currentLoco = requestLoco(currentLoco);
+      if(getInputState(currentLoco))
+      {
+        currentLoco = requestLoco(currentLoco);
+      }
+      else
+      {
+        currentLoco++;
+      }
       if (currentLoco >= 4)
       {
         locoState = LOCO_ONLINE;
