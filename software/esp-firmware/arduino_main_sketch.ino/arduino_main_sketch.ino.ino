@@ -148,13 +148,6 @@ void loop() {
   }
 
   locoHandler();
-
-  // in case there is too much serial data received
-  // flush the buffer
-  while(Serial.available() > 1024)
-  {
-    Serial.read();
-  }
 }
 
 void switchState(state newState, uint32_t timeout)
