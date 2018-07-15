@@ -114,7 +114,6 @@ String handleThrottle(void)
       {
         if(speedIn <= 126)
         {
-          speedOut = speedIn;
           if(direction == 'F')
           {
             reverseIn = false;
@@ -130,6 +129,7 @@ String handleThrottle(void)
         }
         else
         {
+          speedIn = speedOut;
           setESTOP();
         }
       }
