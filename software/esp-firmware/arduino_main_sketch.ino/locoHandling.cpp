@@ -166,16 +166,9 @@ void locoHandler(void)
 
     case LOCO_ACQUIRING:
     case LOCO_ACQUIRING_FUNCTIONS:
-      if (getInputState(currentLoco) == false || locos[currentLoco].address == -1)
-      {
-        currentLoco++;
-      }
-      else
-      {
-        // ignore all input changes while initially acquiring locos
-        getInputChanged(currentLoco);
-        currentLoco = requestLoco(currentLoco);
-      }
+      // ignore all input changes while initially acquiring locos
+      getInputChanged(currentLoco);
+      currentLoco = requestLoco(currentLoco);
       if (currentLoco >= 4)
       {
         locoState = LOCO_ONLINE;
@@ -281,6 +274,11 @@ void locoHandler(void)
  */
 uint8_t requestLoco(uint8_t loco)
 {
+  // only act if the loco is valid and active
+  if(loco >= 4 || locos[loco].address == -1)
+  {
+    return loco + 1;
+  }
   // first step for new loco: Send "loco acquire" command and send ESTOP command right afterwards to make sure loco is not moving
   if(locoState == LOCO_ACQUIRING || locoState == LOCO_ACQUIRE_SINGLE)
   {
