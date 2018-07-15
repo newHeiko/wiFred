@@ -141,6 +141,14 @@ void loop() {
 
   locoHandler();
 
+  // send keep alive message on serial port
+  static uint32_t keepAliveTimeout = 5000;
+  if(millis() > keepAliveTimeout)
+  {
+    Serial.println("KeepAlive");
+    keepAliveTimeout = millis() + 5000;
+  }
+
   // in case there is too much serial data received
   // flush the buffer
   while(Serial.available() > 128)

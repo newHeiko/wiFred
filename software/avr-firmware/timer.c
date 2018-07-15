@@ -43,8 +43,7 @@ ISR(TIMER0_COMPA_vect)
       if(--keepaliveCountdownSeconds == 0)
 	{
 	  // shutdown system
-#warning "Re-enable this after debugging!"
-	  /*	  PORTD = LEDs[0].portBitmask | LEDs[1].portBitmask | LEDs[2].portBitmask;
+	  PORTD = LEDs[0].portBitmask | LEDs[1].portBitmask | LEDs[2].portBitmask;
 	  sleep_bod_disable();
 	  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 	  sleep_mode();
