@@ -121,6 +121,10 @@ void uartHandler(void)
     }
   buffer[index] = 0;
   rxReadIndex++;
+  if(rxReadIndex >= RX_BUFFER_SIZE)
+    {
+      rxReadIndex = 0;
+    }
   
   ledInfo temp;
   uint8_t led;
