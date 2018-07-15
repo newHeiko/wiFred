@@ -25,6 +25,19 @@ volatile uint8_t keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
 volatile uint8_t speedTimeout = SPEED_INTERVAL;
 
 /**
+ * If this flag is set, all LED counters start at zero again
+ */
+volatile bool newLED = true;
+
+/**
+ * Notify timer subsystem of new LED values
+ */
+void newLEDvalues(void)
+{
+  newLED = true;
+}
+
+/**
  * Initialize timers
  */
 void initTimers(void)
@@ -61,6 +74,16 @@ ISR(TIMER0_COMPA_vect)
 
   static uint8_t ledOntimeCountdown[3];
   static uint8_t ledCycletimeCountdown[3];
+
+  if(newLED)
+    {
+      for(uint8_t i = 0; i < 3; i++)
+	{
+	  ledOntimeCountdown[i] = 0;
+	  ledCycletimeCountdown[i] = 0;
+	}
+      newLED = false;
+    }
   
   for(uint8_t i = 0; i < 3; i++)
     {

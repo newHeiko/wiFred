@@ -145,7 +145,8 @@ void uartHandler(void)
 	{
 	  LEDs[led-1].onTime = temp.onTime;
 	  LEDs[led-1].cycleTime = temp.cycleTime;
-	  uartSendData("LOK\r\n", sizeof("LOK\r\n"));		      
+	  newLEDvalues();
+	  uartSendData("LOK\r\n", sizeof("LOK\r\n"));
 	}
       else
 	{

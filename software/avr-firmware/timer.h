@@ -10,6 +10,7 @@
 #define _TIMER_H_
 
 #include <stdint.h>
+#include <stdbool.h>
 
 /**
  * Timeout within which a keepalive packet has to be received for the system not to shut off
@@ -30,6 +31,11 @@ extern volatile uint8_t speedTimeout;
  * Countdown for keep alive timeout
  */
 extern volatile uint8_t keepaliveCountdownSeconds;
+
+/**
+ * Notify timer subsystem of new LED values
+ */
+extern void newLEDvalues(void);
 
 /**
  * Initialize timers
