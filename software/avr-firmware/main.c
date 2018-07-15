@@ -86,20 +86,26 @@ int main(void)
 	if(getKeyPresses(KEY_ESTOP))
 	  {
 	    config = false;
-	    uartSendData("ESTOP_DN\r\n", sizeof("ESTOP_DN\r\n"));
 	    if(getKeyState(KEY_SHIFT | KEY_SHIFT2))
 	      {
 		config = true;
 		uartSendData("CONF_DN\r\n", sizeof("CONF_DN\r\n"));
 	      }
+	    else
+	      {
+		uartSendData("ESTOP_DN\r\n", sizeof("ESTOP_DN\r\n"));
+	      }
 	  }
 	if(getKeyReleases(KEY_ESTOP))
 	  {
-	    uartSendData("ESTOP_UP\r\n", sizeof("ESTOP_UP\r\n"));
 	    if(config)
 	      {
 		uartSendData("CONF_UP\r\n", sizeof("CONF_UP\r\n"));
 	      }
+	    else
+	      {
+		uartSendData("ESTOP_UP\r\n", sizeof("ESTOP_UP\r\n"));
+	      }	    
 	  }
       }	   			   
     }
