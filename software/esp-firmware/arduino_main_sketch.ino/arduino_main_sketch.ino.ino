@@ -46,6 +46,14 @@ void loop() {
   }
 #endif
 
+  // send keep alive message on serial port
+  static uint32_t keepAliveTimeout;
+  if(millis() > keepAliveTimeout)
+  {
+    Serial.println("KeepAlive");
+    keepAliveTimeout = millis() + 5000;
+  }
+
   switch(wiFredState)
   {
     case STATE_STARTUP:
@@ -141,17 +149,9 @@ void loop() {
 
   locoHandler();
 
-  // send keep alive message on serial port
-  static uint32_t keepAliveTimeout = 5000;
-  if(millis() > keepAliveTimeout)
-  {
-    Serial.println("KeepAlive");
-    keepAliveTimeout = millis() + 5000;
-  }
-
   // in case there is too much serial data received
   // flush the buffer
-  while(Serial.available() > 128)
+  while(Serial.available() > 1024)
   {
     Serial.read();
   }

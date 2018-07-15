@@ -28,7 +28,9 @@ bool reverseOut = false;
 void setLEDvalues(String led1, String led2, String led3)
 {
   static uint32_t timeout = 0;
-  static String oldLed1 = "", oldLed2 = "", oldLed3 = "";
+  static String oldLed1 = "";
+  static String oldLed2 = "";
+  static String oldLed3 = "";
   if(!locoActive)
   {
     return;
