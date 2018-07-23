@@ -1,11 +1,24 @@
 /**
- * This file is part of the wiFred wireless throttle project
+ * This file is part of the wiFred wireless model railroading throttle project
+ * Copyright (C) 2018  Heiko Rosemann
  *
- * It ties everything together
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * Fuse settings: Low: 0x77, High: 0xD9, Extended: 0xff
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * (c) 2018 Heiko Rosemann
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>
+ *
+ * This file ties everything together to initialize the hardware and
+ * form the main loop.
+ *
+ * Fuse settings required for this code: Low: 0x77, High: 0xD9, Extended: 0xff
  */
 
 #include <stdint.h>
