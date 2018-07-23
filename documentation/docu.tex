@@ -70,6 +70,34 @@ During the development of this wiFred another topic came up in the americaN grou
 
 \section{wiFred Wireless throttle} \label{throttle}
 
+\subsection{Quickstart Guide}
+
+Follow these steps for a new throttle (see later chapters for more explanation or if you run into trouble)
+
+\begin{enumerate}
+  \setcounter{enumi}{-4}
+\item Use PCB to determine positions of holes and cutouts in housing
+\item Make said cutouts and glue little pieces of 3mm thick plastic or wood underneath PCB screw holes  
+\item Solder components to PCB
+\item Flash firmware to ESP and to AVR
+\item Test fit PCB into housing, removing plastic parts of housing as required
+\item Fit PCB into housing, insert three screws to fix PCB to housing
+\item Make sure communication jumpers are set correctly, close housing and fix back cover with two screws
+\item Add throttle knob
+\item Insert batteries
+\item Using any WiFi client (laptop, smartphone, tablet...), find and connect to network \textit{wiFred-configXXXX}
+\item Using any web browser, navigate to \textit{http://192.168.4.1}
+\item Enter your WiFi configuration (and a throttle ID if you like -- highly recommended to easier tell them apart) \textbf{and hit the \textit{Submit}-Button}
+\item Click on \texttt{Loco configuration subpage}
+\item \textbf{Make sure to enable the checkbox on top next to \texttt{Enabled?}} and also enter your wiThrottle server settings
+\item For every loco you want to control with this throttle, enter the appropriate details below
+\item Finish by \textbf{hitting the \textit{Submit}-Button}
+\item Configure function settings for each loco on the respective sub pages if required
+\item Restart the throttle by navigating back to the main configuration page and clicking on \texttt{Restart system to enable new WiFi settings}
+\end{enumerate}
+
+Your throttle should now be ready to use and connect to your wiThrottle server on startup. Refer to the chapters below if it does not or contact the author of this document.
+
 \subsection{Usage}
 
 \begin{figure}
@@ -178,7 +206,7 @@ Before using the device, it must be configured. At the very least, the General C
 There are two ways to enter configuration mode:
 
 \begin{enumerate}
-\item Power up the throttle when the configured WiFi network is not in range (or when there is no valid configuration -- the first startup of a new throttle will fall into this category
+\item Power up the throttle when the configured WiFi network is not in range (or when there is no valid configuration -- the first startup of a new throttle will fall into this category)
 \item Press SHIFT (either key) and ESTOP together when the throttle is connected
 \end{enumerate}
 
@@ -186,7 +214,7 @@ In the first case, the throttle will create a wireless network named \textit{wiF
 
 In the second case, the throttle will change the last tuple of it's IP address to .253 -- so if the wireless network is configured with IP addresses in the \textit{192.168.100.x}-range as highlitghted in figure~\ref{withrottleScreenshot}, any web browser can access the configuration at \textit{http://192.168.100.253}.
 
-If the IP address of the throttle during normal operation is known, the configuration page can also be accessed by pointing a web browser to it at any time while it is connected. Note that this is not recommended while the throttle is running locos.
+If the IP address of the throttle during normal operation is known, the configuration page can also be accessed by pointing a web browser to it at any time while it is connected. Note that this is untested and therefore not recommended while the throttle is running locos.
 
 \begin{figure}
   \centering
