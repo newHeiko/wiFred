@@ -18,7 +18,7 @@
  * This file ties everything together to initialize the hardware and
  * form the main loop.
  *
- * Fuse settings required for this code: Low: 0x77, High: 0xD9, Extended: 0xff
+ * Fuse settings required for this code: Low: 0x77, High: 0xD9, Extended: 0x07
  */
 
 #include <stdint.h>
