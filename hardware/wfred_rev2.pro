@@ -1,6 +1,6 @@
-update=Tue 12 Jun 2018 02:47:42 PM CEST
+update=Thu 26 Jul 2018 06:01:41 PM CEST
 version=1
-last_client=eeschema
+last_client=kicad
 [pcbnew]
 version=1
 LastNetListRead=
@@ -61,3 +61,13 @@ LibName29=contrib
 LibName30=valves
 LibName31=/home/heiko/elektronik/kicad_extra_libs/my_devices
 LibName32=/home/heiko/elektronik/kicad_extra_libs/ESP8266
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=/tmp/
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60

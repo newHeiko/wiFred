@@ -100,7 +100,7 @@ Your throttle should now be ready to use and connect to your wiThrottle server o
 
 \subsection{Usage}
 
-\begin{figure}
+\begin{figure}[tbh]
   
   \centering
   \includegraphics[height=100mm]{images/throttle_Front}
@@ -199,7 +199,7 @@ During startup and operation, the LEDs will show the patterns explained in table
 
 \subsection{Configuration} \label{throttle_Conf}
 
-Before using the device, it must be configured. At the very least, the General Configuration~\ref{throttle_GeneralConf} and Loco Configuration~\ref{throttle_LocoConf}  pages have to be submitted once to be saved to non-volatile memory. If no valid configuration is detected at startup, the device will start with a default configuration with no locos enabled and trying to connect to a network named ``undef'' with a key named ``undef'', which will probably fail.
+Before using the device, it must be configured. At the very least, the General Configuration~\ref{throttle_GeneralConf} and Loco Configuration~\ref{throttle_LocoConf} pages have to be submitted once to be saved to non-volatile memory. If no valid configuration is detected at startup, the device will start with a default configuration with no locos enabled and trying to connect to a network named ``undef'' with a key named ``undef'', which will probably fail.
 
 \subsubsection{Entering configuration mode}
 
@@ -216,7 +216,7 @@ In the second case, the throttle will change the last tuple of it's IP address t
 
 If the IP address of the throttle during normal operation is known, the configuration page can also be accessed by pointing a web browser to it at any time while it is connected. Note that this is untested and therefore not recommended while the throttle is running locos.
 
-\begin{figure}
+\begin{figure}[tbh]
   \centering
   \includegraphics[width=0.8 \textwidth]{images/withrottle_Screenshot}
   \caption{Screenshot of wiThrottle screen showing one throttle connected}
@@ -225,7 +225,7 @@ If the IP address of the throttle during normal operation is known, the configur
 
 \subsubsection{General configuration} \label{throttle_GeneralConf}
 
-\begin{figure}
+\begin{figure}[tbh]
   \centering
   \includegraphics[width=0.8 \textwidth]{images/screenShot_main}
   \caption{Screenshot of wiFred main configuration page}
@@ -244,7 +244,7 @@ Figure~\ref{throttleConfMainPage} shows the first page you will see when you poi
 
 A new device will not read a saved configuration at startup unless both the main page and one of either the loco configuration subpage or the clock configuration subpage has been saved at least once.
 
-\begin{figure}
+\begin{figure}[tbh]
   \centering
   \includegraphics[width=0.8 \textwidth]{images/screenShot_status}
   \caption{Screenshot of wiFred status page}
@@ -255,7 +255,7 @@ This page also includes links to the configuration sub pages for locos and clock
 
 \subsubsection{Loco configuration} \label{throttle_LocoConf}
 
-\begin{figure}
+\begin{figure}[tbh]
   \centering
   \includegraphics[width=0.8 \textwidth]{images/screenShot_loco}
   \caption{Screenshot of wiFred loco configuration page}
@@ -283,7 +283,7 @@ Following the server configuration, there are four identical sections assigned t
 
 By default, if a function key is pressed, the throttle will send the appropriate commands to every loco under control. Under certain circumstances, this may not be desired -- the obvious example being a loco in the middle of a multi-unit consist, which should not have lights or ditchlights. So this page -- shown in figure~\ref{throttleConfigFunctionPage} -- offers the option to chose between three different settings for every function on each of the four locomotives (one page per locomotive):
 
-\begin{figure}
+\begin{figure}[tbh]
   \centering
   \includegraphics[width=0.8 \textwidth]{images/screenShot_functions}
   \caption{Screenshot of wiFred function handling config page}
@@ -300,7 +300,168 @@ By default, if a function key is pressed, the throttle will send the appropriate
 
 \subsection{Hardware description}
 
+The wiFred hardware is centered around an ESP8266 for the WiFi connection. The ESP8266 also reads the loco selection switches and the battery voltage and communicates through it's serial port with an ATMega~328P microcontroller which controls the LEDs, reads the speed potentiometer, direction switch and pushbutton switches for functions and emergency stop. The communication goes through a 2x3 pin header which enables the user to connect a programming cable to the same serial port if removing the jumpers.
+
+The wiFred is powered by two AA size battery cells connected to a step-up converter creating 3.3\,V for the entire device.
+
+The schematic is split into several pages and can be found in figures~\ref{schematicPage1} to~\ref{schematicPage4}. It has been created with kicad and is available on the github repository at \textit{http://github.com/newHeiko/wiFred} along with the PCB design.
+
+\begin{figure}[tbh]
+  \centering
+  \includegraphics[width=\textwidth]{images/wfred_rev2}
+  \caption{Master schematic sheet with batteries and power supply}
+  \label{schematicPage1}
+\end{figure}
+
+\begin{figure}[tbh]
+  \centering
+  \includegraphics[width=\textwidth]{images/wfred-wifi-Wifi_connection}
+  \caption{Schematic sheet including ESP8266 for WiFi connection with bootloader enabling jumper and connection to programming cable}
+  \label{schematicPage2}
+\end{figure}
+
+\begin{figure}[tbh]
+  \centering
+  \includegraphics[width=\textwidth]{images/wfred-controller_rev2-Controller}
+  \caption{Schematic sheet including ATMega 328P along with crystal and in system programming header}
+  \label{schematicPage3}
+\end{figure}
+
+\begin{figure}[tbh]
+  \centering
+  \includegraphics[width=\textwidth]{images/User_interface_rev2-User_Interface}
+  \caption{Schematic sheet including pushbutton switches, loco selection switches, direction switch and speed potentiometer}
+  \label{schematicPage4}
+\end{figure}
+
+\subsection{Hints for building the wiFred}
+
+The PCB has holes in the center of the pushbutton switch footprints and LED footprints to enable transferring their positions to a StrapuBox housing with a sharp needle or similar, and the position of the loco selection switches can also be transferred to the housing by marking it through the non-copper holes at their ends. Figure~\ref{transferHoles} shows the process and it's results. Holes for the pushbutton switches should be drilled at 3.5\,mm diameter and countersunk from the inside. Holes for the LEDs should be drilled at 3\,mm diameter and holes for the speed potentiometer and direction switch at 6.5\,mm or 7\,mm diameter and countersunk. The cutouts for the loco selection switches are best created when the PCB is assembled and carefully cut out with a sharp hobby knife and a file until they fit.
+
+\begin{figure}[tbh]
+  \centering
+  \includegraphics[width=0.49 \textwidth]{images/_DSC8652}
+  \includegraphics[width=0.49 \textwidth]{images/_DSC8653}
+  \caption{Using the PCB to transfer the positions of the holes to the housing}
+  \label{transferHoles}
+\end{figure}
+
+To fit into a StrapuBox 6090 housing, the PCB should be made 0.8\,mm in thickness\footnote{Or less, but then it will more easily bend}. The remaining assembly is a basic exercise in installing all the components to the PCB, listed in table~\ref{wiFredBOM}. From assembling the prototypes, the suggested order of installing the components is as follows:
+
+\begin{table}
+  \caption{List of components for the wiFred} \label{wiFredBOM}
+
+  \vspace{0.5em}
+
+  \centering
+  \begin{footnotesize}
+  \begin{tabular}{|m{5em}|l|l|}
+    \hline
+    Designator & Package & Designation \\
+    \hline
+    B101 & KEYSTONE1013 & BATT\_HOLDER \\
+    C206,C205 & C\_0805\_HandSoldering & 22p \\
+    C301,C105, C104,C102, C101 & C\_0805\_HandSoldering & 22u/25V \\
+    C401,C204, C203,C202, C201,C103 & C\_0805\_HandSoldering & 100n \\
+    C402 & C\_0805\_HandSoldering & 22u \\
+    D301 & LED\_D3.0mm & STOP - red \\
+    D302 & LED\_D3.0mm & FORWARD - green \\
+    D303 & LED\_D3.0mm & REVERSE - green \\
+    IC201 & TQFP-32\_7x7mm\_Pitch0.8mm & ATMEGA328P-A \\
+    K401 & Pin\_Header\_Straight\_1x03\_Pitch2.54mm & UART\_ESP \\
+    K402 & Pin\_Header\_Straight\_1x03\_Pitch2.54mm & UART\_AVR \\
+    L101 & L\_2424\_HandSoldering & 22u \\
+    P201 & Pin\_Header\_Straight\_2x03\_Pitch2.54mm\_SMD & ISP \\ 
+    P401 & Pin\_Header\_Straight\_1x02\_Pitch2.54mm & ESP\_BOOTLOAD \\
+    R301 & C\_0805\_HandSoldering & 4k7 \\
+    R304,R303, R302 & C\_0805\_HandSoldering & 470R \\
+    R401 & C\_0805\_HandSoldering & 100k \\
+    R402 & C\_0805\_HandSoldering & 47k \\
+    R405,R404, R403,R201 & C\_0805\_HandSoldering & 10k \\
+    RV301 & P160KNPD & 10k lin P160KNPD-4FC20B10K \\
+    SW301 & OS102011MS2Q & LOCO1 \\
+    SW302 & OS102011MS2Q & LOCO2 \\
+    SW303 & OS102011MS2Q & LOCO3 \\
+    SW304 & OS102011MS2Q & LOCO4 \\
+    SW305 & KSC621G & F0 \\
+    SW306 & KSC621G & F1 \\
+    SW307 & KSC621G & F2 \\
+    SW308 & KSC621G & F3 \\
+    SW309 & KSC621G & F4 \\
+    SW310 & KSC621G & SHIFT2 \\
+    SW311 & KSC621G & SHIFT \\
+    SW312 & KSC621G & ESTOP \\
+    SW313 & 100SP1T1B1M1QEH & DIRECTION \\
+    U101 & TSSOP-8\_4.4x3mm\_Pitch0.65mm & L6920D \\
+    U401 & ESP-12E\_SMD & ESP-12E \\
+    X201 & Crystal\_SMD\_TXC\_7M-4pin\_3.2x2.5mm\_HandSoldering & 14.7456MHz \\
+    \hline
+    Housing & StrapuBox 6090 & \\
+    & Two Jumpers, 2.54mm & \\
+    & Potentiometer Knob & \\
+    \hline
+  \end{tabular}
+  \end{footnotesize}
+\end{table}
+
+\begin{enumerate}
+\item IC201 and U101 (note: Rotate PCB so Designator is right side up, then Pin 1 is on top left)
+\item X201
+\item Capacitors and Resistors in 0805 size (only those on the same side as the items before) \label{0805devices}
+\item U401
+\item LEDs D301 to D303
+\item Pushbutton switches SW305 to SW312
+\item Loco selection switches SW301 to SW304
+\item L101
+\item Capacitors and Resistors not installed in step~\ref{0805devices}
+\item Pin header P201
+\item Pin headers K401, K402 and P401 (correct alignment of K401 and K402 can be assured by adding a jumper before soldering)
+\item Direction switch SW313 (screwed into the PCB with an 8\,mm hex nut first, then attached to it's pads using the cutoffs from D301, D302 and D303) and Speed potentiometer RV301 (screwed into the PCB with a 10\,mm hex nut first and slightly shortening the pins before soldering)
+\item Battery holder B101
+\end{enumerate}
+
+After assembling the PCB with all the components and drilling and cutting the holes and cutouts into the housing, there are few steps left. First, a few protrusions inside the housing need to be removed so the PCB fits properly. Figure~\ref{breakProtrusions} shows how they can be removed easily, remains may be cut off with a hobby knife. Second, new PCB mounting pads need to be installed as shown in figure~\ref{mountingPads}. For the prototype, Forex PVC foam was used, cut with a pair of scissors and glued to the housing with superglue, making sure not to be in the way of any components on the PCB, but any kind of easily worked upon material with a thickness of 3\,mm can be used, as long as it will take self-driving screws (prototype uses 2.9\,mm by 6.5\,mm DIN~7981 screws). Third, the two shift keys need yellow paint on the top and the emergency stop key needs red paint -- either any kind of paint or a paint marker like Edding~751 will do. Finally, both the ESP8266 and the ATMega~328P will need to be programmed as described in the next section.
+
+\begin{figure}[tbh]
+  \centering
+  \includegraphics[width=0.49 \textwidth]{images/_DSC8654}
+  \includegraphics[width=0.49 \textwidth]{images/_DSC8655}
+  \caption{Removing protrusions inside the housing so the PCB fits}
+  \label{breakProtrusions}
+\end{figure}
+
+\begin{figure}[tbh]
+  \centering
+  \includegraphics[width=0.8 \textwidth]{images/_DSC8658}
+  \caption{New PCB mounting pads made from 3\,mm thick Forex PVC}
+  \label{mountingPads}
+\end{figure}
+
 \subsection{Programming instructions}
+
+The ESP8266 is programmed using the Arduino IDE connected via a serial or USB-to-serial port to the K401 header as shown in figure~\ref{progESP}. The serial port needs to be at 3.3\,V-levels like from an FTDI232-device run at 3.3\,V.
+
+\begin{figure}[tbh]
+  \centering
+  \includegraphics[width=0.8 \textwidth]{images/_DSC8637}
+  \caption{Programming connection for ESP8266 -- GND on orange wire, then TXD of programming cable (RXD of ESP8266), then RXD of programming cable (TXD of ESP8266)}
+  \label{progESP}
+\end{figure}
+
+\begin{figure}[tbh]
+  \centering
+  \includegraphics[width=0.8 \textwidth]{images/_DSC8638}
+  \caption{Programming connection for ATMega~328P -- Pin 1 on purple cable}
+  \label{progAVR}
+\end{figure}
+
+All files in the \textit{software/esp-firmware}-subdirectory of the github repository need to be placed in a folder, then the main sketch \textit{arduino\_main\_sketch.ino.ino} needs to be opened with the Arduino IDE. Settings for the Arduino IDE can be found inside the main file, programming the device should work using the \textit{Upload}-button in the \textit{Sketch}-menu.
+
+To put the ESP8266 into programming mode, a jumper needs to be placed across the P401 header before inserting batteries to start the device in programming mode. The bootloader should show some results on the serial port and during download the LED on the ESP module should flash.
+
+The ATMega~328P is programmed using the regular AVR ISP connection on P201. Pin 1 -- GND -- is towards the PCB edge, as shown in figure~\ref{progAVR}. An ISP dongle with either automatic voltage selection or 3.3\,V supply voltage should be used to avoid placing too high voltage on the ESP, which can only support 3.3\,V power. The firmware for the AVR can be found in the \textit{software/avr-firmware}-subdirectory of the github repository with both a precompiled hexfile and all source code including a Makefile to recompile as needed. After writing the firmware file, also the fuse bits need to be set properly as detailed in the \textit{main.c}-file.
+
+After programming, two jumpers need to be placed between the K401 and K402 pin headers to re-enable communication between the ESP8266 and the AVR.
 
 \section{Wireless clock driver} \label{clock}
 
