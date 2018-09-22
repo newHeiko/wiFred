@@ -127,13 +127,20 @@ void writeMainPage()
               + "<tr><td>Throttle name (max " + String(sizeof(throttleName)/sizeof(throttleName[0]) - 1) + " chars):</td><td><input type=\"text\" name=\"throttleName\" value=\"" + throttleName + "\"></td></tr>"
               + "<tr><td>WiFi SSID (max " + String(sizeof(wlan.ssid)/sizeof(wlan.ssid[0]) - 1) + " chars):</td><td><input type=\"text\" name=\"wifi.ssid\" value=\"" + wlan.ssid + "\"></td></tr>"
               + "<tr><td>WiFi PSK (max " + String(sizeof(wlan.key)/sizeof(wlan.key[0]) - 1) + " chars):</td><td><input type=\"text\" name=\"wifi.key\" value=\"" + wlan.key + "\"></td></tr>"
-              + "<tr><td colspan=2><input type=\"submit\"></td></tr></table></form>\r\n"
+              + "<tr><td colspan=2><input type=\"submit\"></td></tr></table></form>\r\n";
 
-              + "<hr>Clock configuration<hr>\r\n"
-              + "<a href=clock.html>Clock configuration subpage</a>\r\n"
-              + "<hr>Loco configuration<hr>\r\n"
-              + "<a href=loco.html>Loco configuration subpage</a>\r\n"
-              + "<hr>Restart system to enable new WiFi settings<hr>\r\n"
+
+  if(!locoActive)
+  {
+    resp      += String("<hr>Clock configuration<hr>\r\n")
+              + "<a href=clock.html>Clock configuration subpage</a>\r\n";
+  }
+  if(!clockActive)
+  {
+    resp      += String("<hr>Loco configuration<hr>\r\n")
+              + "<a href=loco.html>Loco configuration subpage</a>\r\n";
+  }
+  resp        += String("<hr>Restart system to enable new WiFi settings<hr>\r\n")
               + "<a href=restart.html>Restart system to enable new WiFi settings</a>\r\n"
               + "<hr><hr>Status page<hr>\r\n"
               + "<a href=status.html>wiFred status subpage</a>\r\n"

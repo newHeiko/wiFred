@@ -67,6 +67,7 @@ void initConfig(void)
   memcpy(throttleName, "undef", sizeof("undef"));
   memcpy(locoServer.name, "undef", sizeof("undef"));
   memcpy(clockServer.name, "undef", sizeof("undef"));
+  locoActive = true;
   locoServer.port = 12090;
   clockServer.port = 12080;
 
