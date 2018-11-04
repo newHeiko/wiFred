@@ -529,7 +529,6 @@ Wire Wire Line
 	5600 5400 6000 5400
 Wire Wire Line
 	5600 5600 6000 5600
-NoConn ~ 5600 6200
 NoConn ~ 5600 3400
 NoConn ~ 5600 3500
 NoConn ~ 5600 3600
@@ -538,4 +537,8 @@ NoConn ~ 5600 3800
 NoConn ~ 5600 3900
 Wire Wire Line
 	3900 2200 4000 2200
+Text GLabel 6000 6200 2    60   Output ~ 0
+ESP_RESET
+Wire Wire Line
+	5600 6200 6000 6200
 $EndSCHEMATC
