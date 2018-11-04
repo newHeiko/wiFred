@@ -1,4 +1,4 @@
-update=Thu 26 Jul 2018 06:01:41 PM CEST
+update=Sat 03 Nov 2018 10:20:07 PM CET
 version=1
 last_client=kicad
 [pcbnew]
@@ -25,6 +25,16 @@ version=1
 NetIExt=net
 [general]
 version=1
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=/tmp/
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60
 [eeschema]
 version=1
 LibDir=../../kicad_extra_libs
@@ -61,13 +71,5 @@ LibName29=contrib
 LibName30=valves
 LibName31=/home/heiko/elektronik/kicad_extra_libs/my_devices
 LibName32=/home/heiko/elektronik/kicad_extra_libs/ESP8266
-[schematic_editor]
-version=1
-PageLayoutDescrFile=
-PlotDirectoryName=/tmp/
-SubpartIdSeparator=0
-SubpartFirstId=65
-NetFmtName=
-SpiceForceRefPrefix=0
-SpiceUseNetNumbers=0
-LabSize=60
+LibName33=LDL1117S30R
+LibName34=MCP73831T-2ACI_OT
