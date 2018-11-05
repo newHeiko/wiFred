@@ -1,4 +1,4 @@
-update=Sat 03 Nov 2018 10:20:07 PM CET
+update=Mon 05 Nov 2018 08:51:10 PM CET
 version=1
 last_client=kicad
 [pcbnew]
@@ -73,3 +73,4 @@ LibName31=/home/heiko/elektronik/kicad_extra_libs/my_devices
 LibName32=/home/heiko/elektronik/kicad_extra_libs/ESP8266
 LibName33=LDL1117S30R
 LibName34=MCP73831T-2ACI_OT
+LibName35=NCV8161BSN300T1G
