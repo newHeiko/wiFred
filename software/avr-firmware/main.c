@@ -34,6 +34,15 @@
 #include "timer.h"
 #include "keypad.h"
 
+void rollover(uint8_t * val)
+{
+  (*val)++;
+  if(*val > 2)
+    {
+      *val = 0;
+    }
+}   
+
 int main(void)
 {
   // initialize power save settings and system clock prescaler
@@ -42,9 +51,9 @@ int main(void)
   power_timer0_enable();
   clock_prescale_set(clock_div_4);
 
-  // enable pullup resistors
-  PORTB = KEY_FORWARD | KEY_REVERSE | KEY_ESTOP | KEY_SHIFT | KEY_SHIFT2;
-  PORTC = 0x1f;
+  // enable pullup resistors and matrix readout
+  PORTC = 0x0f;
+  PORTD = 0xf0 | (1<<PD2);
   
   initADC();
   initUART();
@@ -55,10 +64,12 @@ int main(void)
 
   while(true)
     {
+      static uint8_t led = 0;
       uartHandler();
 
-      if(getKeyPresses(KEY_FORWARD | KEY_REVERSE) || speedTriggered() || speedTimeout == 0)
+      if(getKeyPresses(KEY_FORWARD | KEY_REVERSE)) // || speedTriggered() || speedTimeout == 0)
 	{
+	  rollover(&led);
 	  uint8_t speed = getADCSpeed();
 	  char buffer[sizeof("S:100:F\r \n")];
 	  if(getKeyState(KEY_FORWARD))
@@ -79,18 +90,24 @@ int main(void)
       
       if(getKeyPresses(KEY_F0))
 	{
+	  rollover(&led);
 	  uartSendData("F0_DN\r\n", sizeof("F0_DN\r\n"));
 	}      
       if(getKeyReleases(KEY_F0))
 	{
 	  uartSendData("F0_UP\r\n", sizeof("F0_UP\r\n"));
 	}
-      for(uint8_t f=1; f<5; f++)
+#ifdef LITHIUM_BATTERY
+      for(uint8_t f=1; f<9; f++)
+#else
+      for(uint8_t f=1; f<7; f++)
+#endif
 	{
 	  char buffer[sizeof("F00_DN\r\n ")];
 	  int8_t ret = functionHandler(buffer, f);
 	  if(ret > 0)
 	    {
+	      rollover(&led);
 	      uartSendData(buffer, ret);
 	    }
 	}
@@ -98,8 +115,9 @@ int main(void)
 	static bool config = false;
 	if(getKeyPresses(KEY_ESTOP))
 	  {
+	    rollover(&led);
 	    config = false;
-	    if(getKeyState(KEY_SHIFT | KEY_SHIFT2))
+	    if(getKeyState(KEY_SHIFT))
 	      {
 		config = true;
 		uartSendData("CONF_DN\r\n", sizeof("CONF_DN\r\n"));
@@ -120,6 +138,18 @@ int main(void)
 		uartSendData("ESTOP_UP\r\n", sizeof("ESTOP_UP\r\n"));
 	      }	    
 	  }
-      }	   			   
+      }
+      if(getKeyPresses(KEY_SHIFT | KEY_LOCO1 | KEY_LOCO2 | KEY_LOCO3 | KEY_LOCO4))
+	{
+	  uartSendData("S_L_DN\r\n", sizeof("S_L_DN\r\n"));
+	  rollover(&led);
+	}
+      for(uint8_t i = 0; i < 3; i++)
+	{
+	  LEDs[i].onTime = 0;
+	  LEDs[i].cycleTime = 100;
+	}
+      LEDs[led].onTime = 50;			     
+	  
     }
 }

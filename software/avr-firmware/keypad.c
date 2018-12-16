@@ -28,11 +28,12 @@
 #include <util/atomic.h>
 #include "keypad.h"
 #include "uart.h"
+#include "timer.h"
 
 typedef union
 {
-  uint16_t data;
-  uint8_t byte[2];
+  uint32_t data;
+  uint8_t byte[4];
 } keyInfo;
 
 /**
@@ -51,20 +52,31 @@ volatile keyInfo keyPress;
 volatile keyInfo keyRelease;
 
 /**
- * Handle function keys F1 ... F4
+ * Handle function keys F1 ... F8 for lithium-battery version
+ * Handle function keys F1 ... F6 for newAgeEnclosures version
  *
  * Returns: Number of characters written to dest
  * Parameters: dest: buffer to write string to (minimum sizeof("F00_DN") bytes)
- *                f: Number of function (1..4)
+ *                f: Number of function (1..8) for lithium-battery version
+ *                f: Number of function (1..6) for newAgeEnclosures version
  */
 int8_t functionHandler(char * dest, uint8_t f)
 {
-  static uint8_t funcNum[] = {1, 2, 3, 4};
-  const uint16_t keyMask[] = {KEY_F1, KEY_F2, KEY_F3, KEY_F4};
+#ifdef LITHIUM_BATTERY
+  static uint8_t funcNum[] = {1, 2, 3, 4, 5, 6, 7, 8};
+  const uint32_t keyMask[] = {KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6, KEY_F7, KEY_F8};
+#else
+  static uint8_t funcNum[] = {1, 2, 3, 4, 5, 6};
+  const uint32_t keyMask[] = {KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6};
+#endif
 
   f--;
 
-  if(f > 3)
+#ifdef LITHIUM_BATTERY
+  if(f > 7)
+#else
+  if(f > 5)
+#endif
     {
       return -1;
     }
@@ -74,12 +86,12 @@ int8_t functionHandler(char * dest, uint8_t f)
       funcNum[f] = f+1;
       if(getKeyState(KEY_SHIFT))
 	{
-	  funcNum[f] += 4;
-	}
-      if(getKeyState(KEY_SHIFT2))
-	{
-	  funcNum[f] += 8;
-	}
+#ifdef LITHIUM_BATTERY
+      funcNum[f] += 8;
+#else
+      funcNum[f] += 6;
+#endif
+        }
       return snprintf(dest, sizeof("F00_DN\r\n"), "F%u_DN\r\n", funcNum[f]) + 1;
     }
   if(getKeyReleases(keyMask[f]))
@@ -90,9 +102,26 @@ int8_t functionHandler(char * dest, uint8_t f)
 }	
 
 /**
+ * Function to enable IRQ to wake up from power down mode
+ */
+void enableWakeup(void)
+{
+  EIMSK |= (1<<INT0);
+  sei();
+}
+
+ISR(INT0_vect)
+{
+  EIMSK &= ~(1<<INT0);
+  PORTD |= 0xf0;
+  PORTC |= 0x0f;
+  keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
+}
+
+/**
  * Return current key status
  */
-uint16_t getKeyState(uint16_t keyMask)
+uint32_t getKeyState(uint32_t keyMask)
 {
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
   {
@@ -104,7 +133,7 @@ uint16_t getKeyState(uint16_t keyMask)
 /**
  * Return new key presses since last call
  */
-uint16_t getKeyPresses(uint16_t keyMask)
+uint32_t getKeyPresses(uint32_t keyMask)
 {
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
   {
@@ -117,7 +146,7 @@ uint16_t getKeyPresses(uint16_t keyMask)
 /**
  * Return new key releases since last call
  */
-uint16_t getKeyReleases(uint16_t keyMask)
+uint32_t getKeyReleases(uint32_t keyMask)
 {
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
   {
@@ -128,26 +157,45 @@ uint16_t getKeyReleases(uint16_t keyMask)
 }
 
 /**
- * To be called every 10ms from ISR - handle key input
+ * To be called every 2.5ms from ISR - handle key input
  */
 void debounceKeys(void)
 {
-  static uint8_t ctB0 = 0xff, ctC0 = 0xff, ctB1 = 0xff, ctC1 = 0xff;
+  static uint8_t ct0[5] = {0xff, 0xff, 0xff, 0xff, 0xff};
+  static uint8_t ct1[5] = {0xff, 0xff, 0xff, 0xff, 0xff};
+  static uint8_t ct2 = 0;
   uint8_t i;
-
-  i = keyState.byte[0] ^ ~PINB;
-  ctB0 = ~( ctB0 & i );
-  ctB1 = ctB0 ^ (ctB1 & i);
-  i &= ctB0 & ctB1;
-  keyState.byte[0] ^= i;
-  keyPress.byte[0] |= keyState.byte[0] & i;
-  keyRelease.byte[0] |= ~keyState.byte[0] & i;
-
-  i = keyState.byte[1] ^ ~PINC;
-  ctC0 = ~( ctC0 & i );
-  ctC1 = ctC0 ^ (ctC1 & i);
-  i &= ctC0 & ctC1;
-  keyState.byte[1] ^= i;
-  keyPress.byte[1] |= keyState.byte[1] & i;
-  keyRelease.byte[1] |= ~keyState.byte[1] & i;
+  
+  
+  if(ct2 % 2 == 0)
+    {
+      DDRB &= ~0x0f;
+      DDRB |= (1<<(ct2/2));
+      if(ct2 == 0)
+	{
+	  i = (keyState.byte[0] & 0xf0) ^ (PIND & 0xf0);
+	  ct0[4] = ~( ct0[4] & i );
+	  ct1[4] = ct0[4] ^ (ct1[4] & i);
+	  i &= ct0[4] & ct1[4];
+	  keyState.byte[0] ^= i;
+	  keyPress.byte[0] |= keyState.byte[0] & i;
+	  keyRelease.byte[0] |= ~keyState.byte[0] & i;
+	}
+    }
+  else
+    {
+      i = (keyState.byte[ct2/2] & 0x0f) ^ ~(PINC | 0xf0);
+      ct0[ct2/2] = ~( ct0[ct2/2] & i );
+      ct1[ct2/2] = ct0[ct2/2] ^ (ct1[ct2/2] & i);
+      i &= ct0[ct2/2] & ct1[ct2/2];
+      keyState.byte[ct2/2] ^= i;
+      keyPress.byte[ct2/2] |= keyState.byte[ct2/2] & i;
+      keyRelease.byte[ct2/2] |= ~keyState.byte[ct2/2] & i;
+    }
+      
+  ct2++;
+  if(ct2 >= 8)
+    {
+      ct2 = 0;
+    }
 }

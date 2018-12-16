@@ -23,15 +23,34 @@
 
 #include <stdint.h>
 
+#define LED_FORWARD 0
+#define LED_REVERSE 1
+#define LED_STOP    2
+
 typedef struct
 {
   uint8_t onTime;
   uint8_t cycleTime;
-  uint8_t portBitmask;
 } ledInfo;
 
 extern volatile ledInfo LEDs[3];
 
+/**
+ * Initialize LED output ports
+ */
 void initLEDs(void);
+
+/**
+ * Turn LED on
+ *
+ * Parameter: i [0..2]: LED to turn on
+ */
+void setLEDoutput(uint8_t led);
+/**
+ * Turn LED off
+ *
+ * Parameter: i [0..2]: LED to turn off
+ */
+void clearLEDoutput(uint8_t led);
 
 #endif

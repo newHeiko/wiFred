@@ -56,8 +56,20 @@ void initTimers(void)
 {
   TCCR0A = (1<<WGM01);
   OCR0A = F_CPU / 1024 / 100;
+  OCR0B = OCR0A / 4;
   TCCR0B = (1<<CS02) | (1<<CS00);
-  TIMSK0 = (1<<OCIE0A);
+  TIMSK0 = (1<<OCIE0A) | (1<<OCIE0B);
+}
+
+ISR(TIMER0_COMPB_vect)
+{
+  if(OCR0B >= OCR0A)
+    {
+      OCR0B = 0;
+    }
+  OCR0B += OCR0A / 4;
+
+  debounceKeys();
 }
 
 ISR(TIMER0_COMPA_vect)
@@ -68,7 +80,15 @@ ISR(TIMER0_COMPA_vect)
       if(--keepaliveCountdownSeconds == 0)
 	{
 	  // shutdown system
-	  PORTD = LEDs[0].portBitmask | LEDs[1].portBitmask | LEDs[2].portBitmask;
+	  // disable LED outputs
+	  clearLEDoutput(0);
+	  clearLEDoutput(1);
+	  clearLEDoutput(2);
+	  // disable unneeded pullups to save power
+	  PORTD &= ~(0xf0);
+	  PORTC &= ~(0x0f);
+	  // enable wakeup method
+	  enableWakeup();
 	  sleep_bod_disable();
 	  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 	  sleep_mode();
@@ -82,8 +102,6 @@ ISR(TIMER0_COMPA_vect)
       speedTimeout--;
     }
   
-  debounceKeys();
-
   static uint8_t ledOntimeCountdown[3];
   static uint8_t ledCycletimeCountdown[3];
 
@@ -101,18 +119,18 @@ ISR(TIMER0_COMPA_vect)
     {
       if(ledOntimeCountdown[i] == 0 || --ledOntimeCountdown[i] == 0)
 	{
-	  PORTD |= LEDs[i].portBitmask;
+	  clearLEDoutput(i);
 	  ledOntimeCountdown[i] = 1;
 	}
       if(ledCycletimeCountdown[i] == 0 || --ledCycletimeCountdown[i] == 0)
 	{
-	  PORTD &= ~LEDs[i].portBitmask;
+	  setLEDoutput(i);
 	  ledCycletimeCountdown[i] = LEDs[i].cycleTime;
 	  ledOntimeCountdown[i] = LEDs[i].onTime;
 	}
       if(ledOntimeCountdown[i] == 0)
 	{
-	  PORTD |= LEDs[i].portBitmask;
+	  clearLEDoutput(i);
 	}
     }
 }
