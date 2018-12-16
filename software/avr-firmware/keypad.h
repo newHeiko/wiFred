@@ -28,45 +28,81 @@
 #ifndef _KEYPAD_H_
 #define _KEYPAD_H_
 
-#define KEY_REVERSE (1<<PB0)
-#define KEY_FORWARD (1<<PB1)
-#define KEY_ESTOP   (1<<PB3)
-#define KEY_SHIFT   (1<<PB4)
-#define KEY_SHIFT2  (1<<PB5)
-#define KEY_F0      (1<<(PC0+8))
-#define KEY_F1      (1<<(PC1+8))
-#define KEY_F2      (1<<(PC2+8))
-#define KEY_F3      (1<<(PC3+8))
-#define KEY_F4      (1<<(PC4+8))
+#ifdef LITHIUM_BATTERY
+#warning "Compiling for lithium battery version with 8 function keys"
+#define KEY_F1      (1ul<<PC0)
+#define KEY_F4      (1ul<<PC1)
+#define KEY_F7      (1ul<<PC2)
+#define KEY_ESTOP   (1ul<<PC3)
+#define KEY_F0      (1ul<<(PC0+8))
+#define KEY_F2      (1ul<<(PC1+8))
+#define KEY_F5      (1ul<<(PC2+8))
+#define KEY_F8      (1ul<<(PC3+8))
+#define KEY_F3      (1ul<<(PC0+16))
+#define KEY_F6      (1ul<<(PC1+16))
+#define KEY_SHIFT   (1ul<<(PC3+16))
+#define KEY_REVERSE (1ul<<(PC1+24))
+#define KEY_FORWARD (1ul<<(PC2+24))
+#define KEY_LOCO1   (1ul<<PD7)
+#define KEY_LOCO2   (1ul<<PD6)
+#define KEY_LOCO3   (1ul<<PD5)
+#define KEY_LOCO4   (1ul<<PD4)
 
-#define KEY_ALL     KEY_FORWARD | KEY_REVERSE | KEY_ESTOP | KEY_SHIFT | KEY_SHIFT2 | KEY_F0 | KEY_F1 | KEY_F2 | KEY_F3 | KEY_F4
+#define KEY_ALL     KEY_FORWARD | KEY_REVERSE | KEY_ESTOP | KEY_SHIFT | KEY_F0 | KEY_F1 | KEY_F2 | KEY_F3 | KEY_F4 | KEY_F5 | KEY_F6 | KEY_F7 | KEY_F8 | KEY_LOCO1 | KEY_LOCO2 | KEY_LOCO3 | KEY_LOCO4
+
+#else
+#warning "Compiling for newAgeEnclosures version with 6 function keys"
+#define KEY_ESTOP   (1ul<<PC0)
+#define KEY_F1      (1ul<<PC1)
+#define KEY_F4      (1ul<<PC2)
+#define KEY_F0      (1ul<<(PC0+8))
+#define KEY_F2      (1ul<<(PC1+8))
+#define KEY_F5      (1ul<<(PC2+8))
+#define KEY_SHIFT   (1ul<<(PC0+16))
+#define KEY_F3      (1ul<<(PC1+16))
+#define KEY_F6      (1ul<<(PC2+16))
+#define KEY_REVERSE (1ul<<(PC1+24))
+#define KEY_FORWARD (1ul<<(PC2+24))
+#define KEY_LOCO1   (1ul<<PD7)
+#define KEY_LOCO2   (1ul<<PD6)
+#define KEY_LOCO3   (1ul<<PD5)
+#define KEY_LOCO4   (1ul<<PD4)
+
+#define KEY_ALL     KEY_FORWARD | KEY_REVERSE | KEY_ESTOP | KEY_SHIFT | KEY_F0 | KEY_F1 | KEY_F2 | KEY_F3 | KEY_F4 | KEY_F5 | KEY_F6 | KEY_LOCO1 | KEY_LOCO2 | KEY_LOCO3 | KEY_LOCO4
+
+#endif
+
+/**
+ * Function to enable IRQ to wake up from power down mode
+ */
+void enableWakeup(void);
 
 /**
  * Return current key status
  */
-uint16_t getKeyState(uint16_t keyMask);
+uint32_t getKeyState(uint32_t keyMask);
 
 /**
  * Return new key presses since last call
  */
-uint16_t getKeyPresses(uint16_t keyMask);
+uint32_t getKeyPresses(uint32_t keyMask);
 
 /**
  * Return new key releases since last call
  */
-uint16_t getKeyReleases(uint16_t keyMask);
+uint32_t getKeyReleases(uint32_t keyMask);
 
 /**
- * To be called every 10ms from ISR - handle key input
+ * To be called every 2.5ms from ISR - handle key input
  */
 void debounceKeys(void);
 
 /**
- * Handle function keys F1 ... F4
+ * Handle function keys F1 ... F8
  *
  * Returns: Number of characters written to dest
  * Parameters: dest: buffer to write string to (minimum sizeof("F00_DN") bytes)
- *                f: Number of function (1..4)
+ *                f: Number of function (1..8)
  */
 int8_t functionHandler(char * dest, uint8_t f);
 
