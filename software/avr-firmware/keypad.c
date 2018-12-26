@@ -107,7 +107,6 @@ int8_t functionHandler(char * dest, uint8_t f)
 void enableWakeup(void)
 {
   EIMSK |= (1<<INT0);
-  sei();
 }
 
 ISR(INT0_vect)
