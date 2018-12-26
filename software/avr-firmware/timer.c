@@ -87,11 +87,14 @@ ISR(TIMER0_COMPA_vect)
 	  // disable unneeded pullups to save power
 	  PORTD &= ~(0xf0);
 	  PORTC &= ~(0x0f);
-	  // enable wakeup method
+	  // enable wakeup method through INT0 IRQ
 	  enableWakeup();
-	  sleep_bod_disable();
 	  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
-	  sleep_mode();
+	  sleep_enable();
+	  sleep_bod_disable();
+	  sei();
+	  sleep_cpu();
+	  sleep_disable();
 	  /* */
 	}
       secondCountdown = 100;
