@@ -178,7 +178,7 @@ String handleThrottle(void)
           {
             if(upDown == 'D')
             {
-              ret += String("MTA") + l + "<;>F1" + f + "\n";
+              ret += String("MTAS") + (l+1) + "<;>F1" + f + "\n";
               // if this is the first loco which uses this function
               if(firstLoco)
               {
@@ -196,7 +196,7 @@ String handleThrottle(void)
             } 
             else if(upDown == 'U')
             {
-              ret += String("MTA") + l + "<;>F0" + f + "\n";
+              ret += String("MTAS") + (l+1) + "<;>F0" + f + "\n";
             }
           }
         }
@@ -218,11 +218,11 @@ String handleThrottle(void)
       {
         if(reverseOut ^ locos[l].reverse)
         {
-          ret += String("MTA") + l + "<;>R0\n";
+          ret += String("MTAS") + (l+1) + "<;>R0\n";
         }
         else
         {
-          ret += String("MTA") + l + "<;>R1\n";          
+          ret += String("MTAS") + (l+1) + "<;>R1\n";          
         }
       }
     }

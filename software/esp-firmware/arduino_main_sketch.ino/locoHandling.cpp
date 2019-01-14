@@ -260,14 +260,14 @@ void locoHandler(void)
           // if not, release loco and remove the loco from the throttle
           else
           {
-            client.print(String("MTA") + currentLoco + "<;>r\n");
+            client.print(String("MTAS") + (currentLoco+1) + "<;>r\n");
             if (locos[currentLoco].longAddress)
             {
-              client.print(String("MT-") + currentLoco + "<;>L" + locos[currentLoco].address + "\n");
+              client.print(String("MT-S") + (currentLoco+1) + "<;>L" + locos[currentLoco].address + "\n");
             }
             else
             {
-              client.print(String("MT-") + currentLoco + "<;>S" + locos[currentLoco].address + "\n");
+              client.print(String("MT-S") + (currentLoco+1) + "<;>S" + locos[currentLoco].address + "\n");
             }
           }
         }
@@ -311,35 +311,35 @@ uint8_t requestLoco(uint8_t loco)
   {
     if (locos[loco].longAddress)
     {
-      client.print(String("MT+") + loco + "<;>L" + locos[loco].address + "\n");
+      client.print(String("MT+S") + (loco+1) + "<;>L" + locos[loco].address + "\n");
     }
     else
     {
-      client.print(String("MT+") + loco + "<;>S" + locos[loco].address + "\n");
+      client.print(String("MT+S") + (loco+1) + "<;>S" + locos[loco].address + "\n");
     }
     setESTOP();
-    client.print(String("MTA") + loco + "<;>X\n");
+    client.print(String("MTAS") + (loco+1) + "<;>X\n");
     locoState = (eLocoState) (locoState + 1);
   }
   else
   {
     String line = client.readStringUntil('\n');
-    if(line.startsWith(String("MTA") + loco))
+    if(line.startsWith(String("MTAS") + (loco+1)))
     {
       bool set = false;
       uint8_t f = 0;
       
-      switch(line.charAt(7))
+      switch(line.charAt(8))
       {
         // responding with function status
         case 'F':
-          f = line.substring(9).toInt();
+          f = line.substring(10).toInt();
           // only work on functions up to our maximum
           if(f > MAX_FUNCTION)
           {
             break;
           }
-          if(line.charAt(8) == '1')
+          if(line.charAt(9) == '1')
           {
             set = true;
           }
@@ -361,16 +361,16 @@ uint8_t requestLoco(uint8_t loco)
             // note: This does not work properly with momentary functions
             else if( (set && globalFunctionStatus[f] == ALWAYS_OFF) || (!set && globalFunctionStatus[f] == ALWAYS_ON) )
             {
-              client.print(String("MTA") + loco + "<;>F1" + f + "\n");
-              client.print(String("MTA") + loco + "<;>F0" + f + "\n");
+              client.print(String("MTAS") + (loco+1) + "<;>F1" + f + "\n");
+              client.print(String("MTAS") + (loco+1) + "<;>F0" + f + "\n");
             }
           }
           // if the function is not throttle controlled, match function status to requested function status
           // note: This does not work properly with momentary functions
           if( (set && locos[loco].functions[f] == ALWAYS_OFF) || (!set && locos[loco].functions[f] == ALWAYS_ON) )
           {
-            client.print(String("MTA") + loco + "<;>F1" + f + "\n");
-            client.print(String("MTA") + loco + "<;>F0" + f + "\n");            
+            client.print(String("MTAS") + (loco+1) + "<;>F1" + f + "\n");
+            client.print(String("MTAS") + (loco+1) + "<;>F0" + f + "\n");            
           }
           break;
 
@@ -378,11 +378,11 @@ uint8_t requestLoco(uint8_t loco)
         case 'R':
           if(getReverse() ^ locos[loco].reverse)
           {
-            client.print(String("MTA") + loco + "<;>R0\n");
+            client.print(String("MTAS") + (loco+1) + "<;>R0\n");
           }
           else
           {
-            client.print(String("MTA") + loco + "<;>R1\n");
+            client.print(String("MTAS") + (loco+1) + "<;>R1\n");
           }
           break;
          // last line of regular response, everything should be done by now, so switch to next loco and flush client buffer
