@@ -28,7 +28,7 @@
 locoInfo locos[4];
 bool locoActive = false;
 
-bool locoRunning[4];
+// bool locoRunning[4];
 
 bool inputState[4];
 bool inputChanged[4];
@@ -132,7 +132,7 @@ void locoHandler(void)
             ;
           client.stop();
           // the following line is a workaround for a memory leak bug in arduino 2.4.0/2.4.1: https://github.com/esp8266/Arduino/issues/4497
-          client = WiFiClient();
+          // not required any more in 2.4.2 client = WiFiClient();
           client.setTimeout(1000);
           if (client.connect(locoServer.name, locoServer.port))
           {
