@@ -54,8 +54,12 @@ typedef struct
 extern locoInfo locos[4];
 extern bool locoActive;
 extern serverInfo locoServer;
-extern bool locoRunning[4];
 extern bool e_allLocosOff;
+
+/**
+ * Remember the Loco Address plus its prefix (L or S)
+ */
+extern String locoThrottleID[4];
 
 #define LOCO1_INPUT 5
 #define LOCO2_INPUT 4
