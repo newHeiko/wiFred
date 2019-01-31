@@ -87,6 +87,10 @@ ISR(TIMER0_COMPA_vect)
 	  // disable unneeded pullups to save power
 	  PORTD &= ~(0xf0);
 	  PORTC &= ~(0x0f);
+	  // disable ESP8266
+	  PORTD &= ~(1<<PD3);
+	  // disable speed potentiometer
+	  PORTC &= ~(1<<PC5);
 	  // enable wakeup method through INT0 IRQ
 	  enableWakeup();
 	  set_sleep_mode(SLEEP_MODE_PWR_DOWN);

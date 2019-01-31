@@ -108,12 +108,19 @@ void enableWakeup(void)
 {
   EIMSK |= (1<<INT0);
 }
-
+/**
+ * Wakeup from power down mode
+ */
 ISR(INT0_vect)
 {
   EIMSK &= ~(1<<INT0);
+  // re-enable pullups
   PORTD |= 0xf0;
   PORTC |= 0x0f;
+  // re-enable ESP8266
+  PORTD |= (1<<PD3);
+  // re-enable power to speed potentiometer
+  PORTC |= (1<<PC5);
   keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
 }
 

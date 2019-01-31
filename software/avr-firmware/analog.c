@@ -43,6 +43,10 @@ void initADC(void)
   ADCSRA = (1<<ADEN) | (1<<ADATE) | (1<<ADIE) | (1<<ADPS2) | (1<<ADPS1);
   ADCSRB = 0;
   ADCSRA |= (1<<ADSC);
+
+  // enable power to speed potentiometer
+  DDRC |= (1<<PC5);
+  PORTC |= (1<<PC5);
 }
 
 /**
