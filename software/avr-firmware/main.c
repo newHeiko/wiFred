@@ -27,6 +27,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <avr/power.h>
+#include <util/atomic.h>
 
 #include "analog.h"
 #include "uart.h"
@@ -68,7 +69,6 @@ int main(void)
 
   while(true)
     {
-      static uint8_t led = 0;
       uartHandler();
 
       if(getKeyPresses(KEY_FORWARD | KEY_REVERSE) || speedTriggered() || speedTimeout == 0)
@@ -138,6 +138,13 @@ int main(void)
 		uartSendData("ESTOP_UP\r\n", sizeof("ESTOP_UP\r\n"));
 	      }	    
 	  }
-      }	  
+      }
+      if(getKeyState(KEY_LOCO1 | KEY_LOCO2 | KEY_LOCO3 | KEY_LOCO4))
+	{
+	  ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+	  {	    
+	    keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
+	  }
+	}
     }
 }
