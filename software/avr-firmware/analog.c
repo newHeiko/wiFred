@@ -35,12 +35,22 @@ volatile bool newSpeed = false;
 volatile uint8_t currentSpeed = 0;
 
 /**
- * Initialize A/D converter for free-running conversion mode
+ * Flag to notify everyone of low battery status
+ */
+volatile bool lowBattery = false;
+/**
+ * Flag to notify everyone the battery is empty, system is shutting down
+ */
+volatile bool emptyBattery = false;
+
+/**
+ * Initialize A/D converter for single run conversion mode
+ * and start first conversion
  */
 void initADC(void)
 {
   ADMUX = (1<<REFS0) | 7;
-  ADCSRA = (1<<ADEN) | (1<<ADATE) | (1<<ADIE) | (1<<ADPS2) | (1<<ADPS1);
+  ADCSRA = (1<<ADEN) | (1<<ADIE) | (1<<ADPS2) | (1<<ADPS1);
   ADCSRB = 0;
   ADCSRA |= (1<<ADSC);
 
@@ -84,26 +94,42 @@ ISR(ADC_vect)
   #endif
   static uint16_t buffer = 0;
   static uint8_t counter = 0;
+  static bool speed = true;
 
   buffer += ADC;
   if(++counter >= NUM_AD_SAMPLES)
     {
-      uint8_t temp;
       counter = 0;
 
-      #if NUM_AD_SAMPLES != 16
-      #warning "Change divisor so 1023 * NUM_AD_SAMPLES / divisor = 126"
-      #endif
-      temp = 126 - (buffer / 129);
-      if(temp > currentSpeed + SPEED_TOLERANCE
-	 || currentSpeed > temp + SPEED_TOLERANCE
-	 || ( temp != currentSpeed &&
-	      (  (temp == 126 && currentSpeed >= 126 - SPEED_TOLERANCE)
-		 || (temp == 0 && currentSpeed <= SPEED_TOLERANCE) ) ) )
+      if(speed)
 	{
-	  newSpeed = true;
-	  currentSpeed = temp;
+#if NUM_AD_SAMPLES != 16
+#warning "Change divisor so 1023 * NUM_AD_SAMPLES / divisor = 126"
+#endif
+	  uint8_t temp;
+	  temp = 126 - (buffer / 129);
+	  if(temp > currentSpeed + SPEED_TOLERANCE
+	     || currentSpeed > temp + SPEED_TOLERANCE
+	     || ( temp != currentSpeed &&
+		  (  (temp == 126 && currentSpeed >= 126 - SPEED_TOLERANCE)
+		     || (temp == 0 && currentSpeed <= SPEED_TOLERANCE) ) ) )
+	    {
+	      newSpeed = true;
+	      currentSpeed = temp;
+	    }
+	  // switch over to battery voltage measurement mode
+	  speed = false;
+	  ADMUX = (ADMUX & 0xf0) | 0x0e;
+	}
+      else
+	{
+	  // switch over to speed measurement mode
+	  speed = true;
+	  ADMUX = (ADMUX & 0xf0) | 7;
 	}
       buffer = 0;
     }
+
+  // Start next AD conversion
+  ADCSRA |= (1<<ADSC);
 }
