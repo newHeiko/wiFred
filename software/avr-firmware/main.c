@@ -35,15 +35,6 @@
 #include "timer.h"
 #include "keypad.h"
 
-void rollover(uint8_t * val)
-{
-  (*val)++;
-  if(*val > 2)
-    {
-      *val = 0;
-    }
-}   
-
 int main(void)
 {
   // initialize power save settings and system clock prescaler
@@ -139,6 +130,38 @@ int main(void)
 	      }	    
 	  }
       }
+      if(getKeyPresses(KEY_LOCO1))
+	{
+	  uartSendData("+L1\r\n", sizeof("+L1\r\n"));
+	}
+      if(getKeyPresses(KEY_LOCO2))
+	{
+	  uartSendData("+L2\r\n", sizeof("+L2\r\n"));
+	}
+      if(getKeyPresses(KEY_LOCO3))
+	{
+	  uartSendData("+L3\r\n", sizeof("+L3\r\n"));
+	}
+      if(getKeyPresses(KEY_LOCO4))
+	{
+	  uartSendData("+L4\r\n", sizeof("+L4\r\n"));
+	}
+      if(getKeyReleases(KEY_LOCO1))
+	{
+	  uartSendData("-L1\r\n", sizeof("-L1\r\n"));
+	}
+      if(getKeyReleases(KEY_LOCO2))
+	{
+	  uartSendData("-L2\r\n", sizeof("-L2\r\n"));
+	}
+      if(getKeyReleases(KEY_LOCO3))
+	{
+	  uartSendData("-L3\r\n", sizeof("-L3\r\n"));
+	}
+      if(getKeyReleases(KEY_LOCO4))
+	{
+	  uartSendData("-L4\r\n", sizeof("-L4\r\n"));
+	}
       if(getKeyState(KEY_LOCO1 | KEY_LOCO2 | KEY_LOCO3 | KEY_LOCO4))
 	{
 	  ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
