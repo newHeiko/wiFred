@@ -21,8 +21,11 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <avr/io.h>
-#include "analog.h"
+#include <avr/eeprom.h>
 #include <avr/interrupt.h>
+#include <util/atomic.h>
+
+#include "analog.h"
 
 /**
  * Flag to notify everyone of a speed update
@@ -44,6 +47,20 @@ volatile bool lowBattery = false;
 volatile bool emptyBattery = false;
 
 /**
+ * Bandgap voltage (in millivolts)
+ */
+volatile uint16_t vBandgap;
+/**
+ * EEPROM copy of bandgap voltage
+ */
+uint16_t ee_vBandgap EEMEM = 1200;
+
+/**
+ * Current battery voltage (in millivolts)
+ */
+uint16_t batteryVoltage = 3600;
+
+/**
  * Initialize A/D converter for single run conversion mode
  * and start first conversion
  */
@@ -57,6 +74,9 @@ void initADC(void)
   // enable power to speed potentiometer
   DDRC |= (1<<PC5);
   PORTC |= (1<<PC5);
+
+  // read eeprom copy into RAM
+  vBandgap = eeprom_read_word(&ee_vBandgap);
 }
 
 /**
@@ -85,6 +105,19 @@ uint8_t getADCSpeed(void)
 }
 
 /**
+ * Returns current battery voltage (in millivolts)
+ */
+uint16_t getBatteryVoltage(void)
+{
+  uint16_t temp;
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+  {
+    temp = batteryVoltage;
+  }
+  return temp;
+}
+
+/**
  * Interrupt handler for AD-converter
  */
 ISR(ADC_vect)
@@ -96,13 +129,13 @@ ISR(ADC_vect)
   static uint8_t counter = 0;
   static bool speed = true;
 
-  buffer += ADC;
-  if(++counter >= NUM_AD_SAMPLES)
+  if(speed)
     {
-      counter = 0;
-
-      if(speed)
+      buffer += ADC;
+      if(++counter >= NUM_AD_SAMPLES)
 	{
+	  counter = 0;
+	  
 #if NUM_AD_SAMPLES != 16
 #warning "Change divisor so 1023 * NUM_AD_SAMPLES / divisor = 126"
 #endif
@@ -121,15 +154,49 @@ ISR(ADC_vect)
 	  speed = false;
 	  ADMUX = (ADMUX & 0xf0) | 0x0e;
 	}
-      else
+     buffer = 0;
+    }
+  else
+    {
+      if(counter >= NUM_AD_SAMPLES - 2)
 	{
+	  buffer += ADC;
+	}
+      if(++counter >= NUM_AD_SAMPLES)
+	{
+	  batteryVoltage = (uint32_t) vBandgap * 1024 * 2 / buffer;
+
+	  // auto-calibrate vBandgap if measurement is larger than maximum voltage possible when charging LiPo cell
+	  if(batteryVoltage > 4200)
+	    {
+	      uint32_t temp = (uint32_t) (vBandgap + 1) * 2100 / (batteryVoltage / 2);
+	      vBandgap = temp;
+	      eeprom_write_word(&ee_vBandgap, vBandgap);
+	      batteryVoltage = 4200;
+	    }
+
+	  if(batteryVoltage > LOW_BATTERY_VOLTAGE)
+	    {
+	      emptyBattery = false;
+	      lowBattery = false;
+	    }
+	  else
+	    {
+	      lowBattery = true;
+	      if(batteryVoltage < EMPTY_BATTERY_VOLTAGE)
+		{
+		  emptyBattery = true;
+		}
+	    }
+	  
+	  buffer = 0;
+	  counter = 0;
 	  // switch over to speed measurement mode
 	  speed = true;
 	  ADMUX = (ADMUX & 0xf0) | 7;
 	}
-      buffer = 0;
     }
-
+  
   // Start next AD conversion
   ADCSRA |= (1<<ADSC);
 }
