@@ -28,6 +28,7 @@
 #include <avr/interrupt.h>
 #include <avr/power.h>
 #include <util/atomic.h>
+#include <util/delay.h>
 
 #include "analog.h"
 #include "uart.h"
@@ -37,6 +38,9 @@
 
 int main(void)
 {
+  // this will be set to true for low battery status
+  static bool lowBattery = false;
+
   // initialize power save settings and system clock prescaler
   power_spi_disable();
   power_twi_disable();
@@ -47,17 +51,16 @@ int main(void)
   PORTC = 0x0f;
   PORTD = 0xf0 | (1<<PD2);
 
-  // enable ESP8266 output and power
+  // enable output for enabling ESP8266
   DDRD |= (1<<PD3);
-  PORTD |= (1<<PD3);
-  
+
   initADC();
   initUART();
   initLEDs();
   initTimers();
 
   sei();
-
+  
   while(true)
     {
       uartHandler();
@@ -79,6 +82,15 @@ int main(void)
 	      snprintf(buffer, sizeof("S:100:E\r\n"), "S:%03u:E\r\n", speed);
 	    }
 	  uartSendData(buffer, sizeof("S:100:F\r\n"));
+
+	  snprintf(buffer, sizeof("Vxxxx\r\n"), "V:%04u\r\n", getBatteryVoltage());
+	  uartSendData(buffer, sizeof("Vxxxx\r\n"));
+
+	  if(lowBattery)
+	    {
+	      uartSendData("BLOW\r\n", sizeof("BLOW\r\n"));
+	    }
+	  
 	  speedTimeout = SPEED_INTERVAL;
 	}
       
@@ -130,44 +142,68 @@ int main(void)
 	      }	    
 	  }
       }
-      if(getKeyPresses(KEY_LOCO1))
+      if(wifiOnline)
 	{
-	  uartSendData("+L1\r\n", sizeof("+L1\r\n"));
+	  if(getKeyReleases(KEY_LOCO1))
+	    {
+	      uartSendData("-L1\r\n", sizeof("-L1\r\n"));
+	    }
+	  if(getKeyReleases(KEY_LOCO2))
+	    {
+	      uartSendData("-L2\r\n", sizeof("-L2\r\n"));
+	    }
+	  if(getKeyReleases(KEY_LOCO3))
+	    {
+	      uartSendData("-L3\r\n", sizeof("-L3\r\n"));
+	    }
+	  if(getKeyReleases(KEY_LOCO4))
+	    {
+	      uartSendData("-L4\r\n", sizeof("-L4\r\n"));
+	    }
+	  if(getKeyPresses(KEY_LOCO1))
+	    {
+	      uartSendData("+L1\r\n", sizeof("+L1\r\n"));
+	    }
+	  if(getKeyPresses(KEY_LOCO2))
+	    {
+	      uartSendData("+L2\r\n", sizeof("+L2\r\n"));
+	    }
+	  if(getKeyPresses(KEY_LOCO3))
+	    {
+	      uartSendData("+L3\r\n", sizeof("+L3\r\n"));
+	    }
+	  if(getKeyPresses(KEY_LOCO4))
+	    {
+	      uartSendData("+L4\r\n", sizeof("+L4\r\n"));
+	    }
 	}
-      if(getKeyPresses(KEY_LOCO2))
-	{
-	  uartSendData("+L2\r\n", sizeof("+L2\r\n"));
-	}
-      if(getKeyPresses(KEY_LOCO3))
-	{
-	  uartSendData("+L3\r\n", sizeof("+L3\r\n"));
-	}
-      if(getKeyPresses(KEY_LOCO4))
-	{
-	  uartSendData("+L4\r\n", sizeof("+L4\r\n"));
-	}
-      if(getKeyReleases(KEY_LOCO1))
-	{
-	  uartSendData("-L1\r\n", sizeof("-L1\r\n"));
-	}
-      if(getKeyReleases(KEY_LOCO2))
-	{
-	  uartSendData("-L2\r\n", sizeof("-L2\r\n"));
-	}
-      if(getKeyReleases(KEY_LOCO3))
-	{
-	  uartSendData("-L3\r\n", sizeof("-L3\r\n"));
-	}
-      if(getKeyReleases(KEY_LOCO4))
-	{
-	  uartSendData("-L4\r\n", sizeof("-L4\r\n"));
-	}
+      
       if(getKeyState(KEY_LOCO1 | KEY_LOCO2 | KEY_LOCO3 | KEY_LOCO4))
 	{
-	  ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
-	  {	    
-	    keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
-	  }
+	  if(getBatteryVoltage() > LOW_BATTERY_VOLTAGE)
+	    {
+	      lowBattery = false;
+	      // enable ESP8266 power
+	      PORTD |= (1<<PD3);
+	    }
+	  else
+	    {
+	      lowBattery = true;
+	    }
+	      
+	  if(getBatteryVoltage() > EMPTY_BATTERY_VOLTAGE)
+	    {
+	      ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+	      {	    
+		keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
+	      }
+	    }
+	  else
+	    {
+	      uartSendData("BEMPTY\r\n", sizeof("BEMPTY\r\n"));
+	      _delay_ms(SYSTEM_KEEPALIVE_TIMEOUT * 1000 / 4);
+	    }
+	     
 	}
     }
 }

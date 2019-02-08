@@ -25,6 +25,7 @@
 #include "timer.h"
 #include "led.h"
 #include "keypad.h"
+#include "uart.h"
 
 /**
  * Countdown for keep alive timeout
@@ -89,6 +90,7 @@ ISR(TIMER0_COMPA_vect)
 	  PORTC &= ~(0x0f);
 	  // disable ESP8266
 	  PORTD &= ~(1<<PD3);
+	  wifiOnline = false;
 	  // disable speed potentiometer
 	  PORTC &= ~(1<<PC5);
 	  // enable wakeup method through INT0 IRQ

@@ -38,15 +38,6 @@ volatile bool newSpeed = false;
 volatile uint8_t currentSpeed = 0;
 
 /**
- * Flag to notify everyone of low battery status
- */
-volatile bool lowBattery = false;
-/**
- * Flag to notify everyone the battery is empty, system is shutting down
- */
-volatile bool emptyBattery = false;
-
-/**
  * Bandgap voltage (in millivolts)
  */
 volatile uint16_t vBandgap;
@@ -173,20 +164,6 @@ ISR(ADC_vect)
 	      vBandgap = temp;
 	      eeprom_write_word(&ee_vBandgap, vBandgap);
 	      batteryVoltage = 4200;
-	    }
-
-	  if(batteryVoltage > LOW_BATTERY_VOLTAGE)
-	    {
-	      emptyBattery = false;
-	      lowBattery = false;
-	    }
-	  else
-	    {
-	      lowBattery = true;
-	      if(batteryVoltage < EMPTY_BATTERY_VOLTAGE)
-		{
-		  emptyBattery = true;
-		}
 	    }
 	  
 	  buffer = 0;

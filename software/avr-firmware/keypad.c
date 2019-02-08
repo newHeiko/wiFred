@@ -117,8 +117,7 @@ ISR(INT0_vect)
   // re-enable pullups
   PORTD |= 0xf0;
   PORTC |= 0x0f;
-  // re-enable ESP8266
-  PORTD |= (1<<PD3);
+  // ESP will only be reactivated (from main loop) if battery is not empty
   // re-enable power to speed potentiometer
   PORTC |= (1<<PC5);
   keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
