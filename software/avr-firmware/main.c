@@ -38,9 +38,6 @@
 
 int main(void)
 {
-  // this will be set to true for low battery status
-  static bool lowBattery = false;
-
   // initialize power save settings and system clock prescaler
   power_spi_disable();
   power_twi_disable();
@@ -86,9 +83,13 @@ int main(void)
 	  snprintf(buffer, sizeof("Vxxxx\r\n"), "V:%04u\r\n", getBatteryVoltage());
 	  uartSendData(buffer, sizeof("Vxxxx\r\n"));
 
-	  if(lowBattery)
+	  if(getBatteryVoltage() < LOW_BATTERY_VOLTAGE)
 	    {
 	      uartSendData("BLOW\r\n", sizeof("BLOW\r\n"));
+	    }
+	  else
+	    {
+	      uartSendData("BOK\r\n", sizeof("BOK\r\n"));
 	    }
 	  
 	  speedTimeout = SPEED_INTERVAL;
@@ -182,13 +183,8 @@ int main(void)
 	{
 	  if(getBatteryVoltage() > LOW_BATTERY_VOLTAGE)
 	    {
-	      lowBattery = false;
 	      // enable ESP8266 power
 	      PORTD |= (1<<PD3);
-	    }
-	  else
-	    {
-	      lowBattery = true;
 	    }
 	      
 	  if(getBatteryVoltage() > EMPTY_BATTERY_VOLTAGE)
