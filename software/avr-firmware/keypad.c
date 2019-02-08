@@ -120,6 +120,12 @@ ISR(INT0_vect)
   // ESP will only be reactivated (from main loop) if battery is not empty
   // re-enable power to speed potentiometer
   PORTC |= (1<<PC5);
+
+  // re-enable ADC
+  ADCSRA |= (1<<ADEN);
+  // and start first conversion
+  ADCSRA |= (1<<ADSC);
+
   keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
 }
 

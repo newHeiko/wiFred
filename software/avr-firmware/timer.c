@@ -93,6 +93,8 @@ ISR(TIMER0_COMPA_vect)
 	  wifiOnline = false;
 	  // disable speed potentiometer
 	  PORTC &= ~(1<<PC5);
+	  // disable ADC
+	  ADCSRA &= ~(1<<ADEN);
 	  // enable wakeup method through INT0 IRQ
 	  enableWakeup();
 	  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
