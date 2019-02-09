@@ -126,7 +126,8 @@ ISR(INT0_vect)
   // and start first conversion
   ADCSRA |= (1<<ADSC);
 
-  keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
+  // enough time to measure battery voltage
+  keepaliveCountdownSeconds = 5;
 }
 
 /**

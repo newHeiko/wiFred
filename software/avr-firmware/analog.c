@@ -160,8 +160,7 @@ ISR(ADC_vect)
 	  // auto-calibrate vBandgap if measurement is larger than maximum voltage possible when charging LiPo cell
 	  if(batteryVoltage > 4200)
 	    {
-	      uint32_t temp = (uint32_t) (vBandgap + 1) * 2100 / (batteryVoltage / 2);
-	      vBandgap = temp;
+	      vBandgap--;
 	      eeprom_write_word(&ee_vBandgap, vBandgap);
 	      batteryVoltage = 4200;
 	    }

@@ -80,8 +80,8 @@ int main(void)
 	    }
 	  uartSendData(buffer, sizeof("S:100:F\r\n"));
 
-	  snprintf(buffer, sizeof("Vxxxx\r\n"), "V:%04u\r\n", getBatteryVoltage());
-	  uartSendData(buffer, sizeof("Vxxxx\r\n"));
+	  snprintf(buffer, sizeof("Vxxxxx\r\n"), "V:%04u\r\n", getBatteryVoltage());
+	  uartSendData(buffer, sizeof("Vxxxxx\r\n"));
 
 	  if(getBatteryVoltage() < LOW_BATTERY_VOLTAGE)
 	    {
@@ -197,9 +197,16 @@ int main(void)
 	  else
 	    {
 	      uartSendData("BEMPTY\r\n", sizeof("BEMPTY\r\n"));
-	      _delay_ms(SYSTEM_KEEPALIVE_TIMEOUT * 1000 / 4);
+	      _delay_ms(SYSTEM_KEEPALIVE_TIMEOUT * (1000 / 4));
 	    }
 	     
+	}
+
+      // show that ESP8266 is not active yet
+      if(!(PORTD & (1<<PD3)))
+	{
+	  LEDs[LED_STOP].onTime = 1;
+	  LEDs[LED_STOP].cycleTime = 250;
 	}
     }
 }
