@@ -185,6 +185,8 @@ int main(void)
 	    {
 	      // enable ESP8266 power
 	      PORTD |= (1<<PD3);
+	      // enable power to speed potentiometer
+	      PORTC |= (1<<PC5);
 	    }
 	      
 	  if(getBatteryVoltage() > EMPTY_BATTERY_VOLTAGE)
@@ -202,7 +204,7 @@ int main(void)
 	     
 	}
 
-      // show that ESP8266 is not active yet
+      // show that ESP8266 is not active / battery down
       if(!(PORTD & (1<<PD3)))
 	{
 	  LEDs[LED_STOP].onTime = 1;
