@@ -144,8 +144,8 @@ ISR(ADC_vect)
 	  // switch over to battery voltage measurement mode
 	  speed = false;
 	  ADMUX = (ADMUX & 0xf0) | 0x0e;
+	  buffer = 0;
 	}
-     buffer = 0;
     }
   else
     {
