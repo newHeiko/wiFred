@@ -18,7 +18,7 @@
  * This file ties everything together to initialize the hardware and
  * form the main loop.
  *
- * Fuse settings required for this code: Low: 0x77, High: 0xD9, Extended: 0x07
+ * Fuse settings required for this code: Low: 0x7F, High: 0xD9, Extended: 0x07
  */
 
 #include <stdint.h>
@@ -42,7 +42,7 @@ int main(void)
   power_spi_disable();
   power_twi_disable();
   power_timer0_enable();
-  clock_prescale_set(clock_div_4);
+  clock_prescale_set(clock_div_8);
 
   // enable pullup resistors and matrix readout
   PORTC = 0x0f;
