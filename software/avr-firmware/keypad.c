@@ -117,11 +117,9 @@ ISR(INT0_vect)
   // re-enable pullups
   PORTD |= 0xf0;
   PORTC |= 0x0f;
-  // ESP will only be reactivated (from main loop) if battery is not empty
 
-  // enable power to speed potentiometer
-  //  PORTC |= (1<<PC5);
-  
+  // ESP and speed potentiometer will only be reactivated (from main loop) if battery is not empty
+
   // re-enable ADC
   ADCSRA |= (1<<ADEN);
   // and start first conversion

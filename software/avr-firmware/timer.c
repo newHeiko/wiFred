@@ -135,13 +135,12 @@ ISR(TIMER0_COMPA_vect)
 	}
       if(ledCycletimeCountdown[i] == 0 || --ledCycletimeCountdown[i] == 0)
 	{
-	  setLEDoutput(i);
 	  ledCycletimeCountdown[i] = LEDs[i].cycleTime;
 	  ledOntimeCountdown[i] = LEDs[i].onTime;
-	}
-      if(ledOntimeCountdown[i] == 0)
-	{
-	  clearLEDoutput(i);
+	  if(ledOntimeCountdown[i] != 0)
+	    {
+	      setLEDoutput(i);
+	    }
 	}
     }
 }

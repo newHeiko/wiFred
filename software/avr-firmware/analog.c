@@ -62,9 +62,9 @@ void initADC(void)
   ADCSRB = 0;
   ADCSRA |= (1<<ADSC);
 
-  // enable power to speed potentiometer
+  // prepare to enable power to speed potentiometer
   DDRC |= (1<<PC5);
-  //  PORTC |= (1<<PC5);
+  // will be enabled in main loop
 
   // read eeprom copy into RAM
   vBandgap = eeprom_read_word(&ee_vBandgap);
