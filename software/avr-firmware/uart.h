@@ -23,6 +23,7 @@
 #define _UART_H_
 
 #include <stdint.h>
+#include <stdbool.h>
 #include <avr/io.h>
 
 /**
@@ -45,5 +46,12 @@ void uartSendData(char * data, uint8_t length);
  * Handle fully received UART strings if there are any
  */
 void uartHandler(void);
+
+/**
+ * This will be true after receiving "online" status from ESP8266
+ *             false after receiving "offline" status from ESP8266
+ *             false at startup of ESP8266
+ */
+extern volatile bool wifiOnline;
 
 #endif

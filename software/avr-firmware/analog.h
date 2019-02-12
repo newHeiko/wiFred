@@ -36,6 +36,16 @@
 #define SPEED_TOLERANCE 1
 
 /**
+ * Low battery voltage (in millivolts)
+ */
+#define LOW_BATTERY_VOLTAGE 3500
+
+/**
+ * Empty battery voltage (shutdown system in x seconds) (in millivolts)
+ */
+#define EMPTY_BATTERY_VOLTAGE 3300
+
+/**
  * Initialize A/D converter for free-running conversion mode
  */
 void initADC(void);
@@ -49,5 +59,10 @@ bool speedTriggered(void);
  * Returns current speed value read from potentiometer (0..126)
  */
 uint8_t getADCSpeed(void);
+
+/**
+ * Returns current battery voltage (in millivolts)
+ */
+uint16_t getBatteryVoltage(void);
 
 #endif

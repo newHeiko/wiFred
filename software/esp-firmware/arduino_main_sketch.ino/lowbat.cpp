@@ -27,66 +27,16 @@
 #include "lowbat.h"
 
 /**
- * Set to true when the device detects a battery voltage below @LOW_BATTERY_MILLIVOLTS above
+ * Set to true when the device receives a BLOW message, false when receiving a BOK message
  */
 bool lowBattery;
 
 /**
- * Battery voltage in milliVolt (capped at approx 3V)
+ * Set to true when the device receives a BEMPTY message
+ */
+bool emptyBattery;
+
+/**
+ * Battery voltage in milliVolt
  */
 uint16_t batteryVoltage;
-
-/**
- * Initialize battery voltage measurement and low battery handling
- */
-void lowBatteryInit(void)
-{
-  // intentionally left blank. Nothing to be done for initialization.
-}
-
-/**
- * Periodically check battery voltage and react if falling below the above defined thresholds
- */
-void lowBatteryHandler(void)
-{
-  #if NUM_AD_SAMPLES > 64
-  #warning "Increase data type size of buffer for more than 64 samples"
-  #endif
-  static uint16_t buffer = 0;
-  static uint8_t index = 0;
-
-  static uint32_t lastRead = 0;
-  static uint32_t lastSent = 0;
-
-  if(millis() > lastSent && lowBattery)
-  {
-    lastSent = millis() + 5000;
-    Serial.println("LowBattery");
-  }
-
-  if(millis() > lastRead)
-  {
-    lastRead += 8000 / NUM_AD_SAMPLES;
-
-    buffer += analogRead(A0);
-    index++;
-    if(index == NUM_AD_SAMPLES)
-    {
-      // calculate battery voltage in millivolts ( / 47 * 147 to account for for hardware voltage divider)
-      uint32_t value = buffer / NUM_AD_SAMPLES * 147 * 1000 / 47 / 1024;
-      if(value < LOW_BATTERY_MILLIVOLTS)
-      {
-        lowBattery = true;
-      }
-      if(value < EMPTY_BATTERY_MILLIVOLTS)
-      {
-        // shut down entirely
-        ESP.deepSleep(0);
-      }
-      batteryVoltage = value;
-      buffer = index = 0;
-    }
-  }
-}
-
-

@@ -47,6 +47,13 @@ void initUART(void)
 }
 
 /**
+ * This will be true after receiving "online" status from ESP8266
+ *             false after receiving "offline" status from ESP8266
+ *             false at startup of ESP8266
+ */
+volatile bool wifiOnline = false;
+
+/**
  * Buffer for UART queues
  */
 volatile char txBuffer[TX_BUFFER_SIZE];
@@ -167,10 +174,22 @@ void uartHandler(void)
 		       sizeof("LERR\r\n"));
 	}
     }
-  else if(buffer[0] == 'K')
+  else if(buffer[0] == 'O')
     {
-      keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
-      uartSendData("KOK\r\n", sizeof("KOK\r\n"));
+      switch(buffer[1])
+	{
+	case 'N':
+	  uartSendData("ONOK\r\n", sizeof("ONOK\r\n"));
+	  wifiOnline = true;
+	  break;
+	case 'F':
+	  uartSendData("OFOK\r\n", sizeof("OFOK\r\n"));
+	  wifiOnline = false;
+	  break;
+	default:
+	  uartSendData("OERR\r\n", sizeof("OERR\r\n"));
+	  break;
+	}	  
     }
   else
     {

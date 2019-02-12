@@ -52,31 +52,20 @@ volatile keyInfo keyPress;
 volatile keyInfo keyRelease;
 
 /**
- * Handle function keys F1 ... F8 for lithium-battery version
- * Handle function keys F1 ... F6 for newAgeEnclosures version
+ * Handle function keys F1 ... F8
  *
  * Returns: Number of characters written to dest
  * Parameters: dest: buffer to write string to (minimum sizeof("F00_DN") bytes)
- *                f: Number of function (1..8) for lithium-battery version
- *                f: Number of function (1..6) for newAgeEnclosures version
+ *                f: Number of function (1..8)
  */
 int8_t functionHandler(char * dest, uint8_t f)
 {
-#ifdef LITHIUM_BATTERY
   static uint8_t funcNum[] = {1, 2, 3, 4, 5, 6, 7, 8};
   const uint32_t keyMask[] = {KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6, KEY_F7, KEY_F8};
-#else
-  static uint8_t funcNum[] = {1, 2, 3, 4, 5, 6};
-  const uint32_t keyMask[] = {KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6};
-#endif
 
   f--;
 
-#ifdef LITHIUM_BATTERY
   if(f > 7)
-#else
-  if(f > 5)
-#endif
     {
       return -1;
     }
@@ -86,11 +75,7 @@ int8_t functionHandler(char * dest, uint8_t f)
       funcNum[f] = f+1;
       if(getKeyState(KEY_SHIFT))
 	{
-#ifdef LITHIUM_BATTERY
       funcNum[f] += 8;
-#else
-      funcNum[f] += 6;
-#endif
         }
       return snprintf(dest, sizeof("F00_DN\r\n"), "F%u_DN\r\n", funcNum[f]) + 1;
     }
@@ -109,12 +94,25 @@ void enableWakeup(void)
   EIMSK |= (1<<INT0);
 }
 
+/**
+ * Wakeup from power down mode
+ */
 ISR(INT0_vect)
 {
   EIMSK &= ~(1<<INT0);
+  // re-enable pullups
   PORTD |= 0xf0;
   PORTC |= 0x0f;
-  keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
+
+  // ESP and speed potentiometer will only be reactivated (from main loop) if battery is not empty
+
+  // re-enable ADC
+  ADCSRA |= (1<<ADEN);
+  // and start first conversion
+  ADCSRA |= (1<<ADSC);
+
+  // enough time to measure battery voltage
+  keepaliveCountdownSeconds = 5;
 }
 
 /**

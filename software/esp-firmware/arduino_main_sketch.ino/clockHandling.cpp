@@ -227,8 +227,6 @@ void clockHandler(void)
       }
       else
       {
-// the following line is a workaround for a memory leak bug in arduino 2.4.0/2.4.1: https://github.com/esp8266/Arduino/issues/4497
-// not required anymore on 2.4.2       client = WiFiClient();
         client.connect(clockServer.name, clockServer.port);
       }
     }

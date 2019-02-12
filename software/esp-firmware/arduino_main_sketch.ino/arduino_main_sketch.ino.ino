@@ -42,7 +42,6 @@ void setup() {
   initConfig();
   locoInit();
   initClock();
-  lowBatteryInit();
   
   Serial.begin(115200);
   Serial.setTimeout(10);
@@ -60,7 +59,6 @@ void loop() {
   // put your main code here, to run repeatedly:
   handleWiFi();
   clockHandler();
-  lowBatteryHandler();
 
   static uint32_t test = 0;
 
@@ -71,14 +69,6 @@ void loop() {
     Serial.println(ESP.getFreeHeap());
   }
 #endif
-
-  // send keep alive message on serial port
-  static uint32_t keepAliveTimeout;
-  if(millis() > keepAliveTimeout)
-  {
-    Serial.println("KeepAlive");
-    keepAliveTimeout = millis() + 5000;
-  }
 
   switch(wiFredState)
   {

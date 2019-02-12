@@ -25,6 +25,7 @@
 #include "timer.h"
 #include "led.h"
 #include "keypad.h"
+#include "uart.h"
 
 /**
  * Countdown for keep alive timeout
@@ -87,6 +88,13 @@ ISR(TIMER0_COMPA_vect)
 	  // disable unneeded pullups to save power
 	  PORTD &= ~(0xf0);
 	  PORTC &= ~(0x0f);
+	  // disable ESP8266
+	  PORTD &= ~(1<<PD3);
+	  wifiOnline = false;
+	  // disable speed potentiometer
+	  PORTC &= ~(1<<PC5);
+	  // disable ADC
+	  ADCSRA &= ~(1<<ADEN);
 	  // enable wakeup method through INT0 IRQ
 	  enableWakeup();
 	  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
@@ -127,13 +135,12 @@ ISR(TIMER0_COMPA_vect)
 	}
       if(ledCycletimeCountdown[i] == 0 || --ledCycletimeCountdown[i] == 0)
 	{
-	  setLEDoutput(i);
 	  ledCycletimeCountdown[i] = LEDs[i].cycleTime;
 	  ledOntimeCountdown[i] = LEDs[i].onTime;
-	}
-      if(ledOntimeCountdown[i] == 0)
-	{
-	  clearLEDoutput(i);
+	  if(ledOntimeCountdown[i] != 0)
+	    {
+	      setLEDoutput(i);
+	    }
 	}
     }
 }

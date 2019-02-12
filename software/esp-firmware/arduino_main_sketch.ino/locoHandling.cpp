@@ -50,67 +50,12 @@ serverInfo locoServer;
 
 void locoInit(void)
 {
-  pinMode(LOCO1_INPUT, INPUT_PULLUP);
-  pinMode(LOCO2_INPUT, INPUT_PULLUP);
-  pinMode(LOCO3_INPUT, INPUT_PULLUP);
-  pinMode(LOCO4_INPUT, INPUT_PULLUP);
-
-  delay(50);
-
-  for (uint8_t i = 0; i < 4; i++)
-  {
-    if (digitalRead(inputPins[i]) == LOW)
-    {
-      inputState[i] = true;
-    }
-  }
 }
 
 void locoHandler(void)
 {
   static uint32_t timeout = 0;
-  static uint32_t debounceCounter;
   static uint8_t switchState[4];
-
-  // debounce inputs every 10ms
-  if (millis() > debounceCounter)
-  {
-    debounceCounter += 10;
-
-    for (uint8_t i = 0; i < 4; i++)
-    {
-      if (digitalRead(inputPins[i]) == LOW && inputState[i] == false)
-      {
-        if (switchState[i] >= 4)
-        {
-          inputState[i] = true;
-          inputChanged[i] = true;
-          switchState[i] = 0;
-        }
-        else
-        {
-          switchState[i]++;
-        }
-      }
-      else if (digitalRead(inputPins[i]) == HIGH && inputState[i] == true)
-      {
-        if (switchState[i] >= 4)
-        {
-          inputState[i] = false;
-          inputChanged[i] = true;
-          switchState[i] = 0;
-        }
-        else
-        {
-          switchState[i]++;
-        }
-      }
-      else
-      {
-        switchState[i] = 0;
-      }
-    }
-  }
 
   if (!locoActive)
   {
@@ -132,8 +77,6 @@ void locoHandler(void)
           while(client.read() > -1)
             ;
           client.stop();
-          // the following line is a workaround for a memory leak bug in arduino 2.4.0/2.4.1: https://github.com/esp8266/Arduino/issues/4497
-          // not required any more in 2.4.2 client = WiFiClient();
           client.setTimeout(1000);
           if (client.connect(locoServer.name, locoServer.port))
           {

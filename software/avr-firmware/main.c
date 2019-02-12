@@ -18,7 +18,7 @@
  * This file ties everything together to initialize the hardware and
  * form the main loop.
  *
- * Fuse settings required for this code: Low: 0x77, High: 0xD9, Extended: 0x07
+ * Fuse settings required for this code: Low: 0x7F, High: 0xD9, Extended: 0x07
  */
 
 #include <stdint.h>
@@ -27,6 +27,8 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <avr/power.h>
+#include <util/atomic.h>
+#include <util/delay.h>
 
 #include "analog.h"
 #include "uart.h"
@@ -34,42 +36,34 @@
 #include "timer.h"
 #include "keypad.h"
 
-void rollover(uint8_t * val)
-{
-  (*val)++;
-  if(*val > 2)
-    {
-      *val = 0;
-    }
-}   
-
 int main(void)
 {
   // initialize power save settings and system clock prescaler
   power_spi_disable();
   power_twi_disable();
   power_timer0_enable();
-  clock_prescale_set(clock_div_4);
+  clock_prescale_set(clock_div_8);
 
   // enable pullup resistors and matrix readout
   PORTC = 0x0f;
   PORTD = 0xf0 | (1<<PD2);
-  
+
+  // enable output for enabling ESP8266
+  DDRD |= (1<<PD3);
+
   initADC();
   initUART();
   initLEDs();
   initTimers();
 
   sei();
-
+  
   while(true)
     {
-      static uint8_t led = 0;
       uartHandler();
 
-      if(getKeyPresses(KEY_FORWARD | KEY_REVERSE)) // || speedTriggered() || speedTimeout == 0)
+      if(getKeyPresses(KEY_FORWARD | KEY_REVERSE) || speedTriggered() || speedTimeout == 0)
 	{
-	  rollover(&led);
 	  uint8_t speed = getADCSpeed();
 	  char buffer[sizeof("S:100:F\r \n")];
 	  if(getKeyState(KEY_FORWARD))
@@ -85,29 +79,36 @@ int main(void)
 	      snprintf(buffer, sizeof("S:100:E\r\n"), "S:%03u:E\r\n", speed);
 	    }
 	  uartSendData(buffer, sizeof("S:100:F\r\n"));
+
+	  snprintf(buffer, sizeof("Vxxxxx\r\n"), "V:%04u\r\n", getBatteryVoltage());
+	  uartSendData(buffer, sizeof("Vxxxxx\r\n"));
+
+	  if(getBatteryVoltage() < LOW_BATTERY_VOLTAGE)
+	    {
+	      uartSendData("BLOW\r\n", sizeof("BLOW\r\n"));
+	    }
+	  else
+	    {
+	      uartSendData("BOK\r\n", sizeof("BOK\r\n"));
+	    }
+	  
 	  speedTimeout = SPEED_INTERVAL;
 	}
       
       if(getKeyPresses(KEY_F0))
 	{
-	  rollover(&led);
 	  uartSendData("F0_DN\r\n", sizeof("F0_DN\r\n"));
 	}      
       if(getKeyReleases(KEY_F0))
 	{
 	  uartSendData("F0_UP\r\n", sizeof("F0_UP\r\n"));
 	}
-#ifdef LITHIUM_BATTERY
       for(uint8_t f=1; f<9; f++)
-#else
-      for(uint8_t f=1; f<7; f++)
-#endif
 	{
 	  char buffer[sizeof("F00_DN\r\n ")];
 	  int8_t ret = functionHandler(buffer, f);
 	  if(ret > 0)
 	    {
-	      rollover(&led);
 	      uartSendData(buffer, ret);
 	    }
 	}
@@ -115,7 +116,6 @@ int main(void)
 	static bool config = false;
 	if(getKeyPresses(KEY_ESTOP))
 	  {
-	    rollover(&led);
 	    config = false;
 	    if(getKeyState(KEY_SHIFT))
 	      {
@@ -139,17 +139,72 @@ int main(void)
 	      }	    
 	  }
       }
-      if(getKeyPresses(KEY_SHIFT | KEY_LOCO1 | KEY_LOCO2 | KEY_LOCO3 | KEY_LOCO4))
+      if(wifiOnline)
 	{
-	  uartSendData("S_L_DN\r\n", sizeof("S_L_DN\r\n"));
-	  rollover(&led);
+	  if(getKeyReleases(KEY_LOCO1))
+	    {
+	      uartSendData("-L1\r\n", sizeof("-L1\r\n"));
+	    }
+	  if(getKeyReleases(KEY_LOCO2))
+	    {
+	      uartSendData("-L2\r\n", sizeof("-L2\r\n"));
+	    }
+	  if(getKeyReleases(KEY_LOCO3))
+	    {
+	      uartSendData("-L3\r\n", sizeof("-L3\r\n"));
+	    }
+	  if(getKeyReleases(KEY_LOCO4))
+	    {
+	      uartSendData("-L4\r\n", sizeof("-L4\r\n"));
+	    }
+	  if(getKeyPresses(KEY_LOCO1))
+	    {
+	      uartSendData("+L1\r\n", sizeof("+L1\r\n"));
+	    }
+	  if(getKeyPresses(KEY_LOCO2))
+	    {
+	      uartSendData("+L2\r\n", sizeof("+L2\r\n"));
+	    }
+	  if(getKeyPresses(KEY_LOCO3))
+	    {
+	      uartSendData("+L3\r\n", sizeof("+L3\r\n"));
+	    }
+	  if(getKeyPresses(KEY_LOCO4))
+	    {
+	      uartSendData("+L4\r\n", sizeof("+L4\r\n"));
+	    }
 	}
-      for(uint8_t i = 0; i < 3; i++)
+      
+      if(getKeyState(KEY_LOCO1 | KEY_LOCO2 | KEY_LOCO3 | KEY_LOCO4))
 	{
-	  LEDs[i].onTime = 0;
-	  LEDs[i].cycleTime = 100;
+	  if(getBatteryVoltage() > LOW_BATTERY_VOLTAGE)
+	    {
+	      // enable ESP8266 power
+	      PORTD |= (1<<PD3);
+	      // enable power to speed potentiometer
+	      PORTC |= (1<<PC5);
+	    }
+	      
+	  if(getBatteryVoltage() > EMPTY_BATTERY_VOLTAGE)
+	    {
+	      ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+	      {	    
+		keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
+	      }
+	    }
+	  else
+	    {
+	      uartSendData("BEMPTY\r\n", sizeof("BEMPTY\r\n"));
+	      _delay_ms(SYSTEM_KEEPALIVE_TIMEOUT * (1000 / 4));
+	    }
+	     
 	}
-      LEDs[led].onTime = 50;			     
-	  
+
+      // show that ESP8266 is not active / battery down
+      if(!(PORTD & (1<<PD3)))
+	{
+	  LEDs[LED_STOP].onTime = 1;
+	  LEDs[LED_STOP].cycleTime = 250;
+	}
     }
 }
