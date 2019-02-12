@@ -72,14 +72,6 @@ void loop() {
   }
 #endif
 
-  // send keep alive message on serial port
-  static uint32_t keepAliveTimeout;
-  if(millis() > keepAliveTimeout)
-  {
-    Serial.println("KeepAlive");
-    keepAliveTimeout = millis() + 5000;
-  }
-
   switch(wiFredState)
   {
     case STATE_STARTUP:
