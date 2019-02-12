@@ -42,7 +42,6 @@ void setup() {
   initConfig();
   locoInit();
   initClock();
-  lowBatteryInit();
   
   Serial.begin(115200);
   Serial.setTimeout(10);
@@ -60,7 +59,6 @@ void loop() {
   // put your main code here, to run repeatedly:
   handleWiFi();
   clockHandler();
-  lowBatteryHandler();
 
   static uint32_t test = 0;
 

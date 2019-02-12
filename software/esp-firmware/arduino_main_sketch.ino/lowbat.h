@@ -28,36 +28,17 @@
 #include <stdbool.h>
 
 /**
- * Number of samples the ADC shall take for averaging
- */
-#define NUM_AD_SAMPLES 32
-/**
- * Battery voltage for the device to detect low battery status
- * Will change behaviour of device
- */
-#define LOW_BATTERY_MILLIVOLTS 2100
-/**
- * Battery voltage for the device to shut down (deep sleep, never wakeup)
- */
-#define EMPTY_BATTERY_MILLIVOLTS 1800
-
-/**
- * Set to true when the device detects a battery voltage below @LOW_BATTERY_MILLIVOLTS above
+ * Set to true when the device receives a BLOW message, false when receiving a BOK message
  */
 extern bool lowBattery;
 
 /**
- * Initialize battery voltage measurement and low battery handling
+ * Set to true when the device receives a BEMPTY message
  */
-void lowBatteryInit(void);
+extern bool emptyBattery;
 
 /**
- * Periodically check battery voltage and react if falling below the above defined thresholds
- */
-void lowBatteryHandler(void);
-
-/**
- * Battery voltage in milliVolt (capped at approx 3V)
+ * Battery voltage in milliVolt
  */
 extern uint16_t batteryVoltage;
 
