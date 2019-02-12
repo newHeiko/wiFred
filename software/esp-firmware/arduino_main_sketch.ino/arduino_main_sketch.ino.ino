@@ -41,7 +41,6 @@ void setup() {
 
   initConfig();
   locoInit();
-  initClock();
   
   Serial.begin(115200);
   Serial.setTimeout(10);
@@ -58,8 +57,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   handleWiFi();
-  clockHandler();
-
+  
   static uint32_t test = 0;
 
 #ifdef DEBUG
@@ -74,16 +72,8 @@ void loop() {
   {
     case STATE_STARTUP:
       setLEDvalues("0/0", "0/0", "100/200");
-      if(!clockActive || getInputState(0) == true || getInputState(1) == true || getInputState(2) == true || getInputState(3) == true)
-      {
-        initWiFiSTA();
-        switchState(STATE_CONNECTING, 60 * 1000);
-      }
-      else
-      {
-        initWiFiAP();
-        switchState(STATE_CONFIG_AP);
-      }
+      initWiFiSTA();
+      switchState(STATE_CONNECTING, 60 * 1000);
       break;
       
     case STATE_CONNECTING:
@@ -102,15 +92,7 @@ void loop() {
     case STATE_CONNECTED:
       if(getInputState(0) == false && getInputState(1) == false && getInputState(2) == false && getInputState(3) == false)
       {
-        if(clockActive)
-        {
-          initWiFiConfigSTA();
-          switchState(STATE_CONFIG_STATION_WAITING, 30 * 1000);
-        }
-        else
-        {
-          switchState(STATE_LOWPOWER_WAITING, 30 * 1000);
-        }
+        switchState(STATE_LOWPOWER_WAITING, 30 * 1000);
         break;
       }
 
@@ -133,11 +115,6 @@ void loop() {
     // intentional fall-through
     case STATE_CONFIG_STATION:
       setLEDvalues("200/200", "200/200", "200/200");
-      if(clockActive && (getInputState(0) == true || getInputState(1) == true || getInputState(2) == true || getInputState(3) == true))
-      {
-        shutdownWiFiConfigSTA();
-        switchState(STATE_CONNECTED);
-      }
       break;
 
     case STATE_CONFIG_STATION_COMING:
