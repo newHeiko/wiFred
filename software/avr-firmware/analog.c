@@ -149,13 +149,13 @@ ISR(ADC_vect)
     }
   else
     {
-      if(counter >= NUM_AD_SAMPLES - 2)
+      if(counter >= NUM_AD_SAMPLES / 2)
 	{
 	  buffer += ADC;
 	}
       if(++counter >= NUM_AD_SAMPLES)
 	{
-	  batteryVoltage = (uint32_t) vBandgap * 1024 * 2 / buffer;
+	  batteryVoltage = (uint32_t) vBandgap * 1024 * NUM_AD_SAMPLES / 2 / buffer;
 
 	  // auto-calibrate vBandgap if measurement is larger than maximum voltage possible when charging LiPo cell
 	  if(batteryVoltage > 4200)
