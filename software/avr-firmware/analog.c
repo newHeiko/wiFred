@@ -139,8 +139,8 @@ ISR(ADC_vect)
 		     || (temp == 0 && currentSpeed <= SPEED_TOLERANCE) ) ) )
 	    {
 	      newSpeed = true;
-	      currentSpeed = temp;
 	    }
+	  currentSpeed = temp;
 	  // switch over to battery voltage measurement mode
 	  speed = false;
 	  ADMUX = (ADMUX & 0xf0) | 0x0e;
