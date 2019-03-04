@@ -210,12 +210,10 @@ void uartHandler(void)
 	{
 	case 'N':
 	  uartSendData("ONOK\r\n", sizeof("ONOK\r\n") - 1);
-	  _delay_ms(20);
 	  wifiOnline = true;
 	  break;
 	case 'F':
 	  uartSendData("OFOK\r\n", sizeof("OFOK\r\n") - 1);
-	  _delay_ms(20);
 	  wifiOnline = false;
 	  break;
 	default:
