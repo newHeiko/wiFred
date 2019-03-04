@@ -149,35 +149,35 @@ int main(void)
       }
       if(wifiOnline)
 	{
-	  if(getKeyReleases(KEY_LOCO1))
+	  if(getKeyReleases(KEY_LOCO1) && !getKeyState(KEY_LOCO1))
 	    {
 	      uartSendData("-L1\r\n", sizeof("-L1\r\n") - 1);
 	    }
-	  if(getKeyReleases(KEY_LOCO2))
+	  if(getKeyReleases(KEY_LOCO2) && !getKeyState(KEY_LOCO2))
 	    {
 	      uartSendData("-L2\r\n", sizeof("-L2\r\n") - 1);
 	    }
-	  if(getKeyReleases(KEY_LOCO3))
+	  if(getKeyReleases(KEY_LOCO3) && !getKeyState(KEY_LOCO3))
 	    {
 	      uartSendData("-L3\r\n", sizeof("-L3\r\n") - 1);
 	    }
-	  if(getKeyReleases(KEY_LOCO4))
+	  if(getKeyReleases(KEY_LOCO4) && !getKeyState(KEY_LOCO4))
 	    {
 	      uartSendData("-L4\r\n", sizeof("-L4\r\n") - 1);
 	    }
-	  if(getKeyPresses(KEY_LOCO1))
+	  if(getKeyPresses(KEY_LOCO1) && getKeyState(KEY_LOCO1))
 	    {
 	      uartSendData("+L1\r\n", sizeof("+L1\r\n") - 1);
 	    }
-	  if(getKeyPresses(KEY_LOCO2))
+	  if(getKeyPresses(KEY_LOCO2) && getKeyState(KEY_LOCO2))
 	    {
 	      uartSendData("+L2\r\n", sizeof("+L2\r\n") - 1);
 	    }
-	  if(getKeyPresses(KEY_LOCO3))
+	  if(getKeyPresses(KEY_LOCO3) && getKeyState(KEY_LOCO3))
 	    {
 	      uartSendData("+L3\r\n", sizeof("+L3\r\n") - 1);
 	    }
-	  if(getKeyPresses(KEY_LOCO4))
+	  if(getKeyPresses(KEY_LOCO4) && getKeyState(KEY_LOCO4))
 	    {
 	      uartSendData("+L4\r\n", sizeof("+L4\r\n") - 1);
 	    }	  
