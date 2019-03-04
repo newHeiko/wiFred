@@ -208,6 +208,14 @@ int main(void)
 	     
 	}
 
+      // Send message to ESP8266 for power down just before actually powering down
+      if(keepaliveCountdownSeconds < SYSTEM_KEEPALIVE_TIMEOUT / 16)
+	{
+	  uartSendData("PWR_DOWN\r\n", sizeof("PWR_DOWN\r\n") - 1);
+	  while(keepaliveCountdownSeconds < SYSTEM_KEEPALIVE_TIMEOUT / 16)
+	    ;
+	}	  
+      
       // show that ESP8266 is not active / battery down
       if(!(PORTD & (1<<PD3)))
 	{
