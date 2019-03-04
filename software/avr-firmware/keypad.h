@@ -28,8 +28,6 @@
 #ifndef _KEYPAD_H_
 #define _KEYPAD_H_
 
-#ifdef LITHIUM_BATTERY
-#warning "Compiling for lithium battery version with 8 function keys"
 #define KEY_F1      (1ul<<PC0)
 #define KEY_F4      (1ul<<PC1)
 #define KEY_F7      (1ul<<PC2)
@@ -49,28 +47,6 @@
 #define KEY_LOCO4   (1ul<<PD4)
 
 #define KEY_ALL     KEY_FORWARD | KEY_REVERSE | KEY_ESTOP | KEY_SHIFT | KEY_F0 | KEY_F1 | KEY_F2 | KEY_F3 | KEY_F4 | KEY_F5 | KEY_F6 | KEY_F7 | KEY_F8 | KEY_LOCO1 | KEY_LOCO2 | KEY_LOCO3 | KEY_LOCO4
-
-#else
-#warning "Compiling for newAgeEnclosures version with 6 function keys"
-#define KEY_ESTOP   (1ul<<PC0)
-#define KEY_F1      (1ul<<PC1)
-#define KEY_F4      (1ul<<PC2)
-#define KEY_F0      (1ul<<(PC0+8))
-#define KEY_F2      (1ul<<(PC1+8))
-#define KEY_F5      (1ul<<(PC2+8))
-#define KEY_SHIFT   (1ul<<(PC0+16))
-#define KEY_F3      (1ul<<(PC1+16))
-#define KEY_F6      (1ul<<(PC2+16))
-#define KEY_REVERSE (1ul<<(PC1+24))
-#define KEY_FORWARD (1ul<<(PC2+24))
-#define KEY_LOCO1   (1ul<<PD7)
-#define KEY_LOCO2   (1ul<<PD6)
-#define KEY_LOCO3   (1ul<<PD5)
-#define KEY_LOCO4   (1ul<<PD4)
-
-#define KEY_ALL     KEY_FORWARD | KEY_REVERSE | KEY_ESTOP | KEY_SHIFT | KEY_F0 | KEY_F1 | KEY_F2 | KEY_F3 | KEY_F4 | KEY_F5 | KEY_F6 | KEY_LOCO1 | KEY_LOCO2 | KEY_LOCO3 | KEY_LOCO4
-
-#endif
 
 /**
  * Function to enable IRQ to wake up from power down mode
