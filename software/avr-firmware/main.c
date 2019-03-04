@@ -80,9 +80,9 @@ int main(void)
 	    }
 	  uartSendData(buffer, sizeof("S:100:F\r\n") - 1);
 
-	  snprintf(buffer, sizeof("Vxxxxx\r\n"), "V:%04u\r\n", getBatteryVoltage());
-	  uartSendData(buffer, sizeof("Vxxxxx\r\n"));
-
+	  snprintf(buffer, sizeof("V:1234\r\n"), "V:%04u\r\n", getBatteryVoltage());
+	  uartSendData(buffer, sizeof("V:1234\r\n") - 1);
+	  
 	  if(getBatteryVoltage() < LOW_BATTERY_VOLTAGE)
 	    {
 	      uartSendData("BLOW\r\n", sizeof("BLOW\r\n") - 1);
