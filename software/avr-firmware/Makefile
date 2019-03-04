@@ -42,7 +42,7 @@ MCU = atmega328p
 
 # Main Oscillator Frequency
 # This is only used to define F_CPU in all assembler and c-sources.
-F_CPU = 1843200
+F_CPU = 3686400
 
 # Output format. (can be srec, ihex, binary)
 FORMAT = ihex

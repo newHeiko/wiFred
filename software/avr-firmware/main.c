@@ -42,7 +42,7 @@ int main(void)
   power_spi_disable();
   power_twi_disable();
   power_timer0_enable();
-  clock_prescale_set(clock_div_8);
+  clock_prescale_set(clock_div_4);
 
   // enable pullup resistors and matrix readout
   PORTC = 0x0f;
