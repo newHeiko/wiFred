@@ -91,7 +91,7 @@ int main(void)
 	    {
 	      uartSendData("BOK\r\n", sizeof("BOK\r\n") - 1);
 	    }
-	  
+
 	  speedTimeout = SPEED_INTERVAL;
 	}
       
