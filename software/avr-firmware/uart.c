@@ -71,6 +71,34 @@ volatile uint8_t txReadIndex = 0, txWriteIndex = 0;
 volatile uint8_t rxWriteIndex = 0, rxReadIndex = 0;
 
 /**
+ * Enqueue speed data to be sent
+ *
+ * Returns true if sent
+ *         false if UART busy
+ */
+bool uartSendSpeed(uint8_t speed)
+{
+  char buffer[sizeof("S:100:F\r\n")];
+  if(! (UCSR0B & (1<<UDRIE0)) )
+    {
+      if(getKeyState(KEY_FORWARD))
+	{
+	  snprintf(buffer, sizeof("S:100:F\r\n"), "S:%03u:F\r\n", speed);
+	}
+      else if(getKeyState(KEY_REVERSE))
+	{
+	  snprintf(buffer, sizeof("S:100:R\r\n"), "S:%03u:R\r\n", speed);
+	}
+      uartSendData(buffer, sizeof("S:100:F\r\n") - 1);
+      return true;
+    }
+  else
+    {
+      return false;
+    }
+}
+
+/**
  * Enqueue data to be sent
  */
 void uartSendData(char * data, uint8_t length)
