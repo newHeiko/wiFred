@@ -27,9 +27,12 @@
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
 #include <util/atomic.h>
+#include <util/delay.h>
+
 #include "uart.h"
 #include "led.h"
 #include "timer.h"
+#include "keypad.h"
 
 #define BAUD 115200
 #include <util/setbaud.h>
@@ -194,12 +197,11 @@ void uartHandler(void)
 	  LEDs[led-1].onTime = temp.onTime;
 	  LEDs[led-1].cycleTime = temp.cycleTime;
 	  newLEDvalues();
-	  uartSendData("LOK\r\n", sizeof("LOK\r\n"));
+	  uartSendData("LOK\r\n", sizeof("LOK\r\n") - 1);
 	}
       else
 	{
-	  uartSendData("LERR\r\n",
-		       sizeof("LERR\r\n"));
+	  uartSendData("LERR\r\n", sizeof("LERR\r\n") - 1);
 	}
     }
   else if(buffer[0] == 'O')
@@ -207,21 +209,23 @@ void uartHandler(void)
       switch(buffer[1])
 	{
 	case 'N':
-	  uartSendData("ONOK\r\n", sizeof("ONOK\r\n"));
+	  uartSendData("ONOK\r\n", sizeof("ONOK\r\n") - 1);
+	  _delay_ms(20);
 	  wifiOnline = true;
 	  break;
 	case 'F':
-	  uartSendData("OFOK\r\n", sizeof("OFOK\r\n"));
+	  uartSendData("OFOK\r\n", sizeof("OFOK\r\n") - 1);
+	  _delay_ms(20);
 	  wifiOnline = false;
 	  break;
 	default:
-	  uartSendData("OERR\r\n", sizeof("OERR\r\n"));
+	  uartSendData("OERR\r\n", sizeof("OERR\r\n") - 1);
 	  break;
 	}	  
     }
   else
     {
-      uartSendData("ERR\r\n", sizeof("ERR\r\n"));
+      uartSendData("ERR\r\n", sizeof("ERR\r\n") - 1);
     }
 }
 

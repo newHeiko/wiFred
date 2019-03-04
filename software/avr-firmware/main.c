@@ -65,7 +65,7 @@ int main(void)
       if(getKeyPresses(KEY_FORWARD | KEY_REVERSE) || speedTimeout == 0)
 	{
 	  uint8_t speed = getADCSpeed();
-	  char buffer[sizeof("S:100:F\r \n")];
+	  char buffer[sizeof("S:100:F\r\n")];
 	  if(getKeyState(KEY_FORWARD))
 	    {
 	      snprintf(buffer, sizeof("S:100:F\r\n"), "S:%03u:F\r\n", speed);
@@ -78,18 +78,18 @@ int main(void)
 	    {
 	      snprintf(buffer, sizeof("S:100:E\r\n"), "S:%03u:E\r\n", speed);
 	    }
-	  uartSendData(buffer, sizeof("S:100:F\r\n"));
+	  uartSendData(buffer, sizeof("S:100:F\r\n") - 1);
 
 	  snprintf(buffer, sizeof("Vxxxxx\r\n"), "V:%04u\r\n", getBatteryVoltage());
 	  uartSendData(buffer, sizeof("Vxxxxx\r\n"));
 
 	  if(getBatteryVoltage() < LOW_BATTERY_VOLTAGE)
 	    {
-	      uartSendData("BLOW\r\n", sizeof("BLOW\r\n"));
+	      uartSendData("BLOW\r\n", sizeof("BLOW\r\n") - 1);
 	    }
 	  else
 	    {
-	      uartSendData("BOK\r\n", sizeof("BOK\r\n"));
+	      uartSendData("BOK\r\n", sizeof("BOK\r\n") - 1);
 	    }
 	  
 	  speedTimeout = SPEED_INTERVAL;
@@ -105,15 +105,15 @@ int main(void)
       
       if(getKeyPresses(KEY_F0))
 	{
-	  uartSendData("F0_DN\r\n", sizeof("F0_DN\r\n"));
+	  uartSendData("F0_DN\r\n", sizeof("F0_DN\r\n") - 1);
 	}      
       if(getKeyReleases(KEY_F0))
 	{
-	  uartSendData("F0_UP\r\n", sizeof("F0_UP\r\n"));
+	  uartSendData("F0_UP\r\n", sizeof("F0_UP\r\n") - 1);
 	}
       for(uint8_t f=1; f<9; f++)
 	{
-	  char buffer[sizeof("F00_DN\r\n ")];
+	  char buffer[sizeof("F00_DN\r\n")];
 	  int8_t ret = functionHandler(buffer, f);
 	  if(ret > 0)
 	    {
@@ -128,22 +128,22 @@ int main(void)
 	    if(getKeyState(KEY_SHIFT))
 	      {
 		config = true;
-		uartSendData("CONF_DN\r\n", sizeof("CONF_DN\r\n"));
+		uartSendData("CONF_DN\r\n", sizeof("CONF_DN\r\n") - 1);
 	      }
 	    else
 	      {
-		uartSendData("ESTOP_DN\r\n", sizeof("ESTOP_DN\r\n"));
+		uartSendData("ESTOP_DN\r\n", sizeof("ESTOP_DN\r\n") - 1);
 	      }
 	  }
 	if(getKeyReleases(KEY_ESTOP))
 	  {
 	    if(config)
 	      {
-		uartSendData("CONF_UP\r\n", sizeof("CONF_UP\r\n"));
+		uartSendData("CONF_UP\r\n", sizeof("CONF_UP\r\n") - 1);
 	      }
 	    else
 	      {
-		uartSendData("ESTOP_UP\r\n", sizeof("ESTOP_UP\r\n"));
+		uartSendData("ESTOP_UP\r\n", sizeof("ESTOP_UP\r\n") - 1);
 	      }	    
 	  }
       }
@@ -151,36 +151,36 @@ int main(void)
 	{
 	  if(getKeyReleases(KEY_LOCO1))
 	    {
-	      uartSendData("-L1\r\n", sizeof("-L1\r\n"));
+	      uartSendData("-L1\r\n", sizeof("-L1\r\n") - 1);
 	    }
 	  if(getKeyReleases(KEY_LOCO2))
 	    {
-	      uartSendData("-L2\r\n", sizeof("-L2\r\n"));
+	      uartSendData("-L2\r\n", sizeof("-L2\r\n") - 1);
 	    }
 	  if(getKeyReleases(KEY_LOCO3))
 	    {
-	      uartSendData("-L3\r\n", sizeof("-L3\r\n"));
+	      uartSendData("-L3\r\n", sizeof("-L3\r\n") - 1);
 	    }
 	  if(getKeyReleases(KEY_LOCO4))
 	    {
-	      uartSendData("-L4\r\n", sizeof("-L4\r\n"));
+	      uartSendData("-L4\r\n", sizeof("-L4\r\n") - 1);
 	    }
 	  if(getKeyPresses(KEY_LOCO1))
 	    {
-	      uartSendData("+L1\r\n", sizeof("+L1\r\n"));
+	      uartSendData("+L1\r\n", sizeof("+L1\r\n") - 1);
 	    }
 	  if(getKeyPresses(KEY_LOCO2))
 	    {
-	      uartSendData("+L2\r\n", sizeof("+L2\r\n"));
+	      uartSendData("+L2\r\n", sizeof("+L2\r\n") - 1);
 	    }
 	  if(getKeyPresses(KEY_LOCO3))
 	    {
-	      uartSendData("+L3\r\n", sizeof("+L3\r\n"));
+	      uartSendData("+L3\r\n", sizeof("+L3\r\n") - 1);
 	    }
 	  if(getKeyPresses(KEY_LOCO4))
 	    {
-	      uartSendData("+L4\r\n", sizeof("+L4\r\n"));
-	    }
+	      uartSendData("+L4\r\n", sizeof("+L4\r\n") - 1);
+	    }	  
 	}
       
       if(getKeyState(KEY_LOCO1 | KEY_LOCO2 | KEY_LOCO3 | KEY_LOCO4))
@@ -202,7 +202,7 @@ int main(void)
 	    }
 	  else
 	    {
-	      uartSendData("BEMPTY\r\n", sizeof("BEMPTY\r\n"));
+	      uartSendData("BEMPTY\r\n", sizeof("BEMPTY\r\n") - 1);
 	      _delay_ms(SYSTEM_KEEPALIVE_TIMEOUT * (1000 / 4));
 	    }
 	     
