@@ -75,7 +75,7 @@ int8_t functionHandler(char * dest, uint8_t f)
       funcNum[f] = f+1;
       if(getKeyState(KEY_SHIFT))
 	{
-      funcNum[f] += 8;
+	  funcNum[f] += 8;
         }
       return snprintf(dest, sizeof("F00_DN\r\n"), "F%u_DN\r\n", funcNum[f]) + 1;
     }
