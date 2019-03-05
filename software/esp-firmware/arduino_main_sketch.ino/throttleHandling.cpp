@@ -40,10 +40,6 @@ void setLEDvalues(String led1, String led2, String led3)
   static String oldLed1 = "";
   static String oldLed2 = "";
   static String oldLed3 = "";
-  if(!locoActive)
-  {
-    return;
-  }
 
   if(oldLed1 != led1)
   {

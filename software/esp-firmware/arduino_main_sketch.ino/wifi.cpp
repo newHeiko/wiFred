@@ -142,7 +142,6 @@ void writeLocoPage()
   // check if this is a "set configuration" request
   if(server.hasArg("loco.serverName") && server.hasArg("loco.serverPort"))
   {
-    locoActive = server.hasArg("loco.enabled");
     readString(locoServer.name, sizeof(locoServer.name)/sizeof(locoServer.name[0]), server.arg("loco.serverName"));
     locoServer.port = server.arg("loco.serverPort").toInt();
 
@@ -180,7 +179,6 @@ void writeLocoPage()
               + "<html><head><title>wiFred configuration page</title></head>\r\n"
               + "<body><h1>Loco configuration</h1>\r\n"
               + "<form action=\"loco.html\" method=\"get\"><table border=0>"
-              + "<tr><td>Enabled?</td><td><input type=\"checkbox\" name=\"loco.enabled\"" + (locoActive ? " checked" : "") + "></td></tr>"
               + "<tr><td>Loco server and port: </td>"
               + "<td><input type=\"text\" name=\"loco.serverName\" value=\"" + locoServer.name + "\">:<input type=\"text\" name=\"loco.serverPort\" value=\"" + locoServer.port + "\"></td></tr>"
               + "<tr><td colspan=2><hr></td></tr>";

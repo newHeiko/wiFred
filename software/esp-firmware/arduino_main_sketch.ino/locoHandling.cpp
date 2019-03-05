@@ -27,7 +27,6 @@
 #include "throttleHandling.h"
 
 locoInfo locos[4];
-bool locoActive = false;
 
 // String keeping the Loco Address plus its prefix (L or S)
 String locoThrottleID[4];
