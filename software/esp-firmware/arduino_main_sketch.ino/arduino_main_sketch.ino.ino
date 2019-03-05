@@ -57,6 +57,16 @@ void loop() {
   // put your main code here, to run repeatedly:
   handleWiFi();
   handleThrottle();
+
+  // check for empty battery
+  // only if not online
+  // if online, check will be done in locoHandler
+  // (to disconnect before power down)
+  if(emptyBattery &&
+      wiFredState != STATE_LOCO_ONLINE)
+  {
+    switchState(STATE_LOWPOWER_WAITING, 100);
+  }
   
 #ifdef DEBUG
   static uint32_t test = 0;

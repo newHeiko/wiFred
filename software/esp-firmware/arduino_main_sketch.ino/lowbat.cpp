@@ -15,14 +15,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>
  *
- * This file provides functions for measuring the battery voltage and shutting
- * down the system if the voltage is too low.
- * 
- * A 100kOhm/47kOhm voltage divider at the ADC input pin is required for proper
- * voltage readings.
+ * This file provides functions and variables for saving the battery voltage.
  */
-
-#include <ESP8266WiFi.h>
 
 #include "lowbat.h"
 

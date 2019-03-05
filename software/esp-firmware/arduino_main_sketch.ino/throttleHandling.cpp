@@ -191,6 +191,29 @@ void handleThrottle(void)
         }
         break;
     
+      // Battery voltage received
+      case 'V':
+        batteryVoltage = inputLine.substring(2).toInt();
+        break;
+  
+      // Battery information received
+        case 'B':
+        if(inputLine.charAt(1) == 'L')
+        {
+          lowBattery = true;
+        }
+        else if(inputLine.charAt(1) == 'E')
+        {
+          lowBattery = true;
+          emptyBattery = true;
+        }
+        else if(inputLine.charAt(1) == 'O')
+        {
+          lowBattery = false;
+          emptyBattery = false;
+        }
+        break;
+  
       // Power Down command received
       case 'P':
         setESTOP();
