@@ -59,11 +59,6 @@ void initConfig(void);
 void configHandler(void);
 
 /**
- * Save clock configuration
- */
-void saveClockConfig();
-
-/**
  * Save general throttle configuration
  */
 void saveGeneralConfig();
