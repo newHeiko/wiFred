@@ -26,7 +26,6 @@
 #include "locoHandling.h"
 
 bool wifiSaved = false;
-bool clockSaved = false;
 bool locoSaved = false;
 
 char throttleName[NAME_CHARS];
