@@ -87,6 +87,8 @@ void setSpeed(uint8_t newSpeed);
  * Send new direction value to wiThrottle handling code
  * 
  * Will be sent out to all locos if it is new
+ * 
+ * Only accepts the direction change if speed is zero
  */
 void setReverse(bool newReverse);
 

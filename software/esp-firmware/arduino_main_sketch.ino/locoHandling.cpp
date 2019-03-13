@@ -398,7 +398,7 @@ void clearFunction(uint8_t f)
 }
 
 /**
- * Set current direction
+ * Set current direction - only accepts the direction change if speed is zero
  */
 void setReverse(bool newReverse)
 {
@@ -407,6 +407,7 @@ void setReverse(bool newReverse)
     if(speed != 0)
     {
       setESTOP();
+      return;
     }
     myReverse = newReverse;
     if(wiFredState != STATE_LOCO_ONLINE)
