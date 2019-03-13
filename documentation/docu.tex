@@ -17,7 +17,7 @@
 
 \begin{abstract}
 
-  This document describes the usage and configuration of the wiFred -- a very simple wireless throttle to connect to withrottle servers like JMRI -- and the wireless clock driver used to drive a simple wallclock to the timing of JMRIs FastClock system. It also contains schematics and BOMs for both devices as well as programming instructions and assembly tips, and also an overview of options for the server side of things.
+  This document describes the usage and configuration of the wiFred -- a very simple wireless throttle to connect to withrottle servers like JMRI. It also contains schematics and BOMs for the device -- both the LiPo battery version in active development and the first prototype with 2xAA cells -- as well as programming instructions and assembly tips, and also an overview of options for the server side of things.
 
 The most recent version of this document can be found at:
 
@@ -27,8 +27,7 @@ The most recent version of this document can be found at:
 
 \textit{https://github.com/newHeiko/wiFred/blob/master/documentation/docu.tex}.
 
-
-Skip right ahead to section~\ref{throttle} or~\ref{clock} if you are not interested in the why and more into the how.
+If you want to know more about the development history of the wiFred, skip ahead to section~\ref{background} -- otherwise read on with section~\ref{throttle} if you have a wiFred powered by an internal lithium battery or with section~\ref{oldThrottle} if you have one of the few prototypes powered by AA cells.
 
 \end{abstract}
 
@@ -38,40 +37,13 @@ Skip right ahead to section~\ref{throttle} or~\ref{clock} if you are not interes
 
 \clearpage
 
-\section{Background for wiFred development} \label{background}
+\section{wiFred Wireless throttle hardware} \label{throttle}
 
-As of the writing of this document, JMRI~\cite{jmri} has a long track record of offering a server for using smartphones as wireless model railroad throttles, along with apps like withrottle~\cite{withrottleApp}\footnote{withrottle is also the name JMRI uses for the protocol and the server.} and EngineDriver~\cite{EngineDriver}. This server will enable WiFi throttles to control locos any model railroading layout to which JMRI can build a connection~\cite{jmrihardwaresupport}. In addition, Digitrax~\cite{digitrax} and MRC~\cite{mrc} offer specific hardware solutions to enable the connection of the abovementioned smartphone apps to their DCC systems through a WiFi network.
+\section{wiFred Wireless throttle configuration} \label{config}
 
+\section{Options for server setup}
 
-The Fremo~\cite{fremo} is a European modular model railroading club whose unique requirements on it's DCC throttles led to the creation of the throttles FRED and FREDI~\cite{fred} -- a series of LocoNet\textregistered-throttles which started their life as hobbyist projects with large numbers in circulation but were also commercially available from Uhlenbrock~\cite{uhlenbrock}.
-
-\subsection{Specification wishlist}
-
-In modular railroading events, particularly of the Fremo-americaN-group~\cite{fremo}, some people have evaluated the smartphone throttle solutions and found them lacking a nice, haptical feedback. But the idea of wireless control without locking into a specific vendor and their necessarily expensive equipment found great approval. So a wishlist was compiled to define the requirements for a wireless throttle:
-\begin{itemize}
-\item Same form factor as the FRED~\cite{fred} with similar controls
-\item Option to control at least two, better four locomotives for double/triple traction (similar to the double FRED)
-\item Battery runtime of at least six hours
-\item Exchangeable batteries, so when the battery runs down, they can be quickly exchanged for a charged set or cheap primary cells
-\item Easy configuration, but not too easy to prevent operators from accidentally selecting other locomotives
-\item As little change to the existing Fremo Loconet\textregistered\ network as possible
-\item Use of withrottle protocol, so the server side of the communication can be assumed to work and does not have to be developed as well
-\end{itemize}
-
-\subsection{Wireless clock}
-
-During the development of this wiFred another topic came up in the americaN group of the Fremo, namely wireless clocks with adjustable clock rate for Timetable \& Trainorder operations. Contrary to other Fremo groups, the americaN group standard does not call for any cabling for fast clocks and the group does not have the equipment for setting up a fast clock network, so first trails were done with regular Quartz clocks at 1:1 rate which had to be adjusted to timetable starting time every timetable morning. So a new solution was required, adding the following to the specification above:
-
-\begin{itemize}
-\item Battery runtime of at least eight hours to have some backup for long days
-\item Able to control cheap Quartz clocks
-\item Clock rate adjustable centrally in small increments in case the timetable planner has misjudged the capacity of the layout or operators
-\item Re-use existing systems as much as possible -- in the case of the clock system, use JMRIs fast clock server
-\end{itemize}
-
-\clearpage
-
-\section{wiFred Wireless throttle} \label{throttle}
+\section{wiFred Wireless throttle prototype} \label{oldThrottle}
 
 \subsection{Quickstart Guide}
 
@@ -215,7 +187,7 @@ There are two ways to enter configuration mode:
 
 In the first case, the throttle will create a wireless network named \textit{wiFred-config} plus four hex digits taken from the MAC address of the throttle WiFi interface, for example \textit{wiFred-config0CAC}. Any WiFi device with a web browser can connect to that network and open a web browser to point to \textit{http://192.168.4.1}.
 
-In the second case, the throttle will change the last tuple of it's IP address to .253 -- so if the wireless network is configured with IP addresses in the \textit{192.168.100.x}-range as highlitghted in figure~\ref{withrottleScreenshot}, any web browser can access the configuration at \textit{http://192.168.100.253}.
+In the second case, the throttle will change the last tuple of it's IP address to .253 -- so if the wireless network is configured with IP addresses in the \textit{192.168.100.x}-range as highlighted in figure~\ref{withrottleScreenshot}, any web browser can access the configuration at \textit{http://192.168.100.253}.
 
 If the IP address of the throttle during normal operation is known, the configuration page can also be accessed by pointing a web browser to it at any time while it is connected. Note that this is untested and therefore not recommended while the throttle is running locos.
 
@@ -349,7 +321,7 @@ The PCB has holes in the center of the pushbutton switch footprints and LED foot
   \label{transferHoles}
 \end{figure}
 
-To fit into a StrapuBox 6090 housing, the PCB should be made 0.8\,mm in thickness\footnote{Or less, but then it will more easily bend}. The remaining assembly is a basic exercise in installing all the components to the PCB, listed in table~\ref{wiFredBOM}. From assembling the prototypes, the suggested order of installing the components is as follows:
+The remaining assembly is a basic exercise in installing all the components to the PCB, listed in table~\ref{wiFredBOM}. From assembling the prototypes, the suggested order of installing the components is as follows:
 
 \begin{table}
   \caption{List of components for the wiFred} \label{wiFredBOM}
@@ -466,19 +438,34 @@ The ATMega~328P is programmed using the regular AVR ISP connection on P201. Pin 
 
 After programming, two jumpers need to be placed between the K401 and K402 pin headers to re-enable communication between the ESP8266 and the AVR.
 
-\section{Wireless clock driver} \label{clock}
+\section{Background for wiFred development} \label{background}
 
-\subsection{Usage}
+As of the writing of this document, JMRI~\cite{jmri} has a long track record of offering a server for using smartphones as wireless model railroad throttles, along with apps like withrottle~\cite{withrottleApp}\footnote{withrottle is also the name JMRI uses for the protocol and the server.} and EngineDriver~\cite{EngineDriver}. This server will enable WiFi throttles to control locos any model railroading layout to which JMRI can build a connection~\cite{jmrihardwaresupport}. In addition, Digitrax~\cite{digitrax} and MRC~\cite{mrc} offer specific hardware solutions to enable the connection of the abovementioned smartphone apps to their DCC systems through a WiFi network.
 
-\subsection{Configuration}
+The Fremo~\cite{fremo} is a European modular model railroading club whose unique requirements on it's DCC throttles led to the creation of the throttles FRED and FREDI~\cite{fred} -- a series of LocoNet\textregistered-throttles which started their life as hobbyist projects with large numbers in circulation but were also commercially available from Uhlenbrock~\cite{uhlenbrock}.
 
-For general configuration (WiFi etc.) see section~\ref{throttle_GeneralConf}, as it's the same.
+\subsection{Specification wishlist}
 
-\subsection{Hardware description}
+In modular railroading events, particularly of the Fremo-americaN-group~\cite{fremo}, multiple people have evaluated the smartphone throttle solutions and found them lacking a nice, haptical feedback. But the idea of wireless control without locking into a specific vendor and their necessarily expensive equipment found great approval. So a wishlist was compiled to define the requirements for a wireless throttle:
+\begin{itemize}
+\item Same form factor as the FRED~\cite{fred} with similar controls
+\item Option to control at least two, better four locomotives for double/triple traction (similar to the double FRED)
+\item Battery runtime of at least six hours
+\item Exchangeable batteries, so when the battery runs down, they can be quickly exchanged for a charged set or cheap primary cells
+\item Easy configuration, but not too easy to prevent operators from accidentally selecting other locomotives
+\item As little change to the existing Fremo Loconet\textregistered\ network as possible
+\item Use of withrottle protocol, so the server side of the communication can be assumed to work and does not have to be developed as well
+\end{itemize}
 
-\subsection{Programming instructions}
+\subsection{Development history}
 
-\section{Options for server setup}
+The first prototype versions of the wiFred were built to run from two AA cells, either dry batteries or rechargeable NiMH cells. As described in section~\ref{oldThrottle}, this led to some special adaptations of the housing to fit all components. Even then, experience with the prototypes showed the battery compartment cover did not really fit and easily broke when trying to open and close the battery compartment. So the next versions were built around an integrated lithium battery, losing the ability to exchange empty batteries, but with increased runtime and proper fit into the housing. Recharging of the second generation is done through a Micro USB connector, so a powerbank can extend the runtime of the device when the internal battery is exhausted. Also, the loco selection switches act as more of a power switch than they did with the first prototypes, reducing power consumption to a negligible amount when all locos are deselected.
+
+\subsection{Wireless clock}
+
+During the development of this wiFred another topic came up in the americaN group of the Fremo, namely wireless clocks with adjustable clock rate for Timetable \& Trainorder operations. This led to the spinoff of the wiClock project\cite{wiClock}.
+
+\clearpage
 
 \begin{thebibliography}{99}
 \bibitem{jmri}{JMRI: A Java Model Railroad Interface, \textit{http://www.jmri.org}}
@@ -490,6 +477,7 @@ For general configuration (WiFi etc.) see section~\ref{throttle_GeneralConf}, as
 \bibitem{uhlenbrock}{Uhlenbrock \textbar\ FRED, der Handregler f\"ur die Intellibox, \textit{https://uhlenbrock.de/de\_DE/produkte/prodarch/I62AD172-001.htm!ArcEntryInfo=0004.41.I62AD172}}
 \bibitem{mrc}{Prodigy WiFi, \textit{http://www.modelrectifier.com/Prodigy-WiFi-s/332.htm}}
 \bibitem{digitrax}{LocoNet WiFi interface, \textit{http://www.digitrax.com/products/wireless/lnwi/}}
+\bibitem{wiClock}{wiClock, a WiFi-JMRI-Clock, found at \textit{https://github.com/newHeiko/WiFi-JMRI-Clock} or its documentation at \textit{https://newHeiko.github.io/WiFi-JMRI-Clock}}
 \end{thebibliography}
 
 \begin{versionhistory}
