@@ -33,7 +33,7 @@
 /**
  * Low battery voltage (in millivolts)
  */
-#define LOW_BATTERY_VOLTAGE 3500
+#define LOW_BATTERY_VOLTAGE 3400
 
 /**
  * Empty battery voltage (shutdown system in x seconds) (in millivolts)
