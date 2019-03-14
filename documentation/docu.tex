@@ -39,88 +39,6 @@ If you want to know more about the development history of the wiFred, skip ahead
 
 \section{wiFred Wireless throttle hardware} \label{throttle}
 
-\section{wiFred Wireless throttle configuration} \label{config}
-
-\section{Options for server setup}
-
-\section{wiFred Wireless throttle prototype} \label{oldThrottle}
-
-\subsection{Quickstart Guide}
-
-Follow these steps for a new throttle (see later chapters for more explanation or if you run into trouble)
-
-\begin{enumerate}
-  \setcounter{enumi}{-4}
-\item Use PCB to determine positions of holes and cutouts in housing
-\item Make said cutouts and glue little pieces of 3mm thick plastic or wood underneath PCB screw holes  
-\item Solder components to PCB
-\item Flash firmware to ESP and to AVR
-\item Test fit PCB into housing, removing plastic parts of housing as required
-\item Fit PCB into housing, insert three screws to fix PCB to housing
-\item Make sure communication jumpers are set correctly, close housing and fix back cover with two screws
-\item Add throttle knob
-\item Insert batteries
-\item Using any WiFi client (laptop, smartphone, tablet...), find and connect to network \textit{wiFred-configXXXX}
-\item Using any web browser, navigate to \textit{http://192.168.4.1}
-\item Enter your WiFi configuration (and a throttle ID if you like -- highly recommended to easier tell them apart) \textbf{and hit the \textit{Submit}-Button}
-\item Click on \texttt{Loco configuration subpage}
-\item \textbf{Make sure to enable the checkbox on top next to \texttt{Enabled?}} and also enter your wiThrottle server settings
-\item For every loco you want to control with this throttle, enter the appropriate details below
-\item Finish by \textbf{hitting the \textit{Submit}-Button}
-\item Configure function settings for each loco on the respective sub pages if required
-\item Restart the throttle by navigating back to the main configuration page and clicking on \texttt{Restart system to enable new WiFi settings}
-\end{enumerate}
-
-Your throttle should now be ready to use and connect to your wiThrottle server on startup. Refer to the chapters below if it does not or contact the author of this document.
-
-\subsection{Usage}
-
-\begin{figure}[tbh]
-  
-  \centering
-  \includegraphics[height=100mm]{images/throttle_Front}
-  \hspace{1em}
-  \includegraphics[height=100mm]{images/throttle_Back}
-  \hspace{1em}
-  \includegraphics[height=100mm]{images/throttle_Back_openBattery}
-
-  \caption{Controls and features of the wiFred-throttle}
-  \label{throttleControls}
-
-\end{figure}
-
-Figure~\ref{throttleControls} shows the controls of the wireless throttle. They consist of the following:
-
-\begin{itemize}
-\item Four loco selection switches (loco 1 on the left, loco 4 on the right, move towards speed potentiometer to enable)
-\item Speed potentiometer (Counter-clockwise endstop: Stop, clockwise endstop: Full speed)
-\item Direction switch -- move right for forward movement, left for reverse movement
-\item Black function keys F0 to F4
-\item Two yellow shift keys to trigger F5-F8 (SHIFT1, lower key), F9-F12 (SHIFT2, upper key) and F13-F16 (both shift keys)
-\item Red emergency stop key
-\item Two green direction indicator LEDs
-\item One red status LED
-\item Battery compartment (on the rear) for two AA cells, 1.2\,V to 1.5\,V nominal voltage
-\end{itemize}
-
-As soon as a pair of batteries is inserted into the battery compartment as the symbols inside the battery compartment show, the throttle will boot up and try to connect to a wireless network. The throttle will not be damaged if batteries are inserted wrongly, but it will not work either. Use NiMH- or primary AA cells with 1.2\,V to 1.5\,V nominal voltage, low self discharge NiMH cells like Eneloop\textregistered\ or similar are recommended. Do not insert 3\,V or 3.6\,V AA size lithium batteries as this may damage the throttle.
-
-If no connection to the network configured into the device can be established within 60 seconds, the throttle will create it's own wireless network named \textit{wiFred-config} plus four hex digits taken from the MAC address of the throttle WiFi interface, for example \textit{wiFred-config0CAC}, to enable configuration as described in the next section.
-
-Four different locos with long DCC addresses can be assigned to the four loco selection switches. Commands derived from the speed potentiometer, the direction switch and the function keys will be transmitted to all selected locos (near) simultaneously, with a certain translation table enabling some locos to go backwards when others go forwards and also limiting function keys to some of the four locos only -- this is described in more detail in sections~\ref{throttle_LocoConf} and~\ref{throttle_FunctionConf}.
-
-Pushing the red emergency stop key will cause the throttle to send an emergency stop signal to all four locos attached. After an emergency stop, turn the speed potentiometer to zero to re-enable control of the locos.
-
-Pushing the red emergency stop key while holding down either of the shift keys will place the device into configuration mode (as well as issueing an emergency stop to all attached locos). See section~\ref{throttle_Conf} for more details on how to access the throttle to do the configuration.
-
-Any change in the loco selection switches will cause the throttle to send a stop (zero speed) command to all attached locos. This makes sure that any loco that is deselected will stop on the layout and avoids newly selected locos suddenly taking off at speed. The same is true for a change in the direction switch, to avoid high-speed reverse maneuvers. Turn the speed potentiometer to zero to re-enable control of the locos.
-
-When all four loco selection switches are set to the disabled state, the throttle will send a stop (zero speed) command to all four locos attached and -- after a wait time of 30 seconds -- it will disconnect from the network and go into low power mode. To reconnect, re-enable any loco selection switch.
-
-The same happens when the batteries are empty, but the throttle will not reactivate before changing the batteries. Expected runtime with a pair of 2500\,mAh-NiMH-batteries is around 8-10 hours of full time operations, more if the throttle is placed in low power mode when the locos are not running.
-
-During startup and operation, the LEDs will show the patterns explained in table~\ref{ledTable}.
-
 \begin{table}
   \caption{LED patterns and their meaning on the wiFred throttle} \label{ledTable}
 
@@ -172,17 +90,50 @@ During startup and operation, the LEDs will show the patterns explained in table
   
 \end{table}
 
-\subsection{Configuration} \label{throttle_Conf}
+\subsection{Quickstart Guide}
+
+Follow these steps for a new throttle (see later chapters for more explanation or if you run into trouble)
+
+\begin{enumerate}
+\setcounter{enumi}{-6}
+\item Use PCB to determine positions of holes and cutouts in housing
+\item Make said cutouts
+\item Solder components to PCB
+\item Connect lithium battery to PCB, charge with Micro USB charger if required
+\item Flash firmware to AVR
+\item Move any of the loco selection switches to ``enabled'' to power ESP, then flash firmware to ESP, move loco selection switch back to ``disabled'' to turn off power to ESP again
+\item Test fit PCB into housing, removing plastic parts of housing as required
+\item Fit PCB into housing, insert four screws to fix PCB to housing
+\item Fit lithium battery into other half of housing, fix with double sided tape or similar, taking care that the battery will not be squeezed or pinched by any parts on the PCB when the housing is closed
+\item Make sure communication jumpers are set correctly, close housing and fix back cover with two screws
+\item Add throttle knob
+\item Move any loco selection switch to ``enabled'' to power ESP
+\item Using any WiFi client (laptop, smartphone, tablet...), find and connect to network \textit{wiFred-configXXXX}
+\item Using any web browser, navigate to \textit{http://192.168.4.1}
+\item Enter your WiFi configuration (and a throttle ID if you like -- highly recommended to easier tell them apart) \textbf{and hit the \textit{Submit}-Button}
+\item Click on \texttt{Loco configuration subpage}
+\item Enter your wiThrottle server settings
+\item For every loco you want to control with this throttle, enter the appropriate details below
+\item Finish by \textbf{hitting the \textit{Submit}-Button}
+\item Configure function settings for each loco on the respective sub pages if required
+\item Restart the throttle by navigating back to the main configuration page and clicking on \texttt{Restart system to enable new WiFi settings}
+\end{enumerate}
+
+Your throttle should now be ready to use and connect to your wiThrottle server on startup. Refer to the chapters below if it does not or contact the author of this document.
+
+Before operating the throttle, fully charge the battery which will also calibrate the internal battery voltage measurements. Before the first full charge, the throttle may not shut down when the battery is empty which can lead to damage to the battery. This can be checked by comparing the device's battery voltage measurement on the status subpage of the configuration website to voltage readings from a multimeter on the battery terminals -- an accuracy of 50\,mV to 100\,mV is OK.
+
+\section{wiFred Wireless throttle configuration} \label{config}
 
 Before using the device, it must be configured. At the very least, the General Configuration~\ref{throttle_GeneralConf} and Loco Configuration~\ref{throttle_LocoConf} pages have to be submitted once to be saved to non-volatile memory. If no valid configuration is detected at startup, the device will start with a default configuration with no locos enabled and trying to connect to a network named ``undef'' with a key named ``undef'', which will probably fail.
 
-\subsubsection{Entering configuration mode}
+\subsection{Entering configuration mode}
 
 There are two ways to enter configuration mode:
 
 \begin{enumerate}
-\item Power up the throttle when the configured WiFi network is not in range (or when there is no valid configuration -- the first startup of a new throttle will fall into this category)
-\item Press SHIFT (either key) and ESTOP together when the throttle is connected
+\item Power up the throttle/select a loco when the configured WiFi network is not in range (or when there is no valid configuration -- the first startup of a new throttle will fall into this category)
+\item Press SHIFT and ESTOP together when the throttle is connected
 \end{enumerate}
 
 In the first case, the throttle will create a wireless network named \textit{wiFred-config} plus four hex digits taken from the MAC address of the throttle WiFi interface, for example \textit{wiFred-config0CAC}. Any WiFi device with a web browser can connect to that network and open a web browser to point to \textit{http://192.168.4.1}.
@@ -198,7 +149,7 @@ If the IP address of the throttle during normal operation is known, the configur
   \label{withrottleScreenshot}
 \end{figure}
 
-\subsubsection{General configuration} \label{throttle_GeneralConf}
+\subsection{General configuration} \label{throttle_GeneralConf}
 
 \begin{figure}[tbh]
   \centering
@@ -217,7 +168,7 @@ Figure~\ref{throttleConfMainPage} shows the first page you will see when you poi
 
 \textbf{Reminder: Changes are saved using the ``Submit Query'' button which may look different in different web browsers (firefox shown).}
 
-A new device will not read a saved configuration at startup unless both the main page and one of either the loco configuration subpage or the clock configuration subpage has been saved at least once.
+A new device will not read a saved configuration at startup unless both the main page and the loco configuration subpage have been saved at least once.
 
 \begin{figure}[tbh]
   \centering
@@ -226,9 +177,9 @@ A new device will not read a saved configuration at startup unless both the main
   \label{throttleConfigStatusPage}
 \end{figure}
 
-This page also includes links to the configuration sub pages for locos and clock settings as well as a link to the status page shown in figure~\ref{throttleConfigStatusPage} which gives information about the current clock settings and battery voltage and may be enhanced in the future.
+This page also includes links to the configuration sub page for locos as well as a link to the status page shown in figure~\ref{throttleConfigStatusPage} which gives information about the current battery voltage and may be enhanced in the future.
 
-\subsubsection{Loco configuration} \label{throttle_LocoConf}
+\subsection{Loco configuration} \label{throttle_LocoConf}
 
 \begin{figure}[tbh]
   \centering
@@ -239,9 +190,7 @@ This page also includes links to the configuration sub pages for locos and clock
 
 On this page, shown in figure~\ref{throttleConfigLocoPage}, the (up to four) locomotives to be controlled with this throttle and some settings for all locomotives are available.
 
-Right on top, the checkbox next to \texttt{Enabled?} determines if the wiFred is to be used as a throttle. All the configuration settings are available if it is not, but it will not connect to the withrottle server and several other features described in this document may not work either unless this checkbox is enabled.
-
-Next the server settings can be found. The correct settings can be read from the JMRI withrottle server screen, as highlighted in figure~\ref{withrottleScreenshot}. Normally the port does not need to be changed, as 12090 is the default setting.
+Right on top, the server settings can be found. The correct settings can be read from the JMRI withrottle server screen, as highlighted in figure~\ref{withrottleScreenshot}. Normally the port does not need to be changed, as 12090 is the default setting.
 
 Following the server configuration, there are four identical sections assigned to the four different locomotives which can be controlled with this throttle. Each section consists of the following settings:
 
@@ -254,7 +203,7 @@ Following the server configuration, there are four identical sections assigned t
 
 \textbf{Reminder: Changes are saved using the ``Submit Query'' button which may look different in different web browsers (firefox shown).}
 
-\subsubsection{DCC function configuration} \label{throttle_FunctionConf}
+\subsection{DCC function configuration} \label{throttle_FunctionConf}
 
 By default, if a function key is pressed, the throttle will send the appropriate commands to every loco under control. Under certain circumstances, this may not be desired -- the obvious example being a loco in the middle of a multi-unit consist, which should not have lights or ditchlights. So this page -- shown in figure~\ref{throttleConfigFunctionPage} -- offers the option to chose between three different settings for every function on each of the four locomotives (one page per locomotive):
 
@@ -272,6 +221,86 @@ By default, if a function key is pressed, the throttle will send the appropriate
 \end{description}
 
 \textbf{Reminder: Changes are saved using the ``Submit Query'' button which may look different in different web browsers (firefox shown).}
+
+\section{Options for server setup}
+
+\section{wiFred Wireless throttle prototype} \label{oldThrottle}
+
+\subsection{Quickstart Guide}
+
+Follow these steps for a new throttle (see later chapters for more explanation or if you run into trouble)
+
+\begin{enumerate}
+\setcounter{enumi}{-4}
+\item Use PCB to determine positions of holes and cutouts in housing
+\item Make said cutouts and glue little pieces of 3mm thick plastic or wood underneath PCB screw holes  
+\item Solder components to PCB
+\item Flash firmware to ESP and to AVR
+\item Test fit PCB into housing, removing plastic parts of housing as required
+\item Fit PCB into housing, insert three screws to fix PCB to housing
+\item Make sure communication jumpers are set correctly, close housing and fix back cover with two screws
+\item Add throttle knob
+\item Insert batteries
+\item Using any WiFi client (laptop, smartphone, tablet...), find and connect to network \textit{wiFred-configXXXX}
+\item Using any web browser, navigate to \textit{http://192.168.4.1}
+\item Enter your WiFi configuration (and a throttle ID if you like -- highly recommended to easier tell them apart) \textbf{and hit the \textit{Submit}-Button}
+\item Click on \texttt{Loco configuration subpage}
+\item Enter your wiThrottle server settings
+\item For every loco you want to control with this throttle, enter the appropriate details below
+\item Finish by \textbf{hitting the \textit{Submit}-Button}
+\item Configure function settings for each loco on the respective sub pages if required
+\item Restart the throttle by navigating back to the main configuration page and clicking on \texttt{Restart system to enable new WiFi settings}
+\end{enumerate}
+
+Your throttle should now be ready to use and connect to your wiThrottle server on startup. Refer to the chapters below if it does not or contact the author of this document.
+
+\subsection{Usage}
+
+\begin{figure}[tbh]
+  
+  \centering
+  \includegraphics[height=100mm]{images/throttle_Front}
+  \hspace{1em}
+  \includegraphics[height=100mm]{images/throttle_Back}
+  \hspace{1em}
+  \includegraphics[height=100mm]{images/throttle_Back_openBattery}
+
+  \caption{Controls and features of the wiFred-throttle -- prototype version}
+  \label{oldThrottleControls}
+
+\end{figure}
+
+Figure~\ref{oldThrottleControls} shows the controls of the wireless throttle. They consist of the following:
+
+\begin{itemize}
+\item Four loco selection switches (loco 1 on the left, loco 4 on the right, move towards speed potentiometer to enable)
+\item Speed potentiometer (Counter-clockwise endstop: Stop, clockwise endstop: Full speed)
+\item Direction switch -- move right for forward movement, left for reverse movement
+\item Black function keys F0 to F4
+\item Two yellow shift keys to trigger F5-F8 (SHIFT1, lower key), F9-F12 (SHIFT2, upper key) and F13-F16 (both shift keys)
+\item Red emergency stop key
+\item Two green direction indicator LEDs
+\item One red status LED
+\item Battery compartment (on the rear) for two AA cells, 1.2\,V to 1.5\,V nominal voltage
+\end{itemize}
+
+As soon as a pair of batteries is inserted into the battery compartment as the symbols inside the battery compartment show, the throttle will boot up and try to connect to a wireless network. The throttle will not be damaged if batteries are inserted wrongly, but it will not work either. Use NiMH- or primary AA cells with 1.2\,V to 1.5\,V nominal voltage, low self discharge NiMH cells like Eneloop\textregistered\ or similar are recommended. Do not insert 3\,V or 3.6\,V AA size lithium batteries as this may damage the throttle.
+
+If no connection to the network configured into the device can be established within 60 seconds, the throttle will create it's own wireless network named \textit{wiFred-config} plus four hex digits taken from the MAC address of the throttle WiFi interface, for example \textit{wiFred-config0CAC}, to enable configuration as described in section~\ref{config}.
+
+Four different locos with long DCC addresses can be assigned to the four loco selection switches. Commands derived from the speed potentiometer, the direction switch and the function keys will be transmitted to all selected locos (near) simultaneously, with a certain translation table enabling some locos to go backwards when others go forwards and also limiting function keys to some of the four locos only -- this is described in more detail in sections~\ref{throttle_LocoConf} and~\ref{throttle_FunctionConf}.
+
+Pushing the red emergency stop key will cause the throttle to send an emergency stop signal to all four locos attached. After an emergency stop, turn the speed potentiometer to zero to re-enable control of the locos.
+
+Pushing the red emergency stop key while holding down either of the shift keys will place the device into configuration mode (as well as issueing an emergency stop to all attached locos). See section~\ref{config} for more details on how to access the throttle to do the configuration.
+
+Any change in the loco selection switches will cause the throttle to send a stop (zero speed) command to all attached locos. This makes sure that any loco that is deselected will stop on the layout and avoids newly selected locos suddenly taking off at speed. The same is true for a change in the direction switch, to avoid high-speed reverse maneuvers. Turn the speed potentiometer to zero to re-enable control of the locos.
+
+When all four loco selection switches are set to the disabled state, the throttle will send a stop (zero speed) command to all four locos attached and -- after a wait time of 30 seconds -- it will disconnect from the network and go into low power mode. To reconnect, re-enable any loco selection switch.
+
+The same happens when the batteries are empty, but the throttle will not reactivate before changing the batteries. Expected runtime with a pair of 2500\,mAh-NiMH-batteries is around 8-10 hours of full time operations, more if the throttle is placed in low power mode when the locos are not running.
+
+During startup and operation, the LEDs will show the patterns explained in table~\ref{ledTable}.
 
 \subsection{Hardware description}
 
