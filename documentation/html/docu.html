@@ -53,101 +53,39 @@ td p{margin:0px;}
 </title>
 </head>
 <body >
-<!--HEVEA command line is: hevea article.hva ../docu.tex -->
+<!--HEVEA command line is: hevea -fix -s article.hva docu.tex -->
 <!--CUT STYLE article--><!--CUT DEF section 1 --><table class="title"><tr><td style="padding:1ex"><h1 class="titlemain">wiFred documentation &#X2013; Documentation for WiFi throttle with withrottle interface and wireless clock driver</h1></td></tr>
-</table><blockquote class="abstract"><span style="font-weight:bold">Abstract: </span><p>This document describes the usage and configuration of the wiFred &#X2013; a very simple wireless throttle to connect to withrottle servers like JMRI &#X2013; and the wireless clock driver used to drive a simple wallclock to the timing of JMRIs FastClock system. It also contains schematics and BOMs for both devices as well as programming instructions and assembly tips, and also an overview of options for the server side of things.</p><p>The most recent version of this document can be found at:</p><p><span style="font-style:italic">https://newheiko.github.io/wiFred</span>,</p><p><span style="font-style:italic">https://github.com/newHeiko/wiFred/raw/master/documentation/docu.pdf</span> and</p><p><span style="font-style:italic">https://github.com/newHeiko/wiFred/blob/master/documentation/docu.tex</span>.</p><p>Skip right ahead to section&#XA0;<a href="#throttle">2</a> or&#XA0;<a href="#clock">3</a> if you are not interested in the why and more into the how.</p></blockquote><!--TOC section id="sec1" Contents-->
+</table><blockquote class="abstract"><span style="font-weight:bold">Abstract: </span><p>This document describes the usage and configuration of the wiFred &#X2013; a very simple wireless throttle to connect to withrottle servers like JMRI. It also contains schematics and BOMs for the device &#X2013; both the LiPo battery version in active development and the first prototype with 2xAA cells &#X2013; as well as programming instructions and assembly tips, and also an overview of options for the server side of things.</p><p>The most recent version of this document can be found at:</p><p><span style="font-style:italic">https://newheiko.github.io/wiFred</span>,</p><p><span style="font-style:italic">https://github.com/newHeiko/wiFred/raw/master/documentation/docu.pdf</span> and</p><p><span style="font-style:italic">https://github.com/newHeiko/wiFred/blob/master/documentation/docu.tex</span>.</p><p>If you want to know more about the development history of the wiFred, skip ahead to section&#XA0;<a href="#background">5</a> &#X2013; otherwise read on with section&#XA0;<a href="#throttle">1</a> if you have a wiFred powered by an internal lithium battery or with section&#XA0;<a href="#oldThrottle">4</a> if you have one of the few prototypes powered by AA cells.</p></blockquote><!--TOC section id="sec1" Contents-->
 <h2 id="sec1" class="section">Contents</h2><!--SEC END --><ul class="toc"><li class="li-toc">
-<a href="#sec2">1&#XA0;&#XA0;Background for wiFred development</a>
+<a href="#sec2">1&#XA0;&#XA0;wiFred Wireless throttle hardware</a>
 <ul class="toc"><li class="li-toc">
-<a href="#sec3">1.1&#XA0;&#XA0;Specification wishlist</a>
-</li><li class="li-toc"><a href="#sec4">1.2&#XA0;&#XA0;Wireless clock</a>
+<a href="#sec3">1.1&#XA0;&#XA0;Quickstart Guide</a>
 </li></ul>
-</li><li class="li-toc"><a href="#sec5">2&#XA0;&#XA0;wiFred Wireless throttle</a>
+</li><li class="li-toc"><a href="#sec4">2&#XA0;&#XA0;wiFred Wireless throttle configuration</a>
 <ul class="toc"><li class="li-toc">
-<a href="#sec6">2.1&#XA0;&#XA0;Quickstart Guide</a>
-</li><li class="li-toc"><a href="#sec7">2.2&#XA0;&#XA0;Usage</a>
-</li><li class="li-toc"><a href="#sec8">2.3&#XA0;&#XA0;Configuration</a>
+<a href="#sec5">2.1&#XA0;&#XA0;Entering configuration mode</a>
+</li><li class="li-toc"><a href="#sec6">2.2&#XA0;&#XA0;General configuration</a>
+</li><li class="li-toc"><a href="#sec7">2.3&#XA0;&#XA0;Loco configuration</a>
+</li><li class="li-toc"><a href="#sec8">2.4&#XA0;&#XA0;DCC function configuration</a>
+</li></ul>
+</li><li class="li-toc"><a href="#sec9">3&#XA0;&#XA0;Options for server setup</a>
+</li><li class="li-toc"><a href="#sec10">4&#XA0;&#XA0;wiFred Wireless throttle prototype</a>
 <ul class="toc"><li class="li-toc">
-<a href="#sec9">2.3.1&#XA0;&#XA0;Entering configuration mode</a>
-</li><li class="li-toc"><a href="#sec10">2.3.2&#XA0;&#XA0;General configuration</a>
-</li><li class="li-toc"><a href="#sec11">2.3.3&#XA0;&#XA0;Loco configuration</a>
-</li><li class="li-toc"><a href="#sec12">2.3.4&#XA0;&#XA0;DCC function configuration</a>
+<a href="#sec11">4.1&#XA0;&#XA0;Quickstart Guide</a>
+</li><li class="li-toc"><a href="#sec12">4.2&#XA0;&#XA0;Usage</a>
+</li><li class="li-toc"><a href="#sec13">4.3&#XA0;&#XA0;Hardware description</a>
+</li><li class="li-toc"><a href="#sec14">4.4&#XA0;&#XA0;Hints for building the wiFred</a>
+</li><li class="li-toc"><a href="#sec15">4.5&#XA0;&#XA0;Programming instructions</a>
 </li></ul>
-</li><li class="li-toc"><a href="#sec13">2.4&#XA0;&#XA0;Hardware description</a>
-</li><li class="li-toc"><a href="#sec14">2.5&#XA0;&#XA0;Hints for building the wiFred</a>
-</li><li class="li-toc"><a href="#sec15">2.6&#XA0;&#XA0;Programming instructions</a>
-</li></ul>
-</li><li class="li-toc"><a href="#sec16">3&#XA0;&#XA0;Wireless clock driver</a>
+</li><li class="li-toc"><a href="#sec16">5&#XA0;&#XA0;Background for wiFred development</a>
 <ul class="toc"><li class="li-toc">
-<a href="#sec17">3.1&#XA0;&#XA0;Usage</a>
-</li><li class="li-toc"><a href="#sec18">3.2&#XA0;&#XA0;Configuration</a>
-</li><li class="li-toc"><a href="#sec19">3.3&#XA0;&#XA0;Hardware description</a>
-</li><li class="li-toc"><a href="#sec20">3.4&#XA0;&#XA0;Programming instructions</a>
+<a href="#sec17">5.1&#XA0;&#XA0;Specification wishlist</a>
+</li><li class="li-toc"><a href="#sec18">5.2&#XA0;&#XA0;Development history</a>
+</li><li class="li-toc"><a href="#sec19">5.3&#XA0;&#XA0;Wireless clock</a>
 </li></ul>
-</li><li class="li-toc"><a href="#sec21">4&#XA0;&#XA0;Options for server setup</a>
 </li></ul>
-<!--TOC section id="sec2" Background for wiFred development-->
-<h2 id="sec2" class="section">1&#XA0;&#XA0;Background for wiFred development</h2><!--SEC END --><p> <a id="background"></a></p><p>As of the writing of this document, JMRI&#XA0;[<a href="#jmri">1</a>] has a long track record of offering a server for using smartphones as wireless model railroad throttles, along with apps like withrottle&#XA0;[<a href="#withrottleApp">3</a>]<sup><a id="text1" href="#note1">1</a></sup> and EngineDriver&#XA0;[<a href="#EngineDriver">4</a>]. This server will enable WiFi throttles to control locos any model railroading layout to which JMRI can build a connection&#XA0;[<a href="#jmrihardwaresupport">2</a>]. In addition, Digitrax&#XA0;[<a href="#digitrax">9</a>] and MRC&#XA0;[<a href="#mrc">8</a>] offer specific hardware solutions to enable the connection of the abovementioned smartphone apps to their DCC systems through a WiFi network.</p><p>The Fremo&#XA0;[<a href="#fremo">5</a>] is a European modular model railroading club whose unique requirements on it&#X2019;s DCC throttles led to the creation of the throttles FRED and FREDI&#XA0;[<a href="#fred">6</a>] &#X2013; a series of LocoNet&#XAE;-throttles which started their life as hobbyist projects with large numbers in circulation but were also commercially available from Uhlenbrock&#XA0;[<a href="#uhlenbrock">7</a>].</p>
-<!--TOC subsection id="sec3" Specification wishlist-->
-<h3 id="sec3" class="subsection">1.1&#XA0;&#XA0;Specification wishlist</h3><!--SEC END --><p>In modular railroading events, particularly of the Fremo-americaN-group&#XA0;[<a href="#fremo">5</a>], some people have evaluated the smartphone throttle solutions and found them lacking a nice, haptical feedback. But the idea of wireless control without locking into a specific vendor and their necessarily expensive equipment found great approval. So a wishlist was compiled to define the requirements for a wireless throttle:
-</p><ul class="itemize"><li class="li-itemize">
-Same form factor as the FRED&#XA0;[<a href="#fred">6</a>] with similar controls
-</li><li class="li-itemize">Option to control at least two, better four locomotives for double/triple traction (similar to the double FRED)
-</li><li class="li-itemize">Battery runtime of at least six hours
-</li><li class="li-itemize">Exchangeable batteries, so when the battery runs down, they can be quickly exchanged for a charged set or cheap primary cells
-</li><li class="li-itemize">Easy configuration, but not too easy to prevent operators from accidentally selecting other locomotives
-</li><li class="li-itemize">As little change to the existing Fremo Loconet&#XAE; network as possible
-</li><li class="li-itemize">Use of withrottle protocol, so the server side of the communication can be assumed to work and does not have to be developed as well
-</li></ul>
-<!--TOC subsection id="sec4" Wireless clock-->
-<h3 id="sec4" class="subsection">1.2&#XA0;&#XA0;Wireless clock</h3><!--SEC END --><p>During the development of this wiFred another topic came up in the americaN group of the Fremo, namely wireless clocks with adjustable clock rate for Timetable &amp; Trainorder operations. Contrary to other Fremo groups, the americaN group standard does not call for any cabling for fast clocks and the group does not have the equipment for setting up a fast clock network, so first trails were done with regular Quartz clocks at 1:1 rate which had to be adjusted to timetable starting time every timetable morning. So a new solution was required, adding the following to the specification above:</p><ul class="itemize"><li class="li-itemize">
-Battery runtime of at least eight hours to have some backup for long days
-</li><li class="li-itemize">Able to control cheap Quartz clocks
-</li><li class="li-itemize">Clock rate adjustable centrally in small increments in case the timetable planner has misjudged the capacity of the layout or operators
-</li><li class="li-itemize">Re-use existing systems as much as possible &#X2013; in the case of the clock system, use JMRIs fast clock server
-</li></ul>
-<!--TOC section id="sec5" wiFred Wireless throttle-->
-<h2 id="sec5" class="section">2&#XA0;&#XA0;wiFred Wireless throttle</h2><!--SEC END --><p> <a id="throttle"></a></p>
-<!--TOC subsection id="sec6" Quickstart Guide-->
-<h3 id="sec6" class="subsection">2.1&#XA0;&#XA0;Quickstart Guide</h3><!--SEC END --><p>Follow these steps for a new throttle (see later chapters for more explanation or if you run into trouble)</p><ol class="enumerate" type=1><li class="li-enumerate">
-
-Use PCB to determine positions of holes and cutouts in housing
-</li><li class="li-enumerate">Make said cutouts and glue little pieces of 3mm thick plastic or wood underneath PCB screw holes 
-</li><li class="li-enumerate">Solder components to PCB
-</li><li class="li-enumerate">Flash firmware to ESP and to AVR
-</li><li class="li-enumerate">Test fit PCB into housing, removing plastic parts of housing as required
-</li><li class="li-enumerate">Fit PCB into housing, insert three screws to fix PCB to housing
-</li><li class="li-enumerate">Make sure communication jumpers are set correctly, close housing and fix back cover with two screws
-</li><li class="li-enumerate">Add throttle knob
-</li><li class="li-enumerate">Insert batteries
-</li><li class="li-enumerate">Using any WiFi client (laptop, smartphone, tablet...), find and connect to network <span style="font-style:italic">wiFred-configXXXX</span>
-</li><li class="li-enumerate">Using any web browser, navigate to <span style="font-style:italic">http://192.168.4.1</span>
-</li><li class="li-enumerate">Enter your WiFi configuration (and a throttle ID if you like &#X2013; highly recommended to easier tell them apart) <span style="font-weight:bold">and hit the </span><span style="font-weight:bold"><span style="font-style:italic">Submit</span></span><span style="font-weight:bold">-Button</span>
-</li><li class="li-enumerate">Click on <span style="font-family:monospace">Loco configuration subpage</span>
-</li><li class="li-enumerate"><span style="font-weight:bold">Make sure to enable the checkbox on top next to </span><span style="font-weight:bold"><span style="font-family:monospace">Enabled?</span></span> and also enter your wiThrottle server settings
-</li><li class="li-enumerate">For every loco you want to control with this throttle, enter the appropriate details below
-</li><li class="li-enumerate">Finish by <span style="font-weight:bold">hitting the </span><span style="font-weight:bold"><span style="font-style:italic">Submit</span></span><span style="font-weight:bold">-Button</span>
-</li><li class="li-enumerate">Configure function settings for each loco on the respective sub pages if required
-</li><li class="li-enumerate">Restart the throttle by navigating back to the main configuration page and clicking on <span style="font-family:monospace">Restart system to enable new WiFi settings</span>
-</li></ol><p>Your throttle should now be ready to use and connect to your wiThrottle server on startup. Refer to the chapters below if it does not or contact the author of this document.</p>
-<!--TOC subsection id="sec7" Usage-->
-<h3 id="sec7" class="subsection">2.2&#XA0;&#XA0;Usage</h3><!--SEC END --><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div><p><img src="docu001.png">
-&#XA0;
-<img src="docu002.png">
-&#XA0;
-<img src="docu003.png"></p><div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 1: Controls and features of the wiFred-throttle</td></tr>
-</table></div><p>
-<a id="throttleControls"></a></p><div class="center"><hr style="width:80%;height:2"></div></blockquote><p>Figure&#XA0;<a href="#throttleControls">1</a> shows the controls of the wireless throttle. They consist of the following:</p><ul class="itemize"><li class="li-itemize">
-Four loco selection switches (loco 1 on the left, loco 4 on the right, move towards speed potentiometer to enable)
-</li><li class="li-itemize">Speed potentiometer (Counter-clockwise endstop: Stop, clockwise endstop: Full speed)
-</li><li class="li-itemize">Direction switch &#X2013; move right for forward movement, left for reverse movement
-</li><li class="li-itemize">Black function keys F0 to F4
-</li><li class="li-itemize">Two yellow shift keys to trigger F5-F8 (SHIFT1, lower key), F9-F12 (SHIFT2, upper key) and F13-F16 (both shift keys)
-</li><li class="li-itemize">Red emergency stop key
-</li><li class="li-itemize">Two green direction indicator LEDs
-</li><li class="li-itemize">One red status LED
-</li><li class="li-itemize">Battery compartment (on the rear) for two AA cells, 1.2&#XA0;V to 1.5&#XA0;V nominal voltage
-</li></ul><p>As soon as a pair of batteries is inserted into the battery compartment as the symbols inside the battery compartment show, the throttle will boot up and try to connect to a wireless network. The throttle will not be damaged if batteries are inserted wrongly, but it will not work either. Use NiMH- or primary AA cells with 1.2&#XA0;V to 1.5&#XA0;V nominal voltage, low self discharge NiMH cells like Eneloop&#XAE; or similar are recommended. Do not insert 3&#XA0;V or 3.6&#XA0;V AA size lithium batteries as this may damage the throttle.</p><p>If no connection to the network configured into the device can be established within 60 seconds, the throttle will create it&#X2019;s own wireless network named <span style="font-style:italic">wiFred-config</span> plus four hex digits taken from the MAC address of the throttle WiFi interface, for example <span style="font-style:italic">wiFred-config0CAC</span>, to enable configuration as described in the next section.</p><p>Four different locos with long DCC addresses can be assigned to the four loco selection switches. Commands derived from the speed potentiometer, the direction switch and the function keys will be transmitted to all selected locos (near) simultaneously, with a certain translation table enabling some locos to go backwards when others go forwards and also limiting function keys to some of the four locos only &#X2013; this is described in more detail in sections&#XA0;<a href="#throttle_LocoConf">2.3.3</a> and&#XA0;<a href="#throttle_FunctionConf">2.3.4</a>.</p><p>Pushing the red emergency stop key will cause the throttle to send an emergency stop signal to all four locos attached. After an emergency stop, turn the speed potentiometer to zero to re-enable control of the locos.</p><p>Pushing the red emergency stop key while holding down either of the shift keys will place the device into configuration mode (as well as issueing an emergency stop to all attached locos). See section&#XA0;<a href="#throttle_Conf">2.3</a> for more details on how to access the throttle to do the configuration.</p><p>Any change in the loco selection switches will cause the throttle to send a stop (zero speed) command to all attached locos. This makes sure that any loco that is deselected will stop on the layout and avoids newly selected locos suddenly taking off at speed. The same is true for a change in the direction switch, to avoid high-speed reverse maneuvers. Turn the speed potentiometer to zero to re-enable control of the locos.</p><p>When all four loco selection switches are set to the disabled state, the throttle will send a stop (zero speed) command to all four locos attached and &#X2013; after a wait time of 30 seconds &#X2013; it will disconnect from the network and go into low power mode. To reconnect, re-enable any loco selection switch.</p><p>The same happens when the batteries are empty, but the throttle will not reactivate before changing the batteries. Expected runtime with a pair of 2500&#XA0;mAh-NiMH-batteries is around 8-10 hours of full time operations, more if the throttle is placed in low power mode when the locos are not running.</p><p>During startup and operation, the LEDs will show the patterns explained in table&#XA0;<a href="#ledTable">1</a>.</p><blockquote class="table"><div class="center"><hr style="width:80%;height:2"></div>
+<!--TOC section id="sec2" wiFred Wireless throttle hardware-->
+<h2 id="sec2" class="section">1&#XA0;&#XA0;wiFred Wireless throttle hardware</h2><!--SEC END --><p> <a id="throttle"></a></p><blockquote class="table"><div class="center"><hr style="width:80%;height:2"></div>
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Table 1: LED patterns and their meaning on the wiFred throttle</td></tr>
 </table></div> <a id="ledTable"></a><p><br>
 </p><table border=1  style="border-spacing:0;" class="cellpadding1"><tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > Red LED</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Green LED (Left)</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Green LED (Right)</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Status </td></tr>
@@ -167,50 +105,75 @@ Four loco selection switches (loco 1 on the left, loco 4 on the right, move towa
 <tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" > On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >On</td><td style="vertical-align:middle;text-align:left;border:solid 1px;" >Configuration mode enabled while connected to existing WiFi network. All locos emergency stop to avoid runaways. Push SHIFT + ESTOP again to exit configuration mode </td></tr>
 </table><p><br>
 </p><p>To recover from an emergency stop, turn speed potentiometer to zero to re-gain control.</p><div class="center"><hr style="width:80%;height:2"></div></blockquote>
-<!--TOC subsection id="sec8" Configuration-->
-<h3 id="sec8" class="subsection">2.3&#XA0;&#XA0;Configuration</h3><!--SEC END --><p> <a id="throttle_Conf"></a></p><p>Before using the device, it must be configured. At the very least, the General Configuration&#XA0;<a href="#throttle_GeneralConf">2.3.2</a> and Loco Configuration&#XA0;<a href="#throttle_LocoConf">2.3.3</a> pages have to be submitted once to be saved to non-volatile memory. If no valid configuration is detected at startup, the device will start with a default configuration with no locos enabled and trying to connect to a network named &#X201C;undef&#X201D; with a key named &#X201C;undef&#X201D;, which will probably fail.</p>
-<!--TOC subsubsection id="sec9" Entering configuration mode-->
-<h4 id="sec9" class="subsubsection">2.3.1&#XA0;&#XA0;Entering configuration mode</h4><!--SEC END --><p>There are two ways to enter configuration mode:</p><ol class="enumerate" type=1><li class="li-enumerate">
-Power up the throttle when the configured WiFi network is not in range (or when there is no valid configuration &#X2013; the first startup of a new throttle will fall into this category)
-</li><li class="li-enumerate">Press SHIFT (either key) and ESTOP together when the throttle is connected
-</li></ol><p>In the first case, the throttle will create a wireless network named <span style="font-style:italic">wiFred-config</span> plus four hex digits taken from the MAC address of the throttle WiFi interface, for example <span style="font-style:italic">wiFred-config0CAC</span>. Any WiFi device with a web browser can connect to that network and open a web browser to point to <span style="font-style:italic">http://192.168.4.1</span>.</p><p>In the second case, the throttle will change the last tuple of it&#X2019;s IP address to .253 &#X2013; so if the wireless network is configured with IP addresses in the <span style="font-style:italic">192.168.100.x</span>-range as highlitghted in figure&#XA0;<a href="#withrottleScreenshot">2</a>, any web browser can access the configuration at <span style="font-style:italic">http://192.168.100.253</span>.</p><p>If the IP address of the throttle during normal operation is known, the configuration page can also be accessed by pointing a web browser to it at any time while it is connected. Note that this is untested and therefore not recommended while the throttle is running locos.</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
-<img src="docu004.png">
-<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 2: Screenshot of wiThrottle screen showing one throttle connected</td></tr>
+<!--TOC subsection id="sec3" Quickstart Guide-->
+<h3 id="sec3" class="subsection">1.1&#XA0;&#XA0;Quickstart Guide</h3><!--SEC END --><p>Follow these steps for a new throttle (see later chapters for more explanation or if you run into trouble)</p><ol class="enumerate" type=1><li class="li-enumerate">
+
+Use PCB to determine positions of holes and cutouts in housing
+</li><li class="li-enumerate">Make said cutouts
+</li><li class="li-enumerate">Solder components to PCB
+</li><li class="li-enumerate">Connect lithium battery to PCB, charge with Micro USB charger if required
+</li><li class="li-enumerate">Flash firmware to AVR
+</li><li class="li-enumerate">Move any of the loco selection switches to &#X201C;enabled&#X201D; to power ESP, then flash firmware to ESP, move loco selection switch back to &#X201C;disabled&#X201D; to turn off power to ESP again
+</li><li class="li-enumerate">Test fit PCB into housing, removing plastic parts of housing as required
+</li><li class="li-enumerate">Fit PCB into housing, insert four screws to fix PCB to housing
+</li><li class="li-enumerate">Fit lithium battery into other half of housing, fix with double sided tape or similar, taking care that the battery will not be squeezed or pinched by any parts on the PCB when the housing is closed
+</li><li class="li-enumerate">Make sure communication jumpers are set correctly, close housing and fix back cover with two screws
+</li><li class="li-enumerate">Add throttle knob
+</li><li class="li-enumerate">Move any loco selection switch to &#X201C;enabled&#X201D; to power ESP
+</li><li class="li-enumerate">Using any WiFi client (laptop, smartphone, tablet...), find and connect to network <span style="font-style:italic">wiFred-configXXXX</span>
+</li><li class="li-enumerate">Using any web browser, navigate to <span style="font-style:italic">http://192.168.4.1</span>
+</li><li class="li-enumerate">Enter your WiFi configuration (and a throttle ID if you like &#X2013; highly recommended to easier tell them apart) <span style="font-weight:bold">and hit the </span><span style="font-weight:bold"><span style="font-style:italic">Submit</span></span><span style="font-weight:bold">-Button</span>
+</li><li class="li-enumerate">Click on <span style="font-family:monospace">Loco configuration subpage</span>
+</li><li class="li-enumerate">Enter your wiThrottle server settings
+</li><li class="li-enumerate">For every loco you want to control with this throttle, enter the appropriate details below
+</li><li class="li-enumerate">Finish by <span style="font-weight:bold">hitting the </span><span style="font-weight:bold"><span style="font-style:italic">Submit</span></span><span style="font-weight:bold">-Button</span>
+</li><li class="li-enumerate">Configure function settings for each loco on the respective sub pages if required
+</li><li class="li-enumerate">Restart the throttle by navigating back to the main configuration page and clicking on <span style="font-family:monospace">Restart system to enable new WiFi settings</span>
+</li></ol><p>Your throttle should now be ready to use and connect to your wiThrottle server on startup. Refer to the chapters below if it does not or contact the author of this document.</p><p>Before operating the throttle, fully charge the battery which will also calibrate the internal battery voltage measurements. Before the first full charge, the throttle may not shut down when the battery is empty which can lead to damage to the battery. This can be checked by comparing the device&#X2019;s battery voltage measurement on the status subpage of the configuration website to voltage readings from a multimeter on the battery terminals &#X2013; an accuracy of 50&#XA0;mV to 100&#XA0;mV is OK.</p>
+<!--TOC section id="sec4" wiFred Wireless throttle configuration-->
+<h2 id="sec4" class="section">2&#XA0;&#XA0;wiFred Wireless throttle configuration</h2><!--SEC END --><p> <a id="config"></a></p><p>Before using the device, it must be configured. At the very least, the General Configuration&#XA0;<a href="#throttle_GeneralConf">2.2</a> and Loco Configuration&#XA0;<a href="#throttle_LocoConf">2.3</a> pages have to be submitted once to be saved to non-volatile memory. If no valid configuration is detected at startup, the device will start with a default configuration with no locos enabled and trying to connect to a network named &#X201C;undef&#X201D; with a key named &#X201C;undef&#X201D;, which will probably fail.</p>
+<!--TOC subsection id="sec5" Entering configuration mode-->
+<h3 id="sec5" class="subsection">2.1&#XA0;&#XA0;Entering configuration mode</h3><!--SEC END --><p>There are two ways to enter configuration mode:</p><ol class="enumerate" type=1><li class="li-enumerate">
+Power up the throttle/select a loco when the configured WiFi network is not in range (or when there is no valid configuration &#X2013; the first startup of a new throttle will fall into this category)
+</li><li class="li-enumerate">Press SHIFT and ESTOP together when the throttle is connected
+</li></ol><p>In the first case, the throttle will create a wireless network named <span style="font-style:italic">wiFred-config</span> plus four hex digits taken from the MAC address of the throttle WiFi interface, for example <span style="font-style:italic">wiFred-config0CAC</span>. Any WiFi device with a web browser can connect to that network and open a web browser to point to <span style="font-style:italic">http://192.168.4.1</span>.</p><p>In the second case, the throttle will change the last tuple of it&#X2019;s IP address to .253 &#X2013; so if the wireless network is configured with IP addresses in the <span style="font-style:italic">192.168.100.x</span>-range as highlighted in figure&#XA0;<a href="#withrottleScreenshot">1</a>, any web browser can access the configuration at <span style="font-style:italic">http://192.168.100.253</span>.</p><p>If the IP address of the throttle during normal operation is known, the configuration page can also be accessed by pointing a web browser to it at any time while it is connected. Note that this is untested and therefore not recommended while the throttle is running locos.</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
+<img src="docu001.png">
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 1: Screenshot of wiThrottle screen showing one throttle connected</td></tr>
 </table></div>
 <a id="withrottleScreenshot"></a>
 <div class="center"><hr style="width:80%;height:2"></div></div></blockquote>
-<!--TOC subsubsection id="sec10" General configuration-->
-<h4 id="sec10" class="subsubsection">2.3.2&#XA0;&#XA0;General configuration</h4><!--SEC END --><p> <a id="throttle_GeneralConf"></a></p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
-<img src="docu005.png">
-<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 3: Screenshot of wiFred main configuration page</td></tr>
+<!--TOC subsection id="sec6" General configuration-->
+<h3 id="sec6" class="subsection">2.2&#XA0;&#XA0;General configuration</h3><!--SEC END --><p> <a id="throttle_GeneralConf"></a></p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
+<img src="docu002.png">
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 2: Screenshot of wiFred main configuration page</td></tr>
 </table></div>
 <a id="throttleConfMainPage"></a>
-<div class="center"><hr style="width:80%;height:2"></div></div></blockquote><p>Figure&#XA0;<a href="#throttleConfMainPage">3</a> shows the first page you will see when you point a web browser at your wiFred throttle. It has some general configuration settings for the following items:</p><dl class="description"><dt class="dt-description">
-</dt><dd class="dd-description">Throttle name: This is a free-form identification string of the throttle. It shows up in the wiThrottle window of JMRI as shown in figure&#XA0;<a href="#withrottleScreenshot">2</a> and can be used to identify the throttle during configuration.
+<div class="center"><hr style="width:80%;height:2"></div></div></blockquote><p>Figure&#XA0;<a href="#throttleConfMainPage">2</a> shows the first page you will see when you point a web browser at your wiFred throttle. It has some general configuration settings for the following items:</p><dl class="description"><dt class="dt-description">
+</dt><dd class="dd-description">Throttle name: This is a free-form identification string of the throttle. It shows up in the wiThrottle window of JMRI as shown in figure&#XA0;<a href="#withrottleScreenshot">1</a> and can be used to identify the throttle during configuration.
 </dd><dt class="dt-description"></dt><dd class="dd-description">WiFi SSID: The name of the wireless network the throttle shall connect to.
-</dd><dt class="dt-description"></dt><dd class="dd-description">WiFi PSK: The so-called password<sup><a id="text2" href="#note2">2</a></sup> for the wireless network. 
-</dd></dl><p><span style="font-weight:bold">Reminder: Changes are saved using the &#X201C;Submit Query&#X201D; button which may look different in different web browsers (firefox shown).</span></p><p>A new device will not read a saved configuration at startup unless both the main page and one of either the loco configuration subpage or the clock configuration subpage has been saved at least once.</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
-<img src="docu006.png">
-<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 4: Screenshot of wiFred status page</td></tr>
+</dd><dt class="dt-description"></dt><dd class="dd-description">WiFi PSK: The so-called password<sup><a id="text1" href="#note1">1</a></sup> for the wireless network. 
+</dd></dl><p><span style="font-weight:bold">Reminder: Changes are saved using the &#X201C;Submit Query&#X201D; button which may look different in different web browsers (firefox shown).</span></p><p>A new device will not read a saved configuration at startup unless both the main page and the loco configuration subpage have been saved at least once.</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
+<img src="docu003.png">
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 3: Screenshot of wiFred status page</td></tr>
 </table></div>
 <a id="throttleConfigStatusPage"></a>
-<div class="center"><hr style="width:80%;height:2"></div></div></blockquote><p>This page also includes links to the configuration sub pages for locos and clock settings as well as a link to the status page shown in figure&#XA0;<a href="#throttleConfigStatusPage">4</a> which gives information about the current clock settings and battery voltage and may be enhanced in the future.</p>
-<!--TOC subsubsection id="sec11" Loco configuration-->
-<h4 id="sec11" class="subsubsection">2.3.3&#XA0;&#XA0;Loco configuration</h4><!--SEC END --><p> <a id="throttle_LocoConf"></a></p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
-<img src="docu007.png">
-<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 5: Screenshot of wiFred loco configuration page</td></tr>
+<div class="center"><hr style="width:80%;height:2"></div></div></blockquote><p>This page also includes links to the configuration sub page for locos as well as a link to the status page shown in figure&#XA0;<a href="#throttleConfigStatusPage">3</a> which gives information about the current battery voltage and may be enhanced in the future.</p>
+<!--TOC subsection id="sec7" Loco configuration-->
+<h3 id="sec7" class="subsection">2.3&#XA0;&#XA0;Loco configuration</h3><!--SEC END --><p> <a id="throttle_LocoConf"></a></p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
+<img src="docu004.png">
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 4: Screenshot of wiFred loco configuration page</td></tr>
 </table></div>
 <a id="throttleConfigLocoPage"></a>
-<div class="center"><hr style="width:80%;height:2"></div></div></blockquote><p>On this page, shown in figure&#XA0;<a href="#throttleConfigLocoPage">5</a>, the (up to four) locomotives to be controlled with this throttle and some settings for all locomotives are available.</p><p>Right on top, the checkbox next to <span style="font-family:monospace">Enabled?</span> determines if the wiFred is to be used as a throttle. All the configuration settings are available if it is not, but it will not connect to the withrottle server and several other features described in this document may not work either unless this checkbox is enabled.</p><p>Next the server settings can be found. The correct settings can be read from the JMRI withrottle server screen, as highlighted in figure&#XA0;<a href="#withrottleScreenshot">2</a>. Normally the port does not need to be changed, as 12090 is the default setting.</p><p>Following the server configuration, there are four identical sections assigned to the four different locomotives which can be controlled with this throttle. Each section consists of the following settings:</p><dl class="description"><dt class="dt-description">
+<div class="center"><hr style="width:80%;height:2"></div></div></blockquote><p>On this page, shown in figure&#XA0;<a href="#throttleConfigLocoPage">4</a>, the (up to four) locomotives to be controlled with this throttle and some settings for all locomotives are available.</p><p>Right on top, the server settings can be found. The correct settings can be read from the JMRI withrottle server screen, as highlighted in figure&#XA0;<a href="#withrottleScreenshot">1</a>. Normally the port does not need to be changed, as 12090 is the default setting.</p><p>Following the server configuration, there are four identical sections assigned to the four different locomotives which can be controlled with this throttle. Each section consists of the following settings:</p><dl class="description"><dt class="dt-description">
 </dt><dd class="dd-description">DCC address: Can be a short address between 1 and 127 (also used for consists) or a long address between 0 and 10239. Note: Short addresses between 1 and 127 are not the same as long addresses between 1 and 127. If this is set to -1, the corresponding loco is disabled.
 </dd><dt class="dt-description"></dt><dd class="dd-description">Long address?: Checkbox to change the behaviour of the DCC address input field described above.
 </dd><dt class="dt-description"></dt><dd class="dd-description">Reverse?: If checked, the corresponding loco will invert it&#X2019;s travel direction. Mainly intended for back-to-back consists without decoder reconfiguration.
-</dd><dt class="dt-description"></dt><dd class="dd-description">Function mapping: Link to the function mapping subpage for the corresponding loco, as described in section&#XA0;<a href="#throttle_FunctionConf">2.3.4</a>. Clicking this link will lose all information entered on the current page and take the web browser to a different subpage.
+</dd><dt class="dt-description"></dt><dd class="dd-description">Function mapping: Link to the function mapping subpage for the corresponding loco, as described in section&#XA0;<a href="#throttle_FunctionConf">2.4</a>. Clicking this link will lose all information entered on the current page and take the web browser to a different subpage.
 </dd></dl><p><span style="font-weight:bold">Reminder: Changes are saved using the &#X201C;Submit Query&#X201D; button which may look different in different web browsers (firefox shown).</span></p>
-<!--TOC subsubsection id="sec12" DCC function configuration-->
-<h4 id="sec12" class="subsubsection">2.3.4&#XA0;&#XA0;DCC function configuration</h4><!--SEC END --><p> <a id="throttle_FunctionConf"></a></p><p>By default, if a function key is pressed, the throttle will send the appropriate commands to every loco under control. Under certain circumstances, this may not be desired &#X2013; the obvious example being a loco in the middle of a multi-unit consist, which should not have lights or ditchlights. So this page &#X2013; shown in figure&#XA0;<a href="#throttleConfigFunctionPage">6</a> &#X2013; offers the option to chose between three different settings for every function on each of the four locomotives (one page per locomotive):</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
-<img src="docu008.png">
-<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 6: Screenshot of wiFred function handling config page</td></tr>
+<!--TOC subsection id="sec8" DCC function configuration-->
+<h3 id="sec8" class="subsection">2.4&#XA0;&#XA0;DCC function configuration</h3><!--SEC END --><p> <a id="throttle_FunctionConf"></a></p><p>By default, if a function key is pressed, the throttle will send the appropriate commands to every loco under control. Under certain circumstances, this may not be desired &#X2013; the obvious example being a loco in the middle of a multi-unit consist, which should not have lights or ditchlights. So this page &#X2013; shown in figure&#XA0;<a href="#throttleConfigFunctionPage">5</a> &#X2013; offers the option to chose between three different settings for every function on each of the four locomotives (one page per locomotive):</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
+<img src="docu005.png">
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 5: Screenshot of wiFred function handling config page</td></tr>
 </table></div>
 <a id="throttleConfigFunctionPage"></a>
 <div class="center"><hr style="width:80%;height:2"></div></div></blockquote><dl class="description"><dt class="dt-description">
@@ -218,8 +181,52 @@ Power up the throttle when the configured WiFi network is not in range (or when 
 </dd><dt class="dt-description"></dt><dd class="dd-description">Throttle controlled: When the first loco is enabled by moving the selection switch to the &#X201C;selected&#X201D; position, the current status of the function is queried and saved. When selecting the next loco, the status is queried. If it does not match the first loco, the function status is changed by simulating a function key press. Afterwards, key presses are handed through to the loco.
 </dd><dt class="dt-description"></dt><dd class="dd-description">Always On: Similar to the &#X201C;Always Off&#X201D; setting, but the throttle will attempt to enable the function when the locomotive is selected and ignore any further function key presses. This will probably not work with so-called momentary functions that are only active as long as the function key is pressed.
 </dd></dl><p><span style="font-weight:bold">Reminder: Changes are saved using the &#X201C;Submit Query&#X201D; button which may look different in different web browsers (firefox shown).</span></p>
+<!--TOC section id="sec9" Options for server setup-->
+<h2 id="sec9" class="section">3&#XA0;&#XA0;Options for server setup</h2><!--SEC END -->
+<!--TOC section id="sec10" wiFred Wireless throttle prototype-->
+<h2 id="sec10" class="section">4&#XA0;&#XA0;wiFred Wireless throttle prototype</h2><!--SEC END --><p> <a id="oldThrottle"></a></p>
+<!--TOC subsection id="sec11" Quickstart Guide-->
+<h3 id="sec11" class="subsection">4.1&#XA0;&#XA0;Quickstart Guide</h3><!--SEC END --><p>Follow these steps for a new throttle (see later chapters for more explanation or if you run into trouble)</p><ol class="enumerate" type=1><li class="li-enumerate">
+
+Use PCB to determine positions of holes and cutouts in housing
+</li><li class="li-enumerate">Make said cutouts and glue little pieces of 3mm thick plastic or wood underneath PCB screw holes 
+</li><li class="li-enumerate">Solder components to PCB
+</li><li class="li-enumerate">Flash firmware to ESP and to AVR
+</li><li class="li-enumerate">Test fit PCB into housing, removing plastic parts of housing as required
+</li><li class="li-enumerate">Fit PCB into housing, insert three screws to fix PCB to housing
+</li><li class="li-enumerate">Make sure communication jumpers are set correctly, close housing and fix back cover with two screws
+</li><li class="li-enumerate">Add throttle knob
+</li><li class="li-enumerate">Insert batteries
+</li><li class="li-enumerate">Using any WiFi client (laptop, smartphone, tablet...), find and connect to network <span style="font-style:italic">wiFred-configXXXX</span>
+</li><li class="li-enumerate">Using any web browser, navigate to <span style="font-style:italic">http://192.168.4.1</span>
+</li><li class="li-enumerate">Enter your WiFi configuration (and a throttle ID if you like &#X2013; highly recommended to easier tell them apart) <span style="font-weight:bold">and hit the </span><span style="font-weight:bold"><span style="font-style:italic">Submit</span></span><span style="font-weight:bold">-Button</span>
+</li><li class="li-enumerate">Click on <span style="font-family:monospace">Loco configuration subpage</span>
+</li><li class="li-enumerate">Enter your wiThrottle server settings
+</li><li class="li-enumerate">For every loco you want to control with this throttle, enter the appropriate details below
+</li><li class="li-enumerate">Finish by <span style="font-weight:bold">hitting the </span><span style="font-weight:bold"><span style="font-style:italic">Submit</span></span><span style="font-weight:bold">-Button</span>
+</li><li class="li-enumerate">Configure function settings for each loco on the respective sub pages if required
+</li><li class="li-enumerate">Restart the throttle by navigating back to the main configuration page and clicking on <span style="font-family:monospace">Restart system to enable new WiFi settings</span>
+</li></ol><p>Your throttle should now be ready to use and connect to your wiThrottle server on startup. Refer to the chapters below if it does not or contact the author of this document.</p>
+<!--TOC subsection id="sec12" Usage-->
+<h3 id="sec12" class="subsection">4.2&#XA0;&#XA0;Usage</h3><!--SEC END --><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div><p><img src="docu006.png">
+&#XA0;
+<img src="docu007.png">
+&#XA0;
+<img src="docu008.png"></p><div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 6: Controls and features of the wiFred-throttle &#X2013; prototype version</td></tr>
+</table></div><p>
+<a id="oldThrottleControls"></a></p><div class="center"><hr style="width:80%;height:2"></div></blockquote><p>Figure&#XA0;<a href="#oldThrottleControls">6</a> shows the controls of the wireless throttle. They consist of the following:</p><ul class="itemize"><li class="li-itemize">
+Four loco selection switches (loco 1 on the left, loco 4 on the right, move towards speed potentiometer to enable)
+</li><li class="li-itemize">Speed potentiometer (Counter-clockwise endstop: Stop, clockwise endstop: Full speed)
+</li><li class="li-itemize">Direction switch &#X2013; move right for forward movement, left for reverse movement
+</li><li class="li-itemize">Black function keys F0 to F4
+</li><li class="li-itemize">Two yellow shift keys to trigger F5-F8 (SHIFT1, lower key), F9-F12 (SHIFT2, upper key) and F13-F16 (both shift keys)
+</li><li class="li-itemize">Red emergency stop key
+</li><li class="li-itemize">Two green direction indicator LEDs
+</li><li class="li-itemize">One red status LED
+</li><li class="li-itemize">Battery compartment (on the rear) for two AA cells, 1.2&#XA0;V to 1.5&#XA0;V nominal voltage
+</li></ul><p>As soon as a pair of batteries is inserted into the battery compartment as the symbols inside the battery compartment show, the throttle will boot up and try to connect to a wireless network. The throttle will not be damaged if batteries are inserted wrongly, but it will not work either. Use NiMH- or primary AA cells with 1.2&#XA0;V to 1.5&#XA0;V nominal voltage, low self discharge NiMH cells like Eneloop&#XAE; or similar are recommended. Do not insert 3&#XA0;V or 3.6&#XA0;V AA size lithium batteries as this may damage the throttle.</p><p>If no connection to the network configured into the device can be established within 60 seconds, the throttle will create it&#X2019;s own wireless network named <span style="font-style:italic">wiFred-config</span> plus four hex digits taken from the MAC address of the throttle WiFi interface, for example <span style="font-style:italic">wiFred-config0CAC</span>, to enable configuration as described in section&#XA0;<a href="#config">2</a>.</p><p>Four different locos with long DCC addresses can be assigned to the four loco selection switches. Commands derived from the speed potentiometer, the direction switch and the function keys will be transmitted to all selected locos (near) simultaneously, with a certain translation table enabling some locos to go backwards when others go forwards and also limiting function keys to some of the four locos only &#X2013; this is described in more detail in sections&#XA0;<a href="#throttle_LocoConf">2.3</a> and&#XA0;<a href="#throttle_FunctionConf">2.4</a>.</p><p>Pushing the red emergency stop key will cause the throttle to send an emergency stop signal to all four locos attached. After an emergency stop, turn the speed potentiometer to zero to re-enable control of the locos.</p><p>Pushing the red emergency stop key while holding down either of the shift keys will place the device into configuration mode (as well as issueing an emergency stop to all attached locos). See section&#XA0;<a href="#config">2</a> for more details on how to access the throttle to do the configuration.</p><p>Any change in the loco selection switches will cause the throttle to send a stop (zero speed) command to all attached locos. This makes sure that any loco that is deselected will stop on the layout and avoids newly selected locos suddenly taking off at speed. The same is true for a change in the direction switch, to avoid high-speed reverse maneuvers. Turn the speed potentiometer to zero to re-enable control of the locos.</p><p>When all four loco selection switches are set to the disabled state, the throttle will send a stop (zero speed) command to all four locos attached and &#X2013; after a wait time of 30 seconds &#X2013; it will disconnect from the network and go into low power mode. To reconnect, re-enable any loco selection switch.</p><p>The same happens when the batteries are empty, but the throttle will not reactivate before changing the batteries. Expected runtime with a pair of 2500&#XA0;mAh-NiMH-batteries is around 8-10 hours of full time operations, more if the throttle is placed in low power mode when the locos are not running.</p><p>During startup and operation, the LEDs will show the patterns explained in table&#XA0;<a href="#ledTable">1</a>.</p>
 <!--TOC subsection id="sec13" Hardware description-->
-<h3 id="sec13" class="subsection">2.4&#XA0;&#XA0;Hardware description</h3><!--SEC END --><p>The wiFred hardware is centered around an ESP8266 for the WiFi connection. The ESP8266 also reads the loco selection switches and the battery voltage and communicates through it&#X2019;s serial port with an ATMega&#XA0;328P microcontroller which controls the LEDs, reads the speed potentiometer, direction switch and pushbutton switches for functions and emergency stop. The communication goes through a 2x3 pin header which enables the user to connect a programming cable to the same serial port if removing the jumpers.</p><p>The wiFred is powered by two AA size battery cells connected to a step-up converter creating 3.3&#XA0;V for the entire device.</p><p>The schematic is split into several pages and can be found in figures&#XA0;<a href="#schematicPage1">7</a> to&#XA0;<a href="#schematicPage4">10</a>. It has been created with kicad and is available on the github repository at <span style="font-style:italic">http://github.com/newHeiko/wiFred</span> along with the PCB design.</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
+<h3 id="sec13" class="subsection">4.3&#XA0;&#XA0;Hardware description</h3><!--SEC END --><p>The wiFred hardware is centered around an ESP8266 for the WiFi connection. The ESP8266 also reads the loco selection switches and the battery voltage and communicates through it&#X2019;s serial port with an ATMega&#XA0;328P microcontroller which controls the LEDs, reads the speed potentiometer, direction switch and pushbutton switches for functions and emergency stop. The communication goes through a 2x3 pin header which enables the user to connect a programming cable to the same serial port if removing the jumpers.</p><p>The wiFred is powered by two AA size battery cells connected to a step-up converter creating 3.3&#XA0;V for the entire device.</p><p>The schematic is split into several pages and can be found in figures&#XA0;<a href="#schematicPage1">7</a> to&#XA0;<a href="#schematicPage4">10</a>. It has been created with kicad and is available on the github repository at <span style="font-style:italic">http://github.com/newHeiko/wiFred</span> along with the PCB design.</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
 <img src="docu009.png">
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 7: Master schematic sheet with batteries and power supply</td></tr>
 </table></div>
@@ -241,13 +248,13 @@ Power up the throttle when the configured WiFi network is not in range (or when 
 <a id="schematicPage4"></a>
 <div class="center"><hr style="width:80%;height:2"></div></div></blockquote>
 <!--TOC subsection id="sec14" Hints for building the wiFred-->
-<h3 id="sec14" class="subsection">2.5&#XA0;&#XA0;Hints for building the wiFred</h3><!--SEC END --><p>The PCB has holes in the center of the pushbutton switch footprints and LED footprints to enable transferring their positions to a StrapuBox housing with a sharp needle or similar, and the position of the loco selection switches can also be transferred to the housing by marking it through the non-copper holes at their ends. Figure&#XA0;<a href="#transferHoles">11</a> shows the process and it&#X2019;s results. Holes for the pushbutton switches should be drilled at 3.5&#XA0;mm diameter and countersunk from the inside. Holes for the LEDs should be drilled at 3&#XA0;mm diameter and holes for the speed potentiometer and direction switch at 6.5&#XA0;mm or 7&#XA0;mm diameter and countersunk. The cutouts for the loco selection switches are best created when the PCB is assembled and carefully cut out with a sharp hobby knife and a file until they fit.</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
+<h3 id="sec14" class="subsection">4.4&#XA0;&#XA0;Hints for building the wiFred</h3><!--SEC END --><p>The PCB has holes in the center of the pushbutton switch footprints and LED footprints to enable transferring their positions to a StrapuBox housing with a sharp needle or similar, and the position of the loco selection switches can also be transferred to the housing by marking it through the non-copper holes at their ends. Figure&#XA0;<a href="#transferHoles">11</a> shows the process and it&#X2019;s results. Holes for the pushbutton switches should be drilled at 3.5&#XA0;mm diameter and countersunk from the inside. Holes for the LEDs should be drilled at 3&#XA0;mm diameter and holes for the speed potentiometer and direction switch at 6.5&#XA0;mm or 7&#XA0;mm diameter and countersunk. The cutouts for the loco selection switches are best created when the PCB is assembled and carefully cut out with a sharp hobby knife and a file until they fit.</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
 <img src="docu013.png">
 <img src="docu014.png">
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 11: Using the PCB to transfer the positions of the holes to the housing</td></tr>
 </table></div>
 <a id="transferHoles"></a>
-<div class="center"><hr style="width:80%;height:2"></div></div></blockquote><p>To fit into a StrapuBox 6090 housing, the PCB should be made 0.8&#XA0;mm in thickness<sup><a id="text3" href="#note3">3</a></sup>. The remaining assembly is a basic exercise in installing all the components to the PCB, listed in table&#XA0;<a href="#wiFredBOM">2</a>. From assembling the prototypes, the suggested order of installing the components is as follows:</p><blockquote class="table"><div class="center"><hr style="width:80%;height:2"></div>
+<div class="center"><hr style="width:80%;height:2"></div></div></blockquote><p>The remaining assembly is a basic exercise in installing all the components to the PCB, listed in table&#XA0;<a href="#wiFredBOM">2</a>. From assembling the prototypes, the suggested order of installing the components is as follows:</p><blockquote class="table"><div class="center"><hr style="width:80%;height:2"></div>
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Table 2: List of components for the wiFred</td></tr>
 </table></div> <a id="wiFredBOM"></a><p><br>
 </p><table border=1  style="border-spacing:0;" class="cellpadding1"><tr><td style="vertical-align:middle;text-align:left;border:solid 1px;" ><span style="font-size:small"> Designator</span></td><td style="vertical-align:top;text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-size:small">Package</span></td><td style="vertical-align:top;text-align:left;border:solid 1px;white-space:nowrap" ><span style="font-size:small">Designation </span></td></tr>
@@ -317,7 +324,7 @@ IC201 and U101 (note: Rotate PCB so Designator is right side up, then Pin 1 is o
 <a id="mountingPads"></a>
 <div class="center"><hr style="width:80%;height:2"></div></div></blockquote>
 <!--TOC subsection id="sec15" Programming instructions-->
-<h3 id="sec15" class="subsection">2.6&#XA0;&#XA0;Programming instructions</h3><!--SEC END --><p>The ESP8266 is programmed using the Arduino IDE connected via a serial or USB-to-serial port to the K401 header as shown in figure&#XA0;<a href="#progESP">14</a>. The serial port needs to be at 3.3&#XA0;V-levels like from an FTDI232-device run at 3.3&#XA0;V.</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
+<h3 id="sec15" class="subsection">4.5&#XA0;&#XA0;Programming instructions</h3><!--SEC END --><p>The ESP8266 is programmed using the Arduino IDE connected via a serial or USB-to-serial port to the K401 header as shown in figure&#XA0;<a href="#progESP">14</a>. The serial port needs to be at 3.3&#XA0;V-levels like from an FTDI232-device run at 3.3&#XA0;V.</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
 <img src="docu018.png">
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 14: Programming connection for ESP8266 &#X2013; GND on orange wire, then TXD of programming cable (RXD of ESP8266), then RXD of programming cable (TXD of ESP8266)</td></tr>
 </table></div>
@@ -328,19 +335,24 @@ IC201 and U101 (note: Rotate PCB so Designator is right side up, then Pin 1 is o
 </table></div>
 <a id="progAVR"></a>
 <div class="center"><hr style="width:80%;height:2"></div></div></blockquote><p>All files in the <span style="font-style:italic">software/esp-firmware</span>-subdirectory of the github repository need to be placed in a folder, then the main sketch <span style="font-style:italic">arduino_main_sketch.ino.ino</span> needs to be opened with the Arduino IDE. Settings for the Arduino IDE can be found inside the main file, programming the device should work using the <span style="font-style:italic">Upload</span>-button in the <span style="font-style:italic">Sketch</span>-menu.</p><p>To put the ESP8266 into programming mode, a jumper needs to be placed across the P401 header before inserting batteries to start the device in programming mode. The bootloader should show some results on the serial port and during download the LED on the ESP module should flash.</p><p>The ATMega&#XA0;328P is programmed using the regular AVR ISP connection on P201. Pin 1 &#X2013; GND &#X2013; is towards the PCB edge, as shown in figure&#XA0;<a href="#progAVR">15</a>. An ISP dongle with either automatic voltage selection or 3.3&#XA0;V supply voltage should be used to avoid placing too high voltage on the ESP, which can only support 3.3&#XA0;V power. The firmware for the AVR can be found in the <span style="font-style:italic">software/avr-firmware</span>-subdirectory of the github repository with both a precompiled hexfile and all source code including a Makefile to recompile as needed. After writing the firmware file, also the fuse bits need to be set properly as detailed in the <span style="font-style:italic">main.c</span>-file.</p><p>After programming, two jumpers need to be placed between the K401 and K402 pin headers to re-enable communication between the ESP8266 and the AVR.</p>
-<!--TOC section id="sec16" Wireless clock driver-->
-<h2 id="sec16" class="section">3&#XA0;&#XA0;Wireless clock driver</h2><!--SEC END --><p> <a id="clock"></a></p>
-<!--TOC subsection id="sec17" Usage-->
-<h3 id="sec17" class="subsection">3.1&#XA0;&#XA0;Usage</h3><!--SEC END -->
-<!--TOC subsection id="sec18" Configuration-->
-<h3 id="sec18" class="subsection">3.2&#XA0;&#XA0;Configuration</h3><!--SEC END --><p>For general configuration (WiFi etc.) see section&#XA0;<a href="#throttle_GeneralConf">2.3.2</a>, as it&#X2019;s the same.</p>
-<!--TOC subsection id="sec19" Hardware description-->
-<h3 id="sec19" class="subsection">3.3&#XA0;&#XA0;Hardware description</h3><!--SEC END -->
-<!--TOC subsection id="sec20" Programming instructions-->
-<h3 id="sec20" class="subsection">3.4&#XA0;&#XA0;Programming instructions</h3><!--SEC END -->
-<!--TOC section id="sec21" Options for server setup-->
-<h2 id="sec21" class="section">4&#XA0;&#XA0;Options for server setup</h2><!--SEC END --><!--TOC section id="sec22" References-->
-<h2 id="sec22" class="section">References</h2><!--SEC END --><dl class="thebibliography"><dt class="dt-thebibliography">
+<!--TOC section id="sec16" Background for wiFred development-->
+<h2 id="sec16" class="section">5&#XA0;&#XA0;Background for wiFred development</h2><!--SEC END --><p> <a id="background"></a></p><p>As of the writing of this document, JMRI&#XA0;[<a href="#jmri">1</a>] has a long track record of offering a server for using smartphones as wireless model railroad throttles, along with apps like withrottle&#XA0;[<a href="#withrottleApp">3</a>]<sup><a id="text2" href="#note2">2</a></sup> and EngineDriver&#XA0;[<a href="#EngineDriver">4</a>]. This server will enable WiFi throttles to control locos any model railroading layout to which JMRI can build a connection&#XA0;[<a href="#jmrihardwaresupport">2</a>]. In addition, Digitrax&#XA0;[<a href="#digitrax">9</a>] and MRC&#XA0;[<a href="#mrc">8</a>] offer specific hardware solutions to enable the connection of the abovementioned smartphone apps to their DCC systems through a WiFi network.</p><p>The Fremo&#XA0;[<a href="#fremo">5</a>] is a European modular model railroading club whose unique requirements on it&#X2019;s DCC throttles led to the creation of the throttles FRED and FREDI&#XA0;[<a href="#fred">6</a>] &#X2013; a series of LocoNet&#XAE;-throttles which started their life as hobbyist projects with large numbers in circulation but were also commercially available from Uhlenbrock&#XA0;[<a href="#uhlenbrock">7</a>].</p>
+<!--TOC subsection id="sec17" Specification wishlist-->
+<h3 id="sec17" class="subsection">5.1&#XA0;&#XA0;Specification wishlist</h3><!--SEC END --><p>In modular railroading events, particularly of the Fremo-americaN-group&#XA0;[<a href="#fremo">5</a>], multiple people have evaluated the smartphone throttle solutions and found them lacking a nice, haptical feedback. But the idea of wireless control without locking into a specific vendor and their necessarily expensive equipment found great approval. So a wishlist was compiled to define the requirements for a wireless throttle:
+</p><ul class="itemize"><li class="li-itemize">
+Same form factor as the FRED&#XA0;[<a href="#fred">6</a>] with similar controls
+</li><li class="li-itemize">Option to control at least two, better four locomotives for double/triple traction (similar to the double FRED)
+</li><li class="li-itemize">Battery runtime of at least six hours
+</li><li class="li-itemize">Exchangeable batteries, so when the battery runs down, they can be quickly exchanged for a charged set or cheap primary cells
+</li><li class="li-itemize">Easy configuration, but not too easy to prevent operators from accidentally selecting other locomotives
+</li><li class="li-itemize">As little change to the existing Fremo Loconet&#XAE; network as possible
+</li><li class="li-itemize">Use of withrottle protocol, so the server side of the communication can be assumed to work and does not have to be developed as well
+</li></ul>
+<!--TOC subsection id="sec18" Development history-->
+<h3 id="sec18" class="subsection">5.2&#XA0;&#XA0;Development history</h3><!--SEC END --><p>The first prototype versions of the wiFred were built to run from two AA cells, either dry batteries or rechargeable NiMH cells. As described in section&#XA0;<a href="#oldThrottle">4</a>, this led to some special adaptations of the housing to fit all components. Even then, experience with the prototypes showed the battery compartment cover did not really fit and easily broke when trying to open and close the battery compartment. So the next versions were built around an integrated lithium battery, losing the ability to exchange empty batteries, but with increased runtime and proper fit into the housing. Recharging of the second generation is done through a Micro USB connector, so a powerbank can extend the runtime of the device when the internal battery is exhausted. Also, the loco selection switches act as more of a power switch than they did with the first prototypes, reducing power consumption to a negligible amount when all locos are deselected.</p>
+<!--TOC subsection id="sec19" Wireless clock-->
+<h3 id="sec19" class="subsection">5.3&#XA0;&#XA0;Wireless clock</h3><!--SEC END --><p>During the development of this wiFred another topic came up in the americaN group of the Fremo, namely wireless clocks with adjustable clock rate for Timetable &amp; Trainorder operations. This led to the spinoff of the wiClock project[<a href="#wiClock">10</a>].</p><!--TOC section id="sec20" References-->
+<h2 id="sec20" class="section">References</h2><!--SEC END --><dl class="thebibliography"><dt class="dt-thebibliography">
 
 <a id="jmri">[1]</a></dt><dd class="dd-thebibliography">JMRI: A Java Model Railroad Interface, <span style="font-style:italic">http://www.jmri.org</span>
 </dd><dt class="dt-thebibliography"><a id="jmrihardwaresupport">[2]</a></dt><dd class="dd-thebibliography">JMRI: Hardware Support, <span style="font-style:italic">http://www.jmri.org/help/en/html/hardware/index.shtml</span>
@@ -351,11 +363,12 @@ IC201 and U101 (note: Rotate PCB so Designator is right side up, then Pin 1 is o
 </dd><dt class="dt-thebibliography"><a id="uhlenbrock">[7]</a></dt><dd class="dd-thebibliography">Uhlenbrock | FRED, der Handregler f&#XFC;r die Intellibox, <span style="font-style:italic">https://uhlenbrock.de/de_DE/produkte/prodarch/I62AD172-001.htm!ArcEntryInfo=0004.41.I62AD172</span>
 </dd><dt class="dt-thebibliography"><a id="mrc">[8]</a></dt><dd class="dd-thebibliography">Prodigy WiFi, <span style="font-style:italic">http://www.modelrectifier.com/Prodigy-WiFi-s/332.htm</span>
 </dd><dt class="dt-thebibliography"><a id="digitrax">[9]</a></dt><dd class="dd-thebibliography">LocoNet WiFi interface, <span style="font-style:italic">http://www.digitrax.com/products/wireless/lnwi/</span>
+</dd><dt class="dt-thebibliography"><a id="wiClock">[10]</a></dt><dd class="dd-thebibliography">wiClock, a WiFi-JMRI-Clock, found at <span style="font-style:italic">https://github.com/newHeiko/WiFi-JMRI-Clock</span> or its documentation at <span style="font-style:italic">https://newHeiko.github.io/WiFi-JMRI-Clock</span>
 </dd></dl><p>
 0.1WIPHeiko RosemannSetup first document structure.
 </p><!--BEGIN NOTES document-->
 <hr class="footnoterule"><dl class="thefootnotes"><dt class="dt-thefootnotes">
-<a id="note1" href="#text1">1</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">withrottle is also the name JMRI uses for the protocol and the server.</div></dd><dt class="dt-thefootnotes"><a id="note2" href="#text2">2</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Technically correct term: Pre-Shared Key</div></dd><dt class="dt-thefootnotes"><a id="note3" href="#text3">3</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Or less, but then it will more easily bend</div></dd></dl>
+<a id="note1" href="#text1">1</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">Technically correct term: Pre-Shared Key</div></dd><dt class="dt-thefootnotes"><a id="note2" href="#text2">2</a></dt><dd class="dd-thefootnotes"><div class="footnotetext">withrottle is also the name JMRI uses for the protocol and the server.</div></dd></dl>
 <!--END NOTES-->
 <!--CUT END -->
 <!--HTMLFOOT-->

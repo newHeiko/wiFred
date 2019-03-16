@@ -1,9 +1,9 @@
 %!PS-Adobe-3.0
-%%BoundingBox: 0 0 612 792
-%%HiResBoundingBox: 0 0 612.00 792.00
-%%Creator: GPL Ghostscript 919 (ps2write)
+%%BoundingBox: 0 0 355 294
+%%HiResBoundingBox: 0 0 355.00 294.00
+%%Creator: GPL Ghostscript 925 (ps2write)
 %%LanguageLevel: 2
-%%CreationDate: D:20180727121243+02'00'
+%%CreationDate: D:20190316123600+01'00'
 %%Pages: 1
 %%EndComments
 %%BeginProlog
@@ -177,7 +177,9 @@ pop pop
 /ObjectRegistryMaxLength 50000 def
 /ObjectRegistry 10 dict def
 ObjectRegistry
-begin 0 ObjectRegistryMaxLength dict def end
+begin
+0 ObjectRegistryMaxLength dict def
+end
 /CurrentObject null def
 /DoneDocumentStructure false def
 /GraphicState 20 dict begin
@@ -217,31 +219,42 @@ currentdict end readonly def
 currentdict end readonly def
 /1_24_bitshift_1_sub 1 24 bitshift 1 sub def
 /ReadFontProcs 10 dict def
-/GetObject{
+/GetObject
+{
 dup ObjectRegistryMaxLength idiv
-//PDFReader /ObjectRegistry get exch knownget
-{exch knownget}{pop false}ifelse
+//PDFReader/ObjectRegistry get exch knownget{
+exch knownget
+}{
+pop false
+}ifelse
 }bind def
 /PutObject
-{1 index ObjectRegistryMaxLength idiv
-//PDFReader /ObjectRegistry get 1 index knownget{
-exch pop 3 1 roll put}{
-//PDFReader /ObjectRegistry get dup begin
+{
+1 index ObjectRegistryMaxLength idiv
+//PDFReader/ObjectRegistry get 1 index knownget{
+exch pop
+3 1 roll put
+}{
+//PDFReader/ObjectRegistry get dup
+begin
 1 index ObjectRegistryMaxLength dict def
-end exch get 3 1 roll put
+end
+exch get
+3 1 roll put
 }ifelse
 }bind def
 /Register
-{1 index GetObject{
+{
+1 index GetObject{
 dup xcheck{
 4 3 roll pop
 //PDFR_DEBUG{
-(Have a daemon for ) print 2 index ==
+(Have a daemon for )print 2 index ==
 }if
 exec
 }{
 dup null ne{
-mark (The object ) 4 index (is already defined : ) 4 index //error exec
+mark(The object )4 index(is already defined : )4 index//error exec
 }{
 pop
 }ifelse
@@ -253,23 +266,25 @@ exec
 exec
 }ifelse
 PutObject
-} bind def
-/IsRegistered{
+}bind def
+/IsRegistered
+{
 GetObject{
 null ne
 }{
 false
 }ifelse
 }bind def
-/GetRegistered{
+/GetRegistered
+{
 dup GetObject not{
-exch mark exch (Object ) exch ( isn't defined before needed (1).) //error exec
+exch mark exch(Object )exch( isn't defined before needed (1).)//error exec
 }if
 dup xcheck{
-exch mark exch (Object ) exch ( isn't defined before needed (2).) //error exec
+exch mark exch(Object )exch( isn't defined before needed (2).)//error exec
 }{
 dup null eq{
-exch mark exch (Object ) exch ( isn't defined before needed (3).) //error exec
+exch mark exch(Object )exch( isn't defined before needed (3).)//error exec
 }if
 exch pop
 }ifelse
@@ -398,7 +413,10 @@ exch mark exch(An object generation )exch( isn't 0.)//error exec
 //PDFR_DEBUG{
 (endobj )=
 }if
-count 1 eq {pop} {dup type/dicttype eq{
+count 1 eq{
+pop
+}{
+dup type/dicttype eq{
 dup/.endobj_daemon//knownget exec{
 //PDFR_DEBUG{(.endobj_daemon for )print 2 index =}if
 exec
@@ -413,7 +431,8 @@ pop pop
 //RunTypeDaemon exec
 //DoNothing 3 1 roll//Register exec
 }ifelse
-}ifelse}bind def
+}ifelse
+}bind def
 /StoreBlock
 {
 //PDFR_DEBUG{
@@ -568,7 +587,7 @@ dup/Length//CheckLength//ResolveD exec
 //PDFReader/InitialGraphicState get
 //PDFReader/GraphicState get copy pop
 //PDFReader/Operators get begin
-currentfile exch ()/SubFileDecode filter
+currentfile exch()/SubFileDecode filter
 1 index//AppendFilters exec
 cvx mark exch
 exec
@@ -587,7 +606,7 @@ dup/Context get/NumCopies//knownget exec{
 copypage
 }repeat
 }if
-EPS2Write not {showpage} if
+EPS2Write not{showpage}if
 }if
 }bind def
 /stream
@@ -714,30 +733,38 @@ exch 3 index sub exch 3 index sub
 }if
 pop pop 3 index 3 index 2 copy
 currentglobal false setglobal 3 1 roll
-currentpagedevice dup /PageSize known{
-/PageSize get aload pop}{
-0 0}ifelse
+currentpagedevice dup/PageSize known{
+/PageSize get aload pop
+}{
+0 0
+}ifelse
 round cvi 2 index round cvi eq
-exch round cvi 3 index round cvi eq and{
-//PDFR_DEBUG{(PageSize matches request) == flush}if
-pop pop}{
-/MediaRequested where {
-//PDFR_DEBUG{(MediaRequested is true, check against new request) == flush}if
+exch round cvi 3 index round cvi eq and
+{
+//PDFR_DEBUG{(PageSize matches request)== flush}if
+pop pop
+}{
+/MediaRequested where{
+//PDFR_DEBUG{(MediaRequested is true, check against new request)== flush}if
 /MediaRequested get aload pop
 round cvi 2 index round cvi eq
 exch round cvi 3 index round cvi eq and
-{//PDFR_DEBUG{(MediaRequested same as current request, ignore) == flush}if pop pop false}
-{//PDFR_DEBUG{(MediaRequested different to current request) == flush}if true}ifelse
+{
+//PDFR_DEBUG{(MediaRequested same as current request, ignore)== flush}if
+pop pop false
 }{
-//PDFR_DEBUG{(No MediaRequested yet) == flush}if
+//PDFR_DEBUG{(MediaRequested different to current request)== flush}if
+true
+}ifelse
+}{
+//PDFR_DEBUG{(No MediaRequested yet)== flush}if
 true
 }ifelse
 {
-//PDFR_DEBUG{(Setting pagesize) == flush}if
+//PDFR_DEBUG{(Setting pagesize)== flush}if
 2 array astore
-dup /MediaRequested exch def
-<< exch /PageSize exch >> setpagedevice
-/pagesave save def
+dup/MediaRequested exch def
+<< exch/PageSize exch >>setpagedevice
 }if
 }ifelse
 userdict/PDFR_InitialGS gstate put
@@ -805,7 +832,7 @@ pop pop
 1 index exch/Context exch put
 dup/ImmediateExec true put
 dup/IsPage true put
-SetPageSize {dup/Context get//SetupPageView exec}if
+SetPageSize{dup/Context get//SetupPageView exec}if
 }bind def
 /FontFileDaemon
 {
@@ -1145,7 +1172,12 @@ LocaArray LocaIndex 3 -1 roll put
 def
 }{
 StringOffset getu16 2 mul
-LocaArray length LocaIndex gt {LocaArray LocaIndex 3 -1 roll put}{pop}ifelse/LocaIndex LocaIndex 1 add def
+LocaArray length LocaIndex gt{
+LocaArray LocaIndex 3 -1 roll put
+}{
+pop
+}ifelse
+/LocaIndex LocaIndex 1 add def
 /StringOffset StringOffset 2 add
 def
 }ifelse
@@ -1573,11 +1605,24 @@ FontMatrix aload pop pop pop exch pop exch pop
 neg exch neg exch rlineto
 closepath stroke
 }bind def
-/SaveResourcesToStack{[//PDFReader/OldResources known{//PDFReader/OldResources get}{null}ifelse
-//PDFReader/CurrentObject get/Context get/Resources get]//PDFReader/OldResources 3 -1 roll put}bind def
-/RestoreResourcesFromStack{//PDFReader/OldResources get dup
+/SaveResourcesToStack
+{
+[
+//PDFReader/OldResources known{
+//PDFReader/OldResources get
+}{
+null
+}ifelse
+//PDFReader/CurrentObject get/Context get/Resources get
+]
+//PDFReader/OldResources 3 -1 roll put
+}bind def
+/RestoreResourcesFromStack
+{
+//PDFReader/OldResources get dup
 0 get//PDFReader/OldResources 3 -1 roll put
-1 get//PDFReader/CurrentObject get/Context get/Resources 3 -1 roll put} bind def
+1 get//PDFReader/CurrentObject get/Context get/Resources 3 -1 roll put
+}bind def
 /BuildChar
 {//PDFR_DEBUG{
 (BuildChar )print dup//=only exec( )print
@@ -1589,8 +1634,22 @@ dup =
 }if
 dup null eq{
 pop//NotDef exec
+}
+{
+CharProcs exch//knownget exec
+{
+currentfont/Font get/Resources//knownget exec{
+exec
+SaveResourcesToStack
+//PDFReader/CurrentObject get/Context get
+/Resources 3 -1 roll put
+//RunDelayedStream exec
+RestoreResourcesFromStack
 }{
-CharProcs exch//knownget exec{currentfont/Font get/Resources//knownget exec{exec SaveResourcesToStack//PDFReader/CurrentObject get/Context get/Resources 3 -1 roll put//RunDelayedStream exec RestoreResourcesFromStack}{//RunDelayedStream exec}ifelse}{
+//RunDelayedStream exec
+}ifelse
+}
+{
 //NotDef exec
 }ifelse
 }ifelse
@@ -1851,14 +1910,14 @@ glyphs code 3 -1 roll put/code code 1 add def
 /i2 exch def
 /scode startc i2 getu16 def
 /ecode endc i2 getu16 def
-ecode lastcode gt {
+ecode lastcode gt{
 /lastcode ecode def
 }if
 }for pop
-firstcode 16#f000 ge lastcode firstcode sub 255 le and {
+firstcode 16#f000 ge lastcode firstcode sub 255 le and{
 lastcode 255 and
 /striptopbyte true def
-} {
+}{
 lastcode
 }ifelse
 1 add
@@ -1887,19 +1946,19 @@ TTFDEBUG{
 }if
 idroff i2 getu16 dup 0 eq{
 pop scode delta add 65535 and 1 ecode delta add 65535 and
-striptopbyte {
+striptopbyte{
 /code scode 255 and def
-} {
+}{
 /code scode def
-} ifelse
+}ifelse
 {putglyph}for
 }{
 /gloff exch 14 nseg2 3 mul add 2 add i2 add add def
-striptopbyte {
+striptopbyte{
 /code scode 255 and def
-} {
+}{
 /code scode def
-} ifelse
+}ifelse
 0 1 ecode scode sub{
 2 mul gloff add etab exch getu16
 dup 0 ne{delta add 65535 and}if putglyph
@@ -2065,6 +2124,37 @@ TTFDEBUG{(post: unknown format )print post 0 getu32 = flush}if[]
 }ifelse
 }ifelse def
 }bind def
+/MacRomanEncoding[
+StandardEncoding 0 39 getinterval aload pop
+/quotesingle
+StandardEncoding 40 56 getinterval aload pop
+/grave
+StandardEncoding 97 31 getinterval aload pop
+/Adieresis/Aring/Ccedilla/Eacute/Ntilde/Odieresis/Udieresis/aacute
+/agrave/acircumflex/adieresis/atilde/aring/ccedilla/eacute/egrave
+/ecircumflex/edieresis/iacute/igrave
+/icircumflex/idieresis/ntilde/oacute
+/ograve/ocircumflex/odieresis/otilde
+/uacute/ugrave/ucircumflex/udieresis
+/dagger/degree/cent/sterling/section/bullet/paragraph/germandbls
+/registered/copyright/trademark/acute/dieresis/.notdef/AE/Oslash
+/.notdef/plusminus/.notdef/.notdef/yen/mu/.notdef/.notdef
+/.notdef/.notdef/.notdef/ordfeminine/ordmasculine/.notdef/ae/oslash
+/questiondown/exclamdown/logicalnot/.notdef
+/florin/.notdef/.notdef/guillemotleft
+/guillemotright/ellipsis/space/Agrave/Atilde/Otilde/OE/oe
+/endash/emdash/quotedblleft/quotedblright
+/quoteleft/quoteright/divide/.notdef
+/ydieresis/Ydieresis/fraction/currency
+/guilsinglleft/guilsinglright/fi/fl
+/daggerdbl/periodcentered/quotesinglbase/quotedblbase
+/perthousand/Acircumflex/Ecircumflex/Aacute
+/Edieresis/Egrave/Iacute/Icircumflex
+/Idieresis/Igrave/Oacute/Ocircumflex
+/.notdef/Ograve/Uacute/Ucircumflex
+/Ugrave/dotlessi/circumflex/tilde
+/macron/breve/dotaccent/ring/cedilla/hungarumlaut/ogonek/caron
+]/Encoding defineresource pop
 /TTParser<<
 /Pos 0
 /post null
@@ -3132,11 +3222,14 @@ dup 3 get//FunctionToProc exec
 pop
 }if
 dup 0 get/Pattern eq{
-dup length 1 gt{dup
-1 get dup type/arraytype eq{
+dup length 1 gt{
+dup 1 get dup type/arraytype eq{
 ResolveColorSpaceArray
 1 index 1 3 -1 roll put
-}{pop}ifelse}if
+}{
+pop
+}ifelse
+}if
 }if
 PDFR_DEBUG{
 (Construcrted color space :)=
@@ -8208,11 +8301,10 @@ exec
 %%EndResource
 %%EndProlog
 %%Page: 1 1
-%%PageBoundingBox: 0 0 612 792
+%%PageBoundingBox: 0 0 354 294
 %%BeginPageSetup
-/pagesave save def
 4 0 obj
-<</Type/Page/MediaBox [0 0 612 792]
+<</Type/Page/MediaBox [0 0 354.33 294]
 /Parent 3 0 R
 /Resources<</ProcSet[/PDF]
 >>
@@ -8220,10 +8312,11 @@ exec
 >>
 endobj
 %%EndPageSetup
+/pagesave save def
 5 0 obj
-<</Length 50836>>stream
+<</Length 50835>>stream
 q 0.1 0 0 0.1 0 0 cm
-q 6749.31 0 0 5594.43 0 -0.000359542 cm
+q 3543.31 0 0 2937.01 0 -0.00009437 cm
 BI
 /CS/RGB
 /W 900
