@@ -1,23 +1,27 @@
 #!/bin/bash
 
-echo "Creating eps files from image files"
+echo "Creating eps files from image files and reducing sizes"
 
 for i in images/*jpg
 do
-	convert $i -resize 1506x1506\> -quality 50 -density 72 `dirname $i`/`basename $i .jpg`.eps
+	EPSFILE=`dirname $i`/`basename $i .jpg`.eps
+	if [ $i -nt $EPSFILE ]
+	then
+		convert $i -resize 1506x1506\> -quality 50 -density 72 $EPSFILE
+		ps2ps -dFitPage $EPSFILE $EPSFILE.temp
+		mv $EPSFILE.temp $EPSFILE
+	fi
 done
 
 for i in images/*png
 do
-	convert  $i -resize 1506x1506\> -quality 50 -density 72 `dirname $i`/`basename $i .png`.eps
-done
-
-echo "Reducing eps image sizes"
-
-for i in images/*eps
-do
-	ps2ps -dEPSFitPage $i $i.temp
-	mv $i.temp $i
+	EPSFILE=`dirname $i`/`basename $i .png`.eps
+        if [ $i -nt $EPSFILE ]
+	then    
+                convert $i -resize 1506x1506\> -quality 50 -density 72 $EPSFILE
+                ps2ps -dFitPage $EPSFILE $EPSFILE.temp
+                mv $EPSFILE.temp $EPSFILE
+	fi      
 done
 
 echo "Creating all docs from latex source file"
