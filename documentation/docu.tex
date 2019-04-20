@@ -178,20 +178,16 @@ If both charging status LEDs light up when a charging cable is connected, probab
 
 \subsection{Hardware description}
 
-% TBD
+The wiFred hardware is centered around an ESP8266 for the WiFi connection. The ESP8266 communicates through it's serial port with an ATMega~328P microcontroller which manages the power, controls the LEDs, reads the loco selection switches, speed potentiometer, direction switch and pushbutton switches for functions and emergency stop. The communication goes through a 2x3 pin header which enables the user to connect a programming cable to the same serial port if removing the jumpers.
 
-\textbf{THE FOLLOWING SUBSECTIONS HAVE NOT YET BEEN UPDATED FOR THE LIPO BATTERY VERSION}
-
-The wiFred hardware is centered around an ESP8266 for the WiFi connection. The ESP8266 also reads the loco selection switches and the battery voltage and communicates through it's serial port with an ATMega~328P microcontroller which controls the LEDs, reads the speed potentiometer, direction switch and pushbutton switches for functions and emergency stop. The communication goes through a 2x3 pin header which enables the user to connect a programming cable to the same serial port if removing the jumpers.
-
-The wiFred is powered by two AA size battery cells connected to a step-up converter creating 3.3\,V for the entire device.
+The wiFred is powered by a single cell LiPo battery. The ATMega~328P is connected directly to the LiPo cell, going into sleep mode when no loco selection switch is active, thereby reducing the power consumption to less than 1\,mA. The ESP8266 is powered by a low-drop linear voltage regulator with an output voltage of 3\,V which is disabled by the ATMega~328P when the device goes into standby.
 
 The schematic is split into several pages and can be found in figures~\ref{schematicPage1} to~\ref{schematicPage4}. It has been created with kicad and is available on the github repository at \textit{http://github.com/newHeiko/wiFred} along with the PCB design.
 
 \begin{figure}[tbh]
   \centering
   \includegraphics[width=\textwidth]{images/wfred_rev2}
-  \caption{Master schematic sheet with batteries and power supply}
+  \caption{Master schematic sheet with battery connector, charging circuit and power supply}
   \label{schematicPage1}
 \end{figure}
 
@@ -217,6 +213,10 @@ The schematic is split into several pages and can be found in figures~\ref{schem
 \end{figure}
 
 \subsection{Hints for building the wiFred}
+
+% TBD
+
+\textbf{THE FOLLOWING SUBSECTIONS HAVE NOT YET BEEN UPDATED FOR THE LIPO BATTERY VERSION}
 
 The PCB has holes in the center of the pushbutton switch footprints and LED footprints to enable transferring their positions to a StrapuBox housing with a sharp needle or similar, and the position of the loco selection switches can also be transferred to the housing by marking it through the non-copper holes at their ends. Figure~\ref{transferHoles} shows the process and it's results. Holes for the pushbutton switches should be drilled at 3.5\,mm diameter and countersunk from the inside. Holes for the LEDs should be drilled at 3\,mm diameter and holes for the speed potentiometer and direction switch at 6.5\,mm or 7\,mm diameter and countersunk. The cutouts for the loco selection switches are best created when the PCB is assembled and carefully cut out with a sharp hobby knife and a file until they fit.
 
@@ -523,28 +523,28 @@ The schematic is split into several pages and can be found in figures~\ref{oldSc
 
 \begin{figure}[tbh]
   \centering
-  \includegraphics[width=\textwidth]{images/wfred_rev2}
+  \includegraphics[width=\textwidth]{images/old_wfred_rev2}
   \caption{Master schematic sheet with batteries and power supply}
   \label{oldSchematicPage1}
 \end{figure}
 
 \begin{figure}[tbh]
   \centering
-  \includegraphics[width=\textwidth]{images/wfred-wifi-Wifi_connection}
+  \includegraphics[width=\textwidth]{images/old_wfred-wifi-Wifi_connection}
   \caption{Schematic sheet including ESP8266 for WiFi connection with bootloader enabling jumper and connection to programming cable}
   \label{oldSchematicPage2}
 \end{figure}
 
 \begin{figure}[tbh]
   \centering
-  \includegraphics[width=\textwidth]{images/wfred-controller_rev2-Controller}
+  \includegraphics[width=\textwidth]{images/old_wfred-controller_rev2-Controller}
   \caption{Schematic sheet including ATMega 328P along with crystal and in system programming header}
   \label{oldSchematicPage3}
 \end{figure}
 
 \begin{figure}[tbh]
   \centering
-  \includegraphics[width=\textwidth]{images/User_interface_rev2-User_Interface}
+  \includegraphics[width=\textwidth]{images/old_User_interface_rev2-User_Interface}
   \caption{Schematic sheet including pushbutton switches, loco selection switches, direction switch and speed potentiometer}
   \label{oldSchematicPage4}
 \end{figure}
