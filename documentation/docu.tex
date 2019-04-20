@@ -214,11 +214,7 @@ The schematic is split into several pages and can be found in figures~\ref{schem
 
 \subsection{Hints for building the wiFred}
 
-% TBD
-
-\textbf{THE FOLLOWING SUBSECTIONS HAVE NOT YET BEEN UPDATED FOR THE LIPO BATTERY VERSION}
-
-The PCB has holes in the center of the pushbutton switch footprints and LED footprints to enable transferring their positions to a StrapuBox housing with a sharp needle or similar, and the position of the loco selection switches can also be transferred to the housing by marking it through the non-copper holes at their ends. Figure~\ref{transferHoles} shows the process and it's results. Holes for the pushbutton switches should be drilled at 3.5\,mm diameter and countersunk from the inside. Holes for the LEDs should be drilled at 3\,mm diameter and holes for the speed potentiometer and direction switch at 6.5\,mm or 7\,mm diameter and countersunk. The cutouts for the loco selection switches are best created when the PCB is assembled and carefully cut out with a sharp hobby knife and a file until they fit.
+The PCB has holes in the center of the LED footprints to enable transferring their positions to a StrapuBox housing with a sharp needle or to drill pilot holes with a 1\,mm drill. For all other holes, there is a drill jig available which also allows the drilling of pilot holes for the pushbutton switches, the direction control switch and the speed potentiometer. Figure~\ref{transferHoles} shows the process and it's results. Holes for the pushbutton switches should be drilled at 3.5\,mm diameter. Holes for the LEDs should be drilled at 3\,mm diameter and holes for the speed potentiometer at 8\,mm, for the direction switch at 6.5\,mm diameter. The cutouts for the loco selection switches are best drilled at 5\,mm or 5.5\,mm and extended to fit when the PCB is assembled with a sharp hobby knife and a file.
 
 \begin{figure}[tbh]
   \centering
@@ -237,54 +233,70 @@ The remaining assembly is a basic exercise in installing all the components to t
 
   \centering
   \begin{footnotesize}
-  \begin{tabular}{|m{5em}|l|l|}
-    \hline
-    Designator & Package & Designation \\
-    \hline
-    B101 & KEYSTONE1013 & BATT\_HOLDER \\
-    C206,C205 & C\_0805\_HandSoldering & 22p \\
-    C301,C105, C104,C102, C101 & C\_0805\_HandSoldering & 22u/25V \\
-    C401,C204, C203,C202, C201,C103 & C\_0805\_HandSoldering & 100n \\
-    C402 & C\_0805\_HandSoldering & 22u \\
-    D301 & LED\_D3.0mm & STOP - red \\
-    D302 & LED\_D3.0mm & FORWARD - green \\
-    D303 & LED\_D3.0mm & REVERSE - green \\
-    IC201 & TQFP-32\_7x7mm\_Pitch0.8mm & ATMEGA328P-A \\
-    K401 & Pin\_Header\_Straight\_1x03\_Pitch2.54mm & UART\_ESP \\
-    K402 & Pin\_Header\_Straight\_1x03\_Pitch2.54mm & UART\_AVR \\
-    L101 & L\_2424\_HandSoldering & 22u \\
-    P201 & Pin\_Header\_Straight\_2x03\_Pitch2.54mm\_SMD & ISP \\ 
-    P401 & Pin\_Header\_Straight\_1x02\_Pitch2.54mm & ESP\_BOOTLOAD \\
-    R301 & C\_0805\_HandSoldering & 4k7 \\
-    R304,R303, R302 & C\_0805\_HandSoldering & 470R \\
-    R401 & C\_0805\_HandSoldering & 100k \\
-    R402 & C\_0805\_HandSoldering & 47k \\
-    R405,R404, R403,R201 & C\_0805\_HandSoldering & 10k \\
-    RV301 & P160KNPD & 10k lin P160KNPD-4FC20B10K \\
-    SW301 & OS102011MS2Q & LOCO1 \\
-    SW302 & OS102011MS2Q & LOCO2 \\
-    SW303 & OS102011MS2Q & LOCO3 \\
-    SW304 & OS102011MS2Q & LOCO4 \\
-    SW305 & KSC621G & F0 \\
-    SW306 & KSC621G & F1 \\
-    SW307 & KSC621G & F2 \\
-    SW308 & KSC621G & F3 \\
-    SW309 & KSC621G & F4 \\
-    SW310 & KSC621G & SHIFT2 \\
-    SW311 & KSC621G & SHIFT \\
-    SW312 & KSC621G & ESTOP \\
-    SW313 & 100SP1T1B1M1QEH & DIRECTION \\
-    U101 & TSSOP-8\_4.4x3mm\_Pitch0.65mm & L6920D \\
-    U401 & ESP-12E\_SMD & ESP-12E \\
-    X201 & Crystal\_SMD\_TXC\_7M-4pin\_3.2x2.5mm\_HandSoldering & 14.7456MHz \\
-    \hline
-    Housing & StrapuBox 6090 & \\
-    & Two Jumpers, 2.54mm & \\
-    & Potentiometer Knob & \\
-    \hline
-  \end{tabular}
+    \begin{tabular}{|m{5em}|l|l|}
+      \hline
+      Designator & Package & Designation \\
+      \hline
+      C102,C101 & C\_0805\_HandSoldering & 4u7 \\ 
+      C105,C103 & C\_0805\_HandSoldering & 1u \\
+      C206,C205 & C\_0805\_HandSoldering & 22p \\
+      C401,C203, C202,C201, C207 & C\_0805\_HandSoldering & 100n \\
+      C402,C301 & C\_0805\_HandSoldering & 22u \\
+      C403 & C\_0805\_HandSoldering & 100u \\
+      CON101 & USB\_Micro-B\_Molex-105017-0001 & USB-MICRO-B \\
+      D101 & LED\_D3.0mm & LED - red \\
+      D102 & LED\_D3.0mm & LED - green \\
+      D301 & LED\_D3.0mm & STOP - red \\
+      D302 & LED\_D3.0mm & FORWARD - green \\
+      D303 & LED\_D3.0mm & REVERSE - green \\
+      IC101 & SOT95P270X145-5N & MCP73831T-2ACI\_OT \\
+      IC102 & SOT95P275X110-5N & NCV8161BSN300T1G \\
+      IC201 & TQFP-32\_7x7mm\_Pitch0.8mm & ATMEGA328P-A \\
+      K401 & Pin\_Header\_Straight\_1x03\_Pitch2.54mm & UART\_ESP \\
+      K402 & Pin\_Header\_Straight\_1x03\_Pitch2.54mm & UART\_AVR \\
+      P101 & Pin\_Header\_Angled\_1x02\_Pitch2.54mm & BATT \\
+      P201 & Pin\_Header\_Straight\_2x03\_Pitch2.54mm\_SMD & ISP \\
+      P401 & Pin\_Header\_Straight\_1x02\_Pitch2.54mm & ESP\_BOOTLOAD \\
+      R101,R102 & C\_0805\_HandSoldering & 680R \\
+      R103 & C\_0805\_HandSoldering & 2k2 \\
+      R204 & C\_0805\_HandSoldering & 220R \\
+      R301 & C\_0805\_HandSoldering & 4k7 \\
+      R304,R303, R302 & C\_0805\_HandSoldering & 470R \\
+      R405,R404, R403,R201 & C\_0805\_HandSoldering & 10k \\
+      RV301 & P160KNPD & 10k lin P160KNPD-4FC20B10K \\
+      SW301 & OS102011MS2Q & LOCO1 \\
+      SW302 & OS102011MS2Q & LOCO2 \\
+      SW303 & OS102011MS2Q & LOCO3 \\
+      SW304 & OS102011MS2Q & LOCO4 \\
+      SW305 & SW\_SPST\_PTS645 & F0 \\
+      SW306 & SW\_SPST\_PTS645 & F1 \\
+      SW307 & SW\_SPST\_PTS645 & F2 \\
+      SW308 & SW\_SPST\_PTS645 & F3 \\
+      SW309 & SW\_SPST\_PTS645 & F4 \\
+      SW310 & SW\_SPST\_PTS645 & F5 \\
+      SW311 & SW\_SPST\_PTS645 & SHIFT \\
+      SW312 & SW\_SPST\_PTS645 & ESTOP \\
+      SW313 & 100SP1T1B1M1QEH & DIRECTION \\
+      SW314 & SW\_SPST\_PTS645 & F6 \\
+      SW315 & SW\_SPST\_PTS645 & F7 \\
+      SW316 & SW\_SPST\_PTS645 & F8 \\
+      U401 & ESP-12E\_SMD & ESP-12E \\
+      X201 & Crystal\_SMD\_TXC\_7M-4pin\_3.2x2.5mm\_HandSoldering & 14.7456MHz \\
+      \hline
+      & Housing StrapuBox 2090 & \\
+      & Two Jumpers, 2.54\,mm & \\
+      & Five LED spacers, 3\,mm & \\
+      & Potentiometer Knob, 21\,mm & \\
+      & Four fastening screws, 2.9\,mm dia x 6.5\,mm & \\
+      & Lithium battery, LP103058 & \\
+      \hline
+    \end{tabular}
   \end{footnotesize}
 \end{table}
+
+% TBD
+
+\textbf{THE FOLLOWING SUBSECTIONS HAVE NOT YET BEEN UPDATED FOR THE LIPO BATTERY VERSION}
 
 \begin{enumerate}
 \item IC201 and U101 (note: Rotate PCB so Designator is right side up, then Pin 1 is on top left)
@@ -611,9 +623,10 @@ The remaining assembly is a basic exercise in installing all the components to t
     U401 & ESP-12E\_SMD & ESP-12E \\
     X201 & Crystal\_SMD\_TXC\_7M-4pin\_3.2x2.5mm\_HandSoldering & 14.7456MHz \\
     \hline
-    Housing & StrapuBox 6090 & \\
+    & Housing StrapuBox 6090 & \\
     & Two Jumpers, 2.54mm & \\
-    & Potentiometer Knob & \\
+    & Potentiometer Knob, 21\,mm & \\
+    & Three fastening screws, 2.9\,mm dia x 6.5\,mm \\
     \hline
   \end{tabular}
   \end{footnotesize}
