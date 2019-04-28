@@ -176,7 +176,9 @@ Four loco selection switches (loco 1 on the left, loco 4 on the right, move towa
 <div class="center"><hr style="width:80%;height:2"></div></div></blockquote>
 <!--TOC subsection id="sec7" Hints for building the wiFred-->
 <h3 id="sec7" class="subsection">1.5&#XA0;&#XA0;Hints for building the wiFred</h3><!--SEC END --><p>The PCB has holes in the center of the LED footprints to enable transferring their positions to a StrapuBox housing with a sharp needle or to drill pilot holes with a 1&#XA0;mm drill. For all other holes, there is a drill jig available which also allows the drilling of pilot holes for the pushbutton switches, the direction control switch and the speed potentiometer. Figure&#XA0;<a href="#transferHoles">6</a> shows the process and it&#X2019;s results. Holes for the pushbutton switches should be drilled at 3.5&#XA0;mm diameter. Holes for the LEDs should be drilled at 3&#XA0;mm diameter and holes for the speed potentiometer at 8&#XA0;mm, for the direction switch at 6.5&#XA0;mm diameter. The cutouts for the loco selection switches are best drilled at 5&#XA0;mm or 5.5&#XA0;mm and extended to fit when the PCB is assembled with a sharp hobby knife and a file.</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
-<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 6: Using the PCB to transfer the positions of the holes to the housing</td></tr>
+<img src="docu005.png">
+<img src="docu006.png">
+<div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 6: Using the original PCB and the drilling jig to transfer the positions of the holes to the housing &#X2013; better results will be achieved when the PCBs are screwed in position</td></tr>
 </table></div>
 <a id="transferHoles"></a>
 <div class="center"><hr style="width:80%;height:2"></div></div></blockquote><p>The remaining assembly is a basic exercise in installing all the components to the PCB, listed in table&#XA0;<a href="#wiFredBOM">2</a>. From assembling the prototypes, the suggested order of installing the components is as follows:</p><blockquote class="table"><div class="center"><hr style="width:80%;height:2"></div>
@@ -264,14 +266,14 @@ IC201 and U101 (note: Rotate PCB so Designator is right side up, then Pin 1 is o
 Power up the throttle/select a loco when the configured WiFi network is not in range (or when there is no valid configuration &#X2013; the first startup of a new throttle will fall into this category)
 </li><li class="li-enumerate">Press SHIFT and ESTOP together when the throttle is connected
 </li></ol><p>In the first case, the throttle will create a wireless network named <span style="font-style:italic">wiFred-config</span> plus four hex digits taken from the MAC address of the throttle WiFi interface, for example <span style="font-style:italic">wiFred-config0CAC</span>. Any WiFi device with a web browser can connect to that network and open a web browser to point to <span style="font-style:italic">http://192.168.4.1</span>.</p><p>In the second case, the throttle will change the last tuple of it&#X2019;s IP address to .253 &#X2013; so if the wireless network is configured with IP addresses in the <span style="font-style:italic">192.168.100.x</span>-range as highlighted in figure&#XA0;<a href="#withrottleScreenshot">9</a>, any web browser can access the configuration at <span style="font-style:italic">http://192.168.100.253</span>.</p><p>If the IP address of the throttle during normal operation is known, the configuration page can also be accessed by pointing a web browser to it at any time while it is connected. Note that this is untested and therefore not recommended while the throttle is running locos.</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
-<img src="docu005.png">
+<img src="docu007.png">
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 9: Screenshot of wiThrottle screen showing one throttle connected</td></tr>
 </table></div>
 <a id="withrottleScreenshot"></a>
 <div class="center"><hr style="width:80%;height:2"></div></div></blockquote>
 <!--TOC subsection id="sec11" General configuration-->
 <h3 id="sec11" class="subsection">2.2&#XA0;&#XA0;General configuration</h3><!--SEC END --><p> <a id="throttle_GeneralConf"></a></p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
-<img src="docu006.png">
+<img src="docu008.png">
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 10: Screenshot of wiFred main configuration page</td></tr>
 </table></div>
 <a id="throttleConfMainPage"></a>
@@ -280,14 +282,14 @@ Power up the throttle/select a loco when the configured WiFi network is not in r
 </dd><dt class="dt-description"></dt><dd class="dd-description">WiFi SSID: The name of the wireless network the throttle shall connect to.
 </dd><dt class="dt-description"></dt><dd class="dd-description">WiFi PSK: The so-called password<sup><a id="text1" href="#note1">1</a></sup> for the wireless network. 
 </dd></dl><p><span style="font-weight:bold">Reminder: Changes are saved using the &#X201C;Submit Query&#X201D; button which may look different in different web browsers (firefox shown).</span></p><p>A new device will not read a saved configuration at startup unless both the main page and the loco configuration subpage have been saved at least once.</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
-<img src="docu007.png">
+<img src="docu009.png">
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 11: Screenshot of wiFred status page</td></tr>
 </table></div>
 <a id="throttleConfigStatusPage"></a>
 <div class="center"><hr style="width:80%;height:2"></div></div></blockquote><p>This page also includes links to the configuration sub page for locos as well as a link to the status page shown in figure&#XA0;<a href="#throttleConfigStatusPage">11</a> which gives information about the current battery voltage and may be enhanced in the future.</p>
 <!--TOC subsection id="sec12" Loco configuration-->
 <h3 id="sec12" class="subsection">2.3&#XA0;&#XA0;Loco configuration</h3><!--SEC END --><p> <a id="throttle_LocoConf"></a></p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
-<img src="docu008.png">
+<img src="docu010.png">
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 12: Screenshot of wiFred loco configuration page</td></tr>
 </table></div>
 <a id="throttleConfigLocoPage"></a>
@@ -299,7 +301,7 @@ Power up the throttle/select a loco when the configured WiFi network is not in r
 </dd></dl><p><span style="font-weight:bold">Reminder: Changes are saved using the &#X201C;Submit Query&#X201D; button which may look different in different web browsers (firefox shown).</span></p>
 <!--TOC subsection id="sec13" DCC function configuration-->
 <h3 id="sec13" class="subsection">2.4&#XA0;&#XA0;DCC function configuration</h3><!--SEC END --><p> <a id="throttle_FunctionConf"></a></p><p>By default, if a function key is pressed, the throttle will send the appropriate commands to every loco under control. Under certain circumstances, this may not be desired &#X2013; the obvious example being a loco in the middle of a multi-unit consist, which should not have lights or ditchlights. So this page &#X2013; shown in figure&#XA0;<a href="#throttleConfigFunctionPage">13</a> &#X2013; offers the option to chose between three different settings for every function on each of the four locomotives (one page per locomotive):</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
-<img src="docu009.png">
+<img src="docu011.png">
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 13: Screenshot of wiFred function handling config page</td></tr>
 </table></div>
 <a id="throttleConfigFunctionPage"></a>
@@ -335,11 +337,11 @@ Use PCB to determine positions of holes and cutouts in housing
 </li><li class="li-enumerate">Restart the throttle by navigating back to the main configuration page and clicking on <span style="font-family:monospace">Restart system to enable new WiFi settings</span>
 </li></ol><p>Your throttle should now be ready to use and connect to your wiThrottle server on startup. Refer to the chapters below if it does not or contact the author of this document.</p>
 <!--TOC subsection id="sec17" Usage-->
-<h3 id="sec17" class="subsection">4.2&#XA0;&#XA0;Usage</h3><!--SEC END --><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div><p><img src="docu010.png">
+<h3 id="sec17" class="subsection">4.2&#XA0;&#XA0;Usage</h3><!--SEC END --><blockquote class="figure"><div class="center"><hr style="width:80%;height:2"></div><p><img src="docu012.png">
 &#XA0;
-<img src="docu011.png">
+<img src="docu013.png">
 &#XA0;
-<img src="docu012.png"></p><div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 14: Controls and features of the wiFred-throttle &#X2013; prototype version</td></tr>
+<img src="docu014.png"></p><div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 14: Controls and features of the wiFred-throttle &#X2013; prototype version</td></tr>
 </table></div><p>
 <a id="oldThrottleControls"></a></p><div class="center"><hr style="width:80%;height:2"></div></blockquote><p>Figure&#XA0;<a href="#oldThrottleControls">14</a> shows the controls of the wireless throttle. They consist of the following:</p><ul class="itemize"><li class="li-itemize">
 Four loco selection switches (loco 1 on the left, loco 4 on the right, move towards speed potentiometer to enable)
@@ -354,30 +356,30 @@ Four loco selection switches (loco 1 on the left, loco 4 on the right, move towa
 </li></ul><p>As soon as a pair of batteries is inserted into the battery compartment as the symbols inside the battery compartment show, the throttle will boot up and try to connect to a wireless network. The throttle will not be damaged if batteries are inserted wrongly, but it will not work either. Use NiMH- or primary AA cells with 1.2&#XA0;V to 1.5&#XA0;V nominal voltage, low self discharge NiMH cells like Eneloop&#XAE; or similar are recommended. Do not insert 3&#XA0;V or 3.6&#XA0;V AA size lithium batteries as this may damage the throttle.</p><p>If no connection to the network configured into the device can be established within 60 seconds, the throttle will create it&#X2019;s own wireless network named <span style="font-style:italic">wiFred-config</span> plus four hex digits taken from the MAC address of the throttle WiFi interface, for example <span style="font-style:italic">wiFred-config0CAC</span>, to enable configuration as described in section&#XA0;<a href="#config">2</a>.</p><p>Four different locos with long DCC addresses can be assigned to the four loco selection switches. Commands derived from the speed potentiometer, the direction switch and the function keys will be transmitted to all selected locos (near) simultaneously, with a certain translation table enabling some locos to go backwards when others go forwards and also limiting function keys to some of the four locos only &#X2013; this is described in more detail in sections&#XA0;<a href="#throttle_LocoConf">2.3</a> and&#XA0;<a href="#throttle_FunctionConf">2.4</a>.</p><p>Pushing the red emergency stop key will cause the throttle to send an emergency stop signal to all four locos attached. After an emergency stop, turn the speed potentiometer to zero to re-enable control of the locos.</p><p>Pushing the red emergency stop key while holding down either of the shift keys will place the device into configuration mode (as well as issueing an emergency stop to all attached locos). See section&#XA0;<a href="#config">2</a> for more details on how to access the throttle to do the configuration.</p><p>Any change in the loco selection switches will cause the throttle to send an emergency stop command to all attached locos. This makes sure that any loco that is deselected will stop on the layout and avoids newly selected locos suddenly taking off at speed. The same is true for a change in the direction switch, to avoid high-speed reverse maneuvers. Turn the speed potentiometer to zero to re-enable control of the locos.</p><p>When all four loco selection switches are set to the disabled state, the throttle will send an emergency stop command to all four locos attached and &#X2013; after a wait time of 30 seconds &#X2013; it will disconnect from the network and go into low power mode. To reconnect, re-enable any loco selection switch.</p><p>The same happens when the batteries are empty, but the throttle will not reactivate before changing the batteries. Expected runtime with a pair of 2500&#XA0;mAh-NiMH-batteries is around 8-10 hours of full time operations, more if the throttle is placed in low power mode when the locos are not running.</p><p>During startup and operation, the LEDs will show the patterns explained in table&#XA0;<a href="#ledTable">1</a>.</p>
 <!--TOC subsection id="sec18" Hardware description-->
 <h3 id="sec18" class="subsection">4.3&#XA0;&#XA0;Hardware description</h3><!--SEC END --><p>The wiFred hardware is centered around an ESP8266 for the WiFi connection. The ESP8266 also reads the loco selection switches and the battery voltage and communicates through it&#X2019;s serial port with an ATMega&#XA0;328P microcontroller which controls the LEDs, reads the speed potentiometer, direction switch and pushbutton switches for functions and emergency stop. The communication goes through a 2x3 pin header which enables the user to connect a programming cable to the same serial port if removing the jumpers.</p><p>The wiFred is powered by two AA size battery cells connected to a step-up converter creating 3.3&#XA0;V for the entire device.</p><p>The schematic is split into several pages and can be found in figures&#XA0;<a href="#oldSchematicPage1">15</a> to&#XA0;<a href="#oldSchematicPage4">18</a>. It has been created with kicad and is available on the github repository at <span style="font-style:italic">http://github.com/newHeiko/wiFred</span> along with the PCB design.</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
-<img src="docu013.png">
+<img src="docu015.png">
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 15: Master schematic sheet with batteries and power supply</td></tr>
 </table></div>
 <a id="oldSchematicPage1"></a>
 <div class="center"><hr style="width:80%;height:2"></div></div></blockquote><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
-<img src="docu014.png">
+<img src="docu016.png">
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 16: Schematic sheet including ESP8266 for WiFi connection with bootloader enabling jumper and connection to programming cable</td></tr>
 </table></div>
 <a id="oldSchematicPage2"></a>
 <div class="center"><hr style="width:80%;height:2"></div></div></blockquote><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
-<img src="docu015.png">
+<img src="docu017.png">
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 17: Schematic sheet including ATMega 328P along with crystal and in system programming header</td></tr>
 </table></div>
 <a id="oldSchematicPage3"></a>
 <div class="center"><hr style="width:80%;height:2"></div></div></blockquote><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
-<img src="docu016.png">
+<img src="docu018.png">
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 18: Schematic sheet including pushbutton switches, loco selection switches, direction switch and speed potentiometer</td></tr>
 </table></div>
 <a id="oldSchematicPage4"></a>
 <div class="center"><hr style="width:80%;height:2"></div></div></blockquote>
 <!--TOC subsection id="sec19" Hints for building the wiFred-->
 <h3 id="sec19" class="subsection">4.4&#XA0;&#XA0;Hints for building the wiFred</h3><!--SEC END --><p>The PCB has holes in the center of the pushbutton switch footprints and LED footprints to enable transferring their positions to a StrapuBox housing with a sharp needle or similar, and the position of the loco selection switches can also be transferred to the housing by marking it through the non-copper holes at their ends. Figure&#XA0;<a href="#oldTransferHoles">19</a> shows the process and it&#X2019;s results. Holes for the pushbutton switches should be drilled at 3.5&#XA0;mm diameter and countersunk from the inside. Holes for the LEDs should be drilled at 3&#XA0;mm diameter and holes for the speed potentiometer and direction switch at 6.5&#XA0;mm or 7&#XA0;mm diameter and countersunk. The cutouts for the loco selection switches are best created when the PCB is assembled and carefully cut out with a sharp hobby knife and a file until they fit.</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
-<img src="docu017.png">
-<img src="docu018.png">
+<img src="docu019.png">
+<img src="docu020.png">
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 19: Using the PCB to transfer the positions of the holes to the housing</td></tr>
 </table></div>
 <a id="oldTransferHoles"></a>
@@ -440,25 +442,25 @@ IC201 and U101 (note: Rotate PCB so Designator is right side up, then Pin 1 is o
 </li><li class="li-enumerate">Direction switch SW313 (screwed into the PCB with an 8&#XA0;mm hex nut first, then attached to it&#X2019;s pads using the cutoffs from D301, D302 and D303) and Speed potentiometer RV301 (screwed into the PCB with a 10&#XA0;mm hex nut first and slightly shortening the pins before soldering)
 </li><li class="li-enumerate">Battery holder B101
 </li></ol><p>After assembling the PCB with all the components and drilling and cutting the holes and cutouts into the housing, there are few steps left. First, a few protrusions inside the housing need to be removed so the PCB fits properly. Figure&#XA0;<a href="#breakProtrusions">20</a> shows how they can be removed easily, remains may be cut off with a hobby knife. Second, new PCB mounting pads need to be installed as shown in figure&#XA0;<a href="#mountingPads">21</a>. For the prototype, Forex PVC foam was used, cut with a pair of scissors and glued to the housing with superglue, making sure not to be in the way of any components on the PCB, but any kind of easily worked upon material with a thickness of 3&#XA0;mm can be used, as long as it will take self-driving screws (prototype uses 2.9&#XA0;mm by 6.5&#XA0;mm DIN&#XA0;7981 screws). Third, the two shift keys need yellow paint on the top and the emergency stop key needs red paint &#X2013; either any kind of paint or a paint marker like Edding&#XA0;751 will do. Finally, both the ESP8266 and the ATMega&#XA0;328P will need to be programmed as described in the next section.</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
-<img src="docu019.png">
-<img src="docu020.png">
+<img src="docu021.png">
+<img src="docu022.png">
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 20: Removing protrusions inside the housing so the PCB fits</td></tr>
 </table></div>
 <a id="breakProtrusions"></a>
 <div class="center"><hr style="width:80%;height:2"></div></div></blockquote><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
-<img src="docu021.png">
+<img src="docu023.png">
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 21: New PCB mounting pads made from 3&#XA0;mm thick Forex PVC</td></tr>
 </table></div>
 <a id="mountingPads"></a>
 <div class="center"><hr style="width:80%;height:2"></div></div></blockquote>
 <!--TOC subsection id="sec20" Programming instructions-->
 <h3 id="sec20" class="subsection">4.5&#XA0;&#XA0;Programming instructions</h3><!--SEC END --><p>The ESP8266 is programmed using the Arduino IDE connected via a serial or USB-to-serial port to the K401 header as shown in figure&#XA0;<a href="#oldProgESP">22</a>. The serial port needs to be at 3.3&#XA0;V-levels like from an FTDI232-device run at 3.3&#XA0;V.</p><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
-<img src="docu022.png">
+<img src="docu024.png">
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 22: Programming connection for ESP8266 &#X2013; GND on orange wire, then TXD of programming cable (RXD of ESP8266), then RXD of programming cable (TXD of ESP8266)</td></tr>
 </table></div>
 <a id="oldProgESP"></a>
 <div class="center"><hr style="width:80%;height:2"></div></div></blockquote><blockquote class="figure"><div class="center"><div class="center"><hr style="width:80%;height:2"></div>
-<img src="docu023.png">
+<img src="docu025.png">
 <div class="caption"><table style="border-spacing:6px;border-collapse:separate;" class="cellpading0"><tr><td style="vertical-align:top;text-align:left;" >Figure 23: Programming connection for ATMega&#XA0;328P &#X2013; Pin 1 on purple cable</td></tr>
 </table></div>
 <a id="oldProgAVR"></a>
