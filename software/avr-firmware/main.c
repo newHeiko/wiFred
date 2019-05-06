@@ -189,8 +189,10 @@ int main(void)
 	    {
 	      // enable ESP8266 power
 	      PORTD |= (1<<PD3);
-	      // enable power to speed potentiometer
+	      // enable power to speed potentiometer	      
 	      PORTC |= (1<<PC5);
+	      // enable serial TX
+	      UCSR0B |= (1<<TXEN0);
 	    }
 	      
 	  if(getBatteryVoltage() > EMPTY_BATTERY_VOLTAGE)
