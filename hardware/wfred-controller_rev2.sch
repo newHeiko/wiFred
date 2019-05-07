@@ -188,10 +188,6 @@ Text GLabel 6600 4800 2    60   Input ~ 0
 THIS_RXD
 Text GLabel 3800 4650 0    60   Input ~ 0
 SPEED
-Text GLabel 6600 3700 2    60   Output ~ 0
-LED_REVERSE
-Text GLabel 6600 3600 2    60   Output ~ 0
-LED_FORWARD
 $Comp
 L GND-RESCUE-wfred_rev2 #PWR029
 U 1 1 592F4690
@@ -365,8 +361,6 @@ Wire Wire Line
 Wire Wire Line
 	5900 3500 6600 3500
 Wire Wire Line
-	5900 3700 6600 3700
-Wire Wire Line
 	5000 2200 5000 2400
 Connection ~ 3900 2200
 Wire Wire Line
@@ -388,10 +382,8 @@ Wire Wire Line
 Connection ~ 6200 3500
 Wire Wire Line
 	6300 2900 6300 3600
-Connection ~ 6300 3600
 Wire Wire Line
 	6400 2900 6400 3700
-Connection ~ 6400 3700
 Wire Wire Line
 	5900 5200 6600 5200
 Wire Wire Line
@@ -408,8 +400,6 @@ Wire Wire Line
 	5900 3300 6600 3300
 Wire Wire Line
 	5900 3400 6600 3400
-Wire Wire Line
-	5900 3600 6600 3600
 Wire Wire Line
 	3800 2200 4000 2200
 Wire Wire Line
@@ -477,7 +467,7 @@ Wire Wire Line
 Wire Wire Line
 	7800 3800 5900 3800
 Text GLabel 6600 4450 2    60   Output ~ 0
-LED_STOP
+FLASHLIGHT
 Wire Wire Line
 	6600 4450 5900 4450
 Text GLabel 6600 3500 2    60   Output ~ 0
@@ -495,4 +485,8 @@ Wire Wire Line
 	3300 3200 4000 3200
 Wire Wire Line
 	3300 3200 3300 3100
+Wire Wire Line
+	6300 3600 5900 3600
+Wire Wire Line
+	6400 3700 5900 3700
 $EndSCHEMATC
