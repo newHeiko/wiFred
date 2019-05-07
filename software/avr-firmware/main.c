@@ -57,6 +57,39 @@ int main(void)
   initTimers();
 
   sei();
+
+  // check for "correct" EEPROM initialization
+  // if not correct, set default, turn on ESP8266 (for programming) and wait for reset
+  // this helps during initial flashing of device
+  if(vBandgap == UINT16_MAX)
+    {
+      uint8_t led = LED_STOP;
+      LEDs[led].onTime = 50;
+      LEDs[LED_STOP].cycleTime = 100;
+      LEDs[LED_FORWARD].cycleTime = 100;
+      LEDs[LED_REVERSE].cycleTime = 100;
+      
+      PORTD |= (1<<PD3);
+      saveBandgapVoltage(1200);
+
+      while(true)
+	{
+	  ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+	  {	    
+	    keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
+	  }
+	  if(getKeyPresses(KEY_ALL))
+	    {
+	      LEDs[led].onTime = 0;
+	      led++;
+	      if(led > 2)
+		{
+		  led = 0;
+		}
+	      LEDs[led].onTime = 50;
+	    }
+	}
+    }
   
   while(true)
     {

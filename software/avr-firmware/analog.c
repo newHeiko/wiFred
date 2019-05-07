@@ -41,6 +41,7 @@ volatile uint8_t currentSpeed = 0;
  * Bandgap voltage (in millivolts)
  */
 volatile uint16_t vBandgap;
+
 /**
  * EEPROM copy of bandgap voltage
  */
@@ -106,6 +107,14 @@ uint16_t getBatteryVoltage(void)
   }
   return temp;
 }
+
+/**
+ * Saves new bandgap voltage value to EEPROM
+ */
+void saveBandgapVoltage(uint16_t value)
+{
+  eeprom_write_word(&ee_vBandgap, value);
+} 
 
 /**
  * Interrupt handler for AD-converter
