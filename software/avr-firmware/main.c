@@ -210,6 +210,19 @@ int main(void)
 	     
 	}
 
+      // activate flashlight while SHIFT key is pressed
+      if(getBatteryVoltage() > EMPTY_BATTERY_VOLTAGE)
+	{
+	  if(getKeyState(KEY_SHIFT))
+	    {
+	      PORTC |= (1<<PC4);
+	    }
+	  else
+	    {
+	      PORTC &= ~(1<<PC4);
+	    }
+	}
+
       // Send message to ESP8266 for power down just before actually powering down
       if(keepaliveCountdownSeconds < SYSTEM_KEEPALIVE_TIMEOUT / 16)
 	{

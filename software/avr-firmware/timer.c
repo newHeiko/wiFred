@@ -85,6 +85,8 @@ ISR(TIMER0_COMPA_vect)
 	  clearLEDoutput(0);
 	  clearLEDoutput(1);
 	  clearLEDoutput(2);
+	  // disable flashlight
+	  PORTC &= ~(1<<PC4);
 	  // disable unneeded pullups to save power
 	  PORTD &= ~(0xf0);
 	  PORTC &= ~(0x0f);
