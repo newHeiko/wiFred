@@ -41,6 +41,11 @@
 #define EMPTY_BATTERY_VOLTAGE 3300
 
 /**
+ * Bandgap voltage (in millivolts)
+ */
+extern volatile uint16_t vBandgap;
+
+/**
  * Initialize A/D converter for free-running conversion mode
  */
 void initADC(void);
@@ -64,5 +69,10 @@ uint8_t getADCSpeed(void);
  * Returns current battery voltage (in millivolts)
  */
 uint16_t getBatteryVoltage(void);
+
+/**
+ * Saves new bandgap voltage value to EEPROM
+ */
+void saveBandgapVoltage(uint16_t value);
 
 #endif
