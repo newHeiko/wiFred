@@ -31,6 +31,7 @@ typedef struct
 {
   uint8_t onTime;
   uint8_t cycleTime;
+  bool ledStatus;
 } ledInfo;
 
 extern volatile ledInfo LEDs[3];

@@ -19,6 +19,7 @@
  */
 
 #include <stdint.h>
+#include <stdbool.h>
 #include <avr/io.h>
 #include "led.h"
 
@@ -43,7 +44,7 @@ void setLEDoutput(uint8_t led)
   switch(led)
     {
     case LED_FORWARD:
-      PORTB &= ~(1<<PB4);
+      PORTB &= ~(1<<PB4);      
       break;
     case LED_REVERSE:
       PORTB &= ~(1<<PB5);
@@ -51,7 +52,10 @@ void setLEDoutput(uint8_t led)
     case LED_STOP:
       PORTC &= ~(1<<PC4);
       break;
+    default:
+      return;
     }
+  LEDs[led].ledStatus = true;
 }
       
 /**
@@ -72,7 +76,10 @@ void clearLEDoutput(uint8_t led)
     case LED_STOP:
       PORTC |= (1<<PC4);
       break;
+    default:
+      return;
     }
+  LEDs[led].ledStatus = false;
 }
 
 
