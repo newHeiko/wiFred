@@ -583,7 +583,7 @@ Wire Wire Line
 Text GLabel 8000 2200 2    60   Output ~ 0
 F2
 Text GLabel 1600 1600 1    60   Input ~ 0
-F0_SHIFT_ESTOP
+F1_F4_F7_ESTOP
 Wire Wire Line
 	1600 1600 1600 3300
 Wire Wire Line
@@ -591,14 +591,14 @@ Wire Wire Line
 Connection ~ 1600 1800
 Connection ~ 1600 2300
 Text GLabel 3200 1600 1    60   Input ~ 0
-F1_F2_F3_F4
+F0_F2_F5_F8
 Wire Wire Line
 	3200 1600 3200 3300
 Connection ~ 3200 1800
 Connection ~ 3200 2300
 Connection ~ 3200 2800
 Text GLabel 4800 1600 1    60   Input ~ 0
-F5_F6_F7_F8
+F3_F6_SHIFT
 Wire Wire Line
 	4800 1600 4800 3300
 Connection ~ 4800 1800
@@ -617,6 +617,4 @@ Wire Wire Line
 Wire Wire Line
 	1600 3300 1800 3300
 Connection ~ 1600 2800
-NoConn ~ 5000 2800
-NoConn ~ 5600 2800
 $EndSCHEMATC
