@@ -38,6 +38,8 @@ void initWiFiSTA(void);
 
 void shutdownWiFiSTA(void);
 
+void initMDNS(void);
+
 void initWiFiAP(void);
 
 void initWiFiConfigSTA(void);
@@ -47,4 +49,3 @@ void shutdownWiFiConfigSTA(void);
 void handleWiFi(void);
 
 #endif
-
