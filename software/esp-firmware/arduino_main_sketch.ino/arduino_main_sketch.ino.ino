@@ -154,6 +154,12 @@ void loop() {
       {
         switchState(STATE_STARTUP);
       }
+
+      if(WiFi.status() != WL_CONNECTED)
+      {
+        switchState(STATE_STARTUP);
+      }
+
       break;
 
     case STATE_LOWPOWER_WAITING:
