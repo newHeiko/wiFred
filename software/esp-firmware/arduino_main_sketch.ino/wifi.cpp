@@ -22,6 +22,7 @@
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
+#include <ESP8266HTTPUpdateServer.h>
 #include <ESP8266mDNS.h>
 #include <DNSServer.h>
 
@@ -37,8 +38,9 @@
 
 t_wlan wlan;
 
-DNSServer dnsServer;
 ESP8266WebServer server(80);
+DNSServer dnsServer;
+ESP8266HTTPUpdateServer updater;
 
 void readString(char * dest, size_t maxLength, String input)
 {
@@ -56,11 +58,15 @@ void handleWiFi(void)
       // intentional fall-through
 
     case STATE_CONNECTED:
+    case STATE_LOCO_CONNECTING:
+    case STATE_LOCO_ONLINE:
     case STATE_CONFIG_STATION:
     case STATE_CONFIG_STATION_WAITING:
       MDNS.update();
       break;
 
+    case STATE_LOWPOWER_WAITING:
+    case STATE_LOWPOWER:
     case STATE_STARTUP:
     case STATE_CONNECTING:
       break;
@@ -205,6 +211,8 @@ void writeMainPage()
               + "<a href=restart.html>Restart system to enable new WiFi settings</a>\r\n"
               + "<hr><hr>Status page<hr>\r\n"
               + "<a href=status.html>wiFred status subpage</a>\r\n"
+              + "<hr><hr>Update firmware<hr>\r\n"
+              + "<a href=update>Update wiFred firmware</a>\r\n"
               + "</body></html>";
   server.send(200, "text/html", resp);
 }
@@ -336,7 +344,9 @@ void initWiFi(void)
   server.on("/status.html", writeStatusPage);
   server.on("/restart.html", restartESP);
   server.onNotFound(writeMainPage);
-  
+
+  updater.setup(&server);
+
   // start configuration webserver
   server.begin();
 }
