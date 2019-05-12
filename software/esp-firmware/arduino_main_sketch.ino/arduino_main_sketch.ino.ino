@@ -91,6 +91,7 @@ void loop() {
       setLEDvalues("0/0", "0/0", "100/200");
       if(WiFi.status() == WL_CONNECTED)
       {
+        initMDNS();
         switchState(STATE_CONNECTED, 60 * 1000);
       }
       else if(millis() > stateTimeout)
@@ -190,4 +191,3 @@ void switchState(state newState, uint32_t timeout)
     stateTimeout = millis() + timeout;
   }
 }
-
