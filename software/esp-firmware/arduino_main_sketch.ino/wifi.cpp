@@ -77,19 +77,22 @@ void handleWiFi(void)
   }
 }
 
+/**
+ * Stop listening on <throttleName>.local, start listening on config.local
+ */
 void initWiFiConfigSTA(void)
 {
-  // stop listening on <throttleName>.local, start listening on config.local
   MDNS.removeService(NULL, "http", "tcp");
   MDNS.setHostname("config");
   MDNS.addService("http", "tcp", 80);
 }
 
+/**
+ * Stop listening on (MDNS) config.local, start listening on <throttleName>.local
+ */
 void shutdownWiFiConfigSTA(void)
 {
-  // stop listening on config.local, start listening on <throttleName>.local
-  
-  char hostName[NAME_CHARS];
+  char * hostName = strdup(throttleName);
   
   for(char * src = throttleName, * dst = hostName; *src != 0;)
     {
@@ -115,19 +118,11 @@ void shutdownWiFiConfigSTA(void)
 
 void initWiFiSTA(void)
 {
-  WiFi.disconnect();
-  WiFi.config(0u, 0u, 0u);
-
   WiFi.mode(WIFI_STA);
-       
-  #ifdef DEBUG
-  Serial.print("Attempting connection to ");
-  Serial.print(wlan.ssid);
-  Serial.print(" with key ");
-  Serial.println(wlan.key);
-  #endif
-
-  WiFi.begin(wlan.ssid, wlan.key);
+  for(std::vector<wifiAPEntry>::iterator it = apList.begin() ; it != apList.end(); it++)
+  {
+    wifiMulti.addAP(it->ssid, it->key);
+  }
 }
 
 void shutdownWiFiSTA(void)
@@ -138,7 +133,7 @@ void shutdownWiFiSTA(void)
 
 void initMDNS(void)
 {
-  char hostName[NAME_CHARS];
+  char * hostName = strdup(throttleName);
   
   for(char * src = throttleName, * dst = hostName; *src != 0;)
     {
