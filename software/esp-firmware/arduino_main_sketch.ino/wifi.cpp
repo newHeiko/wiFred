@@ -20,6 +20,7 @@
  */
 
 #include <ESP8266WiFi.h>
+#include <ESP8266WiFiMulti.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266HTTPUpdateServer.h>
@@ -164,7 +165,7 @@ void initWiFiAP(void)
 {
   // open an AP for configuration if connection failed
   WiFi.disconnect();
-  WiFi.mode(WIFI_AP);
+  WiFi.mode(WIFI_AP_STA);
   uint8_t mac[6];
   WiFi.macAddress(mac);
   String ssid = "wiFred-config" + String(mac[0], 16) + String(mac[5], 16);
