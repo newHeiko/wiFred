@@ -67,6 +67,16 @@ bool myReverse = false;
 serverInfo locoServer;
 
 /**
+ * If server shall be found automatically, this will be the place to save its name
+ */
+char * automaticServer;
+
+/**
+ * If server shall be found automatically, this will be the place to save its IP address
+ */
+IPAddress automaticServerIP;
+
+/**
  * Events from throttle
  */
 eLocoState locoState[4] = { LOCO_INACTIVE, LOCO_INACTIVE, LOCO_INACTIVE, LOCO_INACTIVE };
@@ -208,12 +218,52 @@ void locoHandler(void)
  */
 void locoConnect(void)
 {
-  if(client.connect(locoServer.name, locoServer.port))
-  {
-    client.setNoDelay(true);
-    client.setTimeout(10);
-    switchState(STATE_LOCO_CONNECTING, 10 * 1000);
-  }
+  if(locoServer.automatic && automaticServer != nullptr)
+    {
+#ifdef DEBUG
+      Serial.println("Trying to connect to automatic server...");
+#endif
+      if(client.connect(automaticServerIP, locoServer.port);)
+	{
+	  client.setNoDelay(true);
+	  client.setTimeout(10);
+	  switchState(STATE_LOCO_CONNECTING, 10 * 1000);
+	}
+    }
+  else if(!locoServer.automatic)
+    {
+      if(client.connect(locoServer.name, locoServer.port))
+	{
+	  client.setNoDelay(true);
+	  client.setTimeout(10);
+	  switchState(STATE_LOCO_CONNECTING, 10 * 1000);
+	}
+    }
+
+  if(locoServer.automatic && automaticServer == nullptr
+     && (wiFredState == STATE_CONNECTED || wiFredState == STATE_CONFIG_AP) )
+    {
+#ifdef DEBUG
+      Serial.println("Looking for automatic server");
+      Serial.println("Installing service query");
+#endif
+      uint32_t n = MDNS.queryService("withrottle", "tcp");
+      for(uint32_t i = 0; i < n; i++)
+      {
+#ifdef DEBUG
+        Serial.print(String("Hostname: ") + MDNS.hostname(i) + " IP ");
+        Serial.print(MDNS.IP(i));
+        Serial.println(String(" port ") + MDNS.port(i));
+#endif
+        if(MDNS.port(i) == locoServer.port)
+	  {
+	    automaticServer = strdup(MDNS.hostname(i).c_str());
+	    automaticServerIP = MDNS.IP(i);
+	    MDNS.removeQuery();
+	    break;          
+	  }
+      }
+    }
 }
 
 /**
