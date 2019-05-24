@@ -51,6 +51,9 @@ typedef struct
 extern locoInfo locos[4];
 extern serverInfo locoServer;
 
+extern char * automaticServer;
+extern IPAddress automaticServerIP;
+
 /**
  * Remember the Loco Address plus its prefix (L or S)
  */
