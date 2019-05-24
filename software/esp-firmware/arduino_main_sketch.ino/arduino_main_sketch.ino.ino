@@ -18,7 +18,7 @@
  * This file ties everything together to initialize the hardware and
  * form the main loop.
  * 
- * This project was made for ESP12E/ESP12F with Arduino ESP version 2.5.0
+ * This project was made for ESP12E/ESP12F with Arduino ESP version 2.5.2
  * Board settings: Generic ESP8266 Module, 80MHz, Flash, Disabled, ck, 26MHz,
  * 40MHz, DOUT (compatible), 4M (1M SPIFFS), 2, v1.4 Higher Bandwidth, 
  * Disabled, None, Only Sketch, 115200 on /dev/ttyUSB0
@@ -39,12 +39,12 @@ uint32_t stateTimeout = UINT32_MAX;
 void setup() {
 // put your setup code here, to run once:
 
+  Serial.begin(115200);
+  Serial.setTimeout(10);
   initConfig();
   locoInit();
   lowBatteryInit();
   
-  Serial.begin(115200);
-  Serial.setTimeout(10);
   #ifdef DEBUG
   Serial.setDebugOutput(true);
   #else
