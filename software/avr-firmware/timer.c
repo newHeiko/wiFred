@@ -56,9 +56,9 @@ void newLEDvalues(void)
 void initTimers(void)
 {
   TCCR0A = (1<<WGM01);
-  OCR0A = F_CPU / 1024 / 100;
-  OCR0B = OCR0A / 4;
-  TCCR0B = (1<<CS02) | (1<<CS00);
+  OCR0A = F_CPU / 256 / 100;
+  OCR0B = OCR0A / 32;
+  TCCR0B = (1<<CS02);
   TIMSK0 = (1<<OCIE0A) | (1<<OCIE0B);
 }
 
@@ -68,7 +68,7 @@ ISR(TIMER0_COMPB_vect)
     {
       OCR0B = 0;
     }
-  OCR0B += OCR0A / 4;
+  OCR0B += OCR0A / 32;
 
   debounceKeys();
 }
