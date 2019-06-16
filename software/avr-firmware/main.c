@@ -74,10 +74,7 @@ int main(void)
 
       while(true)
 	{
-	  ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
-	  {	    
-	    keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
-	  }
+	  keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
 	  if(getKeyPresses(KEY_ALL))
 	    {
 	      LEDs[led].onTime = 0;
