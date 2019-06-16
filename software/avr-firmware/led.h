@@ -34,6 +34,15 @@ typedef struct
   bool ledStatus;
 } ledInfo;
 
+/**
+ * If this define is enabled, the flashlight LED will be lit on pushing the SHIFT key
+ * This will light the STOP LED if used on prototype hardware
+ */
+#define WITH_FLASHLIGHT
+
+/**
+ * Array if information about the LEDs
+ */
 extern volatile ledInfo LEDs[3];
 
 /**

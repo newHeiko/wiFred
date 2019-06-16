@@ -30,8 +30,11 @@ volatile ledInfo LEDs[3];
  */
 void initLEDs(void)
 {
+  DDRB |= (1<<PB4) | (1<<PB5);
   DDRC |= (1<<PC4);
+#ifdef WITH_FLASHLIGHT
   PORTC &= ~(1<<PC4);
+#endif
 }
 
 /**
@@ -41,10 +44,23 @@ void initLEDs(void)
  */
 void setLEDoutput(uint8_t led)
 {
-  if(led >= 0 && led <= 2)
+  switch(led)
     {
-      LEDs[led].ledStatus = true;
+    case LED_FORWARD:
+      PORTB &= ~(1<<PB4);
+      break;
+    case LED_REVERSE:
+      PORTB &= ~(1<<PB5);
+      break;
+    case LED_STOP:
+#ifndef WITH_FLASHLIGHT
+      PORTC &= ~(1<<PC4);
+#endif
+      break;
+    default:
+      return;
     }
+  LEDs[led].ledStatus = true;
 }
       
 /**
@@ -54,10 +70,23 @@ void setLEDoutput(uint8_t led)
  */
 void clearLEDoutput(uint8_t led)
 {
-  if(led >= 0 && led <= 2)
+  switch(led)
     {
-      LEDs[led].ledStatus = false;
+    case LED_FORWARD:
+      PORTB |= (1<<PB4);
+      break;
+    case LED_REVERSE:
+      PORTB |= (1<<PB5);
+      break;
+    case LED_STOP:
+#ifndef WITH_FLASHLIGHT
+      PORTC |= (1<<PC4);
+#endif
+      break;
+    default:
+      return;
     }
+  LEDs[led].ledStatus = false;
 }
 
 
