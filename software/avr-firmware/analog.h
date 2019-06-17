@@ -43,7 +43,12 @@
 /**
  * Bandgap voltage (in millivolts)
  */
-extern volatile uint16_t vBandgap;
+extern uint16_t vBandgap;
+
+/**
+ * Check if there is a new AD value and calculate correct output from it if there is
+ */
+void handleADC(void);
 
 /**
  * Initialize A/D converter for free-running conversion mode

@@ -68,6 +68,7 @@ int main(void)
       LEDs[LED_STOP].cycleTime = 100;
       LEDs[LED_FORWARD].cycleTime = 100;
       LEDs[LED_REVERSE].cycleTime = 100;
+      newLEDvalues();
       
       PORTD |= (1<<PD3);
       saveBandgapVoltage(1200);
@@ -84,6 +85,7 @@ int main(void)
 		  led = 0;
 		}
 	      LEDs[led].onTime = 50;
+	      newLEDvalues();
 	    }
 	}
     }
@@ -91,6 +93,7 @@ int main(void)
   while(true)
     {
       uartHandler();
+      handleADC();
 
       if(getKeyPresses(KEY_FORWARD | KEY_REVERSE) || speedTimeout == 0)
 	{
