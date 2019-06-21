@@ -30,6 +30,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "config.h"
+
 enum functionInfo { THROTTLE, ALWAYS_ON, ALWAYS_OFF, UNKNOWN = THROTTLE };
 
 enum eLocoState { LOCO_ACTIVATE, LOCO_FUNCTIONS, LOCO_ACTIVE, LOCO_DEACTIVATE, LOCO_INACTIVE };
@@ -40,17 +42,21 @@ extern functionInfo globalFunctionStatus[MAX_FUNCTION + 1];;
 
 typedef struct
 {
+  bool automatic;
+  char * name;
+  uint16_t port;
+} serverInfo;
+
+typedef struct
+{
   int16_t address;
   bool longAddress;
   functionInfo functions[MAX_FUNCTION + 1];
   bool reverse;
 } locoInfo;
 
-#include "config.h"
-
 extern locoInfo locos[4];
 extern serverInfo locoServer;
-
 extern char * automaticServer;
 extern IPAddress automaticServerIP;
 
@@ -126,4 +132,3 @@ void requestLoco(uint8_t loco);
 void requestLocoFunctions(uint8_t loco);
 
 #endif
-
