@@ -85,6 +85,10 @@ ISR(TIMER0_COMPA_vect)
 	  clearLEDoutput(0);
 	  clearLEDoutput(1);
 	  clearLEDoutput(2);
+#ifdef WITH_FLASHLIGHT
+	  // disable flashlight	  
+	  PORTC &= ~(1<<PC4);
+#endif
 	  // disable unneeded pullups to save power
 	  PORTD &= ~(0xf0);
 	  PORTC &= ~(0x0f);
@@ -95,6 +99,8 @@ ISR(TIMER0_COMPA_vect)
 	  PORTC &= ~(1<<PC5);
 	  // disable ADC
 	  ADCSRA &= ~(1<<ADEN);
+	  // disable serial port transmission
+	  UCSR0B &= ~(1<<TXEN0);
 	  // enable wakeup method through INT0 IRQ
 	  enableWakeup();
 	  set_sleep_mode(SLEEP_MODE_PWR_DOWN);

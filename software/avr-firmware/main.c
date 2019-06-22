@@ -57,10 +57,43 @@ int main(void)
   initTimers();
 
   sei();
+
+  // check for "correct" EEPROM initialization
+  // if not correct, set default, turn on ESP8266 (for programming) and wait for reset
+  // this helps during initial flashing of device
+  if(vBandgap == UINT16_MAX)
+    {
+      uint8_t led = LED_STOP;
+      LEDs[led].onTime = 50;
+      LEDs[LED_STOP].cycleTime = 100;
+      LEDs[LED_FORWARD].cycleTime = 100;
+      LEDs[LED_REVERSE].cycleTime = 100;
+      newLEDvalues();
+      
+      PORTD |= (1<<PD3);
+      saveBandgapVoltage(1200);
+
+      while(true)
+	{
+	  keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
+	  if(getKeyPresses(KEY_ALL))
+	    {
+	      LEDs[led].onTime = 0;
+	      led++;
+	      if(led > 2)
+		{
+		  led = 0;
+		}
+	      LEDs[led].onTime = 50;
+	      newLEDvalues();
+	    }
+	}
+    }
   
   while(true)
     {
       uartHandler();
+      handleADC();
 
       if(getKeyPresses(KEY_FORWARD | KEY_REVERSE) || speedTimeout == 0)
 	{
@@ -189,8 +222,10 @@ int main(void)
 	    {
 	      // enable ESP8266 power
 	      PORTD |= (1<<PD3);
-	      // enable power to speed potentiometer
+	      // enable power to speed potentiometer	      
 	      PORTC |= (1<<PC5);
+	      // enable serial TX
+	      UCSR0B |= (1<<TXEN0);
 	    }
 	      
 	  if(getBatteryVoltage() > EMPTY_BATTERY_VOLTAGE)
@@ -207,6 +242,21 @@ int main(void)
 	    }
 	     
 	}
+
+#ifdef WITH_FLASHLIGHT
+      // activate flashlight while SHIFT key is pressed
+      if(getBatteryVoltage() > EMPTY_BATTERY_VOLTAGE)
+	{
+	  if(getKeyState(KEY_SHIFT))
+	    {
+	      PORTC |= (1<<PC4);
+	    }
+	  else
+	    {
+	      PORTC &= ~(1<<PC4);
+	    }
+	}
+#endif
 
       // Send message to ESP8266 for power down just before actually powering down
       if(keepaliveCountdownSeconds < SYSTEM_KEEPALIVE_TIMEOUT / 16)

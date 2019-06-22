@@ -19,6 +19,7 @@
  */
 
 #include <stdint.h>
+#include <stdbool.h>
 #include <avr/io.h>
 #include "led.h"
 
@@ -31,6 +32,9 @@ void initLEDs(void)
 {
   DDRB |= (1<<PB4) | (1<<PB5);
   DDRC |= (1<<PC4);
+#ifdef WITH_FLASHLIGHT
+  PORTC &= ~(1<<PC4);
+#endif
 }
 
 /**
@@ -49,9 +53,14 @@ void setLEDoutput(uint8_t led)
       PORTB &= ~(1<<PB5);
       break;
     case LED_STOP:
+#ifndef WITH_FLASHLIGHT
       PORTC &= ~(1<<PC4);
+#endif
       break;
+    default:
+      return;
     }
+  LEDs[led].ledStatus = true;
 }
       
 /**
@@ -70,9 +79,14 @@ void clearLEDoutput(uint8_t led)
       PORTB |= (1<<PB5);
       break;
     case LED_STOP:
+#ifndef WITH_FLASHLIGHT
       PORTC |= (1<<PC4);
+#endif
       break;
+    default:
+      return;
     }
+  LEDs[led].ledStatus = false;
 }
 
 

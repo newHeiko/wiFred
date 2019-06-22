@@ -29,6 +29,7 @@
 #include "keypad.h"
 #include "uart.h"
 #include "timer.h"
+#include "led.h"
 
 typedef union
 {
@@ -154,7 +155,8 @@ uint32_t getKeyReleases(uint32_t keyMask)
 }
 
 /**
- * To be called every 2.5ms from ISR - handle key input
+ * To be called every 2.5ms from ISR - handle key input 
+ * and LED output
  */
 void debounceKeys(void)
 {
@@ -167,7 +169,47 @@ void debounceKeys(void)
   if(ct2 % 2 == 0)
     {
       DDRB &= ~0x0f;
-      DDRB |= (1<<(ct2/2));
+      DDRC &= ~0x0f;
+      PORTC |= 0x0f;
+      switch(ct2/2)
+	{
+	case 0:
+	  DDRB |= (1<<0);
+	  break;  
+	case 1:
+	  DDRB |= (1<<1);
+	  break;  
+	case 2:
+	  if(LEDs[LED_STOP].ledStatus)
+	    {
+	      DDRC |= (1<<PC2);
+	    }
+	  else
+	    {
+	      PORTC &= ~(1<<PC2);
+	    }	  
+	  DDRB |= (1<<2);
+	  break;  
+	case 3:
+	  DDRB |= (1<<3);
+	  if(LEDs[LED_FORWARD].ledStatus)
+	    {
+	      DDRC |= (1<<PC0);
+	    }
+	  else
+	    {
+	      PORTC &= ~(1<<PC0);
+	    }	  
+	  if(LEDs[LED_REVERSE].ledStatus)
+	    {
+	      DDRC |= (1<<PC3);
+	    }
+	  else
+	    {
+	      PORTC &= ~(1<<PC3);
+	    }	  
+	  break;  
+	}
       if(ct2 == 0)
 	{
 	  i = (keyState.byte[0] & 0xf0) ^ (PIND & 0xf0);
