@@ -102,12 +102,10 @@ void initConfig(void)
   }
 
 // read as many wifi configurations as there are available from SPIFFS  
-  String filename;
-
   for(uint8_t i = 0; true; i++)
   {
     // create new filename
-    filename = String(FN_WIFI_STUB) + i + ".txt";
+    String filename = String(FN_WIFI_STUB) + i + ".txt";
     // check if it exists, exit loop if not
     if(!SPIFFS.exists(filename))
     {
@@ -137,8 +135,36 @@ void initConfig(void)
   }
 
   // read four loco configurations from SPIFFS if available
-#warning "TODO"
-  SPIFFS.end();
+  for(uint8_t i = 0; i < 4; i++)
+  {
+    // create new filename
+    String filename = String(FN_LOCO_STUB) + (i+1) + ".txt";
+    // check if it exists
+    if(!SPIFFS.exists(filename))
+    {
+      continue;
+    }
+
+    if(File f = SPIFFS.open(filename, "r"))
+    {
+      if(!deserializeJson(doc, f))
+      {
+        locos[i].address = doc[FIELD_LOCO_ADDRESS] | -1;
+        if(doc.containsKey(FIELD_LOCO_LONG))
+        {
+          locos[i].longAddress = doc[FIELD_LOCO_LONG];          
+        }
+        if(doc.containsKey(FIELD_LOCO_REVERSE))
+        {
+          locos[i].reverse = doc[FIELD_LOCO_REVERSE];
+        }
+        for(uint8_t j = 0; j < MAX_FUNCTION + 1; j++)
+        {
+          locos[i].functions[j] = (functionInfo) doc[FIELD_LOCO_FUNCTIONS][j].as<int>();
+        } 
+      }
+    }
+  }
 }
 
 void saveLocoServer()
@@ -162,7 +188,6 @@ void saveLocoServer()
 
   SPIFFS.end();
 }
-
 
 void saveGeneralConfig(void)
 {
@@ -194,7 +219,23 @@ void saveLocoConfig(uint8_t loco)
   DynamicJsonDocument doc(512);
 
   // save loco configuration for current loco to SPIFFS
+  doc[FIELD_LOCO_ADDRESS] = locos[loco-1].address;
+  doc[FIELD_LOCO_LONG] = locos[loco-1].longAddress;
+  doc[FIELD_LOCO_REVERSE] = locos[loco-1].reverse;
+  doc.createNestedArray(FIELD_LOCO_FUNCTIONS);
+  for(uint8_t i = 0; i < MAX_FUNCTION + 1; i++)
+  {
+    doc[FIELD_LOCO_FUNCTIONS].add(i);
+  }
+  serializeJson(doc, Serial);
 
+  String filename = String(FN_LOCO_STUB) + loco + ".txt";
+  if(File f = SPIFFS.open(filename, "w"))
+  {
+    serializeJson(doc, f);
+    f.close();
+  }
+  
   SPIFFS.end();
 }
 
