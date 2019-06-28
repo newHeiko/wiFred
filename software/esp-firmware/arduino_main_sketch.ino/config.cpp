@@ -216,6 +216,16 @@ void saveLocoConfig(uint8_t loco)
     return;
   }
 
+// correct loco address (even before saving)
+  if(locos[loco].address > 10239 || locos[loco].address < 0)
+  {
+    locos[loco].address = -1;
+  }
+  if(!locos[loco].longAddress && (locos[loco].address > 127 || locos[loco].address < 1))
+  {
+    locos[loco].address = -1;
+  }
+
   DynamicJsonDocument doc(512);
 
   // save loco configuration for current loco to SPIFFS
