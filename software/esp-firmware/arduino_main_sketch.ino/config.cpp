@@ -219,17 +219,17 @@ void saveLocoConfig(uint8_t loco)
   DynamicJsonDocument doc(512);
 
   // save loco configuration for current loco to SPIFFS
-  doc[FIELD_LOCO_ADDRESS] = locos[loco-1].address;
-  doc[FIELD_LOCO_LONG] = locos[loco-1].longAddress;
-  doc[FIELD_LOCO_REVERSE] = locos[loco-1].reverse;
+  doc[FIELD_LOCO_ADDRESS] = locos[loco].address;
+  doc[FIELD_LOCO_LONG] = locos[loco].longAddress;
+  doc[FIELD_LOCO_REVERSE] = locos[loco].reverse;
   doc.createNestedArray(FIELD_LOCO_FUNCTIONS);
   for(uint8_t i = 0; i < MAX_FUNCTION + 1; i++)
   {
-    doc[FIELD_LOCO_FUNCTIONS].add(i);
+    doc[FIELD_LOCO_FUNCTIONS].add((int) (locos[loco].functions[i]) );
   }
   serializeJson(doc, Serial);
 
-  String filename = String(FN_LOCO_STUB) + loco + ".txt";
+  String filename = String(FN_LOCO_STUB) + loco+1 + ".txt";
   if(File f = SPIFFS.open(filename, "w"))
   {
     serializeJson(doc, f);
