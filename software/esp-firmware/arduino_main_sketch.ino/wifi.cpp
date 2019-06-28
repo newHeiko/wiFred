@@ -180,6 +180,8 @@ void initWiFiAP(void)
 
 void writeMainPage()
 {
+  uint8_t loco = server.arg("loco").toInt();
+
   if(wiFredState == STATE_CONFIG_STATION_WAITING)
   {
     switchState(STATE_CONFIG_STATION);
@@ -203,37 +205,36 @@ void writeMainPage()
     saveLocoServer();    
   }
   
-  // check if this is a "set loco config" request
-  #warning "TODO"
-  {  
-  locos[0].address = server.arg("loco.address1").toInt();
-  locos[1].address = server.arg("loco.address2").toInt();
-  locos[2].address = server.arg("loco.address3").toInt();
-  locos[3].address = server.arg("loco.address4").toInt();
-  
-  locos[0].longAddress = server.hasArg("loco.longAddress1");
-  locos[1].longAddress = server.hasArg("loco.longAddress2");
-  locos[2].longAddress = server.hasArg("loco.longAddress3");
-  locos[3].longAddress = server.hasArg("loco.longAddress4");
-
+  // check if this is a "set loco config" request (old format loco.address1)
   for(uint8_t i=0; i<4; i++)
+  {
+    if(server.hasArg (String("loco.address") + i+1) )
     {
-      if(locos[i].address > 10239 || locos[i].address < 0)
-      {
-        locos[i].address = -1;
-      }
-      if(!locos[i].longAddress && (locos[i].address > 127 || locos[i].address < 1))
-      {
-        locos[i].address = -1;
-      }
+      locos[i].address = server.arg(String("loco.address") + i+1).toInt();
+      locos[i].longAddress = server.hasArg(String("loco.longAddress") + i+1);
+      locos[i].reverse = server.hasArg(String("loco.reverse") + i+1);
+      saveLocoConfig(i);
+    }
+  }
+
+  // check if this is a "set loco config" request (new format loco and loco.address)
+  if(loco >= 1 && loco <= 4 && server.hasArg("loco.address"))
+  {
+    locos[loco-1].address = server.arg("loco.address").toInt();
+    locos[loco-1].longAddress = server.hasArg("loco.longAddress");
+    locos[loco-1].reverse = server.hasArg("loco.reverse");
+    saveLocoConfig(loco-1);
+  }
+
+  // check if this is a "set function configuration" request
+  if(loco >= 1 && loco <= 4 && server.hasArg("f0") && server.hasArg("f1"))
+  {
+    for(uint8_t i=0; i<= MAX_FUNCTION; i++)
+    {
+      locos[loco-1].functions[i] = (functionInfo) server.arg(String("f") + i).toInt();
     }
 
-    locos[0].reverse = server.hasArg("loco.reverse1");
-    locos[1].reverse = server.hasArg("loco.reverse2");
-    locos[2].reverse = server.hasArg("loco.reverse3");
-    locos[3].reverse = server.hasArg("loco.reverse4");
-
-    saveLocoConfig(7);
+    saveLocoConfig(loco-1);
   }
       
   // check if this is a "set general configuration" request
@@ -289,42 +290,54 @@ void writeMainPage()
 
   String resp = String("<!DOCTYPE HTML>\r\n")
               + "<html><head><title>wiFred configuration page</title></head>\r\n"
-              + "<body><h1>General configuration</h1>\r\n"
+              + "<body><h1>wiFred configuration page</h1>\r\n"
+              + "<hr>General configuration<hr>\r\n"
               + "<form action=\"index.html\" method=\"get\"><table border=0>"
-              + "<tr><td>Throttle name (max " + String(sizeof(throttleName)/sizeof(throttleName[0]) - 1) + " chars):</td><td><input type=\"text\" name=\"throttleName\" value=\"" + throttleName + "\"></td></tr>"
-              + "<tr><td colspan=2><input type=\"submit\"></td></tr></table></form>\r\n";
-  resp        += String("<hr>Loco configuration<hr>\r\n")
+              + "<tr><td>Throttle name:</td><td><input type=\"text\" name=\"throttleName\" value=\"" + throttleName + "\"></td></tr>"
+              + "<tr><td colspan=2><input type=\"submit\" value=\"Save name\"></td></tr></table></form>\r\n";
+  
+  resp        += String("<hr>WiFi configuration<hr>\r\n")
+              + "<table border=0><tr><td>Active WiFi network SSID:</td><td>" + (WiFi.isConnected() ? WiFi.SSID() : "not connected") + "</td><td><a href=scanWifi.html>Scan for networks</a></td></tr>"
+              + "<tr><td colspan=3>Known WiFi networks:</td></tr>";
+  for(std::vector<wifiAPEntry>::iterator it = apList.begin() ; it != apList.end(); ++it)
+  {
+    resp += String("<tr><td>SSID: ") + it->ssid + "</td><td>PSK: " + it->key + "</td>"
+          + "<td><form action=\"index.html\" method=\"get\"><input type=\"hidden\" name=\"remove\" value=\"" + it->ssid + "\"><input type=\"submit\" value=\"Remove SSID\"></form></td></tr>\r\n";
+  }
+  resp        += String("<form action=\"index.html\" method=\"get\"><tr>")
+                 + "<td>New SSID: <input type=\"text\" name=\"wifiSSID\"></td>"
+                 + "<td>New PSK: <input type=\"text\" name=\"wifiKEY\"></td>"
+                 + "<td><input type = \"submit\" value=\"Manually add network\"></td>"
+                 +  "</tr></form></table>\r\n";
+
+  resp        += String("<a href=restart.html>Restart wiFred to enable new WiFi settings</a>\r\n")
+                 + " WiFi settings will not be active until restart.\r\n";
+              
+  resp        += String("<hr>Loco server configuration<hr>\r\n")
               + "<table border=0><form action=\"index.html\" method=\"get\">"
-              + "<tr><td>Clock server and port: </td>"
+              + "<tr><td>Loco server and port: </td>"
               + "<td>http://<input type=\"text\" name=\"loco.serverName\" value=\"" + locoServer.name + "\">:<input type=\"text\" name=\"loco.serverPort\" value=\"" + locoServer.port + "\"></td></tr>"
               + "<tr><td>Find server automatically through Zeroconf/Bonjour?</td><td><input type=\"checkbox\" name=\"loco.automatic\"" + (locoServer.automatic ? " checked" : "") + ">"
               + "Using " + (locoServer.automatic && automaticServer != nullptr ? automaticServer : locoServer.name) + ":" + locoServer.port + "</td></tr>"
               + "<tr><td colspan=2><input type=\"submit\" value=\"Save loco server settings\"</td></tr></form></table>";
-  resp        += String("<hr>Restart system to enable new WiFi settings<hr>\r\n")
-              + "<a href=restart.html>Restart system to enable new WiFi settings</a>\r\n"
-              + "<hr><hr>Status page<hr>\r\n"
-              + "<a href=status.html>wiFred status subpage</a>\r\n"
-              + "<hr><hr>Update firmware<hr>\r\n"
-              + "<a href=update>Update wiFred firmware</a>\r\n"
-              + "</body></html>";
-  server.send(200, "text/html", resp);
 
-  resp = String("<!DOCTYPE HTML>\r\n")
-              + "<html><head><title>wiFred configuration page</title></head>\r\n"
-              + "<body><h1>Loco configuration</h1>\r\n"
-              + "<form action=\"loco.html\" method=\"get\"><table border=0>"
-              + "<tr><td>Loco server and port: </td>"
-              + "<td><input type=\"text\" name=\"loco.serverName\" value=\"" + locoServer.name + "\">:<input type=\"text\" name=\"loco.serverPort\" value=\"" + locoServer.port + "\"></td></tr>"
-              + "<tr><td colspan=2><hr></td></tr>";
+#warning "TODO update loco config page info"
   for(uint8_t i=0; i<4; i++)
   {
-    resp      += String("<tr><td>Loco ") + (i+1) + " DCC address: (-1 to disable)</td><td><input type=\"text\" name=\"loco.address" + (i+1) + "\" value=\"" + locos[i].address + "\">"
+    resp      += String("<hr>Loco configuration for loco: ") + i+1 + "<hr>\r\n" 
+              + "<tr><td>Loco " + (i+1) + " DCC address: (-1 to disable)</td><td><input type=\"text\" name=\"loco.address" + (i+1) + "\" value=\"" + locos[i].address + "\">"
               + "Long Address? <input type=\"checkbox\" name=\"loco.longAddress" + (i+1) + "\"" + (locos[i].longAddress ? " checked" : "" ) + "></td></tr>"
               + "<tr><td>Reverse? <input type=\"checkbox\" name=\"loco.reverse" + (i+1) + "\"" + (locos[i].reverse ? " checked" : "" ) + "></td>"
               + "<td><a href=\"funcmap.html?loco=" + (i+1) + "\">Function mapping</a></td></tr>"
               + "<tr><td colspan=2><hr></td></tr>";
   }
-  resp        += String("<tr><td><input type=\"submit\"></td><td><a href=\"/\">Back to main configuration page (unsaved data will be lost)</a></td></tr></table></form>\r\n")
+
+  resp        += String("<hr>wiFred status<hr>\r\n")
+              + "<table border=0>"
+              + "<tr><td>Battery voltage: </td><td>" + batteryVoltage + " mV" + (lowBattery ? " Battery LOW" : "" ) + "</td></tr></table>\r\n"
+              + "<hr>wiFred system<hr>\r\n"
+              + "<a href=resetConfig.html>Reset wiFred to factory defaults</a>\r\n"
+              + "<a href=update>Update wiFred firmware</a>\r\n"
               + "</body></html>";
   
   server.send(200, "text/html", resp);
@@ -342,7 +355,7 @@ void writeFuncMapPage()
       locos[loco-1].functions[i] = (functionInfo) server.arg(String("f") + i).toInt();
     }
 
-    saveLocoConfig(loco - 1);
+    saveLocoConfig(loco-1);
   }
 
   String resp = String("<!DOCTYPE HTML>\r\n")
@@ -355,7 +368,7 @@ void writeFuncMapPage()
   else
   {
     resp      += String("<hr>Function configuration for loco ") + loco + " (DCC address: " + locos[loco-1].address + ")<hr>"
-              + "<form action=\"funcmap.html\" method=\"get\"><table border=0>";
+              + "<form action=\"index.html\" method=\"get\"><table border=0>";
     for(uint8_t i=0; i<=MAX_FUNCTION; i++)
     {
       resp    += String("<tr><td>Function ") + i + ":</td>"
@@ -368,53 +381,7 @@ void writeFuncMapPage()
     }
     resp      += String("<tr><td colspan=4><input type=\"hidden\" name=\"loco\" value=\"") + loco + "\"><input type=\"submit\"></td></tr></table></form>\r\n";
   }
-  resp        += String("<hr><a href=\"loco.html\">Back to loco configuration page (unsaved data will be lost)</a>")
-              + "<hr><a href=\"/\">Back to main configuration page (unsaved data will be lost)</a><hr></body></html>";
-  server.send(200, "text/html", resp);
-}
-
-void writeStatusPage()
-{
-  String resp = String("<!DOCTYPE HTML>\r\n")
-              + "<html><head><title>wiFred status page</title></head>\r\n"
-              + "<body><h1>wiFred status</h1>\r\n"
-              + "<table border=0>"
-              + "<tr><td>Battery voltage: </td><td>" + batteryVoltage + " mV" + (lowBattery ? " Battery LOW" : "" ) + "</td></tr>\r\n"
-              + "<tr><td colspan=2><a href=\"/\">Back to main configuration page</a></td></tr></table>\r\n"
-              + "</body></html>";
-
-  resp = String("<!DOCTYPE HTML>\r\n")
-                + "<html><head><title>wiClock configuration page</title></head>\r\n"
-                + "<body><h1>wiClock configuration page</h1>\r\n"
-                + "<hr>General configuration<hr>\r\n"
-                + "<form action=\"index.html\" method=\"get\"><table border=0>"
-                + "<tr><td>Throttle name:</td><td><input type=\"text\" name=\"throttleName\" value=\"" + throttleName + "\"></td></tr>"
-                + "<tr><td colspan=2><input type=\"submit\" value=\"Save name\"></td></tr></table></form>\r\n"
-                + "<hr>WiFi configuration<hr>\r\n"
-                + "<table border=0><tr><td>Active WiFi network SSID:</td><td>" + (WiFi.isConnected() ? WiFi.SSID() : "not connected") + "</td><td><a href=scanWifi.html>Scan for networks</a></td></tr>"
-                + "<tr><td colspan=3>Known WiFi networks:</td></tr>";
-  for(std::vector<wifiAPEntry>::iterator it = apList.begin() ; it != apList.end(); ++it)
-  {
-    resp += String("<tr><td>SSID: ") + it->ssid + "</td><td>PSK: " + it->key + "</td>"
-          + "<td><form action=\"index.html\" method=\"get\"><input type=\"hidden\" name=\"remove\" value=\"" + it->ssid + "\"><input type=\"submit\" value=\"Remove SSID\"></form></td></tr>\r\n";
-  }
-
-  resp        += String("<form action=\"index.html\" method=\"get\"><tr>")
-                 + "<td>New SSID: <input type=\"text\" name=\"wifiSSID\"></td>"
-                 + "<td>New PSK: <input type=\"text\" name=\"wifiKEY\"></td>"
-                 + "<td><input type = \"submit\" value=\"Manually add network\"></td>"
-                 +  "</tr></form></table>\r\n";
-
-  resp        += String("<a href=restart.html>Restart wiClock to enable new WiFi settings</a>\r\n")
-                 + " WiFi settings will not be active until restart.\r\n";
-
-  resp        += String("<hr>wiClock status<hr>\r\n")
-                 + "<table border=0>"
-                 + "<tr><td>Battery voltage: </td><td>" + batteryVoltage + " mV" + (lowBattery ? " Battery LOW" : "" ) + "</td></tr></table>\r\n"
-                 + "<hr>wiFred system<hr>\r\n"
-                 + "<a href=resetConfig.html>Reset wiFred to factory defaults</a>\r\n"
-                 + "<a href=update>Update wiFred firmware</a>\r\n"
-                 + "</body></html>";
+  resp        += String("<hr><a href=\"/\">Back to main configuration page (unsaved data will be lost)</a><hr></body></html>");
   server.send(200, "text/html", resp);
 }
 
