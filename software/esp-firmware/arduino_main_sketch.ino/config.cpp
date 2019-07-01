@@ -237,9 +237,8 @@ void saveLocoConfig(uint8_t loco)
   {
     doc[FIELD_LOCO_FUNCTIONS].add((int) (locos[loco].functions[i]) );
   }
-  serializeJson(doc, Serial);
-
-  String filename = String(FN_LOCO_STUB) + loco+1 + ".txt";
+  
+  String filename = String(FN_LOCO_STUB) + (loco+1) + ".txt";
   if(File f = SPIFFS.open(filename, "w"))
   {
     serializeJson(doc, f);
