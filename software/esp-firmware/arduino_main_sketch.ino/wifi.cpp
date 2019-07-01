@@ -379,7 +379,7 @@ void writeFuncMapPage()
               + "<td><input type=\"radio\" name=\"f" + i + "\" value=\"" + ALWAYS_OFF + "\"" 
                 + (locos[loco-1].functions[i] == ALWAYS_OFF ? " checked" : "" ) + ">Always Off</td><tr>";
     }
-    resp      += String("<tr><td colspan=4><input type=\"hidden\" name=\"loco\" value=\"") + loco + "\"><input type=\"submit\"></td></tr></table></form>\r\n";
+    resp      += String("<tr><td colspan=4><input type=\"hidden\" name=\"loco\" value=\"") + loco + "\"><input type=\"submit\" value=\"Save function configuration and return to main page\"></td></tr></table></form>\r\n";
   }
   resp        += String("<hr><a href=\"/\">Back to main configuration page (unsaved data will be lost)</a><hr></body></html>");
   server.send(200, "text/html", resp);
