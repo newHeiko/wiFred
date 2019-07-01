@@ -321,17 +321,17 @@ void writeMainPage()
               + "Using " + (locoServer.automatic && automaticServer != nullptr ? automaticServer : locoServer.name) + ":" + locoServer.port + "</td></tr>"
               + "<tr><td colspan=2><input type=\"submit\" value=\"Save loco server settings\"</td></tr></form></table>";
 
-#warning "TODO update loco config page info"
   for(uint8_t i=0; i<4; i++)
   {
-    resp      += String("<hr>Loco configuration for loco: ") + i+1 + "<hr>\r\n" 
-              + "<tr><td>Loco " + (i+1) + " DCC address: (-1 to disable)</td><td><input type=\"text\" name=\"loco.address" + (i+1) + "\" value=\"" + locos[i].address + "\">"
-              + "Long Address? <input type=\"checkbox\" name=\"loco.longAddress" + (i+1) + "\"" + (locos[i].longAddress ? " checked" : "" ) + "></td></tr>"
-              + "<tr><td>Reverse? <input type=\"checkbox\" name=\"loco.reverse" + (i+1) + "\"" + (locos[i].reverse ? " checked" : "" ) + "></td>"
-              + "<td><a href=\"funcmap.html?loco=" + (i+1) + "\">Function mapping</a></td></tr>"
-              + "<tr><td colspan=2><hr></td></tr>";
+    resp      += String("<hr>Loco configuration for loco: ") + (i+1) + "\r\n" 
+              + "<form action=\"index.html\" method=\"get\"><table border=0>"
+              + "<tr><td>DCC address: (-1 to disable)</td> <td><input type=\"text\" name=\"loco.address\" value=\"" + locos[i].address + "\"></td></tr>"
+              + "<tr><td>Long Address?</td> <td><input type=\"checkbox\" name=\"loco.longAddress\"" + (locos[i].longAddress ? " checked" : "" ) + "></td></tr>"
+              + "<tr><td>Reverse?</td> <td><input type=\"checkbox\" name=\"loco.reverse\"" + (locos[i].reverse ? " checked" : "" ) + "></td></tr>"
+              + "<tr><td colspan=2><a href=\"funcmap.html?loco=" + (i+1) + "\">Function mapping</a></td></tr></table>"
+              + "<input type=\"hidden\" name=\"loco\" value=\"" + (i+1) + "\"><input type=\"submit\" value=\"Save loco config\"></form>";
   }
-
+  
   resp        += String("<hr>wiFred status<hr>\r\n")
               + "<table border=0>"
               + "<tr><td>Battery voltage: </td><td>" + batteryVoltage + " mV" + (lowBattery ? " Battery LOW" : "" ) + "</td></tr></table>\r\n"
