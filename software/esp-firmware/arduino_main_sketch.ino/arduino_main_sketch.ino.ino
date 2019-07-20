@@ -59,7 +59,8 @@ void loop() {
   // put your main code here, to run repeatedly:
   handleWiFi();
   lowBatteryHandler();
-
+  handleThrottle();
+  
 #ifdef DEBUG
   static uint32_t test = 0;
 
@@ -90,7 +91,7 @@ void loop() {
       setLEDvalues("0/0", "0/0", "100/200");
       if(WiFi.status() == WL_CONNECTED)
       {
-        switchState(STATE_CONNECTED);
+        switchState(STATE_CONNECTED, 60 * 1000);
       }
       else if(millis() > stateTimeout)
       {
@@ -100,39 +101,58 @@ void loop() {
       break;
 
     case STATE_CONNECTED:
-      if(getInputState(0) == false && getInputState(1) == false && getInputState(2) == false && getInputState(3) == false)
-      {
-        switchState(STATE_LOWPOWER_WAITING, 30 * 1000);
-        break;
-      }
-
+      setLEDvalues("0/0", "0/0", "25/50");
       if(WiFi.status() != WL_CONNECTED)
       {
-        initWiFiSTA();
-        switchState(STATE_CONNECTING, 30 * 1000);
+        switchState(STATE_STARTUP);
+      }
+      locoConnect();
+      if(millis() > stateTimeout)
+      {
+        initWiFiConfigSTA();
+        switchState(STATE_CONFIG_STATION_WAITING, 120 * 1000);
       }
       break;
 
+    case STATE_LOCO_CONNECTING:
+      if(WiFi.status() != WL_CONNECTED)
+      {
+        switchState(STATE_STARTUP);
+      }
+      locoRegister();
+      if(millis() > stateTimeout)
+      {
+        initWiFiConfigSTA();
+        switchState(STATE_CONFIG_STATION_WAITING, 120 * 1000);
+      }
+      break;
+
+    case STATE_LOCO_ONLINE:
+      if(WiFi.status() != WL_CONNECTED)
+      {
+        switchState(STATE_STARTUP);
+      }
+      locoHandler();
+      break;
+    
     case STATE_CONFIG_STATION_WAITING:
       setLEDvalues("200/200", "200/200", "200/200");
+      if(WiFi.status() != WL_CONNECTED)
+      {
+        switchState(STATE_STARTUP);
+      }
       if(millis() > stateTimeout)
       {
-        shutdownWiFiSTA();
-        switchState(STATE_LOWPOWER);
-        break;
+        shutdownWiFiConfigSTA();
+        switchState(STATE_STARTUP);
       }
-    // break;
-    // intentional fall-through
-    case STATE_CONFIG_STATION:
-      setLEDvalues("200/200", "200/200", "200/200");
       break;
 
-    case STATE_CONFIG_STATION_COMING:
+    case STATE_CONFIG_STATION:
       setLEDvalues("200/200", "200/200", "200/200");
-      if(millis() > stateTimeout)
+      if(WiFi.status() != WL_CONNECTED)
       {
-         initWiFiConfigSTA();
-         switchState(STATE_CONFIG_STATION);
+        switchState(STATE_STARTUP);
       }
       break;
 
@@ -143,14 +163,12 @@ void loop() {
         shutdownWiFiSTA();
         switchState(STATE_LOWPOWER);
       }
-    // break;
-    // intentional fall-through
+      break;
+    
     case STATE_LOWPOWER:
       setLEDvalues("0/0", "0/0", "1/250");
-      if(getInputState(0) == true || getInputState(1) == true || getInputState(2) == true || getInputState(3) == true)
-      {
-         switchState(STATE_STARTUP);
-      }
+      // shut down ESP
+      ESP.deepSleep(0);
       break;
       
     case STATE_CONFIG_AP:
@@ -158,8 +176,6 @@ void loop() {
       setLEDvalues("0/0", "0/0", "200/200");
       break;
   }
-
-  locoHandler();
 }
 
 void switchState(state newState, uint32_t timeout)

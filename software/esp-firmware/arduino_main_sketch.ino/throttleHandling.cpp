@@ -27,11 +27,6 @@
 #include "lowbat.h"
 
 /**
- * Remember ESTOP setting
- */
-bool eSTOP = true;
-
-/**
  * Remember current direction setting
  */
 bool reverseOut = false;
@@ -73,222 +68,136 @@ void setLEDvalues(String led1, String led2, String led3)
 
     timeout = millis() + 5000;
   }
-  Serial.flush();
+
+  Serial.flush();  
 }
 
 /**
- * Set current throttle status to ESTOP
+ * Periodically check serial port for new information from the AVR and react accordingly
  */
-void setESTOP(void)
+void handleThrottle(void)
 {
-  eSTOP = true;
-}
-
-/**
- * Get current direction - returns true when reverse
- */
-bool getReverse(void)
-{
-  return reverseOut;
-}
-
-/**
- * Periodically check serial port for new information from the AVR
- * 
- * Return a string to be sent to wiThrottle server, may include multiple newlines
- */
-String handleThrottle(void)
-{
-  alignas(4) static uint8_t speedIn = 0;
-  static uint8_t speedOut = 0;
-  static bool reverseIn;
-
-  String ret = "";
-
-  // Parse input from AVR and react appropriately
-  String inputLine = Serial.readStringUntil('\n');
-  switch(inputLine.charAt(0))
+  // if there is input on the serial port
+  while(Serial.available() > 0)
   {
-    // ESTOP command received
-    case 'E':
-      if(inputLine.charAt(6) == 'D')
-      {
-        setESTOP();
-      }
-      break;
-
-    // CONF command received
-    case 'C':
-      if(inputLine.charAt(5) == 'D')
-      {
-        if(wiFredState == STATE_CONNECTED)
+    // Parse input from AVR and react appropriately
+    String inputLine = Serial.readStringUntil('\n');
+    switch(inputLine.charAt(0))
+    {
+      // ESTOP command received
+      case 'E':
+        if(inputLine.charAt(6) == 'D')
         {
-          // disconnect and start config mode
-          ret += String("MTA*<;>X\n");
           setESTOP();
-          ret += "Q\n";
-          switchState(STATE_CONFIG_STATION_COMING, 100);
         }
-        else if(wiFredState == STATE_CONFIG_STATION)
+        break;
+  
+      // CONF command received
+      case 'C':
+        if(inputLine.charAt(5) == 'D')
         {
-          shutdownWiFiConfigSTA();
-          switchState(STATE_CONNECTING);
-        }
-      }
-      break;
-
-    // Speed and direction command received
-    case 'S':
-      alignas(4) char direction;
-      if(sscanf(inputLine.c_str(), "S:%u:%c", &speedIn, &direction) == 2)
-      {
-        if(speedIn <= 126)
-        {
-          if(direction == 'F')
+          if(wiFredState == STATE_LOCO_ONLINE || wiFredState == STATE_CONNECTED || wiFredState == STATE_LOCO_CONNECTING)
           {
-            reverseIn = false;
-          }
-          else if(direction == 'R')
-          {
-            reverseIn = true;
-          }
-          else
-          {
+            // disconnect and start config mode
             setESTOP();
+            locoDisconnect();
+            initWiFiConfigSTA();
+            switchState(STATE_CONFIG_STATION_WAITING, 120 * 1000);
+          }
+          else if(wiFredState == STATE_CONFIG_STATION || wiFredState == STATE_CONFIG_STATION_WAITING)
+          {
+            shutdownWiFiConfigSTA();
+            switchState(STATE_STARTUP, 60 * 1000);
           }
         }
-        else
+        break;
+  
+      // Speed and direction command received
+      case 'S':
         {
-          speedIn = speedOut;
-          setESTOP();
-        }
-      }
-      break;
-
-    // Function command received
-    case 'F':
-      uint8_t f;
-      char upDown;
-      if(sscanf(inputLine.c_str(), "F%u_%c", (unsigned int *) &f, &upDown) == 2)
-      {
-        bool firstLoco = true;
-        for(uint8_t l = 0; l < 4 && f <= MAX_FUNCTION; l++)
-        {
-          if(locos[l].functions[f] == THROTTLE)
+          alignas(4) char direction;
+          alignas(4) unsigned int speedIn;
+          if(sscanf(inputLine.c_str(), "S:%u:%c", &speedIn, &direction) == 2)
           {
-            if(upDown == 'D')
+            if(speedIn <= 126)
             {
-              ret += String("MTA") + locoThrottleID[l] + "<;>F1" + f + "\n";
-              // if this is the first loco which uses this function
-              if(firstLoco)
+              if(direction == 'F')
               {
-                firstLoco = false;
-                // remember function status to match new locos
-                if(globalFunctionStatus[f] == ALWAYS_ON)
-                {
-                  globalFunctionStatus[f] = ALWAYS_OFF;
-                }
-                else if(globalFunctionStatus[f] == ALWAYS_OFF)
-                {
-                  globalFunctionStatus[f] = ALWAYS_ON;
-                }
+                setReverse(false);
+                setSpeed((uint8_t) speedIn);
               }
-            } 
-            else if(upDown == 'U')
+              else if(direction == 'R')
+              {
+                setReverse(true);
+                setSpeed((uint8_t) speedIn);
+              }
+              else
+              {
+                setESTOP();
+              }
+            }
+            else
             {
-              ret += String("MTA") + locoThrottleID[l] + "<;>F0" + f + "\n";
+              setESTOP();
             }
           }
         }
-      }
-      break;
-  }
+        break;
   
-  // Set ESTOP on direction change when not stopped, else copy actual direction and set correct directions for all locos
-  if(reverseIn != reverseOut)
-  {
-    if(speedIn != 0)
-    {
-      setESTOP();
-    }
-    else
-    {
-      reverseOut = reverseIn;
-      for(uint8_t l = 0; l < 4; l++)
-      {
-        if(reverseOut ^ locos[l].reverse)
+      // Function command received
+      case 'F':
         {
-          ret += String("MTA") + locoThrottleID[l] + "<;>R0\n";
+          alignas(4) unsigned int f;
+          alignas(4) char upDown;
+          if(sscanf(inputLine.c_str(), "F%u_%c", &f, &upDown) == 2)
+          {
+            if(upDown == 'D')
+            {
+              setFunction((uint8_t) f);
+            }
+            else if(upDown == 'U')
+            {
+              clearFunction((uint8_t) f);
+            }
+          }
         }
-        else
+        break;
+  
+      // Command to add a loco received
+      case '+':
         {
-          ret += String("MTA") + locoThrottleID[l] + "<;>R1\n";          
+          uint8_t l = inputLine.substring(2).toInt();
+          if(l >= 1 && l <= 4)
+          {
+            if(locoState[l-1] != LOCO_ACTIVE)
+            {
+              locoState[l-1] = LOCO_ACTIVATE;
+            }
+          }
         }
-      }
+        break;
+    
+      // Command to remove a loco received
+      case '-':
+        {
+          uint8_t l = inputLine.substring(2).toInt();
+          if(l >= 1 && l <= 4)
+          {
+            if(locoState[l-1] != LOCO_INACTIVE)
+            {
+              locoState[l-1] = LOCO_DEACTIVATE;
+            }
+          }
+        }
+        break;
+    
+      // Power Down command received
+      case 'P':
+        setESTOP();
+        locoDisconnect();
+        switchState(STATE_LOWPOWER_WAITING, 1000);
+        break;
     }
   }
-
-  // Send correct LED values
-  if(wiFredState == STATE_CONFIG_STATION)
-  {
-    setLEDvalues("200/200", "200/200", "200/200");
-    // make sure no locos move while or after someone configures the throttle on the WiFi system
-    setESTOP();
-  }
-  else
-  {
-    String ledForward, ledReverse;
-    if(lowBattery)
-    {
-      ledForward = "50/100";
-    }
-    else
-    {
-      ledForward = "100/100";
-    }
-    if(eSTOP)
-    {
-      ledReverse = "10/100";
-    }
-    else
-    {
-      ledReverse = "0/100";
-    }
-    if(reverseOut)
-    {
-      setLEDvalues(ledForward, ledReverse, "0/100");
-    }
-    else
-    {
-      setLEDvalues(ledReverse, ledForward, "0/100");
-    }
-  }
-
-  // Remove eSTOP setting on zero speed if set
-  if(eSTOP)
-  { 
-    static uint32_t timeout = 0;
-    if(millis() > timeout)
-      {
-        ret += String("MTA*<;>X\n");
-        timeout = millis() + 1000;
-      }
-    if(speedIn == 0)
-    {
-      eSTOP = false;
-    }
-  }
-  // If eSTOP not set, send speed command if there is a new speed or if timeout has been reached
-  else
-  {
-    static uint32_t timeout = 0;
-    if(millis() > timeout || speedIn != speedOut)
-    {
-      speedOut = speedIn;
-      ret += String("MTA*<;>V") + speedOut + "\n";
-      timeout = millis() + 2000;
-    }
-  }
-  return ret;
 }
 

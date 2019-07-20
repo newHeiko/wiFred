@@ -32,12 +32,9 @@
 
 enum functionInfo { THROTTLE, ALWAYS_ON, ALWAYS_OFF, UNKNOWN = THROTTLE };
 
-enum eLocoState { LOCO_OFFLINE, LOCO_CONNECTED, 
-                  LOCO_ACQUIRING, LOCO_ACQUIRING_FUNCTIONS = LOCO_ACQUIRING + 1, 
-                  LOCO_ACQUIRE_SINGLE, LOCO_ACQUIRE_SINGLE_FUNCTIONS = LOCO_ACQUIRE_SINGLE + 1, 
-                  LOCO_ONLINE };
+enum eLocoState { LOCO_ACTIVATE, LOCO_FUNCTIONS, LOCO_ACTIVE, LOCO_DEACTIVATE, LOCO_INACTIVE };
 
-extern eLocoState locoState;
+extern eLocoState locoState[4];
 
 extern functionInfo globalFunctionStatus[MAX_FUNCTION + 1];;
 
@@ -52,36 +49,76 @@ typedef struct
 #include "config.h"
 
 extern locoInfo locos[4];
-extern bool locoActive;
 extern serverInfo locoServer;
-extern bool e_allLocosOff;
 
 /**
  * Remember the Loco Address plus its prefix (L or S)
  */
 extern String locoThrottleID[4];
 
-#define LOCO1_INPUT 5
-#define LOCO2_INPUT 4
-#define LOCO3_INPUT 12
-#define LOCO4_INPUT 13
+/**
+ * Connect to wiThrottle server
+ */
+void locoConnect(void);
 
-extern const uint8_t inputPins[];
+/**
+ * Disconnect from wiThrottle server
+ */
+void locoDisconnect(void);
 
-void locoInit(void);
+/**
+ * Initialize connection to wiThrottle server with client ID etc. after receiving the greeting message
+ */
+void locoRegister(void);
 
+/**
+ * Call periodically to check response from wiThrottle server and send new speed/direction info
+ */
 void locoHandler(void);
 
-bool getInputState(uint8_t input);
+/**
+ * Transfer new speed value to wiThrottle handling code
+ * 
+ * Will be sent out by locoHandler if changed
+ */
+void setSpeed(uint8_t newSpeed);
 
-bool getInputChanged(uint8_t input);
+/**
+ * Send new direction value to wiThrottle handling code
+ * 
+ * Will be sent out to all locos if it is new
+ */
+void setReverse(bool newReverse);
+
+/**
+ * Retrieve current direction - returns true when reverse
+ */
+bool getReverse(void);
+
+/**
+ * Activate function (only of currently connected and function is throttle controlled)
+ */
+void setFunction(uint8_t f);
+
+/**
+ * Deactivate function (only of currently connected and function is throttle controlled)
+ */
+void clearFunction(uint8_t f);
+
+/**
+ * Set current throttle status to ESTOP
+ */
+void setESTOP(void);
 
 /**
  * Acquire a new loco for this throttle, including function setting according to function infos
- * 
- * Will return the same value if needs to be called more than once, loco + 1 if finished
  */
-uint8_t requestLoco(uint8_t loco);
+void requestLoco(uint8_t loco);
+
+/**
+ * Correctly set functions on newly acquired loco
+ */
+void requestLocoFunctions(uint8_t loco);
 
 #endif
 

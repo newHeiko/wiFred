@@ -21,6 +21,7 @@
  */
 
 #include "locoHandling.h"
+#include "lowbat.h"
 #include "config.h"
 #include "stateMachine.h"
 #include "throttleHandling.h"
@@ -31,22 +32,54 @@ bool locoActive = false;
 // String keeping the Loco Address plus its prefix (L or S)
 String locoThrottleID[4];
 
-bool inputState[4];
-bool inputChanged[4];
+/**
+ * Remember ESTOP setting
+ */
+bool eSTOP = true;
 
+/**
+ * Timeout to re-send ESTOP command
+ */
+uint32_t eStopTimeout = 0;
+
+/**
+ * Timeout to re-send SPEED command if unchanged
+ */
+uint32_t speedTimeout = 0;
+
+/**
+ * Client used to connect to wiThrottle server
+ */
 WiFiClient client;
 
-const uint8_t inputPins[] = {LOCO1_INPUT, LOCO2_INPUT, LOCO3_INPUT, LOCO4_INPUT};
+/**
+ * Speed of all currently attached locos
+ */
+uint8_t speed = 0;
 
-eLocoState locoState = LOCO_OFFLINE;
+/**
+ * Current "reverse setting" sent out to all locos
+ */
+bool myReverse = false;
 
+/**
+ * wiThrottle server and port to connect to
+ */
+serverInfo locoServer;
+
+/**
+ * Events from throttle
+ */
+eLocoState locoState[4] = { LOCO_INACTIVE, LOCO_INACTIVE, LOCO_INACTIVE, LOCO_INACTIVE };
+
+/**
+ * Remember status of functions
+ */
 functionInfo globalFunctionStatus[MAX_FUNCTION + 1] = { UNKNOWN,
                                              UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN,
                                              UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN,
                                              UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN,
                                              UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN };
-
-serverInfo locoServer;
 
 void locoInit(void)
 {
@@ -112,17 +145,52 @@ void locoHandler(void)
     }
   }
 
-  if (!locoActive)
+  if(emptyBattery)
   {
+    setESTOP();
+    bool allInactive = true;
+    for(uint8_t loco = 0; loco < 4; loco++)
+    {
+      if(locoState[loco] != LOCO_INACTIVE)
+      {
+        locoState[loco] = LOCO_DEACTIVATE;
+        allInactive = false;
+      }
+    }
+    if(allInactive)
+    {
+      locoDisconnect();
+      switchState(STATE_LOWPOWER_WAITING, 100);
+      return;
+    }
+  }
+  
+  if(!client.connected())
+  {
+    for(uint8_t loco = 0; loco < 4; loco++)
+    {
+      if(locoState[loco] == LOCO_ACTIVE)
+      {
+        locoState[loco] = LOCO_ACTIVATE;
+      }
+    }
+    switchState(STATE_CONNECTED, 60 * 1000);
+    Serial.println("OF");
     return;
   }
 
-  switch (locoState)
+  // send ESTOP command if requested
+  if(eSTOP && millis() > eStopTimeout)
   {
-    static uint8_t currentLoco;
-
-    case LOCO_OFFLINE:
-      if (wiFredState == STATE_CONNECTED)
+    client.print("MTA*<;>X\n");
+    eStopTimeout += 5000;
+  }
+  
+  switch(wiFredState)
+  {
+    case STATE_LOCO_ONLINE:
+      // remove ESTOP setting if speed is zero
+      if(speed == 0)
       {
         setLEDvalues("0/0", "0/0", "25/50");
         if(millis() > timeout)
@@ -132,8 +200,6 @@ void locoHandler(void)
           while(client.read() > -1)
             ;
           client.stop();
-          // the following line is a workaround for a memory leak bug in arduino 2.4.0/2.4.1: https://github.com/esp8266/Arduino/issues/4497
-          // not required any more in 2.4.2 client = WiFiClient();
           client.setTimeout(1000);
           if (client.connect(locoServer.name, locoServer.port))
           {
@@ -147,269 +213,352 @@ void locoHandler(void)
             timeout = millis() + 2000;
           }
         }
+        eSTOP = false;
       }
-      else if(wiFredState == STATE_CONFIG_STATION || wiFredState == STATE_CONFIG_STATION_COMING)
+      
+      // if not in emergency stop, send speed value to all locos
+      if(!eSTOP && millis() > speedTimeout)
       {
-        client.flush();
-        client.stop();
-        handleThrottle();
+        client.print(String("MTA*<;>V") + speed + "\n");
+        speedTimeout += 5000;
       }
-      break;
-
-    case LOCO_CONNECTED:
-      if (client.available())
-      {
-        String line = client.readStringUntil('\n');
-        if (line.startsWith("VN2.0"))
-        {
-          // flush all input data
-          while (client.read() > -1)
-            ;
-          uint8_t mac[6];
-          WiFi.macAddress(mac);
-          String id = String(mac[0], 16) + String(mac[1], 16) + String(mac[2], 16) + String(mac[3], 16) + String(mac[4], 16) + String(mac[5], 16);
-          client.print("HU" + id + "\n");
-          client.print(String("N") + throttleName + "\n");
-          client.print("*+\n");
-          timeout = millis() + 2000;
-          locoState = LOCO_ACQUIRING;
-          currentLoco = 0;
-          client.flush();
-        }
-      }
-      else if (millis() > timeout)
-      {
-        locoState = LOCO_OFFLINE;
-      }
- 
-      // if the connection is broken, return to connect state
-      if (!client.connected())
-      {
-        locoState = LOCO_OFFLINE;
-      }
-      break;
-
-    case LOCO_ACQUIRING:
-    case LOCO_ACQUIRING_FUNCTIONS:
-      // ignore all input changes while initially acquiring locos
-      getInputChanged(currentLoco);
-      if(getInputState(currentLoco))
-      {
-        currentLoco = requestLoco(currentLoco);
-      }
-      else
-      {
-        currentLoco++;
-      }
-      if (currentLoco >= 4)
-      {
-        locoState = LOCO_ONLINE;
-      }
-      else if (millis() > timeout)
-      {
-        locoState = LOCO_OFFLINE;
-      }
-      // if the connection is broken, return to connect state
-      if (!client.connected())
-      {
-        locoState = LOCO_OFFLINE;
-      }
-     break;
-
-    case LOCO_ACQUIRE_SINGLE:
-    case LOCO_ACQUIRE_SINGLE_FUNCTIONS:
-      // acquire loco - if done, switch back to normal state
-      if(requestLoco(currentLoco) > currentLoco)
-      {
-        locoState = LOCO_ONLINE;
-      }
-      else if(millis() > timeout)
-      {
-        locoState = LOCO_OFFLINE;        
-      }
-      // if the connection is broken, return to connect state
-      if (!client.connected())
-      {
-        locoState = LOCO_OFFLINE;
-      }
-      break;
-
-    case LOCO_ONLINE:
-      // send any information coming from the keypad/potentiometer
-      client.print(handleThrottle());
-
-      // flush all input data
-      while (client.read() > -1)
-        ;
-
+      
       // check if any of the loco selectors have been changed
-      for(currentLoco = 0; currentLoco < 4; currentLoco++)
+      for(uint8_t currentLoco = 0; currentLoco < 4; currentLoco++)
       {
-        if(getInputChanged(currentLoco))
+        if(locoState[currentLoco] == LOCO_FUNCTIONS)
+        {
+          requestLocoFunctions(currentLoco);
+          break;
+        }
+        if(locoState[currentLoco] == LOCO_ACTIVATE && locos[currentLoco].address != -1)
         {
           // make sure no loco (currently attached) is moving
           setESTOP();
-          // send ESTOP command
-          client.print(handleThrottle());
-          // if the new state is selected, acquire the new loco and skip out of loop
-          if(getInputState(currentLoco))
-          {
-            locoState = LOCO_ACQUIRE_SINGLE;
-            timeout = millis() + 2000;
-            break;
-          }
-          // if not, release loco and remove the loco from the throttle
-          else
-          {
-            client.print(String("MTA") + locoThrottleID[currentLoco] + "<;>r\n");
-            client.print(String("MT-") + locoThrottleID[currentLoco] + "<;>" + locoThrottleID[currentLoco] + "\n");
-          }
+          requestLoco(currentLoco);
+          break;
+        }
+        else if(locoState[currentLoco] == LOCO_DEACTIVATE)
+        {
+          setESTOP();
+          client.print(String("MTA") + locoThrottleID[currentLoco] + "<;>r\n");
+          client.print(String("MT-") + locoThrottleID[currentLoco] + "<;>" + locoThrottleID[currentLoco] + "\n");
+          locoState[currentLoco] = LOCO_INACTIVE;
         }
       }
-
       // flush all input data
+      client.flush();
       while (client.read() > -1)
         ;
-
-      // if throttle is going into low power mode (all locos deselected), also quit the client
-      if(wiFredState == STATE_LOWPOWER_WAITING)
-      {
-        client.print("Q\n");
-        client.flush();
-        client.stop();
-      }
-
-      // if the connection is broken, return to connect state
-      if (!client.connected())
-      {
-        locoState = LOCO_OFFLINE;
-      }
       break;
+
+    default:
+      // flush all input data
+      client.flush();
+      while (client.read() > -1)
+        ;
+      break;
+  }
+
+  String ledForward, ledReverse;
+  if(lowBattery)
+  {
+    ledForward = "50/100";
+  }
+  else
+  {
+    ledForward = "100/100";
+  }
+  if(eSTOP)
+  {
+    ledReverse = "30/50";
+  }
+  else
+  {
+    ledReverse = "0/100";
+  }
+  if(myReverse)
+  {
+    setLEDvalues(ledReverse, ledForward, "0/100");
+  }
+  else
+  {
+    setLEDvalues(ledForward, ledReverse, "0/100");
   }
 }
 
 /**
- * Acquire a new loco for this throttle, including function setting according to function infos
- *
- * Will return the same value if needs to be called more than once, loco + 1 if finished
+ * Connect to wiThrottle server
  */
-uint8_t requestLoco(uint8_t loco)
+void locoConnect(void)
+{
+  if(client.connect(locoServer.name, locoServer.port))
+  {
+    client.setNoDelay(true);
+    client.setTimeout(10);
+    switchState(STATE_LOCO_CONNECTING, 10 * 1000);
+  }
+}
+
+/**
+ * Disconnect from wiThrottle server
+ */
+void locoDisconnect(void)
+{
+  for(uint8_t loco = 0; loco < 4; loco++)
+  {
+    if(locoState[loco] == LOCO_ACTIVE)
+    {
+      locoState[loco] = LOCO_ACTIVATE;
+    }
+  }
+  client.print("Q\n");
+  Serial.println("OF");
+}
+
+/**
+ * Initialize connection to wiThrottle server with client ID etc. after receiving the greeting message
+ */
+void locoRegister(void)
+{
+  if(client.available())
+  {
+    String line = client.readStringUntil('\n');
+    if (line.startsWith("VN2.0"))
+    {
+      uint8_t mac[6];
+      WiFi.macAddress(mac);
+      String id = String(mac[0], 16) + String(mac[1], 16) + String(mac[2], 16) + String(mac[3], 16) + String(mac[4], 16) + String(mac[5], 16);
+      client.print("HU" + id + "\n");
+      client.print(String("N") + throttleName + "\n");
+      client.print("*+\n");
+      switchState(STATE_LOCO_ONLINE);
+      Serial.println("ON");
+      // flush all input data
+      while (client.read() > -1)
+        ;
+      client.flush();
+    }
+  }  
+  else if(!client.connected())
+  {
+    switchState(STATE_CONNECTED, 60 * 1000);
+    Serial.println("OF");
+  }
+}
+
+/**
+ * Activate function (only of currently connected and function is throttle controlled)
+ */
+void setFunction(uint8_t f)
+{
+  if(wiFredState != STATE_LOCO_ONLINE)
+  {
+    return;
+  }
+  bool firstLoco = true;
+  for(uint8_t l = 0; l < 4 && f <= MAX_FUNCTION; l++)
+  {
+    if(locos[l].functions[f] == THROTTLE)
+    {
+      client.print(String("MTA") + locoThrottleID[l] + "<;>F1" + f + "\n");
+      // if this is the first loco which uses this function
+      if(firstLoco)
+      {
+        firstLoco = false;
+        // remember function status to match new locos
+        if(globalFunctionStatus[f] == ALWAYS_ON)
+        {
+          globalFunctionStatus[f] = ALWAYS_OFF;
+        }
+        else if(globalFunctionStatus[f] == ALWAYS_OFF)
+        {
+          globalFunctionStatus[f] = ALWAYS_ON;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Deactivate function (only of currently connected and function is throttle controlled)
+ */
+void clearFunction(uint8_t f)
+{
+  if(wiFredState != STATE_LOCO_ONLINE)
+  {
+    return;
+  }
+  for(uint8_t l = 0; l < 4 && f <= MAX_FUNCTION; l++)
+  {
+    if(locos[l].functions[f] == THROTTLE)
+    {
+      client.print(String("MTA") + locoThrottleID[l] + "<;>F0" + f + "\n");
+    }
+  }
+}
+
+/**
+ * Set current direction
+ */
+void setReverse(bool newReverse)
+{
+  if(newReverse != myReverse)
+  {
+    if(speed != 0)
+    {
+      setESTOP();
+    }
+    myReverse = newReverse;
+    if(wiFredState != STATE_LOCO_ONLINE)
+    {
+      return;
+    }
+    for(uint8_t l = 0; l < 4; l++)
+    {
+      if(locoState[l] != LOCO_ACTIVE)
+      {
+        continue;
+      }
+      if(myReverse ^ locos[l].reverse)
+      {
+        client.print(String("MTA") + locoThrottleID[l] + "<;>R0\n");
+      }
+      else
+      {
+        client.print(String("MTA") + locoThrottleID[l] + "<;>R1\n");
+      }
+    }
+  }
+}
+
+/**
+ * Set current speed - if it is new, remove timeout
+ */
+void setSpeed(uint8_t newSpeed)
+{
+  if(speed != newSpeed)
+  {
+    speed = newSpeed;
+    speedTimeout = millis();
+  }
+}
+
+/**
+ * Set current throttle status to ESTOP
+ */
+void setESTOP(void)
+{
+  eStopTimeout = millis();
+  if(wiFredState == STATE_LOCO_ONLINE && !eSTOP)
+  {
+    client.print("MTA*<;>X\n");
+    eStopTimeout += 5000;
+  }
+  eSTOP = true;
+}
+
+/**
+ * Acquire a new loco for this throttle, including function setting according to function infos
+ */
+void requestLoco(uint8_t loco)
 {
   // only act if the loco is valid and active
   if(loco >= 4 || locos[loco].address == -1)
   {
-    return loco + 1;
+    return;
   }
   // first step for new loco: Send "loco acquire" command and send ESTOP command right afterwards to make sure loco is not moving
-  if(locoState == LOCO_ACQUIRING || locoState == LOCO_ACQUIRE_SINGLE)
+  if(locos[loco].longAddress)
   {
-    if(locos[loco].longAddress)
-    {
-      locoThrottleID[loco] = String("L") + locos[loco].address;
-    }
-    else
-    {
-      locoThrottleID[loco] = String("S") + locos[loco].address;      
-    }
-    client.print(String("MT+") + locoThrottleID[loco] + "<;>" + locoThrottleID[loco] + "\n");
-    setESTOP();
-    client.print(String("MTA") + locoThrottleID[loco] + "<;>X\n");
-    locoState = (eLocoState) (locoState + 1);
+    locoThrottleID[loco] = String("L") + locos[loco].address;
   }
   else
   {
-    String line = client.readStringUntil('\n');
-    if(line.startsWith(String("MTA") + locoThrottleID[loco]))
+    locoThrottleID[loco] = String("S") + locos[loco].address;      
+  }
+  client.print(String("MT+") + locoThrottleID[loco] + "<;>" + locoThrottleID[loco] + "\n");
+  client.print(String("MTA") + locoThrottleID[loco] + "<;>X\n");
+  setESTOP();
+  locoState[loco] = LOCO_FUNCTIONS;
+}
+
+/**
+ * Correctly set functions on newly acquired loco
+ */
+void requestLocoFunctions(uint8_t loco)
+{
+  String line = client.readStringUntil('\n');
+  if(line.startsWith(String("MTA") + locoThrottleID[loco]))
+  {
+    bool set = false;
+    uint8_t f = 0;
+    
+    switch(line.charAt(6 + locoThrottleID[loco].length()))
     {
-      bool set = false;
-      uint8_t f = 0;
-      
-      switch(line.charAt(6 + locoThrottleID[loco].length()))
-      {
-        // responding with function status
-        case 'F':
-          f = line.substring(8 + locoThrottleID[loco].length()).toInt();
-          // only work on functions up to our maximum
-          if(f > MAX_FUNCTION)
+      // responding with function status
+      case 'F':
+        f = line.substring(8 + locoThrottleID[loco].length()).toInt();
+        // only work on functions up to our maximum
+        if(f > MAX_FUNCTION)
+        {
+          break;
+        }
+        if(line.charAt(7 + locoThrottleID[loco].length()) == '1')
+        {
+          set = true;
+        }
+        if(locos[loco].functions[f] == THROTTLE)
+        {
+          // if this is the first loco that has this function controlled by our function keys, copy state
+          if(globalFunctionStatus[f] == UNKNOWN)
           {
-            break;
-          }
-          if(line.charAt(7 + locoThrottleID[loco].length()) == '1')
-          {
-            set = true;
-          }
-          if(locos[loco].functions[f] == THROTTLE)
-          {
-            // if this is the first loco that has this function controlled by our function keys, copy state
-            if(globalFunctionStatus[f] == UNKNOWN)
+            if(set)
             {
-              if(set)
-              {
-                globalFunctionStatus[f] = ALWAYS_ON;
-              }
-              else
-              {
-                globalFunctionStatus[f] = ALWAYS_OFF;
-              }
+              globalFunctionStatus[f] = ALWAYS_ON;
             }
-            // if this is not the first loco, match function status to other locos
-            // note: This does not work properly with momentary functions
-            else if( (set && globalFunctionStatus[f] == ALWAYS_OFF) || (!set && globalFunctionStatus[f] == ALWAYS_ON) )
+            else
             {
-              client.print(String("MTA") + locoThrottleID[loco] + "<;>F1" + f + "\n");
-              client.print(String("MTA") + locoThrottleID[loco] + "<;>F0" + f + "\n");
+              globalFunctionStatus[f] = ALWAYS_OFF;
             }
           }
-          // if the function is not throttle controlled, match function status to requested function status
+          // if this is not the first loco, match function status to other locos
           // note: This does not work properly with momentary functions
-          if( (set && locos[loco].functions[f] == ALWAYS_OFF) || (!set && locos[loco].functions[f] == ALWAYS_ON) )
+          else if( (set && globalFunctionStatus[f] == ALWAYS_OFF) || (!set && globalFunctionStatus[f] == ALWAYS_ON) )
           {
             client.print(String("MTA") + locoThrottleID[loco] + "<;>F1" + f + "\n");
-            client.print(String("MTA") + locoThrottleID[loco] + "<;>F0" + f + "\n");            
+            client.print(String("MTA") + locoThrottleID[loco] + "<;>F0" + f + "\n");
           }
-          break;
+        }
+        // if the function is not throttle controlled, match function status to requested function status
+        // note: This does not work properly with momentary functions
+        if( (set && locos[loco].functions[f] == ALWAYS_OFF) || (!set && locos[loco].functions[f] == ALWAYS_ON) )
+        {
+          client.print(String("MTA") + locoThrottleID[loco] + "<;>F1" + f + "\n");
+          client.print(String("MTA") + locoThrottleID[loco] + "<;>F0" + f + "\n");            
+        }
+        break;
 
-        // responding with direction status - take this as our chance to set correct direction (ignoring the one set before)
-        case 'R':
-          if(getReverse() ^ locos[loco].reverse)
-          {
-            client.print(String("MTA") + locoThrottleID[loco] + "<;>R0\n");
-          }
-          else
-          {
-            client.print(String("MTA") + locoThrottleID[loco] + "<;>R1\n");
-          }
-          break;
-         // last line of regular response, everything should be done by now, so switch to next loco and flush client buffer
-        case 's':
-          locoState = (eLocoState) (locoState - 1);
-          loco++;
-          // flush all input data
-          while (client.read() > -1)
-            ;
-          break;
-      }
+      // responding with direction status - take this as our chance to set correct direction (ignoring the one set before)
+      case 'R':
+        if(myReverse ^ locos[loco].reverse)
+        {
+          client.print(String("MTA") + locoThrottleID[loco] + "<;>R0\n");
+        }
+        else
+        {
+          client.print(String("MTA") + locoThrottleID[loco] + "<;>R1\n");
+        }
+        break;
+
+      // last line of regular response, everything should be done by now, so switch to online state and flush client buffer
+      case 's':
+        locoState[loco] = LOCO_ACTIVE;
+        // flush all input data
+        client.flush();
+        while (client.read() > -1)
+          ;
+        break;
     }
   }
-  client.flush();
-  return loco;
 }
-
-bool getInputState(uint8_t input)
-{
-  return inputState[input];
-}
-
-bool getInputChanged(uint8_t input)
-{
-  if (inputChanged[input])
-  {
-    inputChanged[input] = false;
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-}
-
