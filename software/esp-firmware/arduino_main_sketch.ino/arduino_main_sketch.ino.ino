@@ -18,10 +18,10 @@
  * This file ties everything together to initialize the hardware and
  * form the main loop.
  * 
- * This project was made for ESP12E/ESP12F with Arduino ESP version 2.4.1
- * Board settings: Generic ESP8266 Module, 160MHz, nodemcu, 26MHz, 80MHz, QIO, 
- * 4M (1M SPIFFS), 2, v2 Lower Memory, 
- * Serial, None, Only Sketch, 115200 on /dev/ttyUSB0
+ * This project was made for ESP12E/ESP12F with Arduino ESP version 2.5.0
+ * Board settings: Generic ESP8266 Module, 80MHz, Flash, Disabled, ck, 26MHz,
+ * 40MHz, DOUT (compatible), 4M (1M SPIFFS), 2, v1.4 Higher Bandwidth, 
+ * Disabled, None, Only Sketch, 115200 on /dev/ttyUSB0
  */
 
 #include "wifi.h"
@@ -60,9 +60,9 @@ void loop() {
   handleWiFi();
   lowBatteryHandler();
 
-static uint32_t test = 0;
-
 #ifdef DEBUG
+  static uint32_t test = 0;
+
   if(test < millis())
   {
     test = millis() + 5000;
