@@ -56,6 +56,7 @@ int main(void)
   while(true)
     {
       uartHandler();
+      handleADC();
 
       if(getKeyPresses(KEY_FORWARD | KEY_REVERSE) || speedTimeout == 0)
 	{

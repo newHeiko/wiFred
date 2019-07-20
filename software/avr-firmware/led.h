@@ -30,6 +30,9 @@ typedef struct
   uint8_t portBitmask;
 } ledInfo;
 
+/**
+ * Array of information about the LEDs
+ */
 extern volatile ledInfo LEDs[3];
 
 void initLEDs(void);

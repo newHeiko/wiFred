@@ -31,7 +31,13 @@
 #define NUM_AD_SAMPLES 16
 
 /**
- * Initialize A/D converter for free-running conversion mode
+ * Check if there is a new AD value and calculate correct output from it if there is
+ */
+void handleADC(void);
+
+/**
+ * Initialize A/D converter for single run conversion mode
+ * and start first conversion
  */
 void initADC(void);
 

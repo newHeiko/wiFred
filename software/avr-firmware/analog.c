@@ -21,26 +21,66 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <avr/io.h>
-#include "analog.h"
 #include <avr/interrupt.h>
+#include <util/atomic.h>
+
+#include "analog.h"
 
 /**
  * Flag to notify everyone of a speed update
  */
-volatile bool newSpeed = false;
+bool newSpeed = false;
 
 /**
  * Current speed value from potentiometer (0...126)
  */
-volatile uint8_t currentSpeed = 0;
+uint8_t currentSpeed = 0;
 
 /**
- * Initialize A/D converter for free-running conversion mode
+ * Flag to signify AD converter has calculated a new speed value
+ */
+volatile bool newADSpeedValue;
+
+/**
+ * Raw AD buffer
+ */
+volatile uint16_t ADValue;
+
+/**
+ * Check if there is a new AD value and calculate correct output from it if there is
+ */
+void handleADC(void)
+{
+  if(newADSpeedValue)
+    {      
+#if NUM_AD_SAMPLES != 16
+#warning "Change divisor so 1023 * NUM_AD_SAMPLES / divisor = 126"
+#endif
+      uint8_t temp;
+      uint16_t buffer;
+      ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+      {
+	buffer = ADValue;
+      }
+	
+      temp = 126 - (buffer / 129);
+      if(temp != currentSpeed)
+	{
+	  newSpeed = true;
+	  currentSpeed = temp;
+	}      
+      newADSpeedValue = false;
+    }
+}
+
+/**
+ * Initialize A/D converter for single run conversion mode
+ * and start first conversion
  */
 void initADC(void)
 {
   ADMUX = (1<<REFS0) | 7;
-  ADCSRA = (1<<ADEN) | (1<<ADATE) | (1<<ADIE) | (1<<ADPS2) | (1<<ADPS1);
+  ADCSRA = (1<<ADEN) | (1<<ADIE) | (1<<ADPS2) | (1<<ADPS1);
   ADCSRB = 0;
   ADCSRA |= (1<<ADSC);
 }
@@ -84,18 +124,12 @@ ISR(ADC_vect)
 
   if(++counter >= NUM_AD_SAMPLES)
     {
-      uint8_t temp;
+      ADValue = buffer;
+      newADSpeedValue = true;
+      
       counter = 0;
-
-      #if NUM_AD_SAMPLES != 16
-      #warning "Change divisor so 1023 * NUM_AD_SAMPLES / divisor = 126"
-      #endif
-      temp = 126 - (buffer / 129);
-      if(temp != currentSpeed)
-	{
-	  newSpeed = true;
-	  currentSpeed = temp;
-	}
       buffer = 0;
     }
+  // Start next AD conversion
+  ADCSRA |= (1<<ADSC);
 }
