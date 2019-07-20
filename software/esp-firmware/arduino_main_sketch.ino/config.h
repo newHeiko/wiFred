@@ -29,7 +29,7 @@
 
 #define SERVER_CHARS 21
 
-#define EEPROM_VALID 4
+#define EEPROM_VALID 5
 
 typedef struct
 {
@@ -43,8 +43,8 @@ typedef struct
 extern char throttleName[NAME_CHARS];
 
 
-enum eepromAddresses { ID_CLOCK, ID_LOCOS, NAME, WLAN_SSID = NAME + NAME_CHARS, WLAN_KEY = WLAN_SSID + SSID_CHARS,
-  LOCO_ACTIVE = WLAN_KEY + KEY_CHARS, LOCO_SERVER, LOCO1 = LOCO_SERVER + sizeof(serverInfo), LOCO2 = LOCO1 + sizeof(locoInfo), LOCO3 = LOCO2 + sizeof(locoInfo), LOCO4 = LOCO3 + sizeof(locoInfo)
+enum eepromAddresses { ID_LOCOS, NAME, WLAN_SSID = NAME + NAME_CHARS, WLAN_KEY = WLAN_SSID + SSID_CHARS,
+  LOCO_SERVER = WLAN_KEY + KEY_CHARS, LOCO1 = LOCO_SERVER + sizeof(serverInfo), LOCO2 = LOCO1 + sizeof(locoInfo), LOCO3 = LOCO2 + sizeof(locoInfo), LOCO4 = LOCO3 + sizeof(locoInfo)
   };
 
 /**

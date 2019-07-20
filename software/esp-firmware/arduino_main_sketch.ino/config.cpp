@@ -57,7 +57,6 @@ void initConfig(void)
   EEPROM.begin(512);
 
   // check for valid EEPROM data
-  uint8_t idClock = EEPROM.read(ID_CLOCK);
   uint8_t idLoco = EEPROM.read(ID_LOCOS);
 
 // initialize to default values
@@ -65,7 +64,6 @@ void initConfig(void)
   memcpy(wlan.key, "undef", sizeof("undef"));
   memcpy(throttleName, "undef", sizeof("undef"));
   memcpy(locoServer.name, "undef", sizeof("undef"));
-  locoActive = true;
   locoServer.port = 12090;
 
   for(int i=0; i<4; i++)
@@ -84,7 +82,6 @@ void initConfig(void)
     eepromReadBlock((uint8_t *) throttleName, NAME, sizeof(throttleName)/sizeof(throttleName[0]));
     throttleName[sizeof(throttleName)/sizeof(throttleName[0]) - 1] = '\0';
     wifiSaved = true;
-    locoActive = (bool) EEPROM.read(LOCO_ACTIVE);
     eepromReadBlock((uint8_t *) &locoServer, LOCO_SERVER, sizeof(locoServer)); 
     eepromReadBlock((uint8_t *) &(locos[0]), LOCO1, sizeof(locos[0]));
     eepromReadBlock((uint8_t *) &(locos[1]), LOCO2, sizeof(locos[1]));
@@ -101,10 +98,6 @@ void saveGeneralConfig()
   eepromWriteBlock(NAME, (uint8_t *) throttleName, sizeof(throttleName)/sizeof(throttleName[0]));
 
   wifiSaved = true;
-  if(clockSaved)
-  {
-    EEPROM.write(ID_CLOCK, EEPROM_VALID);
-  }
   if(locoSaved)
   {
     EEPROM.write(ID_LOCOS, EEPROM_VALID);
@@ -114,7 +107,6 @@ void saveGeneralConfig()
 
 void saveLocoConfig(bool mainSave)
 {
-  EEPROM.write(LOCO_ACTIVE, locoActive);
   eepromWriteBlock(LOCO_SERVER, (uint8_t *) &locoServer, sizeof(locoServer)); 
   eepromWriteBlock(LOCO1, (uint8_t *) &(locos[0]), sizeof(locos[0]));
   eepromWriteBlock(LOCO2, (uint8_t *) &(locos[1]), sizeof(locos[1]));
