@@ -33,7 +33,7 @@
 /**
  * Tolerance for a new speed to be taken as "same speed"
  */
-#define SPEED_TOLERANCE 1
+#define SPEED_TOLERANCE 0
 
 /**
  * Initialize A/D converter for free-running conversion mode

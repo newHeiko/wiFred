@@ -98,8 +98,8 @@ ISR(ADC_vect)
 		 || (temp == 0 && currentSpeed <= SPEED_TOLERANCE) ) ) )
 	{
 	  newSpeed = true;
-	  currentSpeed = temp;
 	}
+      currentSpeed = temp;
       buffer = 0;
     }
 }
