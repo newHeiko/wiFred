@@ -26,37 +26,30 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "wifi.h"
-
-#define SERVER_CHARS 21
-
-#define EEPROM_VALID 5
-
-typedef struct
-{
-  char name[SERVER_CHARS];
-  uint16_t port;
-} serverInfo;
-
 #include "locoHandling.h"
 
-#define NAME_CHARS 21
-extern char throttleName[NAME_CHARS];
+// Filenames and field names on SPIFFS
+#define FN_SERVER "server.txt"
+#define FIELD_SERVER_NAME "name"
+#define FIELD_SERVER_PORT "port"
+#define FIELD_SERVER_AUTOMATIC "automatic"
 
+#define FN_NAME "name.txt"
+#define FIELD_NAME_NAME "name"
 
-enum eepromAddresses { ID_LOCOS, NAME, WLAN_SSID = NAME + NAME_CHARS, WLAN_KEY = WLAN_SSID + SSID_CHARS,
-  LOCO_SERVER = WLAN_KEY + KEY_CHARS, LOCO1 = LOCO_SERVER + sizeof(serverInfo), LOCO2 = LOCO1 + sizeof(locoInfo), LOCO3 = LOCO2 + sizeof(locoInfo), LOCO4 = LOCO3 + sizeof(locoInfo)
-  };
+#define FN_WIFI_STUB "wifi"
+#define FIELD_WIFI_SSID "ssid"
+#define FIELD_WIFI_PSK "key"
 
 /**
- * Read all configuration from EEPROM
+ * A user-given name for this device
+ */
+extern char * throttleName;
+
+/**
+ * Read all configuration from SPIFFS
  */
 void initConfig(void);
-
-/**
- * Check for slide switch settings to enter configuration mode and
- * handle configuration requests
- */
-void configHandler(void);
 
 /**
  * Save general throttle configuration
@@ -64,11 +57,26 @@ void configHandler(void);
 void saveGeneralConfig();
 
 /**
+ * Save loco server settings
+ */
+void saveLocoServer();
+
+/**
  * Save loco configuration (also call to save function mappings)
  * 
- * @param mainSave  Set to false when only function mappings are new
+ * @param loco  Number of loco to save [0..3]
  */
-void saveLocoConfig(bool mainSave = true);
+void saveLocoConfig(uint8_t loco);
+
+/**
+ * Save WiFi configuration
+ */
+void saveWiFiConfig();
+
+/**
+ * Reformat configuration filesystem
+ * Resets everything to factory defaults
+ */
+void deleteAllConfig();
 
 #endif
-

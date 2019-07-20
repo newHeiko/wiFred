@@ -21,16 +21,18 @@
 #ifndef _WIFI_H_
 #define _WIFI_H_
 
+#include <vector>
+
 #define SSID_CHARS 21
 #define KEY_CHARS 21
 
 typedef struct
 {
-  char ssid[SSID_CHARS];
-  char key[KEY_CHARS];
-} t_wlan;
+  char * ssid;
+  char * key;
+} wifiAPEntry;
 
-extern t_wlan wlan;
+extern std::vector<wifiAPEntry> apList;
 
 void initWiFi(void);
 
