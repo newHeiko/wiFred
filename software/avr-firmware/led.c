@@ -24,55 +24,11 @@
 
 volatile ledInfo LEDs[3];
 
-/**
- * Initialize LED output ports
- */
 void initLEDs(void)
 {
-  DDRB |= (1<<PB4) | (1<<PB5);
-  DDRC |= (1<<PC4);
-}
+  LEDs[0].portBitmask = (1<<PD2);
+  LEDs[1].portBitmask = (1<<PD3);
+  LEDs[2].portBitmask = (1<<PD5);
 
-/**
- * Turn LED on
- *
- * Parameter: i [0..2]: LED to turn on
- */
-void setLEDoutput(uint8_t led)
-{
-  switch(led)
-    {
-    case LED_FORWARD:
-      PORTB &= ~(1<<PB4);
-      break;
-    case LED_REVERSE:
-      PORTB &= ~(1<<PB5);
-      break;
-    case LED_STOP:
-      PORTC &= ~(1<<PC4);
-      break;
-    }
+  DDRD = (1<<PD2) | (1<<PD3) | (1<<PD5);
 }
-      
-/**
- * Turn LED off
- *
- * Parameter: i [0..2]: LED to turn off
- */
-void clearLEDoutput(uint8_t led)
-{
-  switch(led)
-    {
-    case LED_FORWARD:
-      PORTB |= (1<<PB4);
-      break;
-    case LED_REVERSE:
-      PORTB |= (1<<PB5);
-      break;
-    case LED_STOP:
-      PORTC |= (1<<PC4);
-      break;
-    }
-}
-
-

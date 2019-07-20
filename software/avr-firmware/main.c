@@ -34,15 +34,6 @@
 #include "timer.h"
 #include "keypad.h"
 
-void rollover(uint8_t * val)
-{
-  (*val)++;
-  if(*val > 2)
-    {
-      *val = 0;
-    }
-}   
-
 int main(void)
 {
   // initialize power save settings and system clock prescaler
@@ -51,9 +42,9 @@ int main(void)
   power_timer0_enable();
   clock_prescale_set(clock_div_4);
 
-  // enable pullup resistors and matrix readout
-  PORTC = 0x0f;
-  PORTD = 0xf0 | (1<<PD2);
+  // enable pullup resistors
+  PORTB = KEY_FORWARD | KEY_REVERSE | KEY_ESTOP | KEY_SHIFT | KEY_SHIFT2;
+  PORTC = 0x1f;
 
   initADC();
   initUART();
@@ -64,7 +55,6 @@ int main(void)
 
   while(true)
     {
-      static uint8_t led = 0;
       uartHandler();
 
       if(getKeyPresses(KEY_FORWARD | KEY_REVERSE) || speedTimeout == 0)
@@ -103,11 +93,7 @@ int main(void)
 	{
 	  uartSendData("F0_UP\r\n", sizeof("F0_UP\r\n") - 1);
 	}
-#ifdef LITHIUM_BATTERY
-      for(uint8_t f=1; f<9; f++)
-#else
-      for(uint8_t f=1; f<7; f++)
-#endif
+      for(uint8_t f=1; f<5; f++)
 	{
 	  char buffer[sizeof("F00_DN\r\n")];
 	  int8_t ret = functionHandler(buffer, f);
@@ -121,7 +107,7 @@ int main(void)
 	if(getKeyPresses(KEY_ESTOP))
 	  {
 	    config = false;
-	    if(getKeyState(KEY_SHIFT))
+	    if(getKeyState(KEY_SHIFT | KEY_SHIFT2))
 	      {
 		config = true;
 		uartSendData("CONF_DN\r\n", sizeof("CONF_DN\r\n") - 1);
