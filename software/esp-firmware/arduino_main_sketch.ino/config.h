@@ -41,6 +41,12 @@
 #define FIELD_WIFI_SSID "ssid"
 #define FIELD_WIFI_PSK "key"
 
+#define FN_LOCO_STUB "loco"
+#define FIELD_LOCO_ADDRESS "address"
+#define FIELD_LOCO_LONG "long"
+#define FIELD_LOCO_REVERSE "reverse"
+#define FIELD_LOCO_FUNCTIONS "functions"
+
 /**
  * A user-given name for this device
  */
