@@ -233,7 +233,7 @@ void writeMainPage()
     locos[2].reverse = server.hasArg("loco.reverse3");
     locos[3].reverse = server.hasArg("loco.reverse4");
 
-    saveLocoConfig();
+    saveLocoConfig(7);
   }
       
   // check if this is a "set general configuration" request
@@ -292,11 +292,14 @@ void writeMainPage()
               + "<body><h1>General configuration</h1>\r\n"
               + "<form action=\"index.html\" method=\"get\"><table border=0>"
               + "<tr><td>Throttle name (max " + String(sizeof(throttleName)/sizeof(throttleName[0]) - 1) + " chars):</td><td><input type=\"text\" name=\"throttleName\" value=\"" + throttleName + "\"></td></tr>"
-              + "<tr><td>WiFi SSID (max " + String(sizeof(wlan.ssid)/sizeof(wlan.ssid[0]) - 1) + " chars):</td><td><input type=\"text\" name=\"wifi.ssid\" value=\"" + wlan.ssid + "\"></td></tr>"
-              + "<tr><td>WiFi PSK (max " + String(sizeof(wlan.key)/sizeof(wlan.key[0]) - 1) + " chars):</td><td><input type=\"text\" name=\"wifi.key\" value=\"" + wlan.key + "\"></td></tr>"
               + "<tr><td colspan=2><input type=\"submit\"></td></tr></table></form>\r\n";
   resp        += String("<hr>Loco configuration<hr>\r\n")
-              + "<a href=loco.html>Loco configuration subpage</a>\r\n";
+              + "<table border=0><form action=\"index.html\" method=\"get\">"
+              + "<tr><td>Clock server and port: </td>"
+              + "<td>http://<input type=\"text\" name=\"loco.serverName\" value=\"" + locoServer.name + "\">:<input type=\"text\" name=\"loco.serverPort\" value=\"" + locoServer.port + "\"></td></tr>"
+              + "<tr><td>Find server automatically through Zeroconf/Bonjour?</td><td><input type=\"checkbox\" name=\"loco.automatic\"" + (locoServer.automatic ? " checked" : "") + ">"
+              + "Using " + (locoServer.automatic && automaticServer != nullptr ? automaticServer : locoServer.name) + ":" + locoServer.port + "</td></tr>"
+              + "<tr><td colspan=2><input type=\"submit\" value=\"Save loco server settings\"</td></tr></form></table>";
   resp        += String("<hr>Restart system to enable new WiFi settings<hr>\r\n")
               + "<a href=restart.html>Restart system to enable new WiFi settings</a>\r\n"
               + "<hr><hr>Status page<hr>\r\n"
@@ -306,7 +309,7 @@ void writeMainPage()
               + "</body></html>";
   server.send(200, "text/html", resp);
 
-  String resp = String("<!DOCTYPE HTML>\r\n")
+  resp = String("<!DOCTYPE HTML>\r\n")
               + "<html><head><title>wiFred configuration page</title></head>\r\n"
               + "<body><h1>Loco configuration</h1>\r\n"
               + "<form action=\"loco.html\" method=\"get\"><table border=0>"
@@ -380,7 +383,7 @@ void writeStatusPage()
               + "<tr><td colspan=2><a href=\"/\">Back to main configuration page</a></td></tr></table>\r\n"
               + "</body></html>";
 
-  String resp = String("<!DOCTYPE HTML>\r\n")
+  resp = String("<!DOCTYPE HTML>\r\n")
                 + "<html><head><title>wiClock configuration page</title></head>\r\n"
                 + "<body><h1>wiClock configuration page</h1>\r\n"
                 + "<hr>General configuration<hr>\r\n"
@@ -405,37 +408,12 @@ void writeStatusPage()
   resp        += String("<a href=restart.html>Restart wiClock to enable new WiFi settings</a>\r\n")
                  + " WiFi settings will not be active until restart.\r\n";
 
-  snprintf(timeString, sizeof(timeString) / sizeof(timeString[0]), "%02d:%02d:%02d", startupTime.hours, startupTime.minutes, startupTime.seconds);
-
-  resp        += String("<hr>Clock configuration<hr>")
-                 + "<table border=0><form action=\"index.html\" method=\"get\">"
-                 + "<tr><td>Clock server and port: </td>"
-                 + "<td>http://<input type=\"text\" name=\"clock.serverName\" value=\"" + clockServer.name + "\">:<input type=\"text\" name=\"clock.serverPort\" value=\"" + clockServer.port + "\">/json/time</td></tr>"
-                 + "<tr><td>Find server automatically through Zeroconf/Bonjour?</td><td><input type=\"checkbox\" name=\"clock.automatic\"" + (clockServer.automatic ? " checked" : "") + ">"
-                 + "Using http://" + (clockServer.automatic && automaticServer != nullptr ? automaticServer : clockServer.name) + ":" + clockServer.port + "/json/time</td></tr>"
-                 + "<tr><td colspan=2><input type=\"submit\" value=\"Save clock server settings\"</td></tr></form>"
-                 + "<form action=\"index.html\" method=\"get\">"
-                 + "<tr><td>Startup time (format: H:M:S):</td><td><input type=\"text\" name=\"clock.startUp\" value=\"" + timeString + "\"></td></tr>"
-                 + "<tr><td>Startup clock rate:</td><td><input type=\"text\" name=\"clock.startupRate\" value=\"" + startupTime.rate10 / 10.0 + "\"></td></tr>"
-                 + "<tr><td colspan=2><input type=\"submit\" value=\"Save startup time and rate\"</td></tr></form>"
-                 + "<form action=\"index.html\" method=\"get\">"
-                 + "<tr><td>Clock offset from UTC (hours):</td><td><input type=\"text\" name=\"clock.offset\" value=\"" + clockOffset + "\"></td></tr>"
-                 + "<tr><td>Maximum clock rate:</td><td><input type=\"text\" name=\"clock.maxClockRate\" value=\"" + clockMaxRate + "\"></td></tr>"
-                 + "<tr><td>Pulse length for clock (milliseconds):</td><td><input type=\"text\" name=\"clock.pulseLength\" value=\"" + clockPulseLength + "\"></td></tr>"
-                 + "<tr><td conspan=2><input type=\"submit\" value=\"Save clock configuration\"></td></tr></table></form>\r\n";
-
-  snprintf(timeString, sizeof(timeString) / sizeof(timeString[0]), "%02d:%02d:%02d", ourTime.hours, ourTime.minutes, ourTime.seconds);
   resp        += String("<hr>wiClock status<hr>\r\n")
                  + "<table border=0>"
-                 + "<tr><td>Battery voltage: </td><td>" + batteryVoltage + " mV" + (lowBattery ? " Battery LOW" : "" ) + "</td></tr>\r\n"
-                 + "<tr><td>System time: </td><td>" + timeString + "</td></tr>\r\n";
-  
-  snprintf(timeString, sizeof(timeString) / sizeof(timeString[0]), "%02d:%02d:%02d", networkTime.hours, networkTime.minutes, networkTime.seconds);
-  resp        += String("<tr><td>Network time: </td><td>") + timeString + "</td></tr>\r\n"
-                 + "<tr><td>Clock rate: </td><td>" + ourTime.rate10 / 10.0 + "</td></tr></table>\r\n"
-                 + "<hr>wiClock system<hr>\r\n"
-                 + "<a href=resetConfig.html>Reset wiClock to factory defaults</a>\r\n"
-                 + "<a href=update>Update wiClock firmware</a>\r\n"
+                 + "<tr><td>Battery voltage: </td><td>" + batteryVoltage + " mV" + (lowBattery ? " Battery LOW" : "" ) + "</td></tr></table>\r\n"
+                 + "<hr>wiFred system<hr>\r\n"
+                 + "<a href=resetConfig.html>Reset wiFred to factory defaults</a>\r\n"
+                 + "<a href=update>Update wiFred firmware</a>\r\n"
                  + "</body></html>";
   server.send(200, "text/html", resp);
 }
