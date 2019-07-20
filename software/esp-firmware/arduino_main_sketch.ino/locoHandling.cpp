@@ -240,7 +240,7 @@ void locoHandler(void)
           requestLocoFunctions(currentLoco);
           break;
         }
-        if(locoState[currentLoco] == LOCO_ACTIVATE && locos[currentLoco].address != -1)
+        else if(locoState[currentLoco] == LOCO_ACTIVATE && locos[currentLoco].address != -1)
         {
           // make sure no loco (currently attached) is moving
           setESTOP();
@@ -254,11 +254,15 @@ void locoHandler(void)
           client.print(String("MT-") + locoThrottleID[currentLoco] + "<;>" + locoThrottleID[currentLoco] + "\n");
           locoState[currentLoco] = LOCO_INACTIVE;
         }
+        else if(currentLoco == 3)
+        {
+          // if none of the locos had any status change,
+          // flush all input data
+          client.flush();
+          while (client.read() > -1)
+            ;
+        }
       }
-      // flush all input data
-      client.flush();
-      while (client.read() > -1)
-        ;
       break;
 
     default:
@@ -539,8 +543,18 @@ void requestLoco(uint8_t loco)
 void requestLocoFunctions(uint8_t loco)
 {
   String line = client.readStringUntil('\n');
+#ifdef DEBUG
+  Serial.println();
+  Serial.println(line);
+#endif
   if(line.startsWith(String("MTA") + locoThrottleID[loco]))
   {
+#ifdef DEBUG
+  Serial.println(line);
+  Serial.println(locoThrottleID[loco]);
+  Serial.println(String("") + loco + " " + line.charAt(6 + locoThrottleID[loco].length()));
+#endif
+
     bool set = false;
     uint8_t f = 0;
     
