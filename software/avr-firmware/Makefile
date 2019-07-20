@@ -277,7 +277,7 @@ ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
 # Default target.
 all: begin gccversion sizebefore build sizeafter finished end
 
-build: elf hex eep lss sym
+build: elf hex lss sym
 
 elf: $(TARGET).elf
 hex: $(TARGET).hex
