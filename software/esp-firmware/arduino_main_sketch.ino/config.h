@@ -37,7 +37,6 @@ typedef struct
   uint16_t port;
 } serverInfo;
 
-#include "clockHandling.h"
 #include "locoHandling.h"
 
 #define NAME_CHARS 21
@@ -45,8 +44,7 @@ extern char throttleName[NAME_CHARS];
 
 
 enum eepromAddresses { ID_CLOCK, ID_LOCOS, NAME, WLAN_SSID = NAME + NAME_CHARS, WLAN_KEY = WLAN_SSID + SSID_CHARS,
-  CLOCK_ACTIVE = WLAN_KEY + KEY_CHARS, CLOCK_SERVER, CLOCK_PULSE_LENGTH = CLOCK_SERVER + sizeof(serverInfo), CLOCK_MAX_RATE, CLOCK_OFFSET, CLOCK_STARTUP,
-  LOCO_ACTIVE = CLOCK_STARTUP + sizeof(clockInfo), LOCO_SERVER, LOCO1 = LOCO_SERVER + sizeof(serverInfo), LOCO2 = LOCO1 + sizeof(locoInfo), LOCO3 = LOCO2 + sizeof(locoInfo), LOCO4 = LOCO3 + sizeof(locoInfo)
+  LOCO_ACTIVE = WLAN_KEY + KEY_CHARS, LOCO_SERVER, LOCO1 = LOCO_SERVER + sizeof(serverInfo), LOCO2 = LOCO1 + sizeof(locoInfo), LOCO3 = LOCO2 + sizeof(locoInfo), LOCO4 = LOCO3 + sizeof(locoInfo)
   };
 
 /**

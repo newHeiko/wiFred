@@ -24,7 +24,6 @@
 #include <ESP8266WebServer.h>
 #include "wifi.h"
 #include "locoHandling.h"
-#include "clockHandling.h"
 #include "config.h"
 #include "lowbat.h"
 #include "Ticker.h"
@@ -128,78 +127,12 @@ void writeMainPage()
               + "<tr><td>WiFi SSID (max " + String(sizeof(wlan.ssid)/sizeof(wlan.ssid[0]) - 1) + " chars):</td><td><input type=\"text\" name=\"wifi.ssid\" value=\"" + wlan.ssid + "\"></td></tr>"
               + "<tr><td>WiFi PSK (max " + String(sizeof(wlan.key)/sizeof(wlan.key[0]) - 1) + " chars):</td><td><input type=\"text\" name=\"wifi.key\" value=\"" + wlan.key + "\"></td></tr>"
               + "<tr><td colspan=2><input type=\"submit\"></td></tr></table></form>\r\n";
-
-
-  if(!locoActive)
-  {
-    resp      += String("<hr>Clock configuration<hr>\r\n")
-              + "<a href=clock.html>Clock configuration subpage</a>\r\n";
-  }
-  if(!clockActive)
-  {
-    resp      += String("<hr>Loco configuration<hr>\r\n")
+  resp        += String("<hr>Loco configuration<hr>\r\n")
               + "<a href=loco.html>Loco configuration subpage</a>\r\n";
-  }
   resp        += String("<hr>Restart system to enable new WiFi settings<hr>\r\n")
               + "<a href=restart.html>Restart system to enable new WiFi settings</a>\r\n"
               + "<hr><hr>Status page<hr>\r\n"
               + "<a href=status.html>wiFred status subpage</a>\r\n"
-              + "</body></html>";
-  server.send(200, "text/html", resp);
-}
-
-void writeClockPage()
-{
-  #ifdef DEBUG
-  Serial.println("Clock page");
-  #endif
-  // check if this is a "set configuration" request
-  if(server.hasArg("clock.serverName") && server.hasArg("clock.serverPort") && server.hasArg("clock.startUp"))
-  {
-    clockActive = server.hasArg("clock.enabled");
-    readString(clockServer.name, sizeof(clockServer.name)/sizeof(clockServer.name[0]), server.arg("clock.serverName"));
-    clockServer.port = server.arg("clock.serverPort").toInt();
-    String startupString = server.arg("clock.startUp");
-    alignas(4) uint8_t hours, minutes, seconds;
-    
-    if(sscanf(startupString.c_str(), "%u:%u:%u", &hours, &minutes, &seconds) == 3)
-    {
-      if(hours < 24 && minutes < 60 && seconds < 60)
-      {
-        startupTime.hours = hours % 12;
-        startupTime.minutes = minutes;
-        startupTime.seconds = seconds;
-      }
-    }
-    clockOffset = server.arg("clock.offset").toInt();
-    clockMaxRate = server.arg("clock.maxClockRate").toInt();
-    startupTime.rate10 = (uint8_t) 10 * server.arg("clock.startupRate").toFloat();
-    if(startupTime.rate10 > 10 * clockMaxRate)
-    {
-      startupTime.rate10 = 10 * clockMaxRate;
-    }
-    clockPulseLength = server.arg("clock.pulseLength").toInt();
-
-    saveClockConfig();
-  }
-  
-  
-  char startupString[9];
-  snprintf(startupString, sizeof(startupString)/sizeof(startupString[0]), "%02d:%02d:%02d", startupTime.hours, startupTime.minutes, startupTime.seconds);
-
-  String resp = String("<!DOCTYPE HTML>\r\n")
-              + "<html><head><title>wiFred configuration page</title></head>\r\n"
-              + "<body><h1>Clock configuration</h1>\r\n"
-              + "<form action=\"clock.html\" method=\"get\"><table border=0>"
-              + "<tr><td>Enabled?</td><td><input type=\"checkbox\" name=\"clock.enabled\"" + (clockActive ? " checked" : "") + "></td></tr>"
-              + "<tr><td>Clock server and port: </td>"
-                + "<td>http://<input type=\"text\" name=\"clock.serverName\" value=\"" + clockServer.name + "\">:<input type=\"text\" name=\"clock.serverPort\" value=\"" + clockServer.port + "\">/json/time</td></tr>"
-              + "<tr><td>Startup time (format: H:M:S):</td><td><input type=\"text\" name=\"clock.startUp\" value=\"" + startupString + "\"></td></tr>"
-              + "<tr><td>Clock offset from UTC (hours):</td><td><input type=\"text\" name=\"clock.offset\" value=\"" + clockOffset + "\"></td></tr>"
-              + "<tr><td>Startup clock rate:</td><td><input type=\"text\" name=\"clock.startupRate\" value=\"" + startupTime.rate10 / 10.0 + "\"></td></tr>"
-              + "<tr><td>Maximum clock rate:</td><td><input type=\"text\" name=\"clock.maxClockRate\" value=\"" + clockMaxRate + "\"></td></tr>"
-              + "<tr><td>Pulse length for clock (milliseconds):</td><td><input type=\"text\" name=\"clock.pulseLength\" value=\"" + clockPulseLength + "\"></td></tr>"
-              + "<tr><td><input type=\"submit\"></td><td><a href=\"/\">Back to main configuration page (unsaved data will be lost)</a></td></tr></table></form>\r\n"
               + "</body></html>";
   server.send(200, "text/html", resp);
 }
@@ -310,17 +243,11 @@ void writeFuncMapPage()
 
 void writeStatusPage()
 {
-  char timeString[9];
-  snprintf(timeString, sizeof(timeString)/sizeof(timeString[0]), "%02d:%02d:%02d", ourTime.hours, ourTime.minutes, ourTime.seconds);
   String resp = String("<!DOCTYPE HTML>\r\n")
               + "<html><head><title>wiFred status page</title></head>\r\n"
               + "<body><h1>wiFred status</h1>\r\n"
               + "<table border=0>"
               + "<tr><td>Battery voltage: </td><td>" + batteryVoltage + " mV" + (lowBattery ? " Battery LOW" : "" ) + "</td></tr>\r\n"
-              + "<tr><td>System time: </td><td>" + timeString + "</td></tr>\r\n";
-  snprintf(timeString, sizeof(timeString)/sizeof(timeString[0]), "%02d:%02d:%02d", networkTime.hours, networkTime.minutes, networkTime.seconds);
-  resp        += String("<tr><td>Network time: </td><td>") + timeString + "</td></tr>\r\n"
-              + "<tr><td>Clock rate: </td><td>" + ourTime.rate10 / 10.0 + "</td></tr>\r\n"
               + "<tr><td colspan=2><a href=\"/\">Back to main configuration page</a></td></tr></table>\r\n"
               + "</body></html>";
   server.send(200, "text/html", resp);
@@ -334,7 +261,6 @@ void restartESP()
 void initWiFi(void)
 {
   server.on("/", writeMainPage);
-  server.on("/clock.html", writeClockPage);
   server.on("/loco.html", writeLocoPage);
   server.on("/funcmap.html", writeFuncMapPage);
   server.on("/status.html", writeStatusPage);
