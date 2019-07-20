@@ -51,7 +51,7 @@ void initWiFiConfigSTA(void)
 {
   // change IP address to config page
   // replace last byte in IP address with 253 (configuration IP address)
-  IPAddress configIP = WiFi.localIP();;
+  IPAddress configIP = WiFi.localIP();
   configIP[3] = 253;
   WiFi.config(configIP, WiFi.gatewayIP(), WiFi.subnetMask());
 }

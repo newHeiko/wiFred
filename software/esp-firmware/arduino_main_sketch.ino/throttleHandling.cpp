@@ -64,7 +64,6 @@ void setLEDvalues(String led1, String led2, String led3)
 
     timeout = millis() + 5000;
   }
-
   Serial.flush();  
 }
 
