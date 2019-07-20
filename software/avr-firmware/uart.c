@@ -187,9 +187,12 @@ void uartHandler(void)
     {
       if(led >= 1 && led <= 3)
 	{
+	  if(LEDs[led-1].onTime != temp.onTime || LEDs[led-1].cycleTime != temp.cycleTime)
+	    {
+	      newLEDvalues();
+	    }	      
 	  LEDs[led-1].onTime = temp.onTime;
 	  LEDs[led-1].cycleTime = temp.cycleTime;
-	  newLEDvalues();
 	  uartSendData("LOK\r\n", sizeof("LOK\r\n") - 1);
 	}
       else
