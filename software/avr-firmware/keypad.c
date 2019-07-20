@@ -92,11 +92,11 @@ int8_t functionHandler(char * dest, uint8_t f)
       funcNum[f] += 6;
 #endif
         }
-      return snprintf(dest, sizeof("F00_DN\r\n"), "F%u_DN\r\n", funcNum[f]) + 1;
+      return snprintf(dest, sizeof("F00_DN\r\n"), "F%u_DN\r\n", funcNum[f]);
     }
   if(getKeyReleases(keyMask[f]))
     {
-      return snprintf(dest, sizeof("F00_UP\r\n"), "F%u_UP\r\n", funcNum[f]) + 1;
+      return snprintf(dest, sizeof("F00_UP\r\n"), "F%u_UP\r\n", funcNum[f]);
     }
   return 0;
 }	

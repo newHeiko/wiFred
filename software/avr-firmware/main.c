@@ -70,7 +70,7 @@ int main(void)
       if(getKeyPresses(KEY_FORWARD | KEY_REVERSE) || speedTimeout == 0)
 	{
 	  uint8_t speed = getADCSpeed();
-	  char buffer[sizeof("S:100:F\r \n")];
+	  char buffer[sizeof("S:100:F\r\n")];
 	  if(getKeyState(KEY_FORWARD))
 	    {
 	      snprintf(buffer, sizeof("S:100:F\r\n"), "S:%03u:F\r\n", speed);
@@ -83,7 +83,7 @@ int main(void)
 	    {
 	      snprintf(buffer, sizeof("S:100:E\r\n"), "S:%03u:E\r\n", speed);
 	    }
-	  uartSendData(buffer, sizeof("S:100:F\r\n"));
+	  uartSendData(buffer, sizeof("S:100:F\r\n") - 1);
 	  speedTimeout = SPEED_INTERVAL;
 	}
       
@@ -97,11 +97,11 @@ int main(void)
       
       if(getKeyPresses(KEY_F0))
 	{
-	  uartSendData("F0_DN\r\n", sizeof("F0_DN\r\n"));
+	  uartSendData("F0_DN\r\n", sizeof("F0_DN\r\n") - 1);
 	}      
       if(getKeyReleases(KEY_F0))
 	{
-	  uartSendData("F0_UP\r\n", sizeof("F0_UP\r\n"));
+	  uartSendData("F0_UP\r\n", sizeof("F0_UP\r\n") - 1);
 	}
 #ifdef LITHIUM_BATTERY
       for(uint8_t f=1; f<9; f++)
@@ -109,7 +109,7 @@ int main(void)
       for(uint8_t f=1; f<7; f++)
 #endif
 	{
-	  char buffer[sizeof("F00_DN\r\n ")];
+	  char buffer[sizeof("F00_DN\r\n")];
 	  int8_t ret = functionHandler(buffer, f);
 	  if(ret > 0)
 	    {
@@ -124,22 +124,22 @@ int main(void)
 	    if(getKeyState(KEY_SHIFT))
 	      {
 		config = true;
-		uartSendData("CONF_DN\r\n", sizeof("CONF_DN\r\n"));
+		uartSendData("CONF_DN\r\n", sizeof("CONF_DN\r\n") - 1);
 	      }
 	    else
 	      {
-		uartSendData("ESTOP_DN\r\n", sizeof("ESTOP_DN\r\n"));
+		uartSendData("ESTOP_DN\r\n", sizeof("ESTOP_DN\r\n") - 1);
 	      }
 	  }
 	if(getKeyReleases(KEY_ESTOP))
 	  {
 	    if(config)
 	      {
-		uartSendData("CONF_UP\r\n", sizeof("CONF_UP\r\n"));
+		uartSendData("CONF_UP\r\n", sizeof("CONF_UP\r\n") - 1);
 	      }
 	    else
 	      {
-		uartSendData("ESTOP_UP\r\n", sizeof("ESTOP_UP\r\n"));
+		uartSendData("ESTOP_UP\r\n", sizeof("ESTOP_UP\r\n") - 1);
 	      }	    
 	  }
       }	  
