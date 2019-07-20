@@ -67,7 +67,7 @@ int main(void)
       static uint8_t led = 0;
       uartHandler();
 
-      if(getKeyPresses(KEY_FORWARD | KEY_REVERSE) || speedTriggered() || speedTimeout == 0)
+      if(getKeyPresses(KEY_FORWARD | KEY_REVERSE) || speedTimeout == 0)
 	{
 	  uint8_t speed = getADCSpeed();
 	  char buffer[sizeof("S:100:F\r \n")];
@@ -85,6 +85,14 @@ int main(void)
 	    }
 	  uartSendData(buffer, sizeof("S:100:F\r\n"));
 	  speedTimeout = SPEED_INTERVAL;
+	}
+      
+      if(speedTriggered())
+	{
+	  if(uartSendSpeed(getADCSpeed()))
+	    {
+	      clearSpeedTrigger();
+	    }
 	}
       
       if(getKeyPresses(KEY_F0))

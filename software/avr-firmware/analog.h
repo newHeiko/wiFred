@@ -31,11 +31,6 @@
 #define NUM_AD_SAMPLES 16
 
 /**
- * Tolerance for a new speed to be taken as "same speed"
- */
-#define SPEED_TOLERANCE 0
-
-/**
  * Initialize A/D converter for free-running conversion mode
  */
 void initADC(void);
@@ -44,6 +39,11 @@ void initADC(void);
  * Report if there is a new speed value
  */
 bool speedTriggered(void);
+
+/**
+ * Clear "new speed value" trigger
+ */
+void clearSpeedTrigger(void);
 
 /**
  * Returns current speed value read from potentiometer (0..126)

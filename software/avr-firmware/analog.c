@@ -50,15 +50,15 @@ void initADC(void)
  */
 bool speedTriggered(void)
 {
-  if(newSpeed)
-    {
-      newSpeed = false;
-      return true;
-    }
-  else
-    {
-      return false;
-    }
+  return newSpeed;
+}
+
+/**
+ * Clear "new speed value" trigger
+ */
+void clearSpeedTrigger(void)
+{
+  newSpeed = false;
 }
 
 /**
@@ -66,7 +66,6 @@ bool speedTriggered(void)
  */
 uint8_t getADCSpeed(void)
 {
-  newSpeed = false;
   return currentSpeed;
 }
 
@@ -82,6 +81,7 @@ ISR(ADC_vect)
   static uint8_t counter = 0;
 
   buffer += ADC;
+
   if(++counter >= NUM_AD_SAMPLES)
     {
       uint8_t temp;
@@ -91,15 +91,11 @@ ISR(ADC_vect)
       #warning "Change divisor so 1023 * NUM_AD_SAMPLES / divisor = 126"
       #endif
       temp = 126 - (buffer / 129);
-      if(temp > currentSpeed + SPEED_TOLERANCE
-	 || currentSpeed > temp + SPEED_TOLERANCE
-	 || ( temp != currentSpeed &&
-	      (  (temp == 126 && currentSpeed >= 126 - SPEED_TOLERANCE)
-		 || (temp == 0 && currentSpeed <= SPEED_TOLERANCE) ) ) )
+      if(temp != currentSpeed)
 	{
 	  newSpeed = true;
+	  currentSpeed = temp;
 	}
-      currentSpeed = temp;
       buffer = 0;
     }
 }

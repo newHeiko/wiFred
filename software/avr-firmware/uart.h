@@ -42,6 +42,14 @@ void initUART(void);
 void uartSendData(char * data, uint8_t length);
 
 /**
+ * Enqueue speed data to be sent
+ *
+ * Returns true if sent
+ *         false if UART busy
+ */
+bool uartSendSpeed(uint8_t speed);
+
+/**
  * Handle fully received UART strings if there are any
  */
 void uartHandler(void);
