@@ -108,10 +108,13 @@ void enableWakeup(void)
 {
   EIMSK |= (1<<INT0);
 }
-
+/**
+ * Wakeup from power down mode
+ */
 ISR(INT0_vect)
 {
   EIMSK &= ~(1<<INT0);
+  // re-enable pullups
   PORTD |= 0xf0;
   PORTC |= 0x0f;
   keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;

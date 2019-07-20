@@ -54,7 +54,7 @@ int main(void)
   // enable pullup resistors and matrix readout
   PORTC = 0x0f;
   PORTD = 0xf0 | (1<<PD2);
-  
+
   initADC();
   initUART();
   initLEDs();
@@ -67,9 +67,8 @@ int main(void)
       static uint8_t led = 0;
       uartHandler();
 
-      if(getKeyPresses(KEY_FORWARD | KEY_REVERSE)) // || speedTriggered() || speedTimeout == 0)
+      if(getKeyPresses(KEY_FORWARD | KEY_REVERSE) || speedTriggered() || speedTimeout == 0)
 	{
-	  rollover(&led);
 	  uint8_t speed = getADCSpeed();
 	  char buffer[sizeof("S:100:F\r \n")];
 	  if(getKeyState(KEY_FORWARD))
@@ -90,7 +89,6 @@ int main(void)
       
       if(getKeyPresses(KEY_F0))
 	{
-	  rollover(&led);
 	  uartSendData("F0_DN\r\n", sizeof("F0_DN\r\n"));
 	}      
       if(getKeyReleases(KEY_F0))
@@ -107,7 +105,6 @@ int main(void)
 	  int8_t ret = functionHandler(buffer, f);
 	  if(ret > 0)
 	    {
-	      rollover(&led);
 	      uartSendData(buffer, ret);
 	    }
 	}
@@ -115,7 +112,6 @@ int main(void)
 	static bool config = false;
 	if(getKeyPresses(KEY_ESTOP))
 	  {
-	    rollover(&led);
 	    config = false;
 	    if(getKeyState(KEY_SHIFT))
 	      {
@@ -138,18 +134,6 @@ int main(void)
 		uartSendData("ESTOP_UP\r\n", sizeof("ESTOP_UP\r\n"));
 	      }	    
 	  }
-      }
-      if(getKeyPresses(KEY_SHIFT | KEY_LOCO1 | KEY_LOCO2 | KEY_LOCO3 | KEY_LOCO4))
-	{
-	  uartSendData("S_L_DN\r\n", sizeof("S_L_DN\r\n"));
-	  rollover(&led);
-	}
-      for(uint8_t i = 0; i < 3; i++)
-	{
-	  LEDs[i].onTime = 0;
-	  LEDs[i].cycleTime = 100;
-	}
-      LEDs[led].onTime = 50;			     
-	  
+      }	  
     }
 }
