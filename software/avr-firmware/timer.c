@@ -111,12 +111,11 @@ ISR(TIMER0_COMPA_vect)
 	}
       if(ledCycletimeCountdown[i] == 0 || --ledCycletimeCountdown[i] == 0)
 	{
-	  PORTD &= ~LEDs[i].portBitmask;
 	  ledCycletimeCountdown[i] = LEDs[i].cycleTime;
 	  ledOntimeCountdown[i] = LEDs[i].onTime;
 	  if(ledOntimeCountdown[i] != 0)
 	    {
-	      PORTD |= LEDs[i].portBitmask;
+	      PORTD &= ~LEDs[i].portBitmask;
 	    }
 	}
     }
