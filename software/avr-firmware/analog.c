@@ -47,6 +47,12 @@ volatile bool newADSpeedValue;
 volatile uint16_t ADValue;
 
 /**
+ * Table to calculate correct speed value from AD result
+ */
+const uint8_t speedTable[] = { 0, 1, 2, 4, 5, 7, 9, 11, 13, 16, 18, 21, 24, 27, 30, 33, 36, 40,
+			       44, 48, 52, 56, 61, 65, 70, 75, 80, 85, 90, 96, 102, 108, 114, 120, 126 };
+
+/**
  * Check if there is a new AD value and calculate correct output from it if there is
  */
 void handleADC(void)
@@ -54,7 +60,7 @@ void handleADC(void)
   if(newADSpeedValue)
     {      
 #if NUM_AD_SAMPLES != 16
-#warning "Change divisor so 1023 * NUM_AD_SAMPLES / divisor = 126"
+#warning "Change divisor so 1023 * NUM_AD_SAMPLES / divisor is slightly higher than 34 (lower than 35!)"
 #endif
       uint8_t temp;
       uint16_t buffer;
@@ -63,7 +69,9 @@ void handleADC(void)
 	buffer = ADValue;
       }
 	
-      temp = 126 - (buffer / 129);
+      temp = 34 - (buffer / 480);
+      temp = speedTable[temp];
+      
       if(temp != currentSpeed)
 	{
 	  newSpeed = true;
