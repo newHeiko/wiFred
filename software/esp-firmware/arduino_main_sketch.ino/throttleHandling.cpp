@@ -157,42 +157,16 @@ void handleThrottle(void)
           }
         }
         break;
-  
-      // Command to add a loco received
-      case '+':
-        {
-          uint8_t l = inputLine.substring(2).toInt();
-          if(l >= 1 && l <= 4)
-          {
-            if(locoState[l-1] != LOCO_ACTIVE)
-            {
-              locoState[l-1] = LOCO_ACTIVATE;
-            }
-          }
-        }
-        break;
-    
-      // Command to remove a loco received
-      case '-':
-        {
-          uint8_t l = inputLine.substring(2).toInt();
-          if(l >= 1 && l <= 4)
-          {
-            if(locoState[l-1] != LOCO_INACTIVE)
-            {
-              locoState[l-1] = LOCO_DEACTIVATE;
-            }
-          }
-        }
-        break;
-    
-      // Power Down command received
-      case 'P':
-        setESTOP();
-        locoDisconnect();
-        switchState(STATE_LOWPOWER_WAITING, 1000);
-        break;
+    }
+  }
+
+  // Periodically send KeepAlive-commands to AVR
+  {
+    static uint32_t timeout = 5000;
+    if(millis() > timeout)
+    {
+      Serial.println("KeepAlive");
+      timeout = millis() + 5000;
     }
   }
 }
-

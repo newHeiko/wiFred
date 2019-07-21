@@ -44,6 +44,13 @@
 extern bool lowBattery;
 
 /**
+ * Set to true when the device detects a battery voltage below @EMPTY_BATTERY_MILLIVOLTS above
+ * 
+ * System will shut down after disconnecting
+ */
+extern bool emptyBattery;
+
+/**
  * Initialize battery voltage measurement and low battery handling
  */
 void lowBatteryInit(void);
@@ -59,4 +66,3 @@ void lowBatteryHandler(void);
 extern uint16_t batteryVoltage;
 
 #endif
-

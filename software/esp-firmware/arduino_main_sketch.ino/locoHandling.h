@@ -66,6 +66,40 @@ extern IPAddress automaticServerIP;
 extern String locoThrottleID[4];
 
 /**
+ * Input pins for loco selectors
+ */
+extern const uint8_t inputPins[];
+
+#define LOCO1_INPUT 5
+#define LOCO2_INPUT 4
+#define LOCO3_INPUT 12
+#define LOCO4_INPUT 13
+
+/**
+ * Initialize loco input selectors
+ */
+void inputsInit(void);
+
+/**
+ * Debounce loco input selectors
+ */
+void inputsHandler(void);
+
+/**
+ * Returns current state of loco selection switch
+ * 
+ * @param input: loco selection switch index [0..3]
+ * @return: true if enabled, false if disabled
+ */
+bool getInputState(uint8_t input);
+
+/**
+ * @return: true if state of loco selection switch has changed since last call
+ * @param input: loco selection switch index [0..3]
+ */
+bool getInputChanged(uint8_t input);
+
+/**
  * Connect to wiThrottle server
  */
 void locoConnect(void);

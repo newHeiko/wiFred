@@ -32,6 +32,13 @@
 bool lowBattery;
 
 /**
+ * Set to true when the device detects a battery voltage below @EMPTY_BATTERY_MILLIVOLTS above
+ * 
+ * System will shut down after disconnecting
+ */
+bool emptyBattery;
+
+/**
  * Battery voltage in milliVolt (capped at approx 3V)
  */
 uint16_t batteryVoltage;
@@ -80,13 +87,10 @@ void lowBatteryHandler(void)
       }
       if(value < EMPTY_BATTERY_MILLIVOLTS)
       {
-        // shut down entirely
-        ESP.deepSleep(0);
+        emptyBattery = true;
       }
       batteryVoltage = value;
       buffer = index = 0;
     }
   }
 }
-
-

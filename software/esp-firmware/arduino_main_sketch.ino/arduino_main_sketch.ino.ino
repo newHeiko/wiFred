@@ -42,7 +42,7 @@ void setup() {
   Serial.begin(115200);
   Serial.setTimeout(10);
   initConfig();
-  locoInit();
+  inputsInit();
   lowBatteryInit();
   
   #ifdef DEBUG
@@ -60,6 +60,7 @@ void loop() {
   handleWiFi();
   lowBatteryHandler();
   handleThrottle();
+  inputsHandler();
   
 #ifdef DEBUG
   static uint32_t test = 0;
@@ -71,20 +72,29 @@ void loop() {
   }
 #endif
 
-  // send keep alive message on serial port
-  static uint32_t keepAliveTimeout;
-  if(millis() > keepAliveTimeout)
+  // check for empty battery
+  // only if not online
+  // if online, check will be done in locoHandler
+  // (to disconnect before power down)
+  if(emptyBattery &&
+      wiFredState != STATE_LOCO_ONLINE)
   {
-    Serial.println("KeepAlive");
-    keepAliveTimeout = millis() + 5000;
+    switchState(STATE_POWERDOWN_WAITING, 100);
   }
 
   switch(wiFredState)
   {
     case STATE_STARTUP:
       setLEDvalues("0/0", "0/0", "100/200");
-      initWiFiSTA();
-      switchState(STATE_CONNECTING, 60 * 1000);
+      if(getInputState(0) || getInputState(1) || getInputState(2) || getInputState(3))
+      {
+        initWiFiSTA();
+        switchState(STATE_CONNECTING, 60 * 1000);
+      }
+      else
+      {
+        switchState(STATE_LOWPOWER);
+      }
       break;
       
     case STATE_CONNECTING:
@@ -107,7 +117,14 @@ void loop() {
       {
         switchState(STATE_STARTUP);
       }
-      locoConnect();
+      if(getInputState(0) || getInputState(1) || getInputState(2) || getInputState(3))
+      {      
+        locoConnect();
+      }
+      else
+      {
+        switchState(STATE_LOWPOWER_WAITING, 100);
+      }
       if(millis() > stateTimeout)
       {
         initWiFiConfigSTA();
@@ -120,7 +137,14 @@ void loop() {
       {
         switchState(STATE_STARTUP);
       }
-      locoRegister();
+      if(getInputState(0) || getInputState(1) || getInputState(2) || getInputState(3))
+      {
+        locoRegister();
+      }
+      else
+      {
+        switchState(STATE_LOWPOWER_WAITING, 100);
+      }
       if(millis() > stateTimeout)
       {
         initWiFiConfigSTA();
@@ -145,7 +169,7 @@ void loop() {
       if(millis() > stateTimeout)
       {
         shutdownWiFiConfigSTA();
-        switchState(STATE_STARTUP);
+        switchState(STATE_LOCO_ONLINE);
       }
       break;
 
@@ -158,29 +182,60 @@ void loop() {
       break;
 
     case STATE_LOWPOWER_WAITING:
-      setLEDvalues("0/0", "0/0", "1/250");
       if(millis() > stateTimeout)
       {
+        locoDisconnect();
         shutdownWiFiSTA();
         switchState(STATE_LOWPOWER);
+      }
+      for(uint8_t i = 0; i < 4; i++)
+      {
+        if(getInputState(i))
+        {
+          switchState(STATE_STARTUP);
+          break;
+        }
       }
       break;
     
     case STATE_LOWPOWER:
       setLEDvalues("0/0", "0/0", "1/250");
-      // shut down ESP
-      ESP.deepSleep(0);
+      for(uint8_t i = 0; i < 4; i++)
+      {
+        if(getInputState(i))
+        {
+          switchState(STATE_STARTUP);
+          break;
+        }
+      }
       break;
       
     case STATE_CONFIG_AP:
     // no way to get out of here except for restart
       setLEDvalues("0/0", "0/0", "200/200");
       break;
+      
+    case STATE_POWERDOWN_WAITING:
+      setLEDvalues("0/0", "0/0", "0/0");
+      if(millis() > stateTimeout)
+      {
+        shutdownWiFiSTA();
+        switchState(STATE_POWERDOWN);      
+      }
+
+    case STATE_POWERDOWN:
+      setLEDvalues("0/0", "0/0", "0/0");
+      ESP.deepSleep(0);
+      break;
   }
 }
 
 void switchState(state newState, uint32_t timeout)
 {
+#ifdef DEBUG
+  Serial.println(newState);
+#endif
+  
   wiFredState = newState;
   if(timeout == UINT32_MAX)
   {

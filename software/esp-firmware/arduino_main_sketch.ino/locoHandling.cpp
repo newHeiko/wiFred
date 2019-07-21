@@ -20,6 +20,9 @@
  * them.
  */
 
+#include <ESP8266WiFi.h>
+#include <ESP8266mDNS.h>
+
 #include "locoHandling.h"
 #include "lowbat.h"
 #include "config.h"
@@ -28,7 +31,9 @@
 
 locoInfo locos[4];
 
-// String keeping the Loco Address plus its prefix (L or S)
+/**
+ * String keeping the Loco Address plus its prefix (L or S)
+ */
 String locoThrottleID[4];
 
 /**
@@ -90,7 +95,22 @@ functionInfo globalFunctionStatus[MAX_FUNCTION + 1] = { UNKNOWN,
                                              UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN,
                                              UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN };
 
-void locoInit(void)
+/**
+ * Input pins for loco selectors
+ */
+const uint8_t inputPins[] = { LOCO1_INPUT, LOCO2_INPUT, LOCO3_INPUT, LOCO4_INPUT };
+
+/**
+ * Remember status of loco selectors
+ */
+bool inputState[4];
+
+/**
+ * Remember changes of loco selectors
+ */
+bool inputChanged[4];
+
+void inputsInit(void)
 {
   pinMode(LOCO1_INPUT, INPUT_PULLUP);
   pinMode(LOCO2_INPUT, INPUT_PULLUP);
@@ -108,52 +128,68 @@ void locoInit(void)
   }
 }
 
-void locoHandler(void)
+void inputsHandler(void)
 {
-  static uint32_t timeout = 0;
-  static uint32_t debounceCounter;
-  static uint8_t switchState[4];
+  static uint32_t debounceTimer;
+  static uint8_t debounceCounter[4];
 
   // debounce inputs every 10ms
-  if (millis() > debounceCounter)
+  if (millis() > debounceTimer)
   {
-    debounceCounter += 10;
+    debounceTimer += 10;
 
     for (uint8_t i = 0; i < 4; i++)
     {
       if (digitalRead(inputPins[i]) == LOW && inputState[i] == false)
       {
-        if (switchState[i] >= 4)
+        if (debounceCounter[i] >= 4)
         {
           inputState[i] = true;
           inputChanged[i] = true;
-          switchState[i] = 0;
+          debounceCounter[i] = 0;
         }
         else
         {
-          switchState[i]++;
+          debounceCounter[i]++;
         }
       }
       else if (digitalRead(inputPins[i]) == HIGH && inputState[i] == true)
       {
-        if (switchState[i] >= 4)
+        if (debounceCounter[i] >= 4)
         {
           inputState[i] = false;
           inputChanged[i] = true;
-          switchState[i] = 0;
+          debounceCounter[i] = 0;
         }
         else
         {
-          switchState[i]++;
+          debounceCounter[i]++;
         }
       }
       else
       {
-        switchState[i] = 0;
+        debounceCounter[i] = 0;
       }
     }
   }
+}
 
+void locoHandler(void)
+{
+  // translate input changes to loco state changes
+  for(uint8_t currentLoco = 0; currentLoco < 4; currentLoco++)
+  {
+    if(getInputState(currentLoco) && locoState[currentLoco] != LOCO_ACTIVE && locoState[currentLoco] != LOCO_FUNCTIONS)
+    {
+      locoState[currentLoco] = LOCO_ACTIVATE;
+    }
+    else if(!getInputState(currentLoco) && locoState[currentLoco] != LOCO_INACTIVE)
+    {
+      locoState[currentLoco] = LOCO_DEACTIVATE;
+    }
+  }
+
+  // deactivate everything if battery is empty
   if(emptyBattery)
   {
     setESTOP();
@@ -169,12 +205,13 @@ void locoHandler(void)
     if(allInactive)
     {
       locoDisconnect();
-      switchState(STATE_LOWPOWER_WAITING, 100);
+      switchState(STATE_POWERDOWN_WAITING, 100);
       return;
     }
   }
-  
-  if(!client.connected())
+
+  // handle lost connection to server
+  if(!client.connected() && !emptyBattery)
   {
     for(uint8_t loco = 0; loco < 4; loco++)
     {
@@ -194,109 +231,89 @@ void locoHandler(void)
     client.print("MTA*<;>X\n");
     eStopTimeout += 5000;
   }
-  
-  switch(wiFredState)
+      
+  // remove ESTOP setting if speed is zero
+  if(speed == 0)
   {
-    case STATE_LOCO_ONLINE:
-      // remove ESTOP setting if speed is zero
-      if(speed == 0)
-      {
-        setLEDvalues("0/0", "0/0", "25/50");
-        if(millis() > timeout)
-        {
-          // flush input and output buffers
-          client.flush();
-          while(client.read() > -1)
-            ;
-          client.stop();
-          client.setTimeout(1000);
-          if (client.connect(locoServer.name, locoServer.port))
-          {
-            client.setNoDelay(true);
-            client.setTimeout(10);
-            locoState = LOCO_CONNECTED;
-            timeout = millis() + 5000;
-          }
-          else
-          {
-            timeout = millis() + 2000;
-          }
-        }
-        eSTOP = false;
-      }
+    eSTOP = false;
+  }
       
-      // if not in emergency stop, send speed value to all locos
-      if(!eSTOP && millis() > speedTimeout)
-      {
-        client.print(String("MTA*<;>V") + speed + "\n");
-        speedTimeout += 5000;
-      }
+  // if not in emergency stop, send speed value to all locos
+  if(!eSTOP && millis() > speedTimeout)
+  {
+    client.print(String("MTA*<;>V") + speed + "\n");
+    speedTimeout += 5000;
+  }
       
-      // check if any of the loco selectors have been changed
-      for(uint8_t currentLoco = 0; currentLoco < 4; currentLoco++)
-      {
-        if(locoState[currentLoco] == LOCO_FUNCTIONS)
-        {
-          requestLocoFunctions(currentLoco);
-          break;
-        }
-        else if(locoState[currentLoco] == LOCO_ACTIVATE && locos[currentLoco].address != -1)
-        {
-          // make sure no loco (currently attached) is moving
-          setESTOP();
-          requestLoco(currentLoco);
-          break;
-        }
-        else if(locoState[currentLoco] == LOCO_DEACTIVATE)
-        {
-          setESTOP();
-          client.print(String("MTA") + locoThrottleID[currentLoco] + "<;>r\n");
-          client.print(String("MT-") + locoThrottleID[currentLoco] + "<;>" + locoThrottleID[currentLoco] + "\n");
-          locoState[currentLoco] = LOCO_INACTIVE;
-        }
-        else if(currentLoco == 3)
-        {
-          // if none of the locos had any status change,
-          // flush all input data
-          client.flush();
-          while (client.read() > -1)
-            ;
-        }
-      }
+  // react to state transitions in locoState
+  for(uint8_t currentLoco = 0; currentLoco < 4; currentLoco++)
+  {
+    if(locoState[currentLoco] == LOCO_FUNCTIONS)
+    {
+      requestLocoFunctions(currentLoco);
       break;
-
-    default:
+    }
+    else if(locoState[currentLoco] == LOCO_ACTIVATE && locos[currentLoco].address != -1)
+    {
+      // make sure no loco (currently attached) is moving
+      setESTOP();
+      requestLoco(currentLoco);
+      break;
+    }
+    else if(locoState[currentLoco] == LOCO_DEACTIVATE)
+    {
+      setESTOP();
+      client.print(String("MTA") + locoThrottleID[currentLoco] + "<;>r\n");
+      client.print(String("MT-") + locoThrottleID[currentLoco] + "<;>" + locoThrottleID[currentLoco] + "\n");
+      locoState[currentLoco] = LOCO_INACTIVE;
+    }
+    else if(currentLoco == 3)
+    {
+      // if none of the locos had any status change,
       // flush all input data
       client.flush();
       while (client.read() > -1)
         ;
-      break;
+    }
   }
 
-  String ledForward, ledReverse;
-  if(lowBattery)
+  // switch to power save mode if all locos deactivated
+  if(  locoState[0] == LOCO_INACTIVE
+    && locoState[1] == LOCO_INACTIVE
+    && locoState[2] == LOCO_INACTIVE
+    && locoState[3] == LOCO_INACTIVE 
+    && !emptyBattery)
   {
-    ledForward = "50/100";
+    switchState(STATE_LOWPOWER_WAITING, 60 * 1000);
   }
-  else
+
+  // set LED values correctly
   {
-    ledForward = "100/100";
-  }
-  if(eSTOP)
-  {
-    ledReverse = "30/50";
-  }
-  else
-  {
-    ledReverse = "0/100";
-  }
-  if(myReverse)
-  {
-    setLEDvalues(ledReverse, ledForward, "0/100");
-  }
-  else
-  {
-    setLEDvalues(ledForward, ledReverse, "0/100");
+    String ledForward, ledReverse;
+    if(lowBattery)
+    {
+      ledForward = "50/100";
+    }
+    else
+    {
+      ledForward = "100/100";
+    }
+    if(eSTOP)
+    {
+      ledReverse = "30/50";
+    }
+    else
+    {
+      ledReverse = "0/100";
+    }
+    if(myReverse)
+    {
+      setLEDvalues(ledForward, ledReverse, "0/100");
+    }
+    else
+    {
+      setLEDvalues(ledReverse, ledForward, "0/100");
+    }
   }
 }
 
@@ -310,21 +327,21 @@ void locoConnect(void)
 #ifdef DEBUG
       Serial.println("Trying to connect to automatic server...");
 #endif
-      if(client.connect(automaticServerIP, locoServer.port);)
-	{
-	  client.setNoDelay(true);
-	  client.setTimeout(10);
-	  switchState(STATE_LOCO_CONNECTING, 10 * 1000);
-	}
+      if(client.connect(automaticServerIP, locoServer.port))
+	    {
+	      client.setNoDelay(true);
+	      client.setTimeout(10);
+	      switchState(STATE_LOCO_CONNECTING, 10 * 1000);
+	    }
     }
   else if(!locoServer.automatic)
     {
       if(client.connect(locoServer.name, locoServer.port))
-	{
-	  client.setNoDelay(true);
-	  client.setTimeout(10);
-	  switchState(STATE_LOCO_CONNECTING, 10 * 1000);
-	}
+	    {
+	      client.setNoDelay(true);
+	      client.setTimeout(10);
+	      switchState(STATE_LOCO_CONNECTING, 10 * 1000);
+	    }
     }
 
   if(locoServer.automatic && automaticServer == nullptr
@@ -343,12 +360,12 @@ void locoConnect(void)
         Serial.println(String(" port ") + MDNS.port(i));
 #endif
         if(MDNS.port(i) == locoServer.port)
-	  {
-	    automaticServer = strdup(MDNS.hostname(i).c_str());
-	    automaticServerIP = MDNS.IP(i);
-	    MDNS.removeQuery();
-	    break;          
-	  }
+	      {
+	        automaticServer = strdup(MDNS.hostname(i).c_str());
+	        automaticServerIP = MDNS.IP(i);
+    	    MDNS.removeQuery();
+	        break;          
+	      }
       }
     }
 }
@@ -624,5 +641,33 @@ void requestLocoFunctions(uint8_t loco)
           ;
         break;
     }
+  }
+}
+
+/**
+ * Returns current state of loco selection switch
+ * 
+ * @param input: loco selection switch index [0..3]
+ * @return: true if enabled, false if disabled
+ */
+bool getInputState(uint8_t input)
+{
+  return inputState[input];
+}
+
+/**
+ * @return: true if state of loco selection switch has changed since last call
+ * @param input: loco selection switch index [0..3]
+ */
+bool getInputChanged(uint8_t input)
+{
+  if (inputChanged[input])
+  {
+    inputChanged[input] = false;
+    return true;
+  }
+  else
+  {
+    return false;
   }
 }
