@@ -31,7 +31,9 @@
 
 locoInfo locos[4];
 
-// String keeping the Loco Address plus its prefix (L or S)
+/** 
+ * String keeping the Loco Address plus its prefix (L or S) 
+ */
 String locoThrottleID[4];
 
 /**
@@ -114,8 +116,9 @@ void locoHandler(void)
       return;
     }
   }
-  
-  if(!client.connected())
+
+  // handle lost connection to server
+  if(!client.connected() && !emptyBattery)
   {
     for(uint8_t loco = 0; loco < 4; loco++)
     {
@@ -136,61 +139,49 @@ void locoHandler(void)
     eStopTimeout += 5000;
   }
   
-  switch(wiFredState)
+  // remove ESTOP setting if speed is zero
+  if(speed == 0)
   {
-    case STATE_LOCO_ONLINE:
-      // remove ESTOP setting if speed is zero
-      if(speed == 0)
-      {
-        eSTOP = false;
-      }
+    eSTOP = false;
+  }
       
-      // if not in emergency stop, send speed value to all locos
-      if(!eSTOP && millis() > speedTimeout)
-      {
-        client.print(String("MTA*<;>V") + speed + "\n");
-        speedTimeout += 5000;
-      }
+  // if not in emergency stop, send speed value to all locos
+  if(!eSTOP && millis() > speedTimeout)
+  {
+    client.print(String("MTA*<;>V") + speed + "\n");
+    speedTimeout += 5000;
+  }
       
-      // check if any of the loco selectors have been changed
-      for(uint8_t currentLoco = 0; currentLoco < 4; currentLoco++)
-      {
-        if(locoState[currentLoco] == LOCO_FUNCTIONS)
-        {
-          requestLocoFunctions(currentLoco);
-          break;
-        }
-        else if(locoState[currentLoco] == LOCO_ACTIVATE && locos[currentLoco].address != -1)
-        {
-          // make sure no loco (currently attached) is moving
-          setESTOP();
-          requestLoco(currentLoco);
-          break;
-        }
-        else if(locoState[currentLoco] == LOCO_DEACTIVATE)
-        {
-          setESTOP();
-          client.print(String("MTA") + locoThrottleID[currentLoco] + "<;>r\n");
-          client.print(String("MT-") + locoThrottleID[currentLoco] + "<;>" + locoThrottleID[currentLoco] + "\n");
-          locoState[currentLoco] = LOCO_INACTIVE;
-        }
-        else if(currentLoco == 3)
-        {
-          // if none of the locos had any status change,
-          // flush all input data
-          client.flush();
-          while (client.read() > -1)
-            ;
-        }
-      }
+  // check if any of the loco selectors have been changed
+  for(uint8_t currentLoco = 0; currentLoco < 4; currentLoco++)
+  {
+    if(locoState[currentLoco] == LOCO_FUNCTIONS)
+    {
+      requestLocoFunctions(currentLoco);
       break;
-
-    default:
+    }
+    else if(locoState[currentLoco] == LOCO_ACTIVATE && locos[currentLoco].address != -1)
+    {
+      // make sure no loco (currently attached) is moving
+      setESTOP();
+      requestLoco(currentLoco);
+      break;
+    }
+    else if(locoState[currentLoco] == LOCO_DEACTIVATE)
+    {
+      setESTOP();
+      client.print(String("MTA") + locoThrottleID[currentLoco] + "<;>r\n");
+      client.print(String("MT-") + locoThrottleID[currentLoco] + "<;>" + locoThrottleID[currentLoco] + "\n");
+      locoState[currentLoco] = LOCO_INACTIVE;
+    }
+    else if(currentLoco == 3)
+    {
+      // if none of the locos had any status change,
       // flush all input data
       client.flush();
       while (client.read() > -1)
         ;
-      break;
+    }
   }
 
   String ledForward, ledReverse;

@@ -144,7 +144,7 @@ void loop() {
       if(millis() > stateTimeout)
       {
         shutdownWiFiConfigSTA();
-        switchState(STATE_STARTUP);
+        switchState(STATE_LOCO_ONLINE);
       }
       break;
 
@@ -160,6 +160,7 @@ void loop() {
       setLEDvalues("0/0", "0/0", "1/250");
       if(millis() > stateTimeout)
       {
+        locoDisconnect();
         shutdownWiFiSTA();
         switchState(STATE_LOWPOWER);
       }

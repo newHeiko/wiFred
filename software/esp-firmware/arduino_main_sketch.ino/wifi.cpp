@@ -68,11 +68,13 @@ void handleWiFi(void)
       MDNS.update();
       break;
 
-    case STATE_LOWPOWER_WAITING:
-    case STATE_LOWPOWER:
     case STATE_STARTUP:
     case STATE_CONNECTING:
       wifiMulti.run();
+      break;
+
+    case STATE_LOWPOWER_WAITING:
+    case STATE_LOWPOWER:
       break;
   }
 }
