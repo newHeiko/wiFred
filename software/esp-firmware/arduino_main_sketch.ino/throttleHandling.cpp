@@ -202,7 +202,7 @@ void handleThrottle(void)
           lowBattery = true;
           emptyBattery = true;
         }
-        else if(inputLine.charAt(1) == 'O')
+        else
         {
           lowBattery = false;
           emptyBattery = false;
@@ -211,11 +211,13 @@ void handleThrottle(void)
   
       // Power Down command received
       case 'P':
-        setESTOP();
-        locoDisconnect();
-        switchState(STATE_LOWPOWER_WAITING, 1000);
+        if(inputLine.startsWith("PWR_DOWN"))
+        {
+          setESTOP();
+          locoDisconnect();
+          switchState(STATE_LOWPOWER_WAITING, 1000);
+        }
         break;
     }
   }
 }
-
