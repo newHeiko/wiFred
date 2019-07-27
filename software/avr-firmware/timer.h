@@ -27,7 +27,7 @@
 /**
  * Timeout within which a keepalive packet has to be received for the system not to shut off
  */
-#define SYSTEM_KEEPALIVE_TIMEOUT 60
+#define SYSTEM_KEEPALIVE_TIMEOUT 8
 
 /**
  * Timeout for sending speed and direction data (10ms units) if not changed
