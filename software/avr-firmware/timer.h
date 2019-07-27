@@ -45,6 +45,11 @@ extern volatile uint8_t speedTimeout;
 extern volatile uint8_t keepaliveCountdownSeconds;
 
 /**
+ * Countdown to wait after battery has been found empty - to avoid spurious power down events
+ */
+extern volatile uint8_t batteryEmptyCountdownSeconds;
+
+/**
  * Notify timer subsystem of new LED values
  */
 extern void newLEDvalues(void);

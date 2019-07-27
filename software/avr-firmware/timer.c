@@ -33,6 +33,11 @@
 volatile uint8_t keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
 
 /**
+ * Countdown to wait after battery has been found empty - to avoid spurious power down events
+ */
+volatile uint8_t batteryEmptyCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT / 4;
+
+/**
  * Countdown for speed and direction data timeout
  */
 volatile uint8_t speedTimeout = SPEED_INTERVAL;
@@ -111,6 +116,12 @@ ISR(TIMER0_COMPA_vect)
 	  sleep_disable();
 	  /* */
 	}
+
+      if(batteryEmptyCountdownSeconds > 0)
+	{
+	  batteryEmptyCountdownSeconds--;
+	}
+
       secondCountdown = 100;
     }
 

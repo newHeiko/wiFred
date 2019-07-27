@@ -230,14 +230,12 @@ int main(void)
 	      
 	  if(getBatteryVoltage() > EMPTY_BATTERY_VOLTAGE)
 	    {
-	      ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
-	      {	    
-		keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
-	      }
+	      keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
+	      batteryEmptyCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT / 4;
 	    }
-	  else
+	  else if(batteryEmptyCountdownSeconds == 0)
 	    {
-	      uartSendData("BEMPTY\r\n", sizeof("BEMPTY\r\n") - 1);
+  	      uartSendData("BEMPTY\r\n", sizeof("BEMPTY\r\n") - 1);
 	      _delay_ms(SYSTEM_KEEPALIVE_TIMEOUT * (1000 / 4));
 	    }
 	     
