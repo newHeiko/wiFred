@@ -75,6 +75,12 @@ int main(void)
 	      snprintf(buffer, sizeof("S:100:E\r\n"), "S:%03u:E\r\n", speed);
 	    }
 	  uartSendData(buffer, sizeof("S:100:F\r\n") - 1);
+
+#ifndef REV
+#define REV "unknown"
+#endif
+	  uartSendData("R"REV"\r\n", sizeof(REV) + 2);
+
 	  speedTimeout = SPEED_INTERVAL;
 	}
       
