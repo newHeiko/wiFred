@@ -124,6 +124,10 @@ int main(void)
 	    {
 	      uartSendData("BOK\r\n", sizeof("BOK\r\n") - 1);
 	    }
+#ifndef REV
+#define REV "unknown"
+#endif
+	  uartSendData("R"REV"\r\n", sizeof(REV) + 2);
 
 	  speedTimeout = SPEED_INTERVAL;
 	}
