@@ -267,12 +267,8 @@ int main(void)
       // show that ESP8266 is not active / battery down
       if(!(PORTD & (1<<PD3)))
 	{
-	  #warning "Debug power down reason"
 	  LEDs[LED_STOP].onTime = 1;
 	  LEDs[LED_STOP].cycleTime = 250;
-
-	  LEDs[LED_FORWARD].onTime = 100;
-	  LEDs[LED_FORWARD].cycleTime = 200;
 	}
     }
 }
