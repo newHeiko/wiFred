@@ -54,6 +54,8 @@ TARGET = main
 # List C source files here. (C dependencies are automatically generated.)
 SRC = $(TARGET).c uart.c keypad.c analog.c led.c timer.c
 
+# git hash and date to form revision
+REV = `date +%Y%m%d`-`git log --pretty=format:'%h' -n 1`
 
 # List Assembler source files here.
 # Make them always end in a capital .S.  Files ending in a lowercase .s
@@ -112,6 +114,7 @@ CFLAGS += -Wa,-adhlns=$(<:.c=.lst)
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 CFLAGS += $(CSTANDARD)
 CFLAGS += -DF_CPU=$(F_CPU)
+CFLAGS += -DREV=$(REV)
 
 
 
