@@ -176,18 +176,17 @@ void handleThrottle(void)
           free(avrRevision);
         }
         avrRevision = strdup(inputLine.substring(1).c_str());
-	break;
-
+	      break;
     }
   }
 
   // Periodically send KeepAlive-commands to AVR
   {
-    static uint32_t timeout = 5000;
+    static uint32_t timeout = 3000;
     if(millis() > timeout)
     {
       Serial.println("KeepAlive");
-      timeout = millis() + 5000;
+      timeout = millis() + 3000;
     }
   }
 }

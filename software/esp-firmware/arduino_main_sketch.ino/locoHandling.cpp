@@ -284,7 +284,7 @@ void locoHandler(void)
     && locoState[3] == LOCO_INACTIVE 
     && !emptyBattery)
   {
-    switchState(STATE_LOWPOWER_WAITING, 60 * 1000);
+    switchState(STATE_LOWPOWER_WAITING, 8 * 1000);
   }
 
   // set LED values correctly
