@@ -55,7 +55,7 @@ TARGET = main
 SRC = $(TARGET).c uart.c keypad.c analog.c led.c timer.c
 
 # git hash and date to form revision
-REV := $(shell date +%Y%m%d)-$(shell git log --pretty=format:'%h' -n 1)
+REV := $(shell date -I)-$(shell git log --pretty=format:'%h' -n 1)
 
 # List Assembler source files here.
 # Make them always end in a capital .S.  Files ending in a lowercase .s

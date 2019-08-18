@@ -29,7 +29,7 @@
 [ -n "$1" ] && cd "$1" || exit 1
 
 # Build a version string with git.
-version=$(date -I)$(git log -n 1 --pretty=format:%h 2> /dev/null)
+version=$(date -I)-$(git log -n 1 --pretty=format:%h 2> /dev/null)
 
 # Save this in git_version.h.
 echo "#define REV \"$version\"" > $2/sketch/gitVersion.h
