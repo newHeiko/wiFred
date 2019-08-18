@@ -33,4 +33,9 @@ void setLEDvalues(String led1, String led2, String led3);
  */
 void handleThrottle(void);
 
+/**
+ * String keeping the AVR firmware revision
+ */
+extern char * avrRevision;
+
 #endif
