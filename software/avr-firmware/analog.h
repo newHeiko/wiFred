@@ -36,7 +36,7 @@
  * New value will only count as new value if it does not fall into same bin as last
  * Bin size is calculated as (adHighest - adLowest) / AD_NUM_VALUES
  */
-#define NUM_AD_VALUES 256
+#define NUM_AD_VALUES 75
 
 /**
  * Check if there is a new AD value and calculate correct output from it if there is
