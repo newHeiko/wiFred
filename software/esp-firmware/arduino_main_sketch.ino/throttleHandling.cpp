@@ -237,6 +237,7 @@ void handleThrottle(void)
           free(avrRevision);
         }
         avrRevision = strdup(inputLine.substring(1).c_str());
+        break;       
     }
   }
 }
