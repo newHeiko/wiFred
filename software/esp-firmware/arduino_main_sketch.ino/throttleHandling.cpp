@@ -32,6 +32,11 @@
 bool reverseOut = false;
 
 /**
+ * String keeping the AVR firmware revision
+ */
+char * avrRevision = NULL;
+
+/**
  * Send LED settings to AVR - Strings are of the shape "20/100" meaning 20*10ms on time and 100*10ms total cycle time
  */
 void setLEDvalues(String led1, String led2, String led3)
@@ -72,6 +77,12 @@ void setLEDvalues(String led1, String led2, String led3)
  */
 void handleThrottle(void)
 {
+  // initialization for avr revision
+  if(avrRevision == NULL)
+  {
+    avrRevision = strdup("unknown");
+  }
+  
   // if there is input on the serial port
   while(Serial.available() > 0)
   {
@@ -218,6 +229,14 @@ void handleThrottle(void)
           switchState(STATE_LOWPOWER_WAITING, 1000);
         }
         break;
+      
+      // Firmware revision received
+      case 'R':
+        if(avrRevision != NULL)
+        {
+          free(avrRevision);
+        }
+        avrRevision = strdup(inputLine.substring(1).c_str());
     }
   }
 }

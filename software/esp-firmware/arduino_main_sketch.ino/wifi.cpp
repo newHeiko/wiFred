@@ -34,6 +34,7 @@
 #include "Ticker.h"
 #include "stateMachine.h"
 #include "throttleHandling.h"
+#include "gitVersion.h"
 
 // #define DEBUG
 
@@ -336,7 +337,9 @@ void writeMainPage()
   
   resp        += String("<hr>wiFred status<hr>\r\n")
               + "<table border=0>"
-              + "<tr><td>Battery voltage: </td><td>" + batteryVoltage + " mV" + (lowBattery ? " Battery LOW" : "" ) + "</td></tr></table>\r\n"
+              + "<tr><td>Battery voltage: </td><td>" + batteryVoltage + " mV" + (lowBattery ? " Battery LOW" : "" ) + "</td></tr>"
+              + "<tr><td>ESP firmware revision: </td><td>" + REV + "</td></tr>"
+              + "<tr><td>AVR firmware revision: </td><td>" + avrRevision + "</td></tr></table>\r\n"
               + "<hr>wiFred system<hr>\r\n"
               + "<a href=resetConfig.html>Reset wiFred to factory defaults</a>\r\n"
               + "<a href=update>Update wiFred firmware</a>\r\n"
