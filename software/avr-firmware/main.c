@@ -52,7 +52,7 @@ int main(void)
   initTimers();
 
   sei();
-
+  
   while(true)
     {
       uartHandler();

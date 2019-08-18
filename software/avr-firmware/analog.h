@@ -28,7 +28,15 @@
 /**
  * Number of ADC samples to take for averaging
  */
-#define NUM_AD_SAMPLES 16
+#define NUM_AD_SAMPLES 32
+
+/**
+ * Number of discrete ADC values to consider
+ *
+ * New value will only count as new value if it does not fall into same bin as last
+ * Bin size is calculated as (adHighest - adLowest) / AD_NUM_VALUES
+ */
+#define NUM_AD_VALUES 256
 
 /**
  * Check if there is a new AD value and calculate correct output from it if there is
@@ -55,5 +63,10 @@ void clearSpeedTrigger(void);
  * Returns current speed value read from potentiometer (0..126)
  */
 uint8_t getADCSpeed(void);
+
+/**
+ * Saves default lowest/highest AD values to EEPROM
+ */
+void saveDefaultADvalues(void);
 
 #endif
