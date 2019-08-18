@@ -28,7 +28,15 @@
 /**
  * Number of ADC samples to take for averaging
  */
-#define NUM_AD_SAMPLES 16
+#define NUM_AD_SAMPLES 32
+
+/**
+ * Number of discrete ADC values to consider
+ *
+ * New value will only count as new value if it does not fall into same bin as last
+ * Bin size is calculated as (adHighest - adLowest) / AD_NUM_VALUES
+ */
+#define NUM_AD_VALUES 256
 
 /**
  * Low battery voltage (in millivolts)
@@ -79,5 +87,10 @@ uint16_t getBatteryVoltage(void);
  * Saves new bandgap voltage value to EEPROM
  */
 void saveBandgapVoltage(uint16_t value);
+
+/**
+ * Saves default lowest/highest AD values to EEPROM
+ */
+void saveDefaultADvalues(void);
 
 #endif

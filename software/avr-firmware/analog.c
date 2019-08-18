@@ -48,6 +48,26 @@ uint16_t vBandgap;
 uint16_t ee_vBandgap EEMEM = 1200;
 
 /**
+ * Lowest AD value ever received
+ */
+uint16_t adLowest;
+
+/**
+ * EEPROM copy of lowest AD value
+ */
+uint16_t ee_adLowest EEMEM = 1024ul * NUM_AD_SAMPLES / 2;
+
+/**
+ * Highest AD value ever received
+ */
+uint16_t adHighest;
+
+/**
+ * EEPROM copy of highest AD value
+ */
+uint16_t ee_adHighest EEMEM = 1024ul * NUM_AD_SAMPLES / 2;
+
+/**
  * Current battery voltage (in millivolts)
  */
 uint16_t batteryVoltage = 3600;
@@ -72,26 +92,6 @@ volatile uint16_t ADValue;
  */
 void handleADC(void)
 {
-  if(newADSpeedValue)
-    {      
-#if NUM_AD_SAMPLES != 16
-#warning "Change divisor so 1023 * NUM_AD_SAMPLES / divisor = 126"
-#endif
-      uint8_t temp;
-      uint16_t buffer;
-      ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
-      {
-	buffer = ADValue;
-      }
-	
-      temp = 126 - (buffer / 129);
-      if(temp != currentSpeed)
-	{
-	  newSpeed = true;
-	  currentSpeed = temp;
-	}      
-      newADSpeedValue = false;
-    }
   if(newADVoltageValue)
     {
       uint16_t buffer;
@@ -100,16 +100,75 @@ void handleADC(void)
 	buffer = ADValue;
       }
       
-      batteryVoltage = (uint32_t) vBandgap * 1024 * NUM_AD_SAMPLES / 2 / buffer;
+      batteryVoltage = (uint32_t) vBandgap * 1024ul * NUM_AD_SAMPLES / 2 / buffer;
       
       // auto-calibrate vBandgap if measurement is larger than maximum voltage possible when charging LiPo cell
       if(batteryVoltage > 4200)
 	{
-	  vBandgap--;
-	  eeprom_write_word(&ee_vBandgap, vBandgap);
+	  if(vBandgap > 900)
+	    {
+	      vBandgap--;
+	      eeprom_write_word(&ee_vBandgap, vBandgap);
+	    }
 	  batteryVoltage = 4200;
 	}
       newADVoltageValue = false;
+    }
+
+  if(newADSpeedValue)
+    {
+      // skip if speed potentiometer not enabled
+      if( !(PORTC & (1<<PC5)) )
+	{
+	  newADSpeedValue = false;
+	  currentSpeed = 0;
+	  return;
+	}
+      static uint16_t oldADValue = 1024ul * NUM_AD_SAMPLES / 2;
+      uint8_t temp;
+      uint16_t buffer;
+      ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+      {
+	buffer = ADValue;
+      }
+
+      // check for larger voltage range if speed potentiometer enabled
+      if(buffer < adLowest)
+	{
+	  adLowest = buffer;
+	  eeprom_write_word(&ee_adLowest, adLowest);
+	}
+
+      if(buffer > adHighest)
+	{
+	  adHighest = buffer;
+	  eeprom_write_word(&ee_adHighest, adHighest);
+	}
+
+      // calculate tolerance
+      uint16_t tolerance = (adHighest - adLowest) / NUM_AD_VALUES;
+
+      // subtract lower border
+      buffer -= adLowest;
+
+      // check for change large enough to warrant new speed calculation
+      if(buffer < tolerance || buffer > adHighest - tolerance || buffer + tolerance < oldADValue || buffer > oldADValue + tolerance)
+	{
+	  oldADValue = buffer;
+      
+	  temp = buffer * 127ul / (adHighest - adLowest);
+	  if(temp >= 127)
+	    {
+	      temp = 126;
+	    }
+	  temp = 126 - temp;
+	  if(temp != currentSpeed)
+	    {
+	      newSpeed = true;
+	      currentSpeed = temp;
+	    }
+	}
+      newADSpeedValue = false;
     }
 }
 
@@ -130,6 +189,10 @@ void initADC(void)
 
   // read eeprom copy into RAM
   vBandgap = eeprom_read_word(&ee_vBandgap);
+
+  // read highest and lowest AD values into RAM
+  adLowest = eeprom_read_word(&ee_adLowest);
+  adHighest = eeprom_read_word(&ee_adHighest);
 }
 
 /**
@@ -175,15 +238,24 @@ uint16_t getBatteryVoltage(void)
 void saveBandgapVoltage(uint16_t value)
 {
   eeprom_write_word(&ee_vBandgap, value);
-} 
+}
+
+/**
+ * Saves default lowest/highest AD values to EEPROM
+ */
+void saveDefaultADvalues(void)
+{
+  eeprom_write_word(&ee_adLowest, 1024ul * NUM_AD_SAMPLES / 2);
+  eeprom_write_word(&ee_adHighest, 1024ul * NUM_AD_SAMPLES / 2);
+}
 
 /**
  * Interrupt handler for AD-converter
  */
 ISR(ADC_vect)
 {
-  #if NUM_AD_SAMPLES > 16
-  #warning "Change data type of buffer to accomodate more than 16 samples"
+  #if NUM_AD_SAMPLES > 64
+  #warning "Change data type of buffer to accomodate more than 64 samples"
   #endif
   static uint16_t buffer = 0;
   static uint8_t counter = 0;

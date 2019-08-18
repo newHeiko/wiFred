@@ -69,9 +69,14 @@ int main(void)
       LEDs[LED_FORWARD].cycleTime = 100;
       LEDs[LED_REVERSE].cycleTime = 100;
       newLEDvalues();
-      
+
+      // turn on ESP8266
       PORTD |= (1<<PD3);
+
+      // populate EEPROM with default values
       saveBandgapVoltage(1200);
+      vBandgap = 1200;
+      saveDefaultADvalues();
 
       while(true)
 	{
