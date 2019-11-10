@@ -155,7 +155,7 @@ uint32_t getKeyReleases(uint32_t keyMask)
 }
 
 /**
- * To be called every 2.5ms from ISR - handle key input 
+ * Will be called every 0.83ms from ISR - handle key input 
  * and LED output
  */
 void debounceKeys(void)
