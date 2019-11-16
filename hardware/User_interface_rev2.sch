@@ -1,41 +1,6 @@
-EESchema Schematic File Version 2
-LIBS:wfred_rev2-rescue
-LIBS:power
-LIBS:device
-LIBS:transistors
-LIBS:conn
-LIBS:linear
-LIBS:regul
-LIBS:74xx
-LIBS:cmos4000
-LIBS:adc-dac
-LIBS:memory
-LIBS:xilinx
-LIBS:microcontrollers
-LIBS:dsp
-LIBS:microchip
-LIBS:analog_switches
-LIBS:motorola
-LIBS:texas
-LIBS:intel
-LIBS:audio
-LIBS:interface
-LIBS:digital-audio
-LIBS:philips
-LIBS:display
-LIBS:cypress
-LIBS:siliconi
-LIBS:opto
-LIBS:atmel
-LIBS:contrib
-LIBS:valves
-LIBS:my_devices
-LIBS:ESP8266
-LIBS:LDL1117S30R
-LIBS:MCP73831T-2ACI_OT
-LIBS:NCV8161BSN300T1G
+EESchema Schematic File Version 4
 LIBS:wfred_rev2-cache
-EELAYER 25 0
+EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -50,7 +15,7 @@ Comment3 ""
 Comment4 "Keys, LEDs and Potentiometer for throttle"
 $EndDescr
 $Comp
-L POT-RESCUE-wfred_rev2 RV301
+L wfred_rev2-rescue:POT-RESCUE-wfred_rev2 RV301
 U 1 1 59210A4F
 P 1500 5100
 F 0 "RV301" H 1500 5000 50  0000 C CNN
@@ -66,7 +31,7 @@ Wire Wire Line
 Wire Wire Line
 	1500 4600 1500 4850
 $Comp
-L R-RESCUE-wfred_rev2 R301
+L wfred_rev2-rescue:R-RESCUE-wfred_rev2 R301
 U 1 1 59210B02
 P 2050 5100
 F 0 "R301" V 2130 5100 40  0000 C CNN
@@ -80,7 +45,7 @@ $EndComp
 Wire Wire Line
 	1650 5100 1800 5100
 $Comp
-L C-RESCUE-wfred_rev2 C301
+L wfred_rev2-rescue:C-RESCUE-wfred_rev2 C301
 U 1 1 59210B2F
 P 2500 5500
 F 0 "C301" H 2500 5600 40  0000 L CNN
@@ -92,7 +57,7 @@ F 4 "X5R-G0805 22/25" H 2500 5500 60  0001 C CNN "Reichelt"
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	2300 5100 3000 5100
+	2300 5100 2500 5100
 Wire Wire Line
 	2500 5100 2500 5300
 Wire Wire Line
@@ -101,7 +66,7 @@ Connection ~ 2500 5100
 Text GLabel 3000 5100 2    60   Output ~ 0
 SPEED
 $Comp
-L R-RESCUE-wfred_rev2 R302
+L wfred_rev2-rescue:R-RESCUE-wfred_rev2 R302
 U 1 1 592110C5
 P 9200 1950
 F 0 "R302" V 9280 1950 40  0000 C CNN
@@ -113,7 +78,7 @@ F 4 "SMD-0805 220" V 9200 1950 60  0001 C CNN "Reichelt"
 	-1   0    0    1   
 $EndComp
 $Comp
-L LED-RESCUE-wfred_rev2 D301
+L wfred_rev2-rescue:LED-RESCUE-wfred_rev2 D301
 U 1 1 59211179
 P 9200 2600
 F 0 "D301" H 9200 2700 50  0000 C CNN
@@ -127,7 +92,7 @@ $EndComp
 Wire Wire Line
 	9200 2200 9200 2400
 $Comp
-L R-RESCUE-wfred_rev2 R304
+L wfred_rev2-rescue:R-RESCUE-wfred_rev2 R304
 U 1 1 592112F9
 P 9800 1950
 F 0 "R304" V 9880 1950 40  0000 C CNN
@@ -139,7 +104,7 @@ F 4 "603-RC0805JR-07470RL" V 9800 1950 60  0001 C CNN "Mouser"
 	-1   0    0    1   
 $EndComp
 $Comp
-L LED-RESCUE-wfred_rev2 D302
+L wfred_rev2-rescue:LED-RESCUE-wfred_rev2 D302
 U 1 1 59211323
 P 9500 2600
 F 0 "D302" H 9500 2700 50  0000 C CNN
@@ -151,7 +116,7 @@ F 4 "LED 3MM GN" H 9500 2600 60  0001 C CNN "Reichelt"
 	0    1    1    0   
 $EndComp
 $Comp
-L R-RESCUE-wfred_rev2 R303
+L wfred_rev2-rescue:R-RESCUE-wfred_rev2 R303
 U 1 1 592113BE
 P 9500 1950
 F 0 "R303" V 9580 1950 40  0000 C CNN
@@ -163,7 +128,7 @@ F 4 "603-RC0805JR-07470RL" V 9500 1950 60  0001 C CNN "Mouser"
 	-1   0    0    1   
 $EndComp
 $Comp
-L LED-RESCUE-wfred_rev2 D303
+L wfred_rev2-rescue:LED-RESCUE-wfred_rev2 D303
 U 1 1 592113F4
 P 9800 2600
 F 0 "D303" H 9800 2700 50  0000 C CNN
@@ -185,7 +150,7 @@ DIRECTION
 Wire Wire Line
 	1600 2300 1800 2300
 $Comp
-L SW_PUSH SW312
+L device:SW_PUSH SW312
 U 1 1 59212D1C
 P 2100 3300
 F 0 "SW312" H 2250 3410 50  0000 C CNN
@@ -210,7 +175,7 @@ Wire Wire Line
 Wire Wire Line
 	4000 3300 4300 3300
 $Comp
-L SW_PUSH SW305
+L device:SW_PUSH SW305
 U 1 1 592B1B9E
 P 3700 1800
 F 0 "SW305" H 3850 1910 50  0000 C CNN
@@ -224,7 +189,7 @@ F 6 "113-DTSM-65K-V-B" H 2100 1800 60  0001 C CNN "Mouser2"
 	1    0    0    -1  
 $EndComp
 $Comp
-L SW_PUSH SW306
+L device:SW_PUSH SW306
 U 1 1 592B1C04
 P 2100 1800
 F 0 "SW306" H 2250 1910 50  0000 C CNN
@@ -238,7 +203,7 @@ F 6 "113-DTSM-65K-V-B" H 2100 1800 60  0001 C CNN "Mouser2"
 	1    0    0    -1  
 $EndComp
 $Comp
-L SW_PUSH SW307
+L device:SW_PUSH SW307
 U 1 1 592B1C64
 P 3700 2300
 F 0 "SW307" H 3850 2410 50  0000 C CNN
@@ -252,7 +217,7 @@ F 6 "113-DTSM-65K-V-B" H 2100 1800 60  0001 C CNN "Mouser2"
 	1    0    0    -1  
 $EndComp
 $Comp
-L SW_PUSH SW308
+L device:SW_PUSH SW308
 U 1 1 592B1CC9
 P 5300 1800
 F 0 "SW308" H 5450 1910 50  0000 C CNN
@@ -266,7 +231,7 @@ F 6 "113-DTSM-65K-V-B" H 2100 1800 60  0001 C CNN "Mouser2"
 	1    0    0    -1  
 $EndComp
 $Comp
-L SW_PUSH SW309
+L device:SW_PUSH SW309
 U 1 1 592B1D39
 P 2100 2300
 F 0 "SW309" H 2250 2410 50  0000 C CNN
@@ -280,7 +245,7 @@ F 6 "113-DTSM-65K-V-B" H 2100 1800 60  0001 C CNN "Mouser2"
 	1    0    0    -1  
 $EndComp
 $Comp
-L SW_PUSH SW311
+L device:SW_PUSH SW311
 U 1 1 592B1D94
 P 5300 3300
 F 0 "SW311" H 5450 3410 50  0000 C CNN
@@ -293,9 +258,9 @@ F 5 "113-DTSM65YVB" H 5300 3300 60  0001 C CNN "Mouser2"
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	8900 3200 9800 3200
+	8900 3200 9500 3200
 $Comp
-L GND-RESCUE-wfred_rev2 #PWR035
+L wfred_rev2-rescue:GND-RESCUE-wfred_rev2 #PWR035
 U 1 1 59306CC7
 P 2500 5900
 F 0 "#PWR035" H 2500 5900 30  0001 C CNN
@@ -306,7 +271,7 @@ F 3 "" H 2500 5900 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND-RESCUE-wfred_rev2 #PWR036
+L wfred_rev2-rescue:GND-RESCUE-wfred_rev2 #PWR036
 U 1 1 59306D0E
 P 1500 5900
 F 0 "#PWR036" H 1500 5900 30  0001 C CNN
@@ -325,7 +290,7 @@ Wire Wire Line
 Wire Wire Line
 	1600 2800 1800 2800
 $Comp
-L SW_PUSH SW310
+L device:SW_PUSH SW310
 U 1 1 5A125A5B
 P 3700 2800
 F 0 "SW310" H 3850 2910 50  0000 C CNN
@@ -347,7 +312,7 @@ F3
 Text GLabel 4300 3300 2    60   Output ~ 0
 F4
 $Comp
-L SWITCH_INV SW301
+L device:SWITCH_INV SW301
 U 1 1 5A12804B
 P 5000 4500
 F 0 "SW301" H 4800 4650 50  0000 C CNN
@@ -359,7 +324,7 @@ F 4 "611-OS102011MS2QN1" H 5000 4500 60  0001 C CNN "Mouser"
 	1    0    0    -1  
 $EndComp
 $Comp
-L SWITCH_INV SW302
+L device:SWITCH_INV SW302
 U 1 1 5A128104
 P 5000 5100
 F 0 "SW302" H 4800 5250 50  0000 C CNN
@@ -371,7 +336,7 @@ F 4 "611-OS102011MS2QN1" H 5000 5100 60  0001 C CNN "Mouser"
 	1    0    0    -1  
 $EndComp
 $Comp
-L SWITCH_INV SW303
+L device:SWITCH_INV SW303
 U 1 1 5A12817D
 P 5000 5700
 F 0 "SW303" H 4800 5850 50  0000 C CNN
@@ -383,7 +348,7 @@ F 4 "611-OS102011MS2QN1" H 5000 5700 60  0001 C CNN "Mouser"
 	1    0    0    -1  
 $EndComp
 $Comp
-L SWITCH_INV SW304
+L device:SWITCH_INV SW304
 U 1 1 5A1281F9
 P 5000 6300
 F 0 "SW304" H 4800 6450 50  0000 C CNN
@@ -395,7 +360,7 @@ F 4 "611-OS102011MS2QN1" H 5000 6300 60  0001 C CNN "Mouser"
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND-RESCUE-wfred_rev2 #PWR037
+L wfred_rev2-rescue:GND-RESCUE-wfred_rev2 #PWR037
 U 1 1 5A12829C
 P 4300 6800
 F 0 "#PWR037" H 4300 6800 30  0001 C CNN
@@ -406,7 +371,7 @@ F 3 "" H 4300 6800 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	4300 4500 4300 6800
+	4300 4500 4300 5100
 Wire Wire Line
 	4300 6300 4500 6300
 Wire Wire Line
@@ -419,7 +384,7 @@ Wire Wire Line
 	4500 4500 4300 4500
 Connection ~ 4300 5100
 Wire Wire Line
-	5500 4400 5900 4400
+	5500 4400 5700 4400
 Wire Wire Line
 	5500 5000 5700 5000
 Connection ~ 5700 5000
@@ -445,7 +410,7 @@ Wire Wire Line
 Wire Wire Line
 	5900 6400 5500 6400
 $Comp
-L SWITCH_INV SW313
+L device:SWITCH_INV SW313
 U 1 1 5A153621
 P 7200 2300
 F 0 "SW313" H 7000 2450 50  0000 C CNN
@@ -473,7 +438,7 @@ Wire Wire Line
 Wire Wire Line
 	3400 1800 3200 1800
 $Comp
-L SW_PUSH SW314
+L device:SW_PUSH SW314
 U 1 1 5BDFCFFA
 P 5300 2300
 F 0 "SW314" H 5450 2410 50  0000 C CNN
@@ -487,7 +452,7 @@ F 6 "113-DTSM-65K-V-B" H 2100 1800 60  0001 C CNN "Mouser2"
 	1    0    0    -1  
 $EndComp
 $Comp
-L SW_PUSH SW315
+L device:SW_PUSH SW315
 U 1 1 5BDFD0F5
 P 2100 2800
 F 0 "SW315" H 2250 2910 50  0000 C CNN
@@ -501,7 +466,7 @@ F 6 "113-DTSM-65K-V-B" H 2100 1800 60  0001 C CNN "Mouser2"
 	1    0    0    -1  
 $EndComp
 $Comp
-L SW_PUSH SW316
+L device:SW_PUSH SW316
 U 1 1 5BDFD17C
 P 3700 3300
 F 0 "SW316" H 3850 3410 50  0000 C CNN
@@ -523,7 +488,7 @@ Wire Wire Line
 Text GLabel 5900 4400 2    60   Output ~ 0
 LOCO_COMMON
 Wire Wire Line
-	5700 4400 5700 6200
+	5700 4400 5700 5000
 Connection ~ 5700 4400
 Text GLabel 3000 4600 2    60   Input ~ 0
 SPEED_POWER
@@ -558,7 +523,7 @@ F2
 Text GLabel 1600 1600 1    60   Input ~ 0
 F1_F4_F7_ESTOP
 Wire Wire Line
-	1600 1600 1600 3300
+	1600 1600 1600 1800
 Wire Wire Line
 	1600 1800 1800 1800
 Connection ~ 1600 1800
@@ -566,14 +531,14 @@ Connection ~ 1600 2300
 Text GLabel 3200 1600 1    60   Input ~ 0
 F0_F2_F5_F8
 Wire Wire Line
-	3200 1600 3200 3300
+	3200 1600 3200 1800
 Connection ~ 3200 1800
 Connection ~ 3200 2300
 Connection ~ 3200 2800
 Text GLabel 4800 1600 1    60   Input ~ 0
 F3_F6_SHIFT
 Wire Wire Line
-	4800 1600 4800 3300
+	4800 1600 4800 1800
 Connection ~ 4800 1800
 Connection ~ 4800 2300
 Connection ~ 4800 2800
@@ -612,7 +577,7 @@ Wire Wire Line
 Wire Wire Line
 	9800 1500 9800 1700
 $Comp
-L MIC2860 IC301
+L my_devices:MIC2860 IC301
 U 1 1 5CD17656
 P 8900 5000
 F 0 "IC301" H 8900 5100 60  0000 C CNN
@@ -624,7 +589,7 @@ F 4 "998-MIC2860-2PYD6TR" H 8900 5000 60  0001 C CNN "Mouser"
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED D304
+L device:LED D304
 U 1 1 5CD176D3
 P 9700 4500
 F 0 "D304" H 9700 4600 50  0000 C CNN
@@ -636,7 +601,7 @@ F 4 "941-C543AWMNCCCKK141" H 9700 4500 60  0001 C CNN "Mouser"
 	0    1    1    0   
 $EndComp
 $Comp
-L LED D305
+L device:LED D305
 U 1 1 5CD1782F
 P 10000 4500
 F 0 "D305" H 10000 4600 50  0000 C CNN
@@ -656,7 +621,7 @@ Wire Wire Line
 Wire Wire Line
 	10000 5100 10000 4700
 $Comp
-L +BATT #PWR038
+L power:+BATT #PWR038
 U 1 1 5CD1798E
 P 9700 4100
 F 0 "#PWR038" H 9700 4050 20  0001 C CNN
@@ -667,7 +632,7 @@ F 3 "" H 9700 4100 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +BATT #PWR039
+L power:+BATT #PWR039
 U 1 1 5CD17A12
 P 10000 4100
 F 0 "#PWR039" H 10000 4050 20  0001 C CNN
@@ -678,7 +643,7 @@ F 3 "" H 10000 4100 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +BATT #PWR040
+L power:+BATT #PWR040
 U 1 1 5CD17A5E
 P 8100 4100
 F 0 "#PWR040" H 8100 4050 20  0001 C CNN
@@ -697,7 +662,7 @@ Wire Wire Line
 Wire Wire Line
 	10000 4100 10000 4300
 $Comp
-L R-RESCUE-wfred_rev2 R305
+L wfred_rev2-rescue:R-RESCUE-wfred_rev2 R305
 U 1 1 5CD17C99
 P 7850 4900
 F 0 "R305" V 7930 4900 40  0000 C CNN
@@ -709,7 +674,7 @@ F 4 "SMD-0805 15,0K" V 7850 4900 60  0001 C CNN "Reichelt"
 	0    -1   -1   0   
 $EndComp
 $Comp
-L GND #PWR041
+L power:GND #PWR041
 U 1 1 5CD17DBA
 P 7400 5500
 F 0 "#PWR041" H 7400 5500 30  0001 C CNN
@@ -720,7 +685,7 @@ F 3 "" H 7400 5500 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	7400 4800 7400 5500
+	7400 4800 7400 4900
 Wire Wire Line
 	7400 4900 7600 4900
 Wire Wire Line
@@ -733,7 +698,7 @@ FLASHLIGHT
 Wire Wire Line
 	8100 5100 8300 5100
 $Comp
-L C-RESCUE-wfred_rev2 C302
+L wfred_rev2-rescue:C-RESCUE-wfred_rev2 C302
 U 1 1 5CD18EB9
 P 7400 4600
 F 0 "C302" H 7400 4700 40  0000 L CNN
@@ -745,7 +710,7 @@ F 4 "X7R-G0805 1,0/25" H 7400 4600 60  0001 C CNN "Reichelt"
 	1    0    0    -1  
 $EndComp
 $Comp
-L +BATT #PWR042
+L power:+BATT #PWR042
 U 1 1 5CD18F9C
 P 7400 4100
 F 0 "#PWR042" H 7400 4050 20  0001 C CNN
@@ -758,4 +723,42 @@ $EndComp
 Wire Wire Line
 	7400 4100 7400 4400
 Connection ~ 7400 4900
+Wire Wire Line
+	2500 5100 3000 5100
+Wire Wire Line
+	4300 6300 4300 6800
+Wire Wire Line
+	4300 5700 4300 6300
+Wire Wire Line
+	4300 5100 4300 5700
+Wire Wire Line
+	5700 5000 5700 5600
+Wire Wire Line
+	5700 5600 5700 6200
+Wire Wire Line
+	5700 4400 5900 4400
+Wire Wire Line
+	1600 1800 1600 2300
+Wire Wire Line
+	1600 2300 1600 2800
+Wire Wire Line
+	3200 1800 3200 2300
+Wire Wire Line
+	3200 2300 3200 2800
+Wire Wire Line
+	3200 2800 3200 3300
+Wire Wire Line
+	4800 1800 4800 2300
+Wire Wire Line
+	4800 2300 4800 2800
+Wire Wire Line
+	4800 2800 4800 3300
+Wire Wire Line
+	1600 2800 1600 3300
+Wire Wire Line
+	9500 3200 9800 3200
+Wire Wire Line
+	7400 5300 7400 5500
+Wire Wire Line
+	7400 4900 7400 5300
 $EndSCHEMATC

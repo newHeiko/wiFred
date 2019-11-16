@@ -1,41 +1,6 @@
-EESchema Schematic File Version 2
-LIBS:wfred_rev2-rescue
-LIBS:power
-LIBS:device
-LIBS:transistors
-LIBS:conn
-LIBS:linear
-LIBS:regul
-LIBS:74xx
-LIBS:cmos4000
-LIBS:adc-dac
-LIBS:memory
-LIBS:xilinx
-LIBS:microcontrollers
-LIBS:dsp
-LIBS:microchip
-LIBS:analog_switches
-LIBS:motorola
-LIBS:texas
-LIBS:intel
-LIBS:audio
-LIBS:interface
-LIBS:digital-audio
-LIBS:philips
-LIBS:display
-LIBS:cypress
-LIBS:siliconi
-LIBS:opto
-LIBS:atmel
-LIBS:contrib
-LIBS:valves
-LIBS:my_devices
-LIBS:ESP8266
-LIBS:LDL1117S30R
-LIBS:MCP73831T-2ACI_OT
-LIBS:NCV8161BSN300T1G
+EESchema Schematic File Version 4
 LIBS:wfred_rev2-cache
-EELAYER 25 0
+EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -50,11 +15,11 @@ Comment3 "Power supply"
 Comment4 "Master sheet for subsheets"
 $EndDescr
 Wire Wire Line
-	10400 1200 10400 2300
+	10400 1200 10400 1400
 Wire Wire Line
-	10400 2700 10400 3600
+	10400 2700 10400 3300
 $Comp
-L GND-RESCUE-wfred_rev2 #PWR01
+L wfred_rev2-rescue:GND-RESCUE-wfred_rev2 #PWR01
 U 1 1 5920B391
 P 2200 2200
 F 0 "#PWR01" H 2200 2200 30  0001 C CNN
@@ -65,7 +30,7 @@ F 3 "" H 2200 2200 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +BATT #PWR02
+L power:+BATT #PWR02
 U 1 1 5920B394
 P 2800 1250
 F 0 "#PWR02" H 2800 1200 20  0001 C CNN
@@ -76,7 +41,7 @@ F 3 "" H 2800 1250 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND-RESCUE-wfred_rev2 #PWR03
+L wfred_rev2-rescue:GND-RESCUE-wfred_rev2 #PWR03
 U 1 1 5920B39E
 P 10400 3600
 F 0 "#PWR03" H 10400 3600 30  0001 C CNN
@@ -99,7 +64,7 @@ F0 "User Interface" 60
 F1 "User_interface_rev2.sch" 60
 $EndSheet
 $Comp
-L PWR_FLAG #FLG04
+L power:PWR_FLAG #FLG04
 U 1 1 59214BB2
 P 2200 1250
 F 0 "#FLG04" H 2200 1345 30  0001 C CNN
@@ -116,7 +81,7 @@ F0 "Wifi connection" 60
 F1 "wfred-wifi.sch" 60
 $EndSheet
 $Comp
-L CONN_2 P101
+L conn:CONN_2 P101
 U 1 1 5BDF535A
 P 1400 1600
 F 0 "P101" V 1350 1600 40  0000 C CNN
@@ -130,11 +95,11 @@ Wire Wire Line
 	1750 1700 2200 1700
 Connection ~ 2200 1700
 Wire Wire Line
-	2200 1250 2200 2200
+	2200 1250 2200 1700
 Wire Wire Line
-	1750 1500 3000 1500
+	1750 1500 2800 1500
 $Comp
-L USB-MINI-B CON101
+L conn:USB-MINI-B CON101
 U 1 1 5BDF5403
 P 2050 3500
 F 0 "CON101" H 1800 3950 60  0000 C CNN
@@ -146,7 +111,7 @@ F 4 "538-105017-0001" H 2050 3500 60  0001 C CNN "Mouser"
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR05
+L power:GND #PWR05
 U 1 1 5BDF5538
 P 2800 4200
 F 0 "#PWR05" H 2800 4200 30  0001 C CNN
@@ -159,7 +124,7 @@ $EndComp
 Wire Wire Line
 	2600 3200 2800 3200
 Wire Wire Line
-	2800 3200 2800 4200
+	2800 3200 2800 3350
 Wire Wire Line
 	2600 3350 2800 3350
 Connection ~ 2800 3350
@@ -170,7 +135,7 @@ Wire Wire Line
 	2600 3800 2800 3800
 Connection ~ 2800 3800
 $Comp
-L GND #PWR06
+L power:GND #PWR06
 U 1 1 5BDF55B7
 P 1300 4200
 F 0 "#PWR06" H 1300 4200 30  0001 C CNN
@@ -188,7 +153,7 @@ NoConn ~ 1500 3350
 NoConn ~ 1500 3500
 NoConn ~ 1500 3650
 $Comp
-L VCC #PWR07
+L power:VCC #PWR07
 U 1 1 5BDF5646
 P 10400 1200
 F 0 "#PWR07" H 10400 1300 30  0001 C CNN
@@ -199,7 +164,7 @@ F 3 "" H 10400 1200 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +5V #PWR08
+L power:+5V #PWR08
 U 1 1 5BDF5666
 P 1300 2950
 F 0 "#PWR08" H 1300 3040 20  0001 C CNN
@@ -212,9 +177,9 @@ $EndComp
 Wire Wire Line
 	1300 2950 1300 3200
 Wire Wire Line
-	1100 3200 1500 3200
+	1100 3200 1300 3200
 $Comp
-L +BATT #PWR09
+L power:+BATT #PWR09
 U 1 1 5BDF64A0
 P 4200 1200
 F 0 "#PWR09" H 4200 1150 20  0001 C CNN
@@ -225,9 +190,9 @@ F 3 "" H 4200 1200 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	4200 1200 4200 3000
+	4200 1200 4200 2600
 $Comp
-L C C101
+L device:C C101
 U 1 1 5BDF64E4
 P 4200 3200
 F 0 "C101" H 4200 3300 40  0000 L CNN
@@ -241,7 +206,7 @@ Wire Wire Line
 	4200 2600 4900 2600
 Connection ~ 4200 2600
 $Comp
-L GND #PWR010
+L power:GND #PWR010
 U 1 1 5BDF6575
 P 4200 3600
 F 0 "#PWR010" H 4200 3600 30  0001 C CNN
@@ -254,7 +219,7 @@ $EndComp
 Wire Wire Line
 	4200 3600 4200 3400
 $Comp
-L GND #PWR011
+L power:GND #PWR011
 U 1 1 5BDF65B7
 P 4500 3600
 F 0 "#PWR011" H 4500 3600 30  0001 C CNN
@@ -269,7 +234,7 @@ Wire Wire Line
 Wire Wire Line
 	4500 2500 4900 2500
 $Comp
-L R R101
+L device:R R101
 U 1 1 5BDF69E9
 P 3700 1550
 F 0 "R101" V 3780 1550 40  0000 C CNN
@@ -280,7 +245,7 @@ F 3 "" H 3700 1550 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R102
+L device:R R102
 U 1 1 5BDF6A99
 P 3700 3250
 F 0 "R102" V 3780 3250 40  0000 C CNN
@@ -291,7 +256,7 @@ F 3 "" H 3700 3250 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED D101
+L device:LED D101
 U 1 1 5BDF6C34
 P 3700 2100
 F 0 "D101" H 3700 2200 50  0000 C CNN
@@ -302,7 +267,7 @@ F 3 "" H 3700 2100 60  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L LED D102
+L device:LED D102
 U 1 1 5BDF6CF2
 P 3700 2700
 F 0 "D102" H 3700 2800 50  0000 C CNN
@@ -315,14 +280,14 @@ $EndComp
 Wire Wire Line
 	4900 2400 3700 2400
 Wire Wire Line
-	3700 2300 3700 2500
+	3700 2300 3700 2400
 Connection ~ 3700 2400
 Wire Wire Line
 	3700 1800 3700 1900
 Wire Wire Line
 	3700 2900 3700 3000
 $Comp
-L GND #PWR012
+L power:GND #PWR012
 U 1 1 5BDF6E99
 P 3700 3600
 F 0 "#PWR012" H 3700 3600 30  0001 C CNN
@@ -335,7 +300,7 @@ $EndComp
 Wire Wire Line
 	3700 3500 3700 3600
 $Comp
-L +5V #PWR013
+L power:+5V #PWR013
 U 1 1 5BDF6FC9
 P 3700 1200
 F 0 "#PWR013" H 3700 1290 20  0001 C CNN
@@ -348,7 +313,7 @@ $EndComp
 Wire Wire Line
 	3700 1200 3700 1300
 $Comp
-L C C102
+L device:C C102
 U 1 1 5BDF745F
 P 6400 3200
 F 0 "C102" H 6400 3300 40  0000 L CNN
@@ -359,7 +324,7 @@ F 3 "" H 6400 3200 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR014
+L power:GND #PWR014
 U 1 1 5BDF761A
 P 6400 3600
 F 0 "#PWR014" H 6400 3600 30  0001 C CNN
@@ -374,10 +339,10 @@ Wire Wire Line
 Wire Wire Line
 	6000 2400 6400 2400
 Wire Wire Line
-	6400 1200 6400 3000
+	6400 1200 6400 2400
 Connection ~ 6400 2400
 $Comp
-L +5V #PWR015
+L power:+5V #PWR015
 U 1 1 5BDF76F6
 P 6400 1200
 F 0 "#PWR015" H 6400 1290 20  0001 C CNN
@@ -388,7 +353,7 @@ F 3 "" H 6400 1200 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R103
+L device:R R103
 U 1 1 5BDF77A8
 P 6100 3250
 F 0 "R103" V 6180 3250 40  0000 C CNN
@@ -403,7 +368,7 @@ Wire Wire Line
 Wire Wire Line
 	6100 2500 6100 3000
 $Comp
-L GND #PWR016
+L power:GND #PWR016
 U 1 1 5BDF79BD
 P 6100 3600
 F 0 "#PWR016" H 6100 3600 30  0001 C CNN
@@ -416,7 +381,7 @@ $EndComp
 Wire Wire Line
 	6100 3500 6100 3600
 $Comp
-L C C103
+L device:C C103
 U 1 1 5BDF7FBD
 P 7500 2500
 F 0 "C103" H 7500 2600 40  0000 L CNN
@@ -428,7 +393,7 @@ F 4 "X7R-G0805 1,0/25" H 7500 2500 60  0001 C CNN "Reichelt"
 	1    0    0    -1  
 $EndComp
 $Comp
-L +BATT #PWR017
+L power:+BATT #PWR017
 U 1 1 5BDF800C
 P 7500 1200
 F 0 "#PWR017" H 7500 1150 20  0001 C CNN
@@ -441,7 +406,7 @@ $EndComp
 Wire Wire Line
 	7500 1200 7500 2300
 $Comp
-L GND #PWR018
+L power:GND #PWR018
 U 1 1 5BDF8082
 P 7500 3600
 F 0 "#PWR018" H 7500 3600 30  0001 C CNN
@@ -456,7 +421,7 @@ Wire Wire Line
 Wire Wire Line
 	2800 1500 2800 1250
 $Comp
-L C-RESCUE-wfred_rev2 C105
+L wfred_rev2-rescue:C-RESCUE-wfred_rev2 C105
 U 1 1 59210E8B
 P 10400 2500
 F 0 "C105" H 10400 2600 40  0000 L CNN
@@ -468,7 +433,7 @@ F 4 "X7R-G0805 1,0/25" H 10400 2500 60  0001 C CNN "Reichelt"
 	1    0    0    -1  
 $EndComp
 $Comp
-L PWR_FLAG #FLG019
+L power:PWR_FLAG #FLG019
 U 1 1 5BDFC97D
 P 1100 2900
 F 0 "#FLG019" H 1100 2995 30  0001 C CNN
@@ -482,7 +447,7 @@ Wire Wire Line
 	1100 2900 1100 3200
 Connection ~ 1300 3200
 $Comp
-L PWR_FLAG #FLG020
+L power:PWR_FLAG #FLG020
 U 1 1 5BDFCAA6
 P 3000 1200
 F 0 "#FLG020" H 3000 1295 30  0001 C CNN
@@ -496,7 +461,7 @@ Wire Wire Line
 	3000 1500 3000 1200
 Connection ~ 2800 1500
 $Comp
-L PWR_FLAG #FLG021
+L power:PWR_FLAG #FLG021
 U 1 1 5BDFDCEB
 P 10700 1200
 F 0 "#FLG021" H 10700 1295 30  0001 C CNN
@@ -507,12 +472,12 @@ F 3 "" H 10700 1200 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	10700 1200 10700 2300
+	10700 1200 10700 1400
 Wire Wire Line
 	10700 1400 10400 1400
 Connection ~ 10400 1400
 $Comp
-L MCP73831T-2ACI_OT IC101
+L MCP73831T-2ACI_OT:MCP73831T-2ACI_OT IC101
 U 1 1 5BDF6387
 P 4900 2400
 F 0 "IC101" H 5850 2700 50  0000 L CNN
@@ -533,7 +498,7 @@ F 13 "https://www.arrow.com/en/products/mcp73831t-2aciot/microchip-technology" H
 	1    0    0    -1  
 $EndComp
 $Comp
-L NCV8161BSN300T1G IC102
+L NCV8161BSN300T1G:NCV8161BSN300T1G IC102
 U 1 1 5BE0A471
 P 8500 2400
 F 0 "IC102" H 9550 2700 50  0000 L CNN
@@ -552,7 +517,7 @@ F 11 "https://www.arrow.com/en/products/ncv8161bsn300t1g/on-semiconductor" H 955
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR022
+L power:GND #PWR022
 U 1 1 5BE0A873
 P 8400 3600
 F 0 "#PWR022" H 8400 3600 30  0001 C CNN
@@ -567,7 +532,7 @@ Wire Wire Line
 Wire Wire Line
 	8400 2500 8500 2500
 $Comp
-L +BATT #PWR023
+L power:+BATT #PWR023
 U 1 1 5BE0A8E4
 P 8400 1200
 F 0 "#PWR023" H 8400 1150 20  0001 C CNN
@@ -586,7 +551,7 @@ Wire Wire Line
 Wire Wire Line
 	9800 2400 9800 3600
 $Comp
-L GND #PWR024
+L power:GND #PWR024
 U 1 1 5BE0A9A9
 P 9800 3600
 F 0 "#PWR024" H 9800 3600 30  0001 C CNN
@@ -597,7 +562,7 @@ F 3 "" H 9800 3600 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L VCC #PWR025
+L power:VCC #PWR025
 U 1 1 5BE0AA4D
 P 9900 1200
 F 0 "#PWR025" H 9900 1300 30  0001 C CNN
@@ -616,7 +581,7 @@ ESP_ENABLE
 Wire Wire Line
 	8300 2600 8500 2600
 $Comp
-L R R104
+L device:R R104
 U 1 1 5CD0A628
 P 10700 2550
 F 0 "R104" V 10780 2550 40  0000 C CNN
@@ -632,4 +597,28 @@ Wire Wire Line
 Wire Wire Line
 	10700 3300 10400 3300
 Connection ~ 10400 3300
+Wire Wire Line
+	2200 1700 2200 2200
+Wire Wire Line
+	2800 3350 2800 3650
+Wire Wire Line
+	2800 3650 2800 3800
+Wire Wire Line
+	2800 3800 2800 4200
+Wire Wire Line
+	4200 2600 4200 3000
+Wire Wire Line
+	3700 2400 3700 2500
+Wire Wire Line
+	6400 2400 6400 3000
+Wire Wire Line
+	1300 3200 1500 3200
+Wire Wire Line
+	2800 1500 3000 1500
+Wire Wire Line
+	10400 1400 10400 2300
+Wire Wire Line
+	10700 1400 10700 2300
+Wire Wire Line
+	10400 3300 10400 3600
 $EndSCHEMATC

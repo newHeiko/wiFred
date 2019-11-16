@@ -1,0 +1,8 @@
+(sym_lib_table
+  (lib (name wfred_rev2-rescue)(type Legacy)(uri ${KIPRJMOD}/wfred_rev2-rescue.lib)(options "")(descr ""))
+  (lib (name my_devices)(type Legacy)(uri ${KISYSMOD}/my_devices.lib)(options "")(descr ""))
+  (lib (name ESP8266)(type Legacy)(uri ${KISYSMOD}/ESP8266.lib)(options "")(descr ""))
+  (lib (name LDL1117S30R)(type Legacy)(uri ${KISYSMOD}/LDL1117S30R.lib)(options "")(descr ""))
+  (lib (name MCP73831T-2ACI_OT)(type Legacy)(uri ${KISYSMOD}/MCP73831T-2ACI_OT.lib)(options "")(descr ""))
+  (lib (name NCV8161BSN300T1G)(type Legacy)(uri ${KISYSMOD}/NCV8161BSN300T1G.lib)(options "")(descr ""))
+)

@@ -1,4 +1,4 @@
-update=Tue 27 Aug 2019 10:15:13 AM CEST
+update=Sat 16 Nov 2019 11:39:26 PM CET
 version=1
 last_client=kicad
 [pcbnew]
@@ -37,40 +37,4 @@ SpiceUseNetNumbers=0
 LabSize=60
 [eeschema]
 version=1
-LibDir=../../kicad_extra_libs
-[eeschema/libraries]
-LibName1=wfred_rev2-rescue
-LibName2=power
-LibName3=device
-LibName4=transistors
-LibName5=conn
-LibName6=linear
-LibName7=regul
-LibName8=74xx
-LibName9=cmos4000
-LibName10=adc-dac
-LibName11=memory
-LibName12=xilinx
-LibName13=microcontrollers
-LibName14=dsp
-LibName15=microchip
-LibName16=analog_switches
-LibName17=motorola
-LibName18=texas
-LibName19=intel
-LibName20=audio
-LibName21=interface
-LibName22=digital-audio
-LibName23=philips
-LibName24=display
-LibName25=cypress
-LibName26=siliconi
-LibName27=opto
-LibName28=atmel
-LibName29=contrib
-LibName30=valves
-LibName31=/home/heiko/elektronik/kicad_extra_libs/my_devices
-LibName32=/home/heiko/elektronik/kicad_extra_libs/ESP8266
-LibName33=LDL1117S30R
-LibName34=MCP73831T-2ACI_OT
-LibName35=NCV8161BSN300T1G
+LibDir=

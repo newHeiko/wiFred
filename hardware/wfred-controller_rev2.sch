@@ -1,41 +1,6 @@
-EESchema Schematic File Version 2
-LIBS:wfred_rev2-rescue
-LIBS:power
-LIBS:device
-LIBS:transistors
-LIBS:conn
-LIBS:linear
-LIBS:regul
-LIBS:74xx
-LIBS:cmos4000
-LIBS:adc-dac
-LIBS:memory
-LIBS:xilinx
-LIBS:microcontrollers
-LIBS:dsp
-LIBS:microchip
-LIBS:analog_switches
-LIBS:motorola
-LIBS:texas
-LIBS:intel
-LIBS:audio
-LIBS:interface
-LIBS:digital-audio
-LIBS:philips
-LIBS:display
-LIBS:cypress
-LIBS:siliconi
-LIBS:opto
-LIBS:atmel
-LIBS:contrib
-LIBS:valves
-LIBS:my_devices
-LIBS:ESP8266
-LIBS:LDL1117S30R
-LIBS:MCP73831T-2ACI_OT
-LIBS:NCV8161BSN300T1G
+EESchema Schematic File Version 4
 LIBS:wfred_rev2-cache
-EELAYER 25 0
+EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -50,7 +15,7 @@ Comment3 ""
 Comment4 "Main controller and directly related peripheral stuff"
 $EndDescr
 $Comp
-L C-RESCUE-wfred_rev2 C205
+L wfred_rev2-rescue:C-RESCUE-wfred_rev2 C205
 U 1 1 5920CFB6
 P 8900 3100
 AR Path="/5920CFB6" Ref="C205"  Part="1" 
@@ -64,7 +29,7 @@ F 4 "NPO-G0805 22P" H 8900 3100 60  0001 C CNN "Reichelt"
 	0    -1   1    0   
 $EndComp
 $Comp
-L C-RESCUE-wfred_rev2 C206
+L wfred_rev2-rescue:C-RESCUE-wfred_rev2 C206
 U 1 1 5920D023
 P 8900 3900
 AR Path="/5920D023" Ref="C206"  Part="1" 
@@ -78,7 +43,7 @@ F 4 "NPO-G0805 22P" H 8900 3900 60  0001 C CNN "Reichelt"
 	0    -1   1    0   
 $EndComp
 $Comp
-L C-RESCUE-wfred_rev2 C202
+L wfred_rev2-rescue:C-RESCUE-wfred_rev2 C202
 U 1 1 5920D0A7
 P 5300 2000
 AR Path="/5920D0A7" Ref="C202"  Part="1" 
@@ -92,7 +57,7 @@ F 4 "X7R-G0805 100N" H 5300 2000 60  0001 C CNN "Reichelt"
 	1    0    0    -1  
 $EndComp
 $Comp
-L C-RESCUE-wfred_rev2 C203
+L wfred_rev2-rescue:C-RESCUE-wfred_rev2 C203
 U 1 1 5920E33B
 P 5600 2000
 AR Path="/5920E33B" Ref="C203"  Part="1" 
@@ -106,7 +71,7 @@ F 4 "X7R-G0805 100N" H 5600 2000 60  0001 C CNN "Reichelt"
 	1    0    0    -1  
 $EndComp
 $Comp
-L C-RESCUE-wfred_rev2 C201
+L wfred_rev2-rescue:C-RESCUE-wfred_rev2 C201
 U 1 1 5920E47C
 P 3300 4200
 AR Path="/5920E47C" Ref="C201"  Part="1" 
@@ -120,7 +85,7 @@ F 4 "X7R-G0805 100N" H 3300 4200 60  0001 C CNN "Reichelt"
 	1    0    0    -1  
 $EndComp
 $Comp
-L CONN_3X2 P201
+L conn:CONN_3X2 P201
 U 1 1 5920E592
 P 4400 2150
 F 0 "P201" H 4400 2400 50  0000 C CNN
@@ -132,7 +97,7 @@ F 4 "SL 2X10G SMD2,54 / SL 2X10G 2,54" H 4400 2150 60  0001 C CNN "Reichelt"
 	1    0    0    -1  
 $EndComp
 $Comp
-L R-RESCUE-wfred_rev2 R201
+L wfred_rev2-rescue:R-RESCUE-wfred_rev2 R201
 U 1 1 5920FD60
 P 4450 1600
 F 0 "R201" V 4530 1600 40  0000 C CNN
@@ -150,7 +115,7 @@ SCK
 Text GLabel 4900 2100 2    60   Output ~ 0
 MOSI
 $Comp
-L PWR_FLAG #FLG026
+L power:PWR_FLAG #FLG026
 U 1 1 59214642
 P 3300 3700
 F 0 "#FLG026" H 3300 3795 30  0001 C CNN
@@ -161,7 +126,7 @@ F 3 "" H 3300 3700 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND-RESCUE-wfred_rev2 #PWR027
+L wfred_rev2-rescue:GND-RESCUE-wfred_rev2 #PWR027
 U 1 1 5920D54C
 P 9300 4100
 F 0 "#PWR027" H 9300 4100 30  0001 C CNN
@@ -172,7 +137,7 @@ F 3 "" H 9300 4100 60  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L GND-RESCUE-wfred_rev2 #PWR028
+L wfred_rev2-rescue:GND-RESCUE-wfred_rev2 #PWR028
 U 1 1 5920D60E
 P 5300 2600
 F 0 "#PWR028" H 5300 2600 30  0001 C CNN
@@ -189,7 +154,7 @@ THIS_RXD
 Text GLabel 3800 4650 0    60   Input ~ 0
 SPEED
 $Comp
-L GND-RESCUE-wfred_rev2 #PWR029
+L wfred_rev2-rescue:GND-RESCUE-wfred_rev2 #PWR029
 U 1 1 592F4690
 P 3300 5700
 F 0 "#PWR029" H 3300 5700 30  0001 C CNN
@@ -210,7 +175,7 @@ F1
 Text GLabel 6600 4150 2    60   Input ~ 0
 F2
 $Comp
-L myCRYSTAL X201
+L my_devices:myCRYSTAL X201
 U 1 1 5A171DD9
 P 8400 3500
 F 0 "X201" H 8400 3650 60  0000 C CNN
@@ -222,7 +187,7 @@ F 4 "449-LFXTAL036338CUTT" H 8400 3500 60  0001 C CNN "Mouser"
 	0    1    1    0   
 $EndComp
 $Comp
-L GND-RESCUE-wfred_rev2 #PWR030
+L wfred_rev2-rescue:GND-RESCUE-wfred_rev2 #PWR030
 U 1 1 5A171EC6
 P 8200 4100
 F 0 "#PWR030" H 8200 4100 30  0001 C CNN
@@ -233,7 +198,7 @@ F 3 "" H 8200 4100 60  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L GND-RESCUE-wfred_rev2 #PWR031
+L wfred_rev2-rescue:GND-RESCUE-wfred_rev2 #PWR031
 U 1 1 5A171EEF
 P 8000 3300
 F 0 "#PWR031" H 8000 3300 30  0001 C CNN
@@ -260,7 +225,7 @@ LOCO_COMMON
 Text GLabel 6600 5100 2    60   Output ~ 0
 ESP_ENABLE
 $Comp
-L +BATT #PWR032
+L power:+BATT #PWR032
 U 1 1 5BE0AEFB
 P 5400 1400
 F 0 "#PWR032" H 5400 1350 20  0001 C CNN
@@ -271,7 +236,7 @@ F 3 "" H 5400 1400 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +BATT #PWR033
+L power:+BATT #PWR033
 U 1 1 5BE0B208
 P 3300 3100
 F 0 "#PWR033" H 3300 3050 20  0001 C CNN
@@ -284,7 +249,7 @@ $EndComp
 Text GLabel 6600 4550 2    60   Output ~ 0
 SPEED_POWER
 $Comp
-L R R204
+L device:R R204
 U 1 1 5BE0AFA5
 P 7450 4900
 F 0 "R204" V 7530 4900 40  0000 C CNN
@@ -299,14 +264,14 @@ Wire Wire Line
 Wire Wire Line
 	8400 3800 8400 3900
 Wire Wire Line
-	5900 3900 8700 3900
+	5900 3900 8400 3900
 Wire Wire Line
 	5600 1600 5600 1800
 Wire Wire Line
 	5300 1600 5300 1800
 Connection ~ 5600 1600
 Wire Wire Line
-	5300 2200 5300 2600
+	5300 2200 5300 2400
 Wire Wire Line
 	5600 2400 5600 2200
 Connection ~ 5300 2400
@@ -316,14 +281,14 @@ Connection ~ 8400 3900
 Wire Wire Line
 	9100 3100 9300 3100
 Wire Wire Line
-	9300 3100 9300 4100
+	9300 3100 9300 3900
 Wire Wire Line
 	9100 3900 9300 3900
 Connection ~ 9300 3900
 Wire Wire Line
-	3300 3700 3300 4000
+	3300 3700 3300 3800
 Wire Wire Line
-	3300 4400 3300 5700
+	3300 4400 3300 5500
 Wire Wire Line
 	5000 2000 4800 2000
 Wire Wire Line
@@ -359,7 +324,7 @@ Wire Wire Line
 Wire Wire Line
 	5900 4250 6600 4250
 Wire Wire Line
-	5900 3500 6600 3500
+	5900 3500 6200 3500
 Wire Wire Line
 	5000 2200 5000 2400
 Connection ~ 3900 2200
@@ -374,7 +339,7 @@ Wire Wire Line
 Wire Wire Line
 	7800 3100 7800 3800
 Wire Wire Line
-	7800 3100 8700 3100
+	7800 3100 8400 3100
 Wire Wire Line
 	5900 4350 6600 4350
 Wire Wire Line
@@ -401,15 +366,15 @@ Wire Wire Line
 Wire Wire Line
 	5900 3400 6600 3400
 Wire Wire Line
-	3800 2200 4000 2200
+	3800 2200 3900 2200
 Wire Wire Line
 	5900 5100 6600 5100
 Wire Wire Line
 	5900 4550 6600 4550
 Wire Wire Line
-	7700 4900 8200 4900
+	7700 4900 7800 4900
 $Comp
-L ATMEGA328P-A IC201
+L atmel:ATMEGA328P-A IC201
 U 1 1 5BE1F936
 P 4900 4300
 F 0 "IC201" H 4150 5550 40  0000 L BNN
@@ -426,9 +391,9 @@ Wire Wire Line
 Wire Wire Line
 	5900 1600 5900 1800
 Wire Wire Line
-	4700 1600 5900 1600
+	4700 1600 5000 1600
 $Comp
-L C-RESCUE-wfred_rev2 C207
+L wfred_rev2-rescue:C-RESCUE-wfred_rev2 C207
 U 1 1 5BDF9383
 P 5900 2000
 F 0 "C207" H 5900 2100 40  0000 L CNN
@@ -440,22 +405,22 @@ F 4 "X7R-G0805 100N" H 5900 2000 60  0001 C CNN "Reichelt"
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	5000 2400 5900 2400
+	5000 2400 5300 2400
 Wire Wire Line
 	4000 3300 3850 3300
 Wire Wire Line
-	3850 3200 3850 3500
+	3850 3200 3850 3300
 Connection ~ 3850 3200
 Wire Wire Line
 	3850 3500 4000 3500
 Connection ~ 3850 3300
 Wire Wire Line
-	3300 5500 4000 5500
+	3300 5500 3900 5500
 Connection ~ 3300 5500
 Wire Wire Line
 	4000 5400 3900 5400
 Wire Wire Line
-	3900 5300 3900 5500
+	3900 5300 3900 5400
 Connection ~ 3900 5500
 Wire Wire Line
 	4000 5300 3900 5300
@@ -482,11 +447,11 @@ Wire Wire Line
 	3800 4650 4000 4650
 NoConn ~ 4000 4550
 Wire Wire Line
-	3300 3200 4000 3200
+	3300 3200 3850 3200
 Wire Wire Line
 	3300 3200 3300 3100
 $Comp
-L BAR43 D201
+L my_devices:BAR43 D201
 U 1 1 5CD177D6
 P 8100 4600
 F 0 "D201" H 8100 4700 40  0000 C CNN
@@ -497,7 +462,7 @@ F 3 "" H 8100 4600 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L VCC #PWR034
+L power:VCC #PWR034
 U 1 1 5CD17879
 P 8500 4400
 F 0 "#PWR034" H 8500 4500 30  0001 C CNN
@@ -520,4 +485,42 @@ Wire Wire Line
 	6300 3600 5900 3600
 Wire Wire Line
 	6400 3700 5900 3700
+Wire Wire Line
+	5600 1600 5900 1600
+Wire Wire Line
+	5300 2400 5300 2600
+Wire Wire Line
+	5300 2400 5600 2400
+Wire Wire Line
+	5600 2400 5900 2400
+Wire Wire Line
+	8400 3100 8700 3100
+Wire Wire Line
+	8400 3900 8700 3900
+Wire Wire Line
+	9300 3900 9300 4100
+Wire Wire Line
+	5000 1600 5300 1600
+Wire Wire Line
+	5300 1600 5400 1600
+Wire Wire Line
+	3300 3800 3300 4000
+Wire Wire Line
+	5400 1600 5600 1600
+Wire Wire Line
+	3900 2200 4000 2200
+Wire Wire Line
+	6200 3500 6600 3500
+Wire Wire Line
+	3850 3200 4000 3200
+Wire Wire Line
+	3850 3300 3850 3500
+Wire Wire Line
+	3300 5500 3300 5700
+Wire Wire Line
+	3900 5500 4000 5500
+Wire Wire Line
+	3900 5400 3900 5500
+Wire Wire Line
+	7800 4900 8200 4900
 $EndSCHEMATC
