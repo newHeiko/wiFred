@@ -190,6 +190,7 @@ AVRDUDE_READ_EEPROM = -U eeprom:r:$(TARGET).eep.tmp:i
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex -U eeprom:w:$(TARGET).eep.tmp
 AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
 
+AVRDUDE_WRITE_FUSES = -U lfuse:w:0x7f:m -U hfuse:w:0xd9:m -U efuse:w:0x07:m
 
 # Uncomment the following if you want avrdude's erase cycle counter.
 # Note that this counter needs to be initialized first using -Yn,
@@ -325,7 +326,8 @@ program: $(TARGET).hex
 eeprom: $(TARGET).eep
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_EEPROM)
 
-
+fuses:	
+	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FUSES)
 
 # Convert ELF to COFF for use in debugging / simulating in AVR Studio or VMLAB.
 COFFCONVERT=$(OBJCOPY) --debugging \
