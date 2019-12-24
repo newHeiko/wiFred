@@ -109,14 +109,12 @@ Follow these steps for a new throttle (see later chapters for more explanation o
 \item Add throttle knob
 \item Move any loco selection switch to ``enabled'' to power ESP8266
 \item Using any WiFi client (laptop, smartphone, tablet...), find and connect to network \textit{wiFred-configXXXX}
-\item Using any web browser, navigate to \textit{http://192.168.4.1}
-\item Enter your WiFi configuration (and a throttle ID if you like -- highly recommended to easier tell them apart) \textbf{and hit the \textit{Submit}-Button}
-\item Click on \texttt{Loco configuration subpage}
-\item Enter your wiThrottle server settings
+\item Using any web browser, navigate to \textit{http://192.168.4.1} or \textit{http://config.local}
+\item Enter your WiFi configuration or scan for available networks (and a throttle ID if you like -- highly recommended to easier tell them apart) \textbf{and hit the \textit{Submit}-Button}
 \item For every loco you want to control with this throttle, enter the appropriate details below
-\item Finish by \textbf{hitting the \textit{Submit}-Button}
+\item \textbf{Hit the \textit{Submit}-Button} for every loco
 \item Configure function settings for each loco on the respective sub pages if required
-\item Restart the throttle by navigating back to the main configuration page and clicking on \texttt{Restart system to enable new WiFi settings}
+\item Restart the throttle by clicking on \texttt{Restart system to enable new WiFi settings}
 \end{enumerate}
 
 Your throttle should now be ready to use and connect to your wiThrottle server on startup. Refer to the chapters below if it does not or contact the author of this document.
@@ -139,7 +137,7 @@ Figure~\ref{throttleControls} shows the controls of the wireless throttle. They 
 \item Speed potentiometer (Counter-clockwise endstop: Stop, clockwise endstop: Full speed)
 \item Direction switch -- move right for forward movement, left for reverse movement
 \item Black function keys F0 to F8
-\item Yellow shift key to trigger F9-F16
+\item Yellow shift key to trigger F9-F16 and turn on flashlight function
 \item Red emergency stop key
 \item Two green direction indicator LEDs next to speed potentiometer
 \item Red status LED next to speed potentiometer
@@ -147,7 +145,7 @@ Figure~\ref{throttleControls} shows the controls of the wireless throttle. They 
 \item Green fully charged indicator LED at lower end of device -- lit when fully charged as long as charger still connected
 \end{itemize}
 
-As soon as any of the loco selection switches is moved into the ``enabled'' position, the throttle will boot up and try to connect to a wireless network. When all four loco selection switches are ``disabled'', the throttle will disconnect from the wireless network after a grace period of two minutes. The device will then go into low power mode, in which the battery will last for more than a year.
+As soon as any of the loco selection switches is moved into the ``enabled'' position, the throttle will boot up and try to connect to a wireless network. When all four loco selection switches are ``disabled'', the throttle will disconnect from the wireless network after a grace period of five seconds. The device will then go into low power mode, in which the battery will last for more than a year.
 
 If no connection to the network configured into the device can be established within 60 seconds, the throttle will create it's own wireless network named \textit{wiFred-config} plus four hex digits taken from the MAC address of the throttle WiFi interface, for example \textit{wiFred-config0CAC}, to enable configuration as described in section~\ref{config}.
 
@@ -155,7 +153,7 @@ Four different locos with long DCC addresses can be assigned to the four loco se
 
 Pushing the red emergency stop key will cause the throttle to send an emergency stop signal to all four locos attached. After an emergency stop, turn the speed potentiometer to zero to re-enable control of the locos.
 
-Pushing the red emergency stop key while holding down either of the shift keys will place the device into configuration mode (as well as issueing an emergency stop to all attached locos). See section~\ref{config} for more details on how to access the throttle to do the configuration.
+Pushing the red emergency stop key while holding down the shift key will place the device into configuration mode (as well as issueing an emergency stop to all attached locos). See section~\ref{config} for more details on how to access the throttle to do the configuration.
 
 Any change in the loco selection switches will cause the throttle to send an emergency stop command to all attached locos. This makes sure that any loco that is deselected will stop on the layout and avoids newly selected locos suddenly taking off at speed. The same is true for a change in the direction switch, to avoid high-speed reverse maneuvers. Turn the speed potentiometer to zero to re-enable control of the locos.
 
@@ -176,6 +174,8 @@ If both charging status LEDs light up when a charging cable is connected, probab
 \subsection{Hardware description}
 
 The wiFred hardware is centered around an ESP8266 for the WiFi connection. The ESP8266 communicates through it's serial port with an ATMega~328P microcontroller which manages the power, controls the LEDs, reads the loco selection switches, speed potentiometer, direction switch and pushbutton switches for functions and emergency stop. The communication goes through a 2x3 pin header which enables the user to connect a programming cable to the same serial port if removing the jumpers.
+
+Optionally, two white 5\,mm-LEDs protruding from the top of the PCB can be installed to serve as a flashlight. They are driven by a constant-current source directly from the battery and enabled when pushing the yellow SHIFT key.
 
 The wiFred is powered by a single cell LiPo battery. The ATMega~328P is connected directly to the LiPo cell, going into sleep mode when no loco selection switch is active, thereby reducing the power consumption to less than 1\,mA. The ESP8266 is powered by a low-drop linear voltage regulator with an output voltage of 3\,V which is disabled by the ATMega~328P when the device goes into standby.
 
@@ -205,7 +205,7 @@ The schematic is split into several pages and can be found in figures~\ref{schem
 \begin{figure}[tbh]
   \centering
   \includegraphics[width=\textwidth]{images/User_interface_rev2-User_Interface}
-  \caption{Schematic sheet including pushbutton switches, loco selection switches, direction switch and speed potentiometer}
+  \caption{Schematic sheet including pushbutton switches, loco selection switches, direction switch, speed potentiometer and flashlight LEDs with controller}
   \label{schematicPage4}
 \end{figure}
 
@@ -234,8 +234,9 @@ The remaining assembly is a basic exercise in installing all the components to t
       \hline
       Designator & Package & Designation \\
       \hline
-      C102,C101 & C\_0805\_HandSoldering & 4u7 \\ 
-      C105,C103 & C\_0805\_HandSoldering & 1u \\
+      B1 & Battery & Lithium battery 1700mAh \\
+      C102,C101 & C\_0805\_HandSoldering & 4u7 \\
+      C105,C103, C302 & C\_0805\_HandSoldering & 1u \\
       C206,C205 & C\_0805\_HandSoldering & 22p \\
       C401,C203, C202,C201, C207 & C\_0805\_HandSoldering & 100n \\
       C402,C301 & C\_0805\_HandSoldering & 22u \\
@@ -243,22 +244,33 @@ The remaining assembly is a basic exercise in installing all the components to t
       CON101 & USB\_Micro-B\_Molex-105017-0001 & USB-MICRO-B \\
       D101 & LED\_D3.0mm & LED - red \\
       D102 & LED\_D3.0mm & LED - green \\
+      D201 & SOT-23\_Handsoldering & BAR43 \\
       D301 & LED\_D3.0mm & STOP - red \\
       D302 & LED\_D3.0mm & FORWARD - green \\
       D303 & LED\_D3.0mm & REVERSE - green \\
+      D303,D302, D301,D101, D102 & LED Spacer & 3mm \\
+      D304 & LED\_D5.0mm\_Horicontal\_FLIPPED\_O1.27mm & LED white \\
+      D305 & LED\_D5.0mm\_Horicontal\_O1.27mm & LED white \\
+      H1a & Housing black & Strapubox 2090 \\
+      or H1b & Housing white & Strapubox 2090 \\
       IC101 & SOT95P270X145-5N & MCP73831T-2ACI\_OT \\
       IC102 & SOT95P275X110-5N & NCV8161BSN300T1G \\
       IC201 & TQFP-32\_7x7mm\_Pitch0.8mm & ATMEGA328P-A \\
+      IC301 & SOT-23-6\_Handsoldering & MIC2860-2PYD6 \\
+      J1,J2 & Jumper & \\
+      K1a & Potentiometer Knob silver & 24mm \\
+      or K1b & Potentiometer Knob black & 24mm \\
       K401 & Pin\_Header\_Straight\_1x03\_Pitch2.54mm & UART\_ESP \\
       K402 & Pin\_Header\_Straight\_1x03\_Pitch2.54mm & UART\_AVR \\
+      P1 & PCB & 124mm x 35mm x 1.6mm \\
       P101 & Pin\_Header\_Angled\_1x02\_Pitch2.54mm & BATT \\
       P201 & Pin\_Header\_Straight\_2x03\_Pitch2.54mm\_SMD & ISP \\
       P401 & Pin\_Header\_Straight\_1x02\_Pitch2.54mm & ESP\_BOOTLOAD \\
       R101,R102 & C\_0805\_HandSoldering & 680R \\
       R103 & C\_0805\_HandSoldering & 2k2 \\
-      R204 & C\_0805\_HandSoldering & 220R \\
       R301 & C\_0805\_HandSoldering & 4k7 \\
-      R304,R303, R302 & C\_0805\_HandSoldering & 470R \\
+      R304,R303, R302,R204 & C\_0805\_HandSoldering & 220R \\
+      R305 & C\_0805\_HandSoldering & 15k \\
       R405,R404, R403,R201, R104 & C\_0805\_HandSoldering & 10k \\
       RV301 & P160KNPD & 10k lin P160KNPD-4FC20B10K \\
       SW301 & OS102011MS2Q & LOCO1 \\
@@ -279,30 +291,25 @@ The remaining assembly is a basic exercise in installing all the components to t
       SW316 & SW\_SPST\_PTS645 & F8 \\
       U401 & ESP-12E\_SMD & ESP-12E \\
       X201 & Crystal\_SMD\_TXC\_7M-4pin\_3.2x2.5mm\_HandSoldering & 14.7456MHz \\
-      \hline
-      & Housing StrapuBox 2090 & \\
-      & Two Jumpers, 2.54\,mm & \\
-      & Five LED spacers, 3\,mm & \\
-      & Potentiometer Knob, 21\,mm & \\
-      & Four fastening screws, 2.9\,mm dia x 6.5\,mm & \\
-      & Lithium battery, LP103058 & \\
+      S1,S2, S3,S4 & Mounting Screws & 2,9mm x 6,5mm \\
       \hline
     \end{tabular}
   \end{footnotesize}
 \end{table}
 
 \begin{enumerate}
-\item IC101, IC102, IC201 (note: Rotate PCB so Designator is right side up, then Pin 1 is on top left)
-\item X201
+\item IC101, IC102, IC201 (note: Rotate PCB so Designator is right side up, then Pin 1 is on top left) and IC301
+\item X201 and D201
 \item USB connector CON101
 \item Capacitors and Resistors in 0805 size (first those on the same side as the items before) \label{0805devices}
-\item Capacitors and Resistors not installed in step~\ref{0805devices} -- that is R403, R404, R405, C401, C402 and C403
 \item U401
+\item Capacitors and Resistors not installed in step~\ref{0805devices} -- that is R403, R404, R405, C401, C402 and C403
 \item Pushbutton switches SW305 to SW312 and SW314 to SW316 -- taking care to put the red one at SW312 and the yellow one at SW311
+\item Pin headers K401, K402 and P401 (correct alignment of K401 and K402 can be assured by adding a jumper before soldering)
+\item Pin headers P101 and P201
 \item Loco selection switches SW301 to SW304
 \item LEDs D101, D102 and D301 to D303 with 3mm spacers to the PCB -- making sure the Anode (long pin) is aligned with the square pad on all of them
-\item Pin headers P101 and P201
-\item Pin headers K401, K402 and P401 (correct alignment of K401 and K402 can be assured by adding a jumper before soldering)
+\item LEDs D304 and D305 -- making sure the Anode (long pin) is aligned with the square pad on both, they can be installed on top or bottom of the PCB as desired
 \item Direction switch SW313 (screwed into the PCB with an 8\,mm hex nut first, then attached to it's pads using the cutoffs from D301, D302 and D303) and Speed potentiometer RV301 (screwed into the PCB with a 10\,mm hex nut first)
 \end{enumerate}
 
