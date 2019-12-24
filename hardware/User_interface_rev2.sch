@@ -1,5 +1,4 @@
 EESchema Schematic File Version 4
-LIBS:wfred_rev2-cache
 EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
@@ -150,7 +149,7 @@ DIRECTION
 Wire Wire Line
 	1600 2300 1800 2300
 $Comp
-L device:SW_PUSH SW312
+L wfred_rev2-rescue:SW_PUSH-device SW312
 U 1 1 59212D1C
 P 2100 3300
 F 0 "SW312" H 2250 3410 50  0000 C CNN
@@ -175,7 +174,7 @@ Wire Wire Line
 Wire Wire Line
 	4000 3300 4300 3300
 $Comp
-L device:SW_PUSH SW305
+L wfred_rev2-rescue:SW_PUSH-device SW305
 U 1 1 592B1B9E
 P 3700 1800
 F 0 "SW305" H 3850 1910 50  0000 C CNN
@@ -189,7 +188,7 @@ F 6 "113-DTSM-65K-V-B" H 2100 1800 60  0001 C CNN "Mouser2"
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:SW_PUSH SW306
+L wfred_rev2-rescue:SW_PUSH-device SW306
 U 1 1 592B1C04
 P 2100 1800
 F 0 "SW306" H 2250 1910 50  0000 C CNN
@@ -203,7 +202,7 @@ F 6 "113-DTSM-65K-V-B" H 2100 1800 60  0001 C CNN "Mouser2"
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:SW_PUSH SW307
+L wfred_rev2-rescue:SW_PUSH-device SW307
 U 1 1 592B1C64
 P 3700 2300
 F 0 "SW307" H 3850 2410 50  0000 C CNN
@@ -217,7 +216,7 @@ F 6 "113-DTSM-65K-V-B" H 2100 1800 60  0001 C CNN "Mouser2"
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:SW_PUSH SW308
+L wfred_rev2-rescue:SW_PUSH-device SW308
 U 1 1 592B1CC9
 P 5300 1800
 F 0 "SW308" H 5450 1910 50  0000 C CNN
@@ -231,7 +230,7 @@ F 6 "113-DTSM-65K-V-B" H 2100 1800 60  0001 C CNN "Mouser2"
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:SW_PUSH SW309
+L wfred_rev2-rescue:SW_PUSH-device SW309
 U 1 1 592B1D39
 P 2100 2300
 F 0 "SW309" H 2250 2410 50  0000 C CNN
@@ -245,7 +244,7 @@ F 6 "113-DTSM-65K-V-B" H 2100 1800 60  0001 C CNN "Mouser2"
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:SW_PUSH SW311
+L wfred_rev2-rescue:SW_PUSH-device SW311
 U 1 1 592B1D94
 P 5300 3300
 F 0 "SW311" H 5450 3410 50  0000 C CNN
@@ -290,7 +289,7 @@ Wire Wire Line
 Wire Wire Line
 	1600 2800 1800 2800
 $Comp
-L device:SW_PUSH SW310
+L wfred_rev2-rescue:SW_PUSH-device SW310
 U 1 1 5A125A5B
 P 3700 2800
 F 0 "SW310" H 3850 2910 50  0000 C CNN
@@ -312,7 +311,7 @@ F3
 Text GLabel 4300 3300 2    60   Output ~ 0
 F4
 $Comp
-L device:SWITCH_INV SW301
+L wfred_rev2-rescue:SWITCH_INV-device SW301
 U 1 1 5A12804B
 P 5000 4500
 F 0 "SW301" H 4800 4650 50  0000 C CNN
@@ -324,7 +323,7 @@ F 4 "611-OS102011MS2QN1" H 5000 4500 60  0001 C CNN "Mouser"
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:SWITCH_INV SW302
+L wfred_rev2-rescue:SWITCH_INV-device SW302
 U 1 1 5A128104
 P 5000 5100
 F 0 "SW302" H 4800 5250 50  0000 C CNN
@@ -336,7 +335,7 @@ F 4 "611-OS102011MS2QN1" H 5000 5100 60  0001 C CNN "Mouser"
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:SWITCH_INV SW303
+L wfred_rev2-rescue:SWITCH_INV-device SW303
 U 1 1 5A12817D
 P 5000 5700
 F 0 "SW303" H 4800 5850 50  0000 C CNN
@@ -348,7 +347,7 @@ F 4 "611-OS102011MS2QN1" H 5000 5700 60  0001 C CNN "Mouser"
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:SWITCH_INV SW304
+L wfred_rev2-rescue:SWITCH_INV-device SW304
 U 1 1 5A1281F9
 P 5000 6300
 F 0 "SW304" H 4800 6450 50  0000 C CNN
@@ -410,7 +409,7 @@ Wire Wire Line
 Wire Wire Line
 	5900 6400 5500 6400
 $Comp
-L device:SWITCH_INV SW313
+L wfred_rev2-rescue:SWITCH_INV-device SW313
 U 1 1 5A153621
 P 7200 2300
 F 0 "SW313" H 7000 2450 50  0000 C CNN
@@ -438,7 +437,7 @@ Wire Wire Line
 Wire Wire Line
 	3400 1800 3200 1800
 $Comp
-L device:SW_PUSH SW314
+L wfred_rev2-rescue:SW_PUSH-device SW314
 U 1 1 5BDFCFFA
 P 5300 2300
 F 0 "SW314" H 5450 2410 50  0000 C CNN
@@ -452,7 +451,7 @@ F 6 "113-DTSM-65K-V-B" H 2100 1800 60  0001 C CNN "Mouser2"
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:SW_PUSH SW315
+L wfred_rev2-rescue:SW_PUSH-device SW315
 U 1 1 5BDFD0F5
 P 2100 2800
 F 0 "SW315" H 2250 2910 50  0000 C CNN
@@ -466,7 +465,7 @@ F 6 "113-DTSM-65K-V-B" H 2100 1800 60  0001 C CNN "Mouser2"
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:SW_PUSH SW316
+L wfred_rev2-rescue:SW_PUSH-device SW316
 U 1 1 5BDFD17C
 P 3700 3300
 F 0 "SW316" H 3850 3410 50  0000 C CNN
@@ -589,7 +588,7 @@ F 4 "998-MIC2860-2PYD6TR" H 8900 5000 60  0001 C CNN "Mouser"
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:LED D304
+L wfred_rev2-rescue:LED-device D304
 U 1 1 5CD176D3
 P 9700 4500
 F 0 "D304" H 9700 4600 50  0000 C CNN
@@ -601,7 +600,7 @@ F 4 "941-C543AWMNCCCKK141" H 9700 4500 60  0001 C CNN "Mouser"
 	0    1    1    0   
 $EndComp
 $Comp
-L device:LED D305
+L wfred_rev2-rescue:LED-device D305
 U 1 1 5CD1782F
 P 10000 4500
 F 0 "D305" H 10000 4600 50  0000 C CNN
@@ -674,7 +673,7 @@ F 4 "SMD-0805 15,0K" V 7850 4900 60  0001 C CNN "Reichelt"
 	0    -1   -1   0   
 $EndComp
 $Comp
-L power:GND #PWR041
+L wfred_rev2-rescue:GND-power #PWR041
 U 1 1 5CD17DBA
 P 7400 5500
 F 0 "#PWR041" H 7400 5500 30  0001 C CNN

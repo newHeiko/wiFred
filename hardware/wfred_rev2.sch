@@ -1,5 +1,4 @@
 EESchema Schematic File Version 4
-LIBS:wfred_rev2-cache
 EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
@@ -81,7 +80,7 @@ F0 "Wifi connection" 60
 F1 "wfred-wifi.sch" 60
 $EndSheet
 $Comp
-L conn:CONN_2 P101
+L wfred_rev2-rescue:CONN_2-conn P101
 U 1 1 5BDF535A
 P 1400 1600
 F 0 "P101" V 1350 1600 40  0000 C CNN
@@ -99,7 +98,7 @@ Wire Wire Line
 Wire Wire Line
 	1750 1500 2800 1500
 $Comp
-L conn:USB-MINI-B CON101
+L wfred_rev2-rescue:USB-MINI-B-conn CON101
 U 1 1 5BDF5403
 P 2050 3500
 F 0 "CON101" H 1800 3950 60  0000 C CNN
@@ -111,7 +110,7 @@ F 4 "538-105017-0001" H 2050 3500 60  0001 C CNN "Mouser"
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR05
+L wfred_rev2-rescue:GND-power #PWR05
 U 1 1 5BDF5538
 P 2800 4200
 F 0 "#PWR05" H 2800 4200 30  0001 C CNN
@@ -135,7 +134,7 @@ Wire Wire Line
 	2600 3800 2800 3800
 Connection ~ 2800 3800
 $Comp
-L power:GND #PWR06
+L wfred_rev2-rescue:GND-power #PWR06
 U 1 1 5BDF55B7
 P 1300 4200
 F 0 "#PWR06" H 1300 4200 30  0001 C CNN
@@ -192,7 +191,7 @@ $EndComp
 Wire Wire Line
 	4200 1200 4200 2600
 $Comp
-L device:C C101
+L wfred_rev2-rescue:C-device C101
 U 1 1 5BDF64E4
 P 4200 3200
 F 0 "C101" H 4200 3300 40  0000 L CNN
@@ -206,7 +205,7 @@ Wire Wire Line
 	4200 2600 4900 2600
 Connection ~ 4200 2600
 $Comp
-L power:GND #PWR010
+L wfred_rev2-rescue:GND-power #PWR010
 U 1 1 5BDF6575
 P 4200 3600
 F 0 "#PWR010" H 4200 3600 30  0001 C CNN
@@ -219,7 +218,7 @@ $EndComp
 Wire Wire Line
 	4200 3600 4200 3400
 $Comp
-L power:GND #PWR011
+L wfred_rev2-rescue:GND-power #PWR011
 U 1 1 5BDF65B7
 P 4500 3600
 F 0 "#PWR011" H 4500 3600 30  0001 C CNN
@@ -234,7 +233,7 @@ Wire Wire Line
 Wire Wire Line
 	4500 2500 4900 2500
 $Comp
-L device:R R101
+L wfred_rev2-rescue:R-device R101
 U 1 1 5BDF69E9
 P 3700 1550
 F 0 "R101" V 3780 1550 40  0000 C CNN
@@ -245,7 +244,7 @@ F 3 "" H 3700 1550 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:R R102
+L wfred_rev2-rescue:R-device R102
 U 1 1 5BDF6A99
 P 3700 3250
 F 0 "R102" V 3780 3250 40  0000 C CNN
@@ -256,7 +255,7 @@ F 3 "" H 3700 3250 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:LED D101
+L wfred_rev2-rescue:LED-device D101
 U 1 1 5BDF6C34
 P 3700 2100
 F 0 "D101" H 3700 2200 50  0000 C CNN
@@ -267,7 +266,7 @@ F 3 "" H 3700 2100 60  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L device:LED D102
+L wfred_rev2-rescue:LED-device D102
 U 1 1 5BDF6CF2
 P 3700 2700
 F 0 "D102" H 3700 2800 50  0000 C CNN
@@ -287,7 +286,7 @@ Wire Wire Line
 Wire Wire Line
 	3700 2900 3700 3000
 $Comp
-L power:GND #PWR012
+L wfred_rev2-rescue:GND-power #PWR012
 U 1 1 5BDF6E99
 P 3700 3600
 F 0 "#PWR012" H 3700 3600 30  0001 C CNN
@@ -313,7 +312,7 @@ $EndComp
 Wire Wire Line
 	3700 1200 3700 1300
 $Comp
-L device:C C102
+L wfred_rev2-rescue:C-device C102
 U 1 1 5BDF745F
 P 6400 3200
 F 0 "C102" H 6400 3300 40  0000 L CNN
@@ -324,7 +323,7 @@ F 3 "" H 6400 3200 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR014
+L wfred_rev2-rescue:GND-power #PWR014
 U 1 1 5BDF761A
 P 6400 3600
 F 0 "#PWR014" H 6400 3600 30  0001 C CNN
@@ -353,7 +352,7 @@ F 3 "" H 6400 1200 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:R R103
+L wfred_rev2-rescue:R-device R103
 U 1 1 5BDF77A8
 P 6100 3250
 F 0 "R103" V 6180 3250 40  0000 C CNN
@@ -368,7 +367,7 @@ Wire Wire Line
 Wire Wire Line
 	6100 2500 6100 3000
 $Comp
-L power:GND #PWR016
+L wfred_rev2-rescue:GND-power #PWR016
 U 1 1 5BDF79BD
 P 6100 3600
 F 0 "#PWR016" H 6100 3600 30  0001 C CNN
@@ -381,7 +380,7 @@ $EndComp
 Wire Wire Line
 	6100 3500 6100 3600
 $Comp
-L device:C C103
+L wfred_rev2-rescue:C-device C103
 U 1 1 5BDF7FBD
 P 7500 2500
 F 0 "C103" H 7500 2600 40  0000 L CNN
@@ -406,7 +405,7 @@ $EndComp
 Wire Wire Line
 	7500 1200 7500 2300
 $Comp
-L power:GND #PWR018
+L wfred_rev2-rescue:GND-power #PWR018
 U 1 1 5BDF8082
 P 7500 3600
 F 0 "#PWR018" H 7500 3600 30  0001 C CNN
@@ -517,7 +516,7 @@ F 11 "https://www.arrow.com/en/products/ncv8161bsn300t1g/on-semiconductor" H 955
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR022
+L wfred_rev2-rescue:GND-power #PWR022
 U 1 1 5BE0A873
 P 8400 3600
 F 0 "#PWR022" H 8400 3600 30  0001 C CNN
@@ -551,7 +550,7 @@ Wire Wire Line
 Wire Wire Line
 	9800 2400 9800 3600
 $Comp
-L power:GND #PWR024
+L wfred_rev2-rescue:GND-power #PWR024
 U 1 1 5BE0A9A9
 P 9800 3600
 F 0 "#PWR024" H 9800 3600 30  0001 C CNN
@@ -581,7 +580,7 @@ ESP_ENABLE
 Wire Wire Line
 	8300 2600 8500 2600
 $Comp
-L device:R R104
+L wfred_rev2-rescue:R-device R104
 U 1 1 5CD0A628
 P 10700 2550
 F 0 "R104" V 10780 2550 40  0000 C CNN

@@ -1,5 +1,4 @@
 EESchema Schematic File Version 4
-LIBS:wfred_rev2-cache
 EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
@@ -85,7 +84,7 @@ F 4 "X7R-G0805 100N" H 3300 4200 60  0001 C CNN "Reichelt"
 	1    0    0    -1  
 $EndComp
 $Comp
-L conn:CONN_3X2 P201
+L wfred_rev2-rescue:CONN_3X2-conn P201
 U 1 1 5920E592
 P 4400 2150
 F 0 "P201" H 4400 2400 50  0000 C CNN
@@ -249,7 +248,7 @@ $EndComp
 Text GLabel 6600 4550 2    60   Output ~ 0
 SPEED_POWER
 $Comp
-L device:R R204
+L wfred_rev2-rescue:R-device R204
 U 1 1 5BE0AFA5
 P 7450 4900
 F 0 "R204" V 7530 4900 40  0000 C CNN
@@ -374,9 +373,11 @@ Wire Wire Line
 Wire Wire Line
 	7700 4900 7800 4900
 $Comp
-L atmel:ATMEGA328P-A IC201
+L wfred_rev2-rescue:ATMEGA328P-A-atmel IC201
 U 1 1 5BE1F936
 P 4900 4300
+AR Path="/5BE1F936" Ref="IC201"  Part="1" 
+AR Path="/5920C945/5BE1F936" Ref="IC201"  Part="1" 
 F 0 "IC201" H 4150 5550 40  0000 L BNN
 F 1 "ATMEGA328P-A" H 5300 2900 40  0000 L BNN
 F 2 "Housings_QFP:TQFP-32_7x7mm_Pitch0.8mm" H 4900 4300 30  0000 C CIN

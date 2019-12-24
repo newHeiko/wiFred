@@ -1,5 +1,4 @@
 EESchema Schematic File Version 4
-LIBS:wfred_rev2-cache
 EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
@@ -81,7 +80,7 @@ Wire Wire Line
 Wire Wire Line
 	5200 2400 6750 2400
 $Comp
-L conn:CONN_3 K401
+L wfred_rev2-rescue:CONN_3-conn K401
 U 1 1 5A11EE74
 P 7100 2400
 F 0 "K401" V 7050 2400 50  0000 C CNN
@@ -103,7 +102,7 @@ THIS_RXD
 Text GLabel 8050 2400 2    60   Input ~ 0
 THIS_TXD
 $Comp
-L conn:CONN_2 P401
+L wfred_rev2-rescue:CONN_2-conn P401
 U 1 1 5A11F720
 P 7100 2800
 F 0 "P401" V 7050 2800 40  0000 C CNN
@@ -168,7 +167,7 @@ Wire Wire Line
 Wire Wire Line
 	5200 2900 6100 2900
 $Comp
-L conn:CONN_3 K402
+L wfred_rev2-rescue:CONN_3-conn K402
 U 1 1 5A11F053
 P 7350 2300
 F 0 "K402" V 7300 2300 50  0000 C CNN
@@ -286,7 +285,7 @@ NoConn ~ 3400 2900
 NoConn ~ 3400 2400
 NoConn ~ 3400 2300
 $Comp
-L device:CAPAPOL C403
+L wfred_rev2-rescue:CAPAPOL-device C403
 U 1 1 5C81829A
 P 1800 2400
 F 0 "C403" H 1850 2500 40  0000 L CNN
