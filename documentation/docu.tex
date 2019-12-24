@@ -359,7 +359,7 @@ After programming, two jumpers need to be placed between the K401 and K402 pin h
 
 \section{wiFred Wireless throttle configuration} \label{config}
 
-Before using the device, it must be configured. At the very least, the General Configuration~\ref{throttle_GeneralConf} and Loco Configuration~\ref{throttle_LocoConf} pages have to be submitted once to be saved to non-volatile memory. If no valid configuration is detected at startup, the device will start with a default configuration with no locos enabled and trying to connect to a network named ``undef'' with a key named ``undef'', which will probably fail.
+Before using the device, it must be configured. At the very least, the General Configuration page~\ref{throttleConfMainPage} has to be submitted once to be saved to non-volatile memory. If no valid configuration is detected at startup, the device will start with a default configuration with no locos enabled and no WiFi settings, so it won't be able to connect to any WiFi network.
 
 \subsection{Entering configuration mode}
 
@@ -370,11 +370,11 @@ There are two ways to enter configuration mode:
 \item Press SHIFT and ESTOP together when the throttle is connected
 \end{enumerate}
 
-In the first case, the throttle will create a wireless network named \textit{wiFred-config} plus four hex digits taken from the MAC address of the throttle WiFi interface, for example \textit{wiFred-config0CAC}. Any WiFi device with a web browser can connect to that network and open a web browser to point to \textit{http://192.168.4.1}.
+In the first case, the throttle will create a wireless network named \textit{wiFred-config} plus four hex digits taken from the MAC address of the throttle WiFi interface, for example \textit{wiFred-config0CAC} and announce its presence under the name \textit{config.local} as well as creating a captive portal. Any WiFi device with a web browser can connect to that network and open a web browser to point to \textit{http://192.168.4.1} or \textit{http://config.local}. This has been tested with Mozilla Firefox and Opera on Linux with Avahi (a Zeroconf implementation) and Safari on iOS 13.
 
-In the second case, the throttle will change the last tuple of it's IP address to .253 -- so if the wireless network is configured with IP addresses in the \textit{192.168.100.x}-range as highlighted in figure~\ref{withrottleScreenshot}, any web browser can access the configuration at \textit{http://192.168.100.253}.
+In the second case, the throttle will only announce its presence under the name \textit{config.local} using the Bonjour/Zeroconf-protocol. Any device on the same WiFi network with Bonjour/Zeroconf can use a web browser to access the configuration at \textit{http://config.local}. See~\ref{configurationComputer} to understand what is required to have your device understand Bonjour/Zeroconf announcements. This has been tested with Mozilla Firefox and Opera on Linux with Avahi (a Zeroconf implementation).
 
-If the IP address of the throttle during normal operation is known, the configuration page can also be accessed by pointing a web browser to it at any time while it is connected. Note that this is untested and therefore not recommended while the throttle is running locos.
+If the IP address or the name of the throttle during normal operation is known, the configuration pages can also be accessed by pointing a web browser to it at any time while it is connected. Note that this is mostly untested and therefore not recommended while the throttle is running locos.
 
 \begin{figure}[tbh]
   \centering
@@ -385,11 +385,18 @@ If the IP address of the throttle during normal operation is known, the configur
 
 \subsection{General configuration} \label{throttle_GeneralConf}
 
-\begin{figure}[tbh]
+\begin{figure}[tbhp]
   \centering
-  \includegraphics[width=0.8 \textwidth]{images/screenShot_main}
+  \includegraphics[width=0.8 \textwidth]{images/wiFred_configuration_page}
   \caption{Screenshot of wiFred main configuration page}
   \label{throttleConfMainPage}
+\end{figure}
+
+\begin{figure}[tbh]
+  \centering
+  \includegraphics[width=0.8 \textwidth]{images/wiFred_wifi-scan_page}
+  \caption{Screenshot of wiFred ``Scan for WiFi''-page}
+  \label{throttleConfWiFiPage}
 \end{figure}
 
 Figure~\ref{throttleConfMainPage} shows the first page you will see when you point a web browser at your wiFred throttle. It has some general configuration settings for the following items:
@@ -404,23 +411,9 @@ Figure~\ref{throttleConfMainPage} shows the first page you will see when you poi
 
 A new device will not read a saved configuration at startup unless both the main page and the loco configuration subpage have been saved at least once.
 
-\begin{figure}[tbh]
-  \centering
-  \includegraphics[width=0.8 \textwidth]{images/screenShot_status}
-  \caption{Screenshot of wiFred status page}
-  \label{throttleConfigStatusPage}
-\end{figure}
-
 This page also includes links to the configuration sub page for locos as well as a link to the status page shown in figure~\ref{throttleConfigStatusPage} which gives information about the current battery voltage and may be enhanced in the future.
 
 \subsection{Loco configuration} \label{throttle_LocoConf}
-
-\begin{figure}[tbh]
-  \centering
-  \includegraphics[width=0.8 \textwidth]{images/screenShot_loco}
-  \caption{Screenshot of wiFred loco configuration page}
-  \label{throttleConfigLocoPage}
-\end{figure}
 
 On this page, shown in figure~\ref{throttleConfigLocoPage}, the (up to four) locomotives to be controlled with this throttle and some settings for all locomotives are available.
 
@@ -441,9 +434,9 @@ Following the server configuration, there are four identical sections assigned t
 
 By default, if a function key is pressed, the throttle will send the appropriate commands to every loco under control. Under certain circumstances, this may not be desired -- the obvious example being a loco in the middle of a multi-unit consist, which should not have lights or ditchlights. So this page -- shown in figure~\ref{throttleConfigFunctionPage} -- offers the option to chose between three different settings for every function on each of the four locomotives (one page per locomotive):
 
-\begin{figure}[tbh]
+\begin{figure}[tbhp]
   \centering
-  \includegraphics[width=0.8 \textwidth]{images/screenShot_functions}
+  \includegraphics[width=0.8 \textwidth]{images/wiFred_function_page}
   \caption{Screenshot of wiFred function handling config page}
   \label{throttleConfigFunctionPage}
 \end{figure}
@@ -455,6 +448,20 @@ By default, if a function key is pressed, the throttle will send the appropriate
 \end{description}
 
 \textbf{Reminder: Changes are saved using the ``Submit Query'' button which may look different in different web browsers (firefox shown).}
+
+\begin{figure}[tbh]
+  \centering
+  \includegraphics[width=0.8 \textwidth]{images/wiFred_reset_page}
+  \caption{Screenshot of wiFred configuration reset page}
+  \label{throttleConfResetPage}
+\end{figure}
+
+\begin{figure}[tbh]
+  \centering
+  \includegraphics[width=0.8 \textwidth]{images/wiFred_update_page}
+  \caption{Screenshot of wiFred firmware update page}
+  \label{throttleConfUpdatePage}
+\end{figure}
 
 \clearpage
 
