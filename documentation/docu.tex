@@ -9,7 +9,7 @@
 
 \date{\vhCurrentDate}
 \author{\vhListAllAuthors}
-\title{wiFred documentation -- Documentation for WiFi throttle with withrottle interface and wireless clock driver}
+\title{wiFred documentation -- Documentation for a WiFi throttle for model railroads with withrottle interface}
 
 \begin{document}
 \thispagestyle{empty}
@@ -17,7 +17,7 @@
 
 \begin{abstract}
 
-  This document describes the usage and configuration of the wiFred -- a very simple wireless throttle to connect to withrottle servers like JMRI. It also contains schematics and BOMs for the device -- both the LiPo battery version in active development and the first prototype with 2xAA cells -- as well as programming instructions and assembly tips, and also an overview of options for the server side of things.
+  This document describes the usage and configuration of the wiFred -- a very simple wireless throttle for model railroads to connect to withrottle servers like JMRI. It also contains schematics and BOMs for the device -- both the LiPo battery version in active development and the first prototype with 2xAA cells -- as well as programming instructions and assembly tips, and also an overview of options for the server side of things.
 
 The most recent version of this document can be found at:
 
@@ -223,8 +223,24 @@ The PCB has holes in the center of the LED footprints to enable transferring the
 
 The remaining assembly is a basic exercise in installing all the components to the PCB, listed in table~\ref{wiFredBOM}. From assembling the prototypes, the suggested order of installing the components is as follows:
 
+\begin{enumerate}
+\item IC101, IC102, IC201 (note: Rotate PCB so Designator is right side up, then Pin 1 is on top left) and IC301
+\item X201 and D201
+\item USB connector CON101
+\item Capacitors and Resistors in 0805 size (first those on the same side as the items before) \label{0805devices}
+\item U401
+\item Capacitors and Resistors not installed in step~\ref{0805devices} -- that is R403, R404, R405, C401, C402 and C403
+\item Pushbutton switches SW305 to SW312 and SW314 to SW316 -- taking care to put the red one at SW312 and the yellow one at SW311
+\item Pin headers K401, K402 and P401 (correct alignment of K401 and K402 can be assured by adding a jumper before soldering)
+\item Pin headers P101 and P201
+\item Loco selection switches SW301 to SW304
+\item LEDs D101, D102 and D301 to D303 with 3mm spacers to the PCB -- making sure the Anode (long pin) is aligned with the square pad on all of them
+\item LEDs D304 and D305 -- making sure the Anode (long pin) is aligned with the square pad on both, they can be installed on top or bottom of the PCB as desired
+\item Direction switch SW313 (screwed into the PCB with an 8\,mm hex nut first, then attached to it's pads using the cutoffs from D301, D302 and D303) and Speed potentiometer RV301 (screwed into the PCB with a 10\,mm hex nut first)
+\end{enumerate}
+
 \begin{table}
-  \caption{List of components for the wiFred} \label{wiFredBOM}
+  \caption{List of components for the wiFred PCB} \label{wiFredBOM}
   
   \vspace{0.5em}
 
@@ -234,7 +250,6 @@ The remaining assembly is a basic exercise in installing all the components to t
       \hline
       Designator & Package & Designation \\
       \hline
-      B1 & Battery & Lithium battery 1700mAh \\
       C102,C101 & C\_0805\_HandSoldering & 4u7 \\
       C105,C103, C302 & C\_0805\_HandSoldering & 1u \\
       C206,C205 & C\_0805\_HandSoldering & 22p \\
@@ -251,15 +266,10 @@ The remaining assembly is a basic exercise in installing all the components to t
       D303,D302, D301,D101, D102 & LED Spacer & 3mm \\
       D304 & LED\_D5.0mm\_Horicontal\_FLIPPED\_O1.27mm & LED white \\
       D305 & LED\_D5.0mm\_Horicontal\_O1.27mm & LED white \\
-      H1a & Housing black & Strapubox 2090 \\
-      or H1b & Housing white & Strapubox 2090 \\
       IC101 & SOT95P270X145-5N & MCP73831T-2ACI\_OT \\
       IC102 & SOT95P275X110-5N & NCV8161BSN300T1G \\
       IC201 & TQFP-32\_7x7mm\_Pitch0.8mm & ATMEGA328P-A \\
       IC301 & SOT-23-6\_Handsoldering & MIC2860-2PYD6 \\
-      J1,J2 & Jumper & \\
-      K1a & Potentiometer Knob silver & 24mm \\
-      or K1b & Potentiometer Knob black & 24mm \\
       K401 & Pin\_Header\_Straight\_1x03\_Pitch2.54mm & UART\_ESP \\
       K402 & Pin\_Header\_Straight\_1x03\_Pitch2.54mm & UART\_AVR \\
       P1 & PCB & 124mm x 35mm x 1.6mm \\
@@ -291,27 +301,36 @@ The remaining assembly is a basic exercise in installing all the components to t
       SW316 & SW\_SPST\_PTS645 & F8 \\
       U401 & ESP-12E\_SMD & ESP-12E \\
       X201 & Crystal\_SMD\_TXC\_7M-4pin\_3.2x2.5mm\_HandSoldering & 14.7456MHz \\
-      S1,S2, S3,S4 & Mounting Screws & 2,9mm x 6,5mm \\
       \hline
     \end{tabular}
   \end{footnotesize}
 \end{table}
 
-\begin{enumerate}
-\item IC101, IC102, IC201 (note: Rotate PCB so Designator is right side up, then Pin 1 is on top left) and IC301
-\item X201 and D201
-\item USB connector CON101
-\item Capacitors and Resistors in 0805 size (first those on the same side as the items before) \label{0805devices}
-\item U401
-\item Capacitors and Resistors not installed in step~\ref{0805devices} -- that is R403, R404, R405, C401, C402 and C403
-\item Pushbutton switches SW305 to SW312 and SW314 to SW316 -- taking care to put the red one at SW312 and the yellow one at SW311
-\item Pin headers K401, K402 and P401 (correct alignment of K401 and K402 can be assured by adding a jumper before soldering)
-\item Pin headers P101 and P201
-\item Loco selection switches SW301 to SW304
-\item LEDs D101, D102 and D301 to D303 with 3mm spacers to the PCB -- making sure the Anode (long pin) is aligned with the square pad on all of them
-\item LEDs D304 and D305 -- making sure the Anode (long pin) is aligned with the square pad on both, they can be installed on top or bottom of the PCB as desired
-\item Direction switch SW313 (screwed into the PCB with an 8\,mm hex nut first, then attached to it's pads using the cutoffs from D301, D302 and D303) and Speed potentiometer RV301 (screwed into the PCB with a 10\,mm hex nut first)
-\end{enumerate}
+To form a complete BOM, also include the parts listed in table~\ref{wiFredBOMextra} which are not soldered to the PCB but used in assembly later on.
+
+\begin{table}
+  \caption{List of components for the wiFred excluding electronic parts to solder to PCB} \label{wiFredBOMextra}
+  
+  \vspace{0.5em}
+
+  \centering
+  \begin{footnotesize}
+    \begin{tabular}{|m{5em}|l|l|}
+      \hline
+      Designator & Package & Designation \\
+      \hline
+      B1 & Battery & Lithium battery 1700mAh \\
+      H1a & Housing black & Strapubox 2090 \\
+      or H1b & Housing white & Strapubox 2090 \\
+      J1,J2 & Jumper & \\
+      K1a & Potentiometer Knob silver & 24mm \\
+      or K1b & Potentiometer Knob black & 24mm \\
+      P1 & PCB & 124mm x 35mm x 1.6mm \\
+      S1,S2, S3,S4 & Mounting Screws & 2,9mm x 6,5mm \\
+      \hline
+    \end{tabular}
+  \end{footnotesize}
+\end{table}
 
 After assembling the PCB with all the components, the holes and cutouts in the enclosure most likely will have to be reworked / extended to actually fit the PCB, then the PCB can be screwed into the enclosure with four screws. Afterwards the battery should be connected to P101 making sure the orientation is correct as shown in figure~\ref{battConnection} and printed on the PCB, then the battery should be glued to the bottom of the enclosure with double-sided tape so it does not collide with any parts on the PCB, particularly P101 and SW313. Finally, both the ATMega~328P and the ESP8266 will need to be programmed as described in the next section.
 
@@ -361,6 +380,8 @@ After programming, two jumpers need to be placed between the K401 and K402 pin h
 
 Before using the device, it must be configured. At the very least, the General Configuration page~\ref{throttleConfMainPage} has to be submitted once to be saved to non-volatile memory. If no valid configuration is detected at startup, the device will start with a default configuration with no locos enabled and no WiFi settings, so it won't be able to connect to any WiFi network.
 
+After entering any kind of text (names, numbers...) into text fields, the corresponding ``Save'' button has to be pressed to submit the changes to the wiFred.
+
 \subsection{Entering configuration mode}
 
 There are two ways to enter configuration mode:
@@ -372,7 +393,7 @@ There are two ways to enter configuration mode:
 
 In the first case, the throttle will create a wireless network named \textit{wiFred-config} plus four hex digits taken from the MAC address of the throttle WiFi interface, for example \textit{wiFred-config0CAC} and announce its presence under the name \textit{config.local} as well as creating a captive portal. Any WiFi device with a web browser can connect to that network and open a web browser to point to \textit{http://192.168.4.1} or \textit{http://config.local}. This has been tested with Mozilla Firefox and Opera on Linux with Avahi (a Zeroconf implementation) and Safari on iOS 13.
 
-In the second case, the throttle will only announce its presence under the name \textit{config.local} using the Bonjour/Zeroconf-protocol. Any device on the same WiFi network with Bonjour/Zeroconf can use a web browser to access the configuration at \textit{http://config.local}. See~\ref{configurationComputer} to understand what is required to have your device understand Bonjour/Zeroconf announcements. This has been tested with Mozilla Firefox and Opera on Linux with Avahi (a Zeroconf implementation).
+In the second case, the throttle will only announce its presence under the name \textit{config.local} using the Bonjour/Zeroconf-protocol. Any device on the same WiFi network with Bonjour/Zeroconf can use a web browser to access the configuration at \textit{http://config.local}. See section~\ref{configurationComputer} for an explanation what is required to have your device read Bonjour/Zeroconf announcements. This has been tested with Mozilla Firefox and Opera on Linux with Avahi (a Zeroconf implementation).
 
 If the IP address or the name of the throttle during normal operation is known, the configuration pages can also be accessed by pointing a web browser to it at any time while it is connected. Note that this is mostly untested and therefore not recommended while the throttle is running locos.
 
@@ -383,7 +404,9 @@ If the IP address or the name of the throttle during normal operation is known, 
   \label{withrottleScreenshot}
 \end{figure}
 
-\subsection{General configuration} \label{throttle_GeneralConf}
+\subsection{Throttle configuration}
+
+Figure~\ref{throttleConfMainPage} shows the first page you will see when you point a web browser at your wiFred throttle. It is divided into multiple sections explained in the following chapters.
 
 \begin{figure}[tbhp]
   \centering
@@ -392,6 +415,18 @@ If the IP address or the name of the throttle during normal operation is known, 
   \label{throttleConfMainPage}
 \end{figure}
 
+\subsubsection{General configuration} \label{throttle_GeneralConf}
+
+In the ``General configuration'' section there is only one configuration option: The throttle name. This is a free-form identification string of the throttle. It shows up in the wiThrottle window of JMRI as shown in figure~\ref{withrottleScreenshot} and can be used to identify the throttle during configuration. The wiFred also announces its presence on the WiFi network through Bonjour/Zeroconf using a sanitized version of the name, i.e. a throttle called ``Heiko Prototype 2-2'' will announce its presence as \textit{heikoprototype22.local} when not in configuration mode.
+
+\subsubsection{WiFi configuration}
+
+The ``WiFi configuration'' section shows a list of configured WiFi networks. The wiFred will connect to any network in this list, more or less randomly choosing one if multiple configured networks are in range.
+
+Existing entries can be removed by clicking on the ``Remove SSID'' button in the line of the network that shall be removed.
+
+New entries can be added either by manually entering the SSID and PSK\footnote{Pre-Shared Key, often just called password} if required and clicking the ``Manually add network'' button or by clicking on the ``Scan for networks'' link which takes the user to the page shown in figure~\ref{throttleConfWiFiPage}.
+
 \begin{figure}[tbh]
   \centering
   \includegraphics[width=0.8 \textwidth]{images/wiFred_wifi-scan_page}
@@ -399,27 +434,19 @@ If the IP address or the name of the throttle during normal operation is known, 
   \label{throttleConfWiFiPage}
 \end{figure}
 
-Figure~\ref{throttleConfMainPage} shows the first page you will see when you point a web browser at your wiFred throttle. It has some general configuration settings for the following items:
+This page will take a few seconds to load, since the scan for networks has to be completed first. It shows all the networks found during the scan. Networks can be added to the list by clicking the ``Add network'' button, after entering the PSK\footnote{Pre-Shared Key, often just called password} in the field next to it.
 
-\begin{description}
-\item{Throttle name:} This is a free-form identification string of the throttle. It shows up in the wiThrottle window of JMRI as shown in figure~\ref{withrottleScreenshot} and can be used to identify the throttle during configuration.
-\item{WiFi SSID:} The name of the wireless network the throttle shall connect to.
-\item{WiFi PSK:} The so-called password\footnote{Technically correct term: Pre-Shared Key} for the wireless network.  
-\end{description}
+Note that the wiFred does not support WPS and it won't accept multiple networks with the same SSID but different PSKs. More details regarding the network requirements can be found in section~\ref{serverSetup}.
 
-\textbf{Reminder: Changes are saved using the ``Submit Query'' button which may look different in different web browsers (firefox shown).}
+The new WiFi configuration will not be activated until the wiFred is restarted, either through a power-cycle or by clicking on the ``Restart wiFred to enable new WiFi-settings'' link on the configuration page.
 
-A new device will not read a saved configuration at startup unless both the main page and the loco configuration subpage have been saved at least once.
+\subsubsection{Loco server configuration}
 
-This page also includes links to the configuration sub page for locos as well as a link to the status page shown in figure~\ref{throttleConfigStatusPage} which gives information about the current battery voltage and may be enhanced in the future.
+Following the WiFi configuration, the section ``Loco server configuration'' allows configuring the wiThrottle server to which the wiFred shall connect. The default setting -- automatically detect server -- works well if there is only one wiThrottle server on the network. It will connect to any server announcing its presence on port 12090 through Zeroconf/Bonjour, the result of the Zeroconf/Bonjour-search will be shown here when the wiFred has automatically discovered a server.
 
-\subsection{Loco configuration} \label{throttle_LocoConf}
+\subsubsection{Loco configuration} \label{throttle_LocoConf}
 
-On this page, shown in figure~\ref{throttleConfigLocoPage}, the (up to four) locomotives to be controlled with this throttle and some settings for all locomotives are available.
-
-Right on top, the server settings can be found. The correct settings can be read from the JMRI withrottle server screen, as highlighted in figure~\ref{withrottleScreenshot}. Normally the port does not need to be changed, as 12090 is the default setting.
-
-Following the server configuration, there are four identical sections assigned to the four different locomotives which can be controlled with this throttle. Each section consists of the following settings:
+Following the ``Loco server configuration'', there are four identical sections assigned to the four different locomotives which can be controlled with this throttle. Each section consists of the following settings:
 
 \begin{description}
 \item{DCC address:} Can be a short address between 1 and 127 (also used for consists) or a long address between 0 and 10239. Note: Short addresses between 1 and 127 are not the same as long addresses between 1 and 127. If this is set to -1, the corresponding loco is disabled.
@@ -428,9 +455,9 @@ Following the server configuration, there are four identical sections assigned t
 \item{Function mapping:} Link to the function mapping subpage for the corresponding loco, as described in section~\ref{throttle_FunctionConf}. Clicking this link will lose all information entered on the current page and take the web browser to a different subpage.
 \end{description}
 
-\textbf{Reminder: Changes are saved using the ``Submit Query'' button which may look different in different web browsers (firefox shown).}
+\textbf{Reminder: Changes are saved using the ``Save loco config'' button which may look different in different web browsers (firefox shown).}
 
-\subsection{DCC function configuration} \label{throttle_FunctionConf}
+\subsubsection{DCC function configuration} \label{throttle_FunctionConf}
 
 By default, if a function key is pressed, the throttle will send the appropriate commands to every loco under control. Under certain circumstances, this may not be desired -- the obvious example being a loco in the middle of a multi-unit consist, which should not have lights or ditchlights. So this page -- shown in figure~\ref{throttleConfigFunctionPage} -- offers the option to chose between three different settings for every function on each of the four locomotives (one page per locomotive):
 
@@ -447,7 +474,20 @@ By default, if a function key is pressed, the throttle will send the appropriate
 \item{Always On:} Similar to the ``Always Off'' setting, but the throttle will attempt to enable the function when the locomotive is selected and ignore any further function key presses. This will probably not work with so-called momentary functions that are only active as long as the function key is pressed.
 \end{description}
 
-\textbf{Reminder: Changes are saved using the ``Submit Query'' button which may look different in different web browsers (firefox shown).}
+\textbf{Reminder: Changes are saved using the ``Save function configuration'' button which may look different in different web browsers (firefox shown).}
+
+\subsubsection{wiFred status}
+
+The ``wiFred status'' section shows the current battery voltage, as measured by the wiFred. This is updated on reloading the page, not continuosly.
+
+\subsubsection{wiFred system}
+
+The ``wiFred system'' section consists of two links:
+
+\begin{itemize}
+\item Reset wiFred to factory defaults -- which leads to a confirmation page shown in~\ref{throttleConfResetPage} to reset all configuration data to factory defaults as on a new wiFred.
+\item Update wiFred firmware -- which leads to a firmware update page shown in~\ref{throttleConfUpdatePage} to update the wiFred firmware of the ESP8266. Find the .bin-file from the arduino build folder, click on ``Choose file'', navigate to the .bin-file and finally initiate the update with a click on ``Update'' -- which will take a while.
+\end{itemize}
 
 \begin{figure}[tbh]
   \centering
@@ -465,7 +505,68 @@ By default, if a function key is pressed, the throttle will send the appropriate
 
 \clearpage
 
-\section{Options for server setup}
+\section{Options for server setup} \label{serverSetup}
+
+Figure~\ref{runningTrains} shows the relations between the devices required to run trains using the wiFred.
+
+\begin{figure}[tbh]
+  \centering
+  \includegraphics[width=0.99 \textwidth]{images/runningTrains}
+  \caption{Overview of devices required to run trains with the wiFred}
+  \label{runningTrains}
+\end{figure}
+
+The symbols in figure~\ref{runningTrains} symbolize the following parts:
+
+\begin{enumerate}
+\item An IEEE 802.11b/g/n 2.4\,GHz WiFi access point described in detail in section~\ref{serverWiFi} \label{indexWiFi}
+\item A PC or laptop computer with Windows, Linux or MacOS to run the JMRI server described in detail in section~\ref{serverJMRI} \label{indexJMRIserver}
+\item A way to connect the JMRI server to the model railroading layout described in detail in section~\ref{serverLayoutConn} \label{indexLocoBuffer}
+\item A device with a web browser connected to the same network as the wiFred to configure it -- can be the same physical device as~\ref{indexJMRIserver} if requirements in section~\ref{configurationComputer} are met \label{indexConfigurationComputer}
+\end{enumerate}
+
+Multiple options for every step or combining these steps are described in the following sections.
+
+Basically, if a layout is set up to run trains with a smartphone running wiThrottle or EngineDriver, a wiFred should work with no changes to the layout configuration.
+
+A pretty much out-of-the-box solution is provided by Steve Todd at~\cite{raspiImage} which auto-detects multiple options to interface to a DCC layout and has been tested in the JMRI 4.16 version to work with the wiFred.
+
+If a layout is set up in a way that trains can be run from a JMRI screen throttle on a computer, only a WiFi connection to the JMRI computer needs to be added.
+
+For initial configuration of the wiFred, most of these devices can be omitted. As shown in figure~\ref{confWifred}, only a WiFi capable device with a web browser is required.
+
+\begin{figure}[tbh]
+  \centering
+  \includegraphics[width=0.5 \textwidth]{images/configuringWifred}
+  \caption{For initial configuration, the requirements are very small}
+  \label{confWifred}
+\end{figure}
+
+\subsection{WiFi access point requirements} \label{serverWiFi}
+
+IEEE802.11bg 2.4GHz DHCP server comm between clients
+
+Linux: hostapd (tested: netbook, Raspberry Pi 3 in a PiTop)
+Windows: link to ...
+Hardware.
+
+\subsection{JMRI server requirements} \label{serverJMRI}
+
+Any PC.
+
+\subsection{Layout connection options} \label{serverLayoutConn}
+
+Loconet:
+LocoBufferUSB
+Digitrax PR3 / PR4
+
+Tested: Intellibox, Z21 black, DCS 51 Zephyr xtra
+
+Should work: Anything JMRI can control trains on, even SPROG as command station plus boosters...
+
+\subsection{Computer or smartphone to configure wiFred} \label{configurationComputer}
+
+Webbrowser, Zeroconf. Avahi. Bonjour (iTunes?). MacOS out of the box? iOS? Android?
 
 \clearpage
 
@@ -751,11 +852,8 @@ During the development of this wiFred another topic came up in the americaN grou
 \bibitem{uhlenbrock}{Uhlenbrock \textbar\ FRED, der Handregler f\"ur die Intellibox, \textit{https://uhlenbrock.de/de\_DE/produkte/prodarch/I62AD172-001.htm!ArcEntryInfo=0004.41.I62AD172}}
 \bibitem{mrc}{Prodigy WiFi, \textit{http://www.modelrectifier.com/Prodigy-WiFi-s/332.htm}}
 \bibitem{digitrax}{LocoNet WiFi interface, \textit{http://www.digitrax.com/products/wireless/lnwi/}}
+\bibitem{raspiImage}{JMRI RaspberryPi as Access Point \textbar\ M Steve Todd, \textit{https://mstevetodd.com/rpi}}
 \bibitem{wiClock}{wiClock, a WiFi-JMRI-Clock, found at \textit{https://github.com/newHeiko/WiFi-JMRI-Clock} or its documentation at \textit{https://newHeiko.github.io/WiFi-JMRI-Clock}}
 \end{thebibliography}
-
-\begin{versionhistory}
-  \vhEntry{0.1}{WIP}{Heiko Rosemann}{Setup first document structure.}
-\end{versionhistory}
 
 \end{document}
