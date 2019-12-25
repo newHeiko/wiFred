@@ -507,7 +507,7 @@ The ``wiFred system'' section consists of two links:
 
 \section{Options for server setup} \label{serverSetup}
 
-Figure~\ref{runningTrains} shows the relations between the devices required to run trains using the wiFred.
+Figure~\ref{runningTrains} shows the connections between the devices required to run trains using the wiFred.
 
 \begin{figure}[tbh]
   \centering
@@ -529,18 +529,13 @@ Multiple options for every step or combining these steps are described in the fo
 
 Basically, if a layout is set up to run trains with a smartphone running wiThrottle or EngineDriver, a wiFred should work with no changes to the layout configuration.
 
-A pretty much out-of-the-box solution is provided by Steve Todd at~\cite{raspiImage} which auto-detects multiple options to interface to a DCC layout and has been tested in the JMRI 4.16 version to work with the wiFred.
-
 If a layout is set up in a way that trains can be run from a JMRI screen throttle on a computer, only a WiFi connection to the JMRI computer needs to be added.
 
-For initial configuration of the wiFred, most of these devices can be omitted. As shown in figure~\ref{confWifred}, only a WiFi capable device with a web browser is required.
+\subsection{Out-of-the-box server-side options}
 
-\begin{figure}[tbh]
-  \centering
-  \includegraphics[width=0.5 \textwidth]{images/configuringWifred}
-  \caption{For initial configuration, the requirements are very small}
-  \label{confWifred}
-\end{figure}
+A pretty much out-of-the-box solution is provided by Steve Todd at~\cite{raspiImage} which auto-detects multiple options to interface to a DCC layout and has been tested in the JMRI 4.16 version to work with the wiFred, connecting to a Z21 black through both an RRCircuits LocoBuffer~USB and a Digitrax~PR3 via Loconet.
+
+Although untested so far, adding a Digitrax~LNWI~\cite{digitrax} to a Digitrax system or an MRC~Prodigy~WiFi~\cite{mrc} to an MRC system should allow the wiFred to run locos out-of-the-box as well.
 
 \subsection{WiFi access point requirements} \label{serverWiFi}
 
@@ -567,6 +562,15 @@ Should work: Anything JMRI can control trains on, even SPROG as command station 
 \subsection{Computer or smartphone to configure wiFred} \label{configurationComputer}
 
 Webbrowser, Zeroconf. Avahi. Bonjour (iTunes?). MacOS out of the box? iOS? Android?
+
+For initial configuration of the wiFred, most of the devices mentioned above can be omitted. As shown in figure~\ref{confWifred}, only a WiFi capable device with a web browser is required.
+
+\begin{figure}[tbh]
+  \centering
+  \includegraphics[width=0.5 \textwidth]{images/configuringWifred}
+  \caption{For initial configuration, the requirements are very small}
+  \label{confWifred}
+\end{figure}
 
 \clearpage
 
