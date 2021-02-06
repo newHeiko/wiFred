@@ -19,12 +19,12 @@
  * as providing a webserver for configuration of the device and status readout.
  */
 
-#include <ESP8266WiFi.h>
-#include <ESP8266WiFiMulti.h>
+#include <WiFi.h>
+#include <WiFiMulti.h>
 #include <WiFiClient.h>
-#include <ESP8266WebServer.h>
-#include <ESP8266HTTPUpdateServer.h>
-#include <ESP8266mDNS.h>
+#include <WebServer.h>
+#include <HTTPUpdateServer.h>
+#include <ESPmDNS.h>
 #include <DNSServer.h>
 
 #include "wifi.h"
@@ -40,11 +40,11 @@
 
 std::vector<wifiAPEntry> apList;
 
-ESP8266WiFiMulti wifiMulti;
+WiFiMulti wifiMulti;
 
-ESP8266WebServer server(80);
+WebServer server(80);
 DNSServer dnsServer;
-ESP8266HTTPUpdateServer updater;
+HTTPUpdateServer updater;
 
 void readString(char * dest, size_t maxLength, String input)
 {
@@ -66,7 +66,7 @@ void handleWiFi(void)
     case STATE_LOCO_ONLINE:
     case STATE_CONFIG_STATION:
     case STATE_CONFIG_STATION_WAITING:
-      MDNS.update();
+//      MDNS.update();
       break;
 
     case STATE_STARTUP:
@@ -85,8 +85,10 @@ void handleWiFi(void)
  */
 void initWiFiConfigSTA(void)
 {
-  MDNS.removeService(NULL, "http", "tcp");
-  MDNS.setHostname("config");
+//  MDNS.removeService(NULL, "http", "tcp");
+  MDNS.end();
+//  MDNS.setHostname("config");
+  MDNS.begin("config");
   MDNS.addService("http", "tcp", 80);
 }
 
@@ -114,8 +116,10 @@ void shutdownWiFiConfigSTA(void)
   Serial.println(String("Add MDNS ") + hostName + " on throttle name " + throttleName);
 #endif
 
-  MDNS.removeService(NULL, "http", "tcp");
-  MDNS.setHostname(hostName);
+//  MDNS.removeService(NULL, "http", "tcp");
+  MDNS.end();
+//  MDNS.setHostname(hostName);
+  MDNS.begin(hostName);
   MDNS.addService("http", "tcp", 80);
 }
 

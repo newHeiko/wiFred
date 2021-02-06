@@ -20,8 +20,8 @@
  * them.
  */
 
-#include <ESP8266WiFi.h>
-#include <ESP8266mDNS.h>
+#include <WiFi.h>
+#include <ESPmDNS.h>
 
 #include "locoHandling.h"
 #include "lowbat.h"
@@ -257,7 +257,7 @@ void locoConnect(void)
 	      {
 	        automaticServer = strdup(MDNS.hostname(i).c_str());
 	        automaticServerIP = MDNS.IP(i);
-	        MDNS.removeQuery();
+//	        MDNS.removeQuery();
 	        break;          
 	      }
       }
