@@ -3,6 +3,5 @@
 :iconsdir: /etc/asciidoc/images/icons/
 
 include::quickBuild.adoc[tags=!laser]
-include::quickBuild.adoc[tags=!drilljig]
 include::quickStartup.adoc[]
 

@@ -1,0 +1,34 @@
+// tag::drilljig[]
+== Finish assembly (blank enclosure)
+// end::drilljig[]
+// tag::laser[]
+== Finish assembly (laser engraved enclosure)
+// end::laser[]
+
+// tag::drilljig[]
+. Use drilling jig to drill holes into housing
+// end::drilljig[]
+. Make cutout for micro USB connector
+// tag::drilljig[]
+. Use PCB to drill holes for LEDs next to micro USB connector (D101, D102)
+// end::drilljig[]
+. Install LEDs -- long pin (positive) into square pad
+  - Red LEDs at D101 and D301 with 3mm spacers
+  - Green LEDs at D102, D302 and D303 with 3mm spacers
+  - White LEDs at D304 and D305 -- you can choose if you want them on top or bottom and how long they should stick out of housing
+. Install potentiometer and loco selection switches
+. Install direction selection switch and connect pins to PCB with short wires or cutoffs from LEDs
+// tag::drilljig[]
+. Make cut-outs in housing fit slide switches and flashlight LEDs
+// end::drilljig[]
+// tag::laser[]
+. Drill holes in enclosure - 3mm for LEDs, 3.5mm for push buttons, 6.5mm for direction switch, 8mm for potentiometer, 1.5mm for slide switches
+. Carefully file slide switch slots to match switch handles
+// end::laser[]
+. Connect battery to P101 - BATT-connector
+. Arrange battery so it fits between direction selection switch and PCB screws and glue into back housing
+
+WARNING: Make sure red wire is connected to + and black wire connected to GND. Reversing the connection may destroy the wiFred.
+
+WARNING: Make sure nothing pinches the battery. LiIon batteries are susceptible to mechanical damage.
+
