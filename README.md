@@ -1,28 +1,21 @@
 # wiFred
 wiThrottle-compatible hardware controller
 
-This repo contains the first steps for three different, but closely related projects:
+This repo contains schematics, PCB and documentation for the wiFred, a wiThrottle-compatible WiFi hardware controller developed to unchain the Fremo Fred [1] / Fredi [2] from its loconet cable.
 
-1) Battery-powered WiFi interface for cheap analog wall clocks to get their time from a JMRI json server
-  - hardware in hardware/wfred_loconet_clock.* - same PCB as 3) below, only add the ESP12E, not the ATMega328P, not the loconet_interface...
-2) Battery-powered wiThrottle-compatible throttle
-  - hardware in hardware/wfred_rev2.*
-3) Battery-powered Fred-to-wiThrottle interface
-  - hardware in hardware/wfred_loconet_clock.* - same PCB as 1) above, don't add the clock connector
+![wiFred rev0.5](documentation/images/2021-01-23-preview0001.jpg)
 
-All three are built around ESP12E/ESP12F WiFi modules, powered by 2xAA cells and supposed to fit a Strapubox 6090 housing
-(Fredi form factor, but includes a battery compartment) when the PCB is 0.8mm thick (or thinner).
+### Branch information
+Several versions are contained in different branches:
 
-The ESP source code consists of an Arduino sketch which contains the firmware for all three, configurable by a web interface (WIP).
+- master branch: Designed to fit into Strapubox 2090 housing, powered by a lithium battery, hardware: AVR ATMega328P plus ESP12F, SMD pushbuttons
+  - rev0.4
+  - rev0.5 (Added flashlight)
+  - rev0.51 (Fixed silkscreen on PCB)
+- esp32 branch: Designed to fit into Strapubox 2090 housing, powered by a lithium battery, hardware: ESP32-S2-WROOM, THT pushbuttons
+  - will become rev0.6
+- newAgeEnclosures branch: No longer developed, designed for New Age Enclosures Compact AA housing, powered by 2x AA cells, hardware: AVR ATMega328P plus ESP12F, SMD pushbuttons
+- AABatteryPrototype branch: No longer developed, designed for Strapubox 6090 housing, powered by 2x AA cells, hardware: AVR ATMega328P plus ESP12F, SMD pushbuttons, very tight fit requires multiple modifications to Strapubox housing
 
-Barely tested AVR source code available for wiThrottle-compatible throttle.
-
-In-Progress-Version of documentation available in documentation/ subfolder.
-
-Fred-to-wiThrottle interface sent to back burner, may never be done.
-
-I have ordered PCBs around Christmas 2017 and hope to have a proof of concept plus more/better organized docs by summer (2018).
-
-Also have a look at the pictures in this directory, they show 3D-renderings of the PCBs in early stages.
-
-Please be patient with me if you have any questions, this is my first GitHub repo and I'm not a developer by trade, so I will make a lot of stupid mistakes ;)
+[1]: <http://fremodcc.sourceforge.net/diy/fred/fred_e.html>
+[2]: <http://fremodcc.sourceforge.net/diy/fred2/fredi_d.html>
