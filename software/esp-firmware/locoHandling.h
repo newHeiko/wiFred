@@ -25,7 +25,7 @@
 
 #define MAX_FUNCTION 16
 
-#include <ESP8266WiFi.h>
+#include <WiFi.h>
 
 #include <stdint.h>
 #include <stdbool.h>

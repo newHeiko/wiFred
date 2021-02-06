@@ -21,6 +21,7 @@
 
 #include <stdbool.h>
 #include <FS.h>
+#include <SPIFFS.h>
 #include <ArduinoJson.h>
 
 #include "config.h"

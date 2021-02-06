@@ -18,10 +18,11 @@
  * This file ties everything together to initialize the hardware and
  * form the main loop.
  * 
- * This project was made for ESP12E/ESP12F with Arduino ESP version 2.5.2
- * Board settings: Generic ESP8266 Module, 80MHz, Flash, Disabled, ck, 26MHz,
- * 40MHz, DOUT (compatible), 4M (1M SPIFFS), 2, v1.4 Higher Bandwidth, 
- * Disabled, None, Only Sketch, 115200 on /dev/ttyUSB0
+ * This project was made for ESP32-S2
+ * with Arduino ESP32 from the idf-release/v4.2-branch
+ * Board settings: ESP32S2 Dev Module, UART0, Disabled,
+ * Default 4MB with spiffs (1.2MB APP/1.5MB SPIFFS), 80MHz (WiFi),
+ * QIO, 40MHz, 4MB (32Mb), 921600, None on /dev/ttyUSB0
  */
 
 #include "wifi.h"

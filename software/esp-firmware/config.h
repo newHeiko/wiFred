@@ -22,7 +22,6 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
-#include <EEPROM.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include "wifi.h"
