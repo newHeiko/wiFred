@@ -1,11 +1,69 @@
 EESchema-LIBRARY Version 2.4
 #encoding utf-8
 #
-# ATMEGA328P-A-atmel
+# power_+5V
 #
-DEF ATMEGA328P-A-atmel IC 0 40 Y Y 1 F N
+DEF power_+5V #PWR 0 0 Y Y 1 F P
+F0 "#PWR" 0 -150 50 H I C CNN
+F1 "power_+5V" 0 140 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+DRAW
+P 2 0 1 0 -30 50 0 100 N
+P 2 0 1 0 0 0 0 100 N
+P 2 0 1 0 0 100 30 50 N
+X +5V 1 0 0 0 U 50 50 1 1 W N
+ENDDRAW
+ENDDEF
+#
+# power_+BATT
+#
+DEF power_+BATT #PWR 0 0 Y Y 1 F P
+F0 "#PWR" 0 -150 50 H I C CNN
+F1 "power_+BATT" 0 140 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+DRAW
+P 2 0 1 0 -30 50 0 100 N
+P 2 0 1 0 0 0 0 100 N
+P 2 0 1 0 0 100 30 50 N
+X +BATT 1 0 0 0 U 50 50 1 1 W N
+ENDDRAW
+ENDDEF
+#
+# power_PWR_FLAG
+#
+DEF power_PWR_FLAG #FLG 0 0 N N 1 F P
+F0 "#FLG" 0 75 50 H I C CNN
+F1 "power_PWR_FLAG" 0 150 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+DRAW
+P 6 0 1 0 0 0 0 50 -40 75 0 100 40 75 0 50 N
+X pwr 1 0 0 0 U 50 50 0 0 w
+ENDDRAW
+ENDDEF
+#
+# power_VCC
+#
+DEF power_VCC #PWR 0 0 Y Y 1 F P
+F0 "#PWR" 0 -150 50 H I C CNN
+F1 "power_VCC" 0 150 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+DRAW
+P 2 0 1 0 -30 50 0 100 N
+P 2 0 1 0 0 0 0 100 N
+P 2 0 1 0 0 100 30 50 N
+X VCC 1 0 0 0 U 50 50 1 1 W N
+ENDDRAW
+ENDDEF
+#
+# wfred_rev2-rescue_ATMEGA328P-A-atmel
+#
+DEF wfred_rev2-rescue_ATMEGA328P-A-atmel IC 0 40 Y Y 1 F N
 F0 "IC" -750 1250 40 H V L BNN
-F1 "ATMEGA328P-A-atmel" 400 -1400 40 H V L BNN
+F1 "wfred_rev2-rescue_ATMEGA328P-A-atmel" 400 -1400 40 H V L BNN
 F2 "TQFP32" 0 0 30 H V C CIN
 F3 "" 0 0 60 H I C CNN
 DRAW
@@ -45,11 +103,11 @@ X (PCINT21/OC0B/T1)PD5 9 1000 -1000 150 L 40 40 1 1 B
 ENDDRAW
 ENDDEF
 #
-# BAR43-my_devices
+# wfred_rev2-rescue_BAR43-my_devices
 #
-DEF BAR43-my_devices D 0 40 N N 1 F N
+DEF wfred_rev2-rescue_BAR43-my_devices D 0 40 N N 1 F N
 F0 "D" 0 100 40 H V C CNN
-F1 "BAR43-my_devices" 0 -100 40 H V C CNN
+F1 "wfred_rev2-rescue_BAR43-my_devices" 0 -100 40 H V C CNN
 F2 "TO_SOT_Packages_SMD:SOT-23_Handsoldering" 0 0 60 H I C CNN
 F3 "" 0 0 60 H V C CNN
 $FPLIST
@@ -64,11 +122,11 @@ X K 3 200 0 150 L 40 40 1 1 P
 ENDDRAW
 ENDDEF
 #
-# C-RESCUE-wfred_rev2
+# wfred_rev2-rescue_C-RESCUE-wfred_rev2
 #
-DEF C-RESCUE-wfred_rev2 C 0 10 N Y 1 F N
+DEF wfred_rev2-rescue_C-RESCUE-wfred_rev2 C 0 10 N Y 1 F N
 F0 "C" 0 100 40 H V L CNN
-F1 "C-RESCUE-wfred_rev2" 6 -85 40 H V L CNN
+F1 "wfred_rev2-rescue_C-RESCUE-wfred_rev2" 6 -85 40 H V L CNN
 F2 "" 38 -150 30 H V C CNN
 F3 "" 0 0 60 H V C CNN
 $FPLIST
@@ -84,11 +142,11 @@ X ~ 2 0 -200 170 U 40 40 1 1 P
 ENDDRAW
 ENDDEF
 #
-# C-device
+# wfred_rev2-rescue_C-device
 #
-DEF C-device C 0 10 N Y 1 F N
+DEF wfred_rev2-rescue_C-device C 0 10 N Y 1 F N
 F0 "C" 0 100 40 H V L CNN
-F1 "C-device" 6 -85 40 H V L CNN
+F1 "wfred_rev2-rescue_C-device" 6 -85 40 H V L CNN
 F2 "" 38 -150 30 H V C CNN
 F3 "" 0 0 60 H V C CNN
 $FPLIST
@@ -104,11 +162,11 @@ X ~ 2 0 -200 170 U 40 40 1 1 P
 ENDDRAW
 ENDDEF
 #
-# CAPAPOL-device
+# wfred_rev2-rescue_CAPAPOL-device
 #
-DEF CAPAPOL-device C 0 10 N N 1 F N
+DEF wfred_rev2-rescue_CAPAPOL-device C 0 10 N N 1 F N
 F0 "C" 50 100 40 H V L CNN
-F1 "CAPAPOL-device" 50 -100 40 H V L CNN
+F1 "wfred_rev2-rescue_CAPAPOL-device" 50 -100 40 H V L CNN
 F2 "" 100 -150 30 H V C CNN
 F3 "" 0 0 300 H V C CNN
 $FPLIST
@@ -123,11 +181,11 @@ X ~ 2 0 -200 150 U 40 40 1 1 P
 ENDDRAW
 ENDDEF
 #
-# CONN_2-conn
+# wfred_rev2-rescue_CONN_2-conn
 #
-DEF CONN_2-conn P 0 40 Y N 1 F N
+DEF wfred_rev2-rescue_CONN_2-conn P 0 40 Y N 1 F N
 F0 "P" -50 0 40 V V C CNN
-F1 "CONN_2-conn" 50 0 40 V V C CNN
+F1 "wfred_rev2-rescue_CONN_2-conn" 50 0 40 V V C CNN
 F2 "" 0 0 60 H I C CNN
 F3 "" 0 0 60 H I C CNN
 DRAW
@@ -137,11 +195,11 @@ X PM 2 -350 -100 250 R 60 60 1 1 P I
 ENDDRAW
 ENDDEF
 #
-# CONN_3-conn
+# wfred_rev2-rescue_CONN_3-conn
 #
-DEF CONN_3-conn K 0 40 Y N 1 F N
+DEF wfred_rev2-rescue_CONN_3-conn K 0 40 Y N 1 F N
 F0 "K" -50 0 50 V V C CNN
-F1 "CONN_3-conn" 50 0 40 V V C CNN
+F1 "wfred_rev2-rescue_CONN_3-conn" 50 0 40 V V C CNN
 F2 "" 0 0 60 H I C CNN
 F3 "" 0 0 60 H I C CNN
 DRAW
@@ -152,11 +210,11 @@ X P3 3 -350 -100 250 R 60 60 1 1 P I
 ENDDRAW
 ENDDEF
 #
-# CONN_3X2-conn
+# wfred_rev2-rescue_CONN_3X2-conn
 #
-DEF CONN_3X2-conn P 0 40 Y N 1 F N
+DEF wfred_rev2-rescue_CONN_3X2-conn P 0 40 Y N 1 F N
 F0 "P" 0 250 50 H V C CNN
-F1 "CONN_3X2-conn" 0 50 40 V V C CNN
+F1 "wfred_rev2-rescue_CONN_3X2-conn" 0 50 40 V V C CNN
 F2 "" 0 0 60 H I C CNN
 F3 "" 0 0 60 H I C CNN
 DRAW
@@ -170,11 +228,11 @@ X 6 6 400 -50 300 L 60 60 1 1 P I
 ENDDRAW
 ENDDEF
 #
-# ESP-12E-ESP8266
+# wfred_rev2-rescue_ESP-12E-ESP8266
 #
-DEF ESP-12E-ESP8266 U 0 40 Y Y 1 F N
+DEF wfred_rev2-rescue_ESP-12E-ESP8266 U 0 40 Y Y 1 F N
 F0 "U" 0 -100 50 H V C CNN
-F1 "ESP-12E-ESP8266" 0 100 50 H V C CNN
+F1 "wfred_rev2-rescue_ESP-12E-ESP8266" 0 100 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -208,11 +266,11 @@ X GND 9 900 -400 300 L 50 50 1 1 W
 ENDDRAW
 ENDDEF
 #
-# GND-RESCUE-wfred_rev2
+# wfred_rev2-rescue_GND-RESCUE-wfred_rev2
 #
-DEF GND-RESCUE-wfred_rev2 #PWR 0 0 Y Y 1 F P
+DEF wfred_rev2-rescue_GND-RESCUE-wfred_rev2 #PWR 0 0 Y Y 1 F P
 F0 "#PWR" 0 0 30 H I C CNN
-F1 "GND-RESCUE-wfred_rev2" 0 -70 30 H I C CNN
+F1 "wfred_rev2-rescue_GND-RESCUE-wfred_rev2" 0 -70 30 H I C CNN
 F2 "" 0 0 60 H I C CNN
 F3 "" 0 0 60 H I C CNN
 DRAW
@@ -221,11 +279,11 @@ X GND 1 0 0 0 U 30 30 1 1 W N
 ENDDRAW
 ENDDEF
 #
-# GND-power
+# wfred_rev2-rescue_GND-power
 #
-DEF GND-power #PWR 0 0 Y Y 1 F P
+DEF wfred_rev2-rescue_GND-power #PWR 0 0 Y Y 1 F P
 F0 "#PWR" 0 0 30 H I C CNN
-F1 "GND-power" 0 -70 30 H I C CNN
+F1 "wfred_rev2-rescue_GND-power" 0 -70 30 H I C CNN
 F2 "" 0 0 60 H I C CNN
 F3 "" 0 0 60 H I C CNN
 DRAW
@@ -234,11 +292,11 @@ X GND 1 0 0 0 U 30 30 1 1 W N
 ENDDRAW
 ENDDEF
 #
-# LED-RESCUE-wfred_rev2
+# wfred_rev2-rescue_LED-RESCUE-wfred_rev2
 #
-DEF LED-RESCUE-wfred_rev2 D 0 40 Y N 1 F N
+DEF wfred_rev2-rescue_LED-RESCUE-wfred_rev2 D 0 40 Y N 1 F N
 F0 "D" 0 100 50 H V C CNN
-F1 "LED-RESCUE-wfred_rev2" 0 -100 50 H V C CNN
+F1 "wfred_rev2-rescue_LED-RESCUE-wfred_rev2" 0 -100 50 H V C CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
 $FPLIST
@@ -260,11 +318,11 @@ X K 2 200 0 150 L 40 40 1 1 P
 ENDDRAW
 ENDDEF
 #
-# LED-device
+# wfred_rev2-rescue_LED-device
 #
-DEF LED-device D 0 40 Y N 1 F N
+DEF wfred_rev2-rescue_LED-device D 0 40 Y N 1 F N
 F0 "D" 0 100 50 H V C CNN
-F1 "LED-device" 0 -100 50 H V C CNN
+F1 "wfred_rev2-rescue_LED-device" 0 -100 50 H V C CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
 $FPLIST
@@ -286,11 +344,11 @@ X K 2 200 0 150 L 40 40 1 1 P
 ENDDRAW
 ENDDEF
 #
-# MCP73831T-2ACI_OT-MCP73831T-2ACI_OT
+# wfred_rev2-rescue_MCP73831T-2ACI_OT-MCP73831T-2ACI_OT
 #
-DEF MCP73831T-2ACI_OT-MCP73831T-2ACI_OT IC 0 30 Y Y 1 F N
+DEF wfred_rev2-rescue_MCP73831T-2ACI_OT-MCP73831T-2ACI_OT IC 0 30 Y Y 1 F N
 F0 "IC" 950 300 50 H V L CNN
-F1 "MCP73831T-2ACI_OT-MCP73831T-2ACI_OT" 950 200 50 H V L CNN
+F1 "wfred_rev2-rescue_MCP73831T-2ACI_OT-MCP73831T-2ACI_OT" 950 200 50 H V L CNN
 F2 "SOT95P270X145-5N" 950 100 50 H I L CNN
 F3 "http://ww1.microchip.com/downloads/en/DeviceDoc/20001984g.pdf" 950 0 50 H I L CNN
 F4 "Li-Ion Charge Controller 4.2V SOT23-5" 950 -100 50 H I L CNN "Description"
@@ -313,11 +371,11 @@ X PROG 5 1100 -100 200 L 50 50 0 0 B
 ENDDRAW
 ENDDEF
 #
-# MIC2860-my_devices
+# wfred_rev2-rescue_MIC2860-my_devices
 #
-DEF MIC2860-my_devices IC 0 40 Y Y 1 F N
+DEF wfred_rev2-rescue_MIC2860-my_devices IC 0 40 Y Y 1 F N
 F0 "IC" 0 100 60 H V C CNN
-F1 "MIC2860-my_devices" 0 0 60 H V C CNN
+F1 "wfred_rev2-rescue_MIC2860-my_devices" 0 0 60 H V C CNN
 F2 "" 0 0 60 H I C CNN
 F3 "" 0 0 60 H I C CNN
 DRAW
@@ -331,11 +389,11 @@ X D1 6 600 100 200 L 50 50 1 1 O
 ENDDRAW
 ENDDEF
 #
-# NCV8161BSN300T1G-NCV8161BSN300T1G
+# wfred_rev2-rescue_NCV8161BSN300T1G-NCV8161BSN300T1G
 #
-DEF NCV8161BSN300T1G-NCV8161BSN300T1G IC 0 30 Y Y 1 F N
+DEF wfred_rev2-rescue_NCV8161BSN300T1G-NCV8161BSN300T1G IC 0 30 Y Y 1 F N
 F0 "IC" 1050 300 50 H V L CNN
-F1 "NCV8161BSN300T1G-NCV8161BSN300T1G" 1050 200 50 H V L CNN
+F1 "wfred_rev2-rescue_NCV8161BSN300T1G-NCV8161BSN300T1G" 1050 200 50 H V L CNN
 F2 "SOT95P275X110-5N" 1050 100 50 H I L CNN
 F3 "http://www.onsemi.com/pub/Collateral/NCV8161-D.PDF" 1050 0 50 H I L CNN
 F4 "450 mA, Ultra-Low Noise and High PSRR LDO Regulator for RF and Analog Circuits 3.0V, Non-Active Discharge, TSOP-5" 1050 -100 50 H I L CNN "Description"
@@ -354,11 +412,11 @@ X OUT 5 1200 -100 200 L 50 50 0 0 B
 ENDDRAW
 ENDDEF
 #
-# POT-RESCUE-wfred_rev2
+# wfred_rev2-rescue_POT-RESCUE-wfred_rev2
 #
-DEF POT-RESCUE-wfred_rev2 RV 0 40 Y N 1 F N
+DEF wfred_rev2-rescue_POT-RESCUE-wfred_rev2 RV 0 40 Y N 1 F N
 F0 "RV" 0 -100 50 H V C CNN
-F1 "POT-RESCUE-wfred_rev2" 0 0 50 H V C CNN
+F1 "wfred_rev2-rescue_POT-RESCUE-wfred_rev2" 0 0 50 H V C CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
 DRAW
@@ -370,11 +428,11 @@ X 3 3 250 0 100 L 40 40 1 1 P
 ENDDRAW
 ENDDEF
 #
-# R-RESCUE-wfred_rev2
+# wfred_rev2-rescue_R-RESCUE-wfred_rev2
 #
-DEF R-RESCUE-wfred_rev2 R 0 0 N Y 1 F N
+DEF wfred_rev2-rescue_R-RESCUE-wfred_rev2 R 0 0 N Y 1 F N
 F0 "R" 80 0 40 V V C CNN
-F1 "R-RESCUE-wfred_rev2" 7 1 40 V V C CNN
+F1 "wfred_rev2-rescue_R-RESCUE-wfred_rev2" 7 1 40 V V C CNN
 F2 "" -70 0 30 V V C CNN
 F3 "" 0 0 30 H V C CNN
 $FPLIST
@@ -391,11 +449,11 @@ X ~ 2 0 -250 100 U 60 60 1 1 P
 ENDDRAW
 ENDDEF
 #
-# R-device
+# wfred_rev2-rescue_R-device
 #
-DEF R-device R 0 0 N Y 1 F N
+DEF wfred_rev2-rescue_R-device R 0 0 N Y 1 F N
 F0 "R" 80 0 40 V V C CNN
-F1 "R-device" 7 1 40 V V C CNN
+F1 "wfred_rev2-rescue_R-device" 7 1 40 V V C CNN
 F2 "" -70 0 30 V V C CNN
 F3 "" 0 0 30 H V C CNN
 $FPLIST
@@ -412,11 +470,11 @@ X ~ 2 0 -250 100 U 60 60 1 1 P
 ENDDRAW
 ENDDEF
 #
-# SWITCH_INV-device
+# wfred_rev2-rescue_SWITCH_INV-device
 #
-DEF SWITCH_INV-device SW 0 0 N Y 1 F N
+DEF wfred_rev2-rescue_SWITCH_INV-device SW 0 0 N Y 1 F N
 F0 "SW" -200 150 50 H V C CNN
-F1 "SWITCH_INV-device" -150 -150 50 H V C CNN
+F1 "wfred_rev2-rescue_SWITCH_INV-device" -150 -150 50 H V C CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
 DRAW
@@ -430,11 +488,11 @@ X 3 3 500 -100 300 L 60 60 1 1 P
 ENDDRAW
 ENDDEF
 #
-# SW_PUSH-device
+# wfred_rev2-rescue_SW_PUSH-device
 #
-DEF SW_PUSH-device SW 0 40 N N 1 F N
+DEF wfred_rev2-rescue_SW_PUSH-device SW 0 40 N N 1 F N
 F0 "SW" 150 110 50 H V C CNN
-F1 "SW_PUSH-device" 0 -80 50 H V C CNN
+F1 "wfred_rev2-rescue_SW_PUSH-device" 0 -80 50 H V C CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
 DRAW
@@ -445,11 +503,11 @@ X 2 2 300 0 200 L 60 60 0 1 P I
 ENDDRAW
 ENDDEF
 #
-# USB-MINI-B-conn
+# wfred_rev2-rescue_USB-MINI-B-conn
 #
-DEF USB-MINI-B-conn CON 0 40 Y Y 1 F N
+DEF wfred_rev2-rescue_USB-MINI-B-conn CON 0 40 Y Y 1 F N
 F0 "CON" -250 450 60 H V C CNN
-F1 "USB-MINI-B-conn" -50 -500 60 H V C CNN
+F1 "wfred_rev2-rescue_USB-MINI-B-conn" -50 -500 60 H V C CNN
 F2 "" 0 0 60 H I C CNN
 F3 "" 0 0 60 H I C CNN
 $FPLIST
@@ -469,11 +527,11 @@ X SHELL4 9 550 -300 200 L 50 50 1 1 B
 ENDDRAW
 ENDDEF
 #
-# myCRYSTAL-my_devices
+# wfred_rev2-rescue_myCRYSTAL-my_devices
 #
-DEF myCRYSTAL-my_devices X 0 40 N N 1 F N
+DEF wfred_rev2-rescue_myCRYSTAL-my_devices X 0 40 N N 1 F N
 F0 "X" 0 150 60 H V C CNN
-F1 "myCRYSTAL-my_devices" 0 -150 60 H V C CNN
+F1 "wfred_rev2-rescue_myCRYSTAL-my_devices" 0 -150 60 H V C CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
 DRAW
