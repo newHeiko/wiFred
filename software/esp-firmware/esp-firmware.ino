@@ -31,7 +31,7 @@
 #include "stateMachine.h"
 #include "throttleHandling.h"
 
-// #define DEBUG
+#define DEBUG
 
 state wiFredState = STATE_STARTUP;
 uint32_t stateTimeout = UINT32_MAX;
@@ -51,6 +51,7 @@ void setup() {
   delay(100);
 
   initWiFi();
+
 }
 
 void loop() {
