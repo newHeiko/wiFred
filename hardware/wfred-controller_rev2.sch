@@ -174,7 +174,7 @@ F1
 Text GLabel 6600 4150 2    60   Input ~ 0
 F2
 $Comp
-L my_devices:myCRYSTAL X201
+L wfred_rev2-rescue:myCRYSTAL-my_devices X201
 U 1 1 5A171DD9
 P 8400 3500
 F 0 "X201" H 8400 3650 60  0000 C CNN
@@ -452,7 +452,7 @@ Wire Wire Line
 Wire Wire Line
 	3300 3200 3300 3100
 $Comp
-L my_devices:BAR43 D201
+L wfred_rev2-rescue:BAR43-my_devices D201
 U 1 1 5CD177D6
 P 8100 4600
 F 0 "D201" H 8100 4700 40  0000 C CNN

@@ -14,7 +14,7 @@ Comment3 ""
 Comment4 "WiFi controller and directly related peripheral stuff"
 $EndDescr
 $Comp
-L ESP8266:ESP-12E U401
+L wfred_rev2-rescue:ESP-12E-ESP8266 U401
 U 1 1 5A11AA62
 P 4300 2600
 F 0 "U401" H 4300 2500 50  0000 C CNN

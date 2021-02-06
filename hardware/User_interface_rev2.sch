@@ -576,7 +576,7 @@ Wire Wire Line
 Wire Wire Line
 	9800 1500 9800 1700
 $Comp
-L my_devices:MIC2860 IC301
+L wfred_rev2-rescue:MIC2860-my_devices IC301
 U 1 1 5CD17656
 P 8900 5000
 F 0 "IC301" H 8900 5100 60  0000 C CNN
