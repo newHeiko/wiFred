@@ -537,6 +537,38 @@ A pretty much out-of-the-box solution is provided by Steve Todd at~\cite{raspiIm
 
 Although untested so far, adding a Digitrax~LNWI~\cite{digitrax} to a Digitrax system or an MRC~Prodigy~WiFi~\cite{mrc} to an MRC system should allow the wiFred to run locos out-of-the-box as well.
 
+\subsection{Step by step instructions for a Windows computer}
+
+Tested on Windows 7 64Bit
+
+Requirements: WiFi 2.4GHz
+
+Installation:
+
+\begin{enumerate}
+\item Install HostedNetworkStarter from https://www.nirsoft.net/utils/wifi\_hotspot\_starter.html
+\item Install DHCP server from https://www.dhcpserver.de/cms/download/ -- download and extract all the files from the zip file to somewhere on your harddrive, for example C:\textbackslash DHCPServer
+\item Install a JDK, version 8 and 11 have been tested. For example, https://adoptopenjdk.net/releases.html Version OpenJDK 11 (LTS), JVM HotSpot. Choose the 64bit version for most modern hardware, 32bit only if you are running a 32bit operating system. Easiest option: MSI file, download and install.
+\item Install JMRI from https://www.jmri.org -- versions tested to run with the wiFred include 4.14, 4.16, 4.18 and 4.20. Most recent production version recommended.
+\end{enumerate}
+
+Configuration:
+
+\begin{enumerate}
+\item Start HostedNetworkStarter from the start menu, enter a Network Name and Network Key, then hit the Start button. Note the ``Hosted Network Connection Name'' for the next step
+\item Start the DHCP server wizard from C:\textbackslash DHCPServer\textbackslash dhcpwiz.exe, select the network with the name that's the same as the ``Hosted Network Connection Name'' from the step before, hit ``Next'' a few times (deselecting all additional supported protocols), Write INI file, Start Service and Configure Firewall Exceptions
+\item Start JMRI using the DecoderPro icon on the desktop, setup your layout connection, test if you can run a loco with a JMRI throttle
+\item Within JMRI, start the WiThrottle Server from the Actions menu. If a firewall popup comes up, allow all.
+\item Within JMRI, edit the Preferences from the Edit menu, choose WiThrottle on the left pane, click the ``Start automatically with application'' checkbox. All the Allowed Controls can be disabled.
+\end{enumerate}
+
+Running:
+
+\begin{enumerate}
+\item Start HostedNetworkStarter from the start menu, enter a Network Name and Network Key, then hit the Start button.
+\item Start JMRI using the DecoderPro icon on the desktop
+\end{enumerate}
+
 \subsection{WiFi access point requirements} \label{serverWiFi}
 
 IEEE802.11bg 2.4GHz DHCP server comm between clients
