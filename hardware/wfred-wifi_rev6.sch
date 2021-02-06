@@ -1,0 +1,576 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 3 3
+Title "Wireless FREDI (and clock interface)"
+Date "2017-11-19"
+Rev "0.2"
+Comp "Heiko Rosemann (heiko.rosemann@web.de) CC-BY-SA"
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 "WiFi controller and directly related peripheral stuff"
+$EndDescr
+$Comp
+L wfred_rev6-rescue:C-RESCUE-wfred_rev2-wfred_rev2-rescue C?
+U 1 1 5A127BCA
+P 7300 4550
+AR Path="/5A127BCA" Ref="C?"  Part="1" 
+AR Path="/5A122619/5A127BCA" Ref="C303"  Part="1" 
+F 0 "C303" H 7300 4650 40  0000 L CNN
+F 1 "100n" H 7306 4465 40  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 7338 4400 30  0001 C CNN
+F 3 "" H 7300 4550 60  0000 C CNN
+F 4 "X7R-G0805 100N" H 7300 4550 60  0001 C CNN "Reichelt"
+F 5 "C49678" H 7300 4550 50  0001 C CNN "LCSC"
+	1    7300 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR0310
+U 1 1 5A127C0E
+P 7300 3950
+F 0 "#PWR0310" H 7300 4050 30  0001 C CNN
+F 1 "VCC" H 7300 4050 30  0000 C CNN
+F 2 "" H 7300 3950 60  0001 C CNN
+F 3 "" H 7300 3950 60  0001 C CNN
+	1    7300 3950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7300 3950 7300 4150
+$Comp
+L wfred_rev6-rescue:GND-RESCUE-wfred_rev2-wfred_rev2-rescue #PWR0311
+U 1 1 5A127CDB
+P 7300 5150
+AR Path="/5A127CDB" Ref="#PWR0311"  Part="1" 
+AR Path="/5A122619/5A127CDB" Ref="#PWR0311"  Part="1" 
+F 0 "#PWR0311" H 7300 5150 30  0001 C CNN
+F 1 "GND" H 7300 5080 30  0001 C CNN
+F 2 "" H 7300 5150 60  0001 C CNN
+F 3 "" H 7300 5150 60  0001 C CNN
+	1    7300 5150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7300 4750 7300 4950
+$Comp
+L wfred_rev6-rescue:C-RESCUE-wfred_rev2-wfred_rev2-rescue C?
+U 1 1 5A199174
+P 7600 4550
+AR Path="/5A199174" Ref="C?"  Part="1" 
+AR Path="/5A122619/5A199174" Ref="C304"  Part="1" 
+F 0 "C304" H 7600 4650 40  0000 L CNN
+F 1 "22u" H 7606 4465 40  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 7638 4400 30  0001 C CNN
+F 3 "" H 7600 4550 60  0000 C CNN
+F 4 "KEM X5R0805 22U" H 7600 4550 60  0001 C CNN "Reichelt"
+F 5 "C45783" H 7600 4550 50  0001 C CNN "LCSC"
+	1    7600 4550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7300 4150 7600 4150
+Wire Wire Line
+	7600 4150 7600 4350
+Connection ~ 7300 4150
+Wire Wire Line
+	7600 4750 7600 4950
+Wire Wire Line
+	7300 4950 7600 4950
+Connection ~ 7300 4950
+Wire Wire Line
+	7900 4150 7900 4350
+Connection ~ 7600 4150
+Wire Wire Line
+	7900 4950 7900 4750
+Connection ~ 7600 4950
+Wire Wire Line
+	7300 4150 7300 4350
+Wire Wire Line
+	7300 4950 7300 5150
+Wire Wire Line
+	7600 4150 7900 4150
+Wire Wire Line
+	7600 4950 7900 4950
+$Comp
+L RF_Module:ESP32-S2-WROVER U301
+U 1 1 60134419
+P 5550 3850
+F 0 "U301" H 5550 5231 50  0000 C CNN
+F 1 "ESP32-S2-WROOM" H 5550 5140 50  0000 C CNN
+F 2 "RF_Module:ESP32-S2-WROVER" H 6300 2700 50  0001 C CNN
+F 3 "https://www.espressif.com/sites/default/files/documentation/esp32-s2-wroom_esp32-s2-wroom-i_datasheet_en.pdf" H 5250 3050 50  0001 C CNN
+F 4 "356-ESP32S2WRM3200PH" H 5550 3850 50  0001 C CNN "Mouser"
+	1    5550 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR0307
+U 1 1 6028B14D
+P 5550 2250
+F 0 "#PWR0307" H 5550 2100 50  0001 C CNN
+F 1 "VCC" H 5565 2423 50  0000 C CNN
+F 2 "" H 5550 2250 50  0001 C CNN
+F 3 "" H 5550 2250 50  0001 C CNN
+	1    5550 2250
+	1    0    0    -1  
+$EndComp
+$Comp
+L wfred_rev6-rescue:GND-RESCUE-wfred_rev2-wfred_rev2-rescue #PWR0308
+U 1 1 6028C5B6
+P 5550 5150
+AR Path="/6028C5B6" Ref="#PWR0308"  Part="1" 
+AR Path="/5A122619/6028C5B6" Ref="#PWR0308"  Part="1" 
+F 0 "#PWR0308" H 5550 5150 30  0001 C CNN
+F 1 "GND" H 5550 5080 30  0001 C CNN
+F 2 "" H 5550 5150 60  0001 C CNN
+F 3 "" H 5550 5150 60  0001 C CNN
+	1    5550 5150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5550 4950 5550 5150
+Text GLabel 6350 4450 2    50   BiDi ~ 0
+USB_DP
+Text GLabel 6350 4550 2    50   BiDi ~ 0
+USB_DM
+Wire Wire Line
+	6350 4450 6150 4450
+Wire Wire Line
+	6150 4550 6350 4550
+$Comp
+L wfred_rev6-rescue:GND-RESCUE-wfred_rev2-wfred_rev2-rescue #PWR0301
+U 1 1 60292B21
+P 2750 3150
+AR Path="/60292B21" Ref="#PWR0301"  Part="1" 
+AR Path="/5A122619/60292B21" Ref="#PWR0301"  Part="1" 
+F 0 "#PWR0301" H 2750 3150 30  0001 C CNN
+F 1 "GND" H 2750 3080 30  0001 C CNN
+F 2 "" H 2750 3150 60  0001 C CNN
+F 3 "" H 2750 3150 60  0001 C CNN
+	1    2750 3150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2650 3050 2750 3050
+Wire Wire Line
+	2750 3050 2750 3150
+$Comp
+L Connector_Generic:Conn_01x03 J302
+U 1 1 60295C52
+P 7600 3050
+F 0 "J302" H 7680 3092 50  0000 L CNN
+F 1 "Conn_01x03" H 7680 3001 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 7600 3050 50  0001 C CNN
+F 3 "~" H 7600 3050 50  0001 C CNN
+F 4 "SL 1X36G 2,54" H 7600 3050 50  0001 C CNN "Reichelt"
+	1    7600 3050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6150 3050 7400 3050
+Wire Wire Line
+	6150 3150 7400 3150
+$Comp
+L wfred_rev6-rescue:GND-RESCUE-wfred_rev2-wfred_rev2-rescue #PWR0309
+U 1 1 60297B16
+P 7300 3350
+AR Path="/60297B16" Ref="#PWR0309"  Part="1" 
+AR Path="/5A122619/60297B16" Ref="#PWR0309"  Part="1" 
+F 0 "#PWR0309" H 7300 3350 30  0001 C CNN
+F 1 "GND" H 7300 3280 30  0001 C CNN
+F 2 "" H 7300 3350 60  0001 C CNN
+F 3 "" H 7300 3350 60  0001 C CNN
+	1    7300 3350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7300 2950 7400 2950
+Wire Wire Line
+	7300 2950 7300 3350
+NoConn ~ 6150 2850
+NoConn ~ 6150 2950
+$Comp
+L Device:R R301
+U 1 1 602C96E9
+P 3200 2500
+F 0 "R301" H 3270 2546 50  0000 L CNN
+F 1 "4M7" H 3270 2455 50  0000 L CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 3130 2500 50  0001 C CNN
+F 3 "~" H 3200 2500 50  0001 C CNN
+F 4 "C17674" H 3200 2500 50  0001 C CNN "LCSC"
+F 5 "SMD-0805 4,70M" H 3200 2500 50  0001 C CNN "Reichelt"
+	1    3200 2500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R302
+U 1 1 602C9E3F
+P 3200 4000
+F 0 "R302" H 3270 4046 50  0000 L CNN
+F 1 "4M7" H 3270 3955 50  0000 L CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 3130 4000 50  0001 C CNN
+F 3 "~" H 3200 4000 50  0001 C CNN
+F 4 "C17674" H 3200 4000 50  0001 C CNN "LCSC"
+F 5 "SMD-0805 4,70M" H 3200 4000 50  0001 C CNN "Reichelt"
+	1    3200 4000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3200 3750 3200 3850
+Wire Wire Line
+	3200 2650 3200 3750
+Connection ~ 3200 3750
+$Comp
+L wfred_rev6-rescue:GND-RESCUE-wfred_rev2-wfred_rev2-rescue #PWR0303
+U 1 1 602CB96F
+P 3200 5150
+AR Path="/602CB96F" Ref="#PWR0303"  Part="1" 
+AR Path="/5A122619/602CB96F" Ref="#PWR0303"  Part="1" 
+F 0 "#PWR0303" H 3200 5150 30  0001 C CNN
+F 1 "GND" H 3200 5080 30  0001 C CNN
+F 2 "" H 3200 5150 60  0001 C CNN
+F 3 "" H 3200 5150 60  0001 C CNN
+	1    3200 5150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3200 5150 3200 4350
+$Comp
+L power:+BATT #PWR0302
+U 1 1 602CCBA4
+P 3200 2250
+F 0 "#PWR0302" H 3200 2100 50  0001 C CNN
+F 1 "+BATT" H 3215 2423 50  0000 C CNN
+F 2 "" H 3200 2250 50  0001 C CNN
+F 3 "" H 3200 2250 50  0001 C CNN
+	1    3200 2250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3200 2250 3200 2350
+Text GLabel 4700 3850 0    50   Input ~ 0
+SPEED
+Wire Wire Line
+	4700 3850 4950 3850
+$Comp
+L wfred_rev6-rescue:C-RESCUE-wfred_rev2-wfred_rev2-rescue C?
+U 1 1 602CD9F4
+P 2900 4050
+AR Path="/602CD9F4" Ref="C?"  Part="1" 
+AR Path="/5A122619/602CD9F4" Ref="C301"  Part="1" 
+F 0 "C301" H 2900 4150 40  0000 L CNN
+F 1 "100n" H 2906 3965 40  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 2938 3900 30  0001 C CNN
+F 3 "" H 2900 4050 60  0000 C CNN
+F 4 "X7R-G0805 100N" H 2900 4050 60  0001 C CNN "Reichelt"
+F 5 "C49678" H 2900 4050 50  0001 C CNN "LCSC"
+	1    2900 4050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2900 3750 2900 3850
+Wire Wire Line
+	2900 4250 2900 4350
+Wire Wire Line
+	2900 4350 3200 4350
+Connection ~ 3200 4350
+Wire Wire Line
+	3200 4350 3200 4150
+Text GLabel 4700 3950 0    50   Input ~ 0
+ESTOP
+Wire Wire Line
+	4700 3950 4950 3950
+Text GLabel 4700 4050 0    50   Input ~ 0
+F1
+Text GLabel 4700 4150 0    50   Input ~ 0
+F4
+Text GLabel 4700 4250 0    50   Input ~ 0
+F7
+Wire Wire Line
+	4700 4050 4950 4050
+Wire Wire Line
+	4700 4150 4950 4150
+Wire Wire Line
+	4700 4250 4950 4250
+Text GLabel 4700 4350 0    50   Output ~ 0
+LED_STOP
+Wire Wire Line
+	4700 4350 4950 4350
+Text GLabel 4700 4550 0    50   Input ~ 0
+REV
+Text GLabel 4700 4450 0    50   Output ~ 0
+LED_REV
+Wire Wire Line
+	4700 4450 4950 4450
+Wire Wire Line
+	4700 4550 4950 4550
+$Comp
+L Connector_Generic:Conn_01x02 J301
+U 1 1 60294EB8
+P 2450 3050
+F 0 "J301" H 2368 2725 50  0000 C CNN
+F 1 "Conn_01x02" H 2368 2816 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 2450 3050 50  0001 C CNN
+F 3 "~" H 2450 3050 50  0001 C CNN
+F 4 "SL 1X36G 2,54" H 2450 3050 50  0001 C CNN "Reichelt"
+	1    2450 3050
+	-1   0    0    1   
+$EndComp
+Text GLabel 6350 4050 2    50   Input ~ 0
+LOCO1
+Text GLabel 6350 3950 2    50   Input ~ 0
+LOCO2
+Wire Wire Line
+	4700 3050 4950 3050
+Wire Wire Line
+	4700 3150 4950 3150
+Text GLabel 4700 3250 0    50   Input ~ 0
+F0
+Text GLabel 4700 3350 0    50   Input ~ 0
+F2
+Text GLabel 4700 3450 0    50   Input ~ 0
+F5
+Text GLabel 4700 3550 0    50   Input ~ 0
+F8
+Wire Wire Line
+	4700 3250 4950 3250
+Wire Wire Line
+	4700 3350 4950 3350
+Wire Wire Line
+	4700 3450 4950 3450
+Wire Wire Line
+	4700 3550 4950 3550
+NoConn ~ 4950 3650
+NoConn ~ 4950 4650
+NoConn ~ 6150 4350
+NoConn ~ 6150 4250
+Text GLabel 6350 3650 2    50   Input ~ 0
+F6
+Wire Wire Line
+	6350 4150 6150 4150
+Text GLabel 6350 3750 2    50   Input ~ 0
+F3
+Wire Wire Line
+	6150 4050 6350 4050
+Text GLabel 4700 3050 0    50   Input ~ 0
+LOCO4
+Text GLabel 4700 3150 0    50   Input ~ 0
+LOCO3
+Wire Wire Line
+	6150 3850 6350 3850
+Wire Wire Line
+	6350 3950 6150 3950
+Text GLabel 6350 3850 2    50   Input ~ 0
+FWD
+Wire Wire Line
+	6350 3750 6150 3750
+Text GLabel 6350 3550 2    50   Output ~ 0
+LED_FWD
+Wire Wire Line
+	6350 3650 6150 3650
+Text GLabel 6350 3450 2    50   Input ~ 0
+SHIFT
+Wire Wire Line
+	6150 3550 6350 3550
+NoConn ~ 6150 3350
+NoConn ~ 6150 3250
+Text GLabel 6350 4150 2    50   Output ~ 0
+FLASHLIGHT
+Wire Wire Line
+	6150 3450 6350 3450
+Wire Wire Line
+	7900 4150 8200 4150
+Wire Wire Line
+	8200 4150 8200 4350
+Connection ~ 7900 4150
+Wire Wire Line
+	8200 4150 8500 4150
+Wire Wire Line
+	8500 4150 8500 4350
+Connection ~ 8200 4150
+Wire Wire Line
+	8500 4150 8800 4150
+Wire Wire Line
+	8800 4150 8800 4350
+Connection ~ 8500 4150
+Wire Wire Line
+	8200 4750 8200 4950
+Wire Wire Line
+	8200 4950 7900 4950
+Connection ~ 7900 4950
+Wire Wire Line
+	8200 4950 8500 4950
+Wire Wire Line
+	8500 4950 8500 4750
+Connection ~ 8200 4950
+Wire Wire Line
+	8800 4950 8800 4750
+Wire Wire Line
+	8500 4950 8800 4950
+Connection ~ 8500 4950
+$Comp
+L wfred_rev6-rescue:C-RESCUE-wfred_rev2-wfred_rev2-rescue C?
+U 1 1 60191693
+P 7900 4550
+AR Path="/60191693" Ref="C?"  Part="1" 
+AR Path="/5A122619/60191693" Ref="C305"  Part="1" 
+F 0 "C305" H 7900 4650 40  0000 L CNN
+F 1 "22u" H 7906 4465 40  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 7938 4400 30  0001 C CNN
+F 3 "" H 7900 4550 60  0000 C CNN
+F 4 "KEM X5R0805 22U" H 7900 4550 60  0001 C CNN "Reichelt"
+F 5 "C45783" H 7900 4550 50  0001 C CNN "LCSC"
+	1    7900 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L wfred_rev6-rescue:C-RESCUE-wfred_rev2-wfred_rev2-rescue C?
+U 1 1 601918BC
+P 8200 4550
+AR Path="/601918BC" Ref="C?"  Part="1" 
+AR Path="/5A122619/601918BC" Ref="C306"  Part="1" 
+F 0 "C306" H 8200 4650 40  0000 L CNN
+F 1 "22u" H 8206 4465 40  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8238 4400 30  0001 C CNN
+F 3 "" H 8200 4550 60  0000 C CNN
+F 4 "KEM X5R0805 22U" H 8200 4550 60  0001 C CNN "Reichelt"
+F 5 "C45783" H 8200 4550 50  0001 C CNN "LCSC"
+	1    8200 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L wfred_rev6-rescue:C-RESCUE-wfred_rev2-wfred_rev2-rescue C?
+U 1 1 60191C5B
+P 8500 4550
+AR Path="/60191C5B" Ref="C?"  Part="1" 
+AR Path="/5A122619/60191C5B" Ref="C307"  Part="1" 
+F 0 "C307" H 8500 4650 40  0000 L CNN
+F 1 "22u" H 8506 4465 40  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8538 4400 30  0001 C CNN
+F 3 "" H 8500 4550 60  0000 C CNN
+F 4 "KEM X5R0805 22U" H 8500 4550 60  0001 C CNN "Reichelt"
+F 5 "C45783" H 8500 4550 50  0001 C CNN "LCSC"
+	1    8500 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L wfred_rev6-rescue:C-RESCUE-wfred_rev2-wfred_rev2-rescue C?
+U 1 1 60191DE8
+P 8800 4550
+AR Path="/60191DE8" Ref="C?"  Part="1" 
+AR Path="/5A122619/60191DE8" Ref="C308"  Part="1" 
+F 0 "C308" H 8800 4650 40  0000 L CNN
+F 1 "22u" H 8806 4465 40  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8838 4400 30  0001 C CNN
+F 3 "" H 8800 4550 60  0000 C CNN
+F 4 "KEM X5R0805 22U" H 8800 4550 60  0001 C CNN "Reichelt"
+F 5 "C45783" H 8800 4550 50  0001 C CNN "LCSC"
+	1    8800 4550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5550 2250 5550 2650
+$Comp
+L wfred_rev6-rescue:C-RESCUE-wfred_rev2-wfred_rev2-rescue C?
+U 1 1 601A28C9
+P 3600 4050
+AR Path="/601A28C9" Ref="C?"  Part="1" 
+AR Path="/5A122619/601A28C9" Ref="C302"  Part="1" 
+F 0 "C302" H 3600 4150 40  0000 L CNN
+F 1 "4u7" H 3606 3965 40  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3638 3900 30  0001 C CNN
+F 3 "" H 3600 4050 60  0000 C CNN
+F 4 "KEM X5R0805 4,7U" H 3600 4050 60  0001 C CNN "Reichelt"
+F 5 "C1779" H 3600 4050 50  0001 C CNN "LCSC"
+	1    3600 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R303
+U 1 1 601A46BC
+P 3600 2500
+F 0 "R303" H 3670 2546 50  0000 L CNN
+F 1 "4k7" H 3670 2455 50  0000 L CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 3530 2500 50  0001 C CNN
+F 3 "~" H 3600 2500 50  0001 C CNN
+F 4 "C17673" H 3600 2500 50  0001 C CNN "LCSC"
+F 5 "SMD-0805 4,70K" H 3600 2500 50  0001 C CNN "Reichelt"
+	1    3600 2500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR0304
+U 1 1 601A4B02
+P 3600 2250
+F 0 "#PWR0304" H 3600 2100 50  0001 C CNN
+F 1 "VCC" H 3615 2423 50  0000 C CNN
+F 2 "" H 3600 2250 50  0001 C CNN
+F 3 "" H 3600 2250 50  0001 C CNN
+	1    3600 2250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3600 2250 3600 2350
+Wire Wire Line
+	3600 2650 3600 2850
+Connection ~ 3600 2850
+Wire Wire Line
+	3600 2850 3600 3850
+$Comp
+L wfred_rev6-rescue:GND-RESCUE-wfred_rev2-wfred_rev2-rescue #PWR0305
+U 1 1 601A95D8
+P 3600 5150
+AR Path="/601A95D8" Ref="#PWR0305"  Part="1" 
+AR Path="/5A122619/601A95D8" Ref="#PWR0305"  Part="1" 
+F 0 "#PWR0305" H 3600 5150 30  0001 C CNN
+F 1 "GND" H 3600 5080 30  0001 C CNN
+F 2 "" H 3600 5150 60  0001 C CNN
+F 3 "" H 3600 5150 60  0001 C CNN
+	1    3600 5150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3600 5150 3600 4250
+Wire Wire Line
+	2900 3750 3200 3750
+Wire Wire Line
+	3600 2850 4950 2850
+Wire Wire Line
+	2650 2950 4950 2950
+Wire Wire Line
+	3200 3750 4950 3750
+$Comp
+L Device:R R304
+U 1 1 601BCDCA
+P 4000 2500
+F 0 "R304" H 4070 2546 50  0000 L CNN
+F 1 "4k7" H 4070 2455 50  0000 L CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 3930 2500 50  0001 C CNN
+F 3 "~" H 4000 2500 50  0001 C CNN
+F 4 "C17673" H 4000 2500 50  0001 C CNN "LCSC"
+F 5 "SMD-0805 4,70K" H 4000 2500 50  0001 C CNN "Reichelt"
+	1    4000 2500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR0306
+U 1 1 601BDC86
+P 4000 2250
+F 0 "#PWR0306" H 4000 2100 50  0001 C CNN
+F 1 "VCC" H 4015 2423 50  0000 C CNN
+F 2 "" H 4000 2250 50  0001 C CNN
+F 3 "" H 4000 2250 50  0001 C CNN
+	1    4000 2250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4000 2250 4000 2350
+Wire Wire Line
+	4000 2650 4000 4750
+Wire Wire Line
+	4000 4750 4950 4750
+$EndSCHEMATC

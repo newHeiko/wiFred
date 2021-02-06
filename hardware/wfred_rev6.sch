@@ -1,0 +1,733 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 3
+Title "Wireless FREDI (and clock interface)"
+Date "2017-11-19"
+Rev "0.2"
+Comp "Heiko Rosemann (heiko.rosemann@web.de) CC-BY-SA"
+Comment1 ""
+Comment2 "External connections (Battery)"
+Comment3 "Power supply"
+Comment4 "Master sheet for subsheets"
+$EndDescr
+Wire Wire Line
+	10400 1200 10400 1400
+$Comp
+L wfred_rev6-rescue:GND-RESCUE-wfred_rev2-wfred_rev2-rescue #PWR0103
+U 1 1 5920B391
+P 1750 2150
+F 0 "#PWR0103" H 1750 2150 30  0001 C CNN
+F 1 "GND" H 1750 2080 30  0001 C CNN
+F 2 "" H 1750 2150 60  0001 C CNN
+F 3 "" H 1750 2150 60  0001 C CNN
+	1    1750 2150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+BATT #PWR0104
+U 1 1 5920B394
+P 2350 1200
+F 0 "#PWR0104" H 2350 1150 20  0001 C CNN
+F 1 "+BATT" H 2350 1300 30  0000 C CNN
+F 2 "" H 2350 1200 60  0001 C CNN
+F 3 "" H 2350 1200 60  0001 C CNN
+	1    2350 1200
+	1    0    0    -1  
+$EndComp
+$Comp
+L wfred_rev6-rescue:GND-RESCUE-wfred_rev2-wfred_rev2-rescue #PWR0121
+U 1 1 5920B39E
+P 10400 3600
+F 0 "#PWR0121" H 10400 3600 30  0001 C CNN
+F 1 "GND" H 10400 3530 30  0001 C CNN
+F 2 "" H 10400 3600 60  0001 C CNN
+F 3 "" H 10400 3600 60  0001 C CNN
+	1    10400 3600
+	1    0    0    -1  
+$EndComp
+$Sheet
+S 6100 5300 1200 900 
+U 5920DD4A
+F0 "User Interface" 60
+F1 "User_interface_rev6.sch" 60
+$EndSheet
+$Comp
+L power:PWR_FLAG #FLG0102
+U 1 1 59214BB2
+P 1750 1200
+F 0 "#FLG0102" H 1750 1295 30  0001 C CNN
+F 1 "PWR_FLAG" H 1750 1380 30  0000 C CNN
+F 2 "" H 1750 1200 60  0001 C CNN
+F 3 "" H 1750 1200 60  0001 C CNN
+	1    1750 1200
+	1    0    0    -1  
+$EndComp
+$Sheet
+S 6100 4200 1200 900 
+U 5A122619
+F0 "Wifi connection" 60
+F1 "wfred-wifi_rev6.sch" 60
+$EndSheet
+$Comp
+L wfred_rev6-rescue:CONN_2-conn-wfred_rev2-rescue P101
+U 1 1 5BDF535A
+P 950 1550
+F 0 "P101" V 900 1550 40  0000 C CNN
+F 1 "BATT" V 1000 1550 40  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Horizontal" H 950 1550 60  0001 C CNN
+F 3 "" H 950 1550 60  0001 C CNN
+F 4 "SL 1X36W 2,54" V 950 1550 50  0001 C CNN "Reichelt"
+	1    950  1550
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	1300 1650 1750 1650
+Connection ~ 1750 1650
+Wire Wire Line
+	1750 1200 1750 1650
+Wire Wire Line
+	1300 1450 2350 1450
+$Comp
+L wfred_rev6-rescue:USB-MINI-B-conn-wfred_rev2-rescue CON101
+U 1 1 5BDF5403
+P 2900 5050
+F 0 "CON101" H 2650 5500 60  0000 C CNN
+F 1 "USB-MICRO-B" H 2850 4550 60  0000 C CNN
+F 2 "myFootprints:USB_Micro-B_Molex-105017-0001_longPads" H 2900 5050 60  0001 C CNN
+F 3 "" H 2900 5050 60  0001 C CNN
+F 4 "538-105017-0001" H 2900 5050 60  0001 C CNN "Mouser"
+F 5 "C404969" H 2900 5050 50  0001 C CNN "LCSC"
+	1    2900 5050
+	1    0    0    -1  
+$EndComp
+$Comp
+L wfred_rev6-rescue:GND-power-wfred_rev2-rescue #PWR0105
+U 1 1 5BDF5538
+P 3650 5750
+F 0 "#PWR0105" H 3650 5750 30  0001 C CNN
+F 1 "GND" H 3650 5680 30  0001 C CNN
+F 2 "" H 3650 5750 60  0001 C CNN
+F 3 "" H 3650 5750 60  0001 C CNN
+	1    3650 5750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3450 4750 3650 4750
+Wire Wire Line
+	3650 4750 3650 4900
+Wire Wire Line
+	3450 4900 3650 4900
+Connection ~ 3650 4900
+Wire Wire Line
+	3450 5200 3650 5200
+Connection ~ 3650 5200
+Wire Wire Line
+	3450 5350 3650 5350
+Connection ~ 3650 5350
+$Comp
+L wfred_rev6-rescue:GND-power-wfred_rev2-rescue #PWR0102
+U 1 1 5BDF55B7
+P 2150 5750
+F 0 "#PWR0102" H 2150 5750 30  0001 C CNN
+F 1 "GND" H 2150 5680 30  0001 C CNN
+F 2 "" H 2150 5750 60  0001 C CNN
+F 3 "" H 2150 5750 60  0001 C CNN
+	1    2150 5750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2150 5750 2150 5350
+Wire Wire Line
+	2150 5350 2350 5350
+NoConn ~ 2350 5200
+$Comp
+L power:VCC #PWR0120
+U 1 1 5BDF5646
+P 10400 1200
+F 0 "#PWR0120" H 10400 1300 30  0001 C CNN
+F 1 "VCC" H 10400 1300 30  0000 C CNN
+F 2 "" H 10400 1200 60  0001 C CNN
+F 3 "" H 10400 1200 60  0001 C CNN
+	1    10400 1200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR0101
+U 1 1 5BDF5666
+P 2150 4500
+F 0 "#PWR0101" H 2150 4590 20  0001 C CNN
+F 1 "+5V" H 2150 4590 30  0000 C CNN
+F 2 "" H 2150 4500 60  0001 C CNN
+F 3 "" H 2150 4500 60  0001 C CNN
+	1    2150 4500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2150 4500 2150 4750
+Wire Wire Line
+	1950 4750 2150 4750
+$Comp
+L power:+BATT #PWR0108
+U 1 1 5BDF64A0
+P 4200 1200
+F 0 "#PWR0108" H 4200 1150 20  0001 C CNN
+F 1 "+BATT" H 4200 1300 30  0000 C CNN
+F 2 "" H 4200 1200 60  0001 C CNN
+F 3 "" H 4200 1200 60  0001 C CNN
+	1    4200 1200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4200 1200 4200 2600
+$Comp
+L wfred_rev6-rescue:C-device-wfred_rev2-rescue C101
+U 1 1 5BDF64E4
+P 4200 3200
+F 0 "C101" H 4200 3300 40  0000 L CNN
+F 1 "4u7" H 4206 3115 40  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 4238 3050 30  0001 C CNN
+F 3 "" H 4200 3200 60  0000 C CNN
+F 4 "KEM X5R0805 4,7U" H 4200 3200 50  0001 C CNN "Reichelt"
+F 5 "C1779" H 4200 3200 50  0001 C CNN "LCSC"
+	1    4200 3200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4200 2600 4900 2600
+Connection ~ 4200 2600
+$Comp
+L wfred_rev6-rescue:GND-power-wfred_rev2-rescue #PWR0109
+U 1 1 5BDF6575
+P 4200 3600
+F 0 "#PWR0109" H 4200 3600 30  0001 C CNN
+F 1 "GND" H 4200 3530 30  0001 C CNN
+F 2 "" H 4200 3600 60  0001 C CNN
+F 3 "" H 4200 3600 60  0001 C CNN
+	1    4200 3600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4200 3600 4200 3400
+$Comp
+L wfred_rev6-rescue:GND-power-wfred_rev2-rescue #PWR0110
+U 1 1 5BDF65B7
+P 4500 3600
+F 0 "#PWR0110" H 4500 3600 30  0001 C CNN
+F 1 "GND" H 4500 3530 30  0001 C CNN
+F 2 "" H 4500 3600 60  0001 C CNN
+F 3 "" H 4500 3600 60  0001 C CNN
+	1    4500 3600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4500 2500 4500 3600
+Wire Wire Line
+	4500 2500 4900 2500
+$Comp
+L wfred_rev6-rescue:LED-device-wfred_rev2-rescue D101
+U 1 1 5BDF6C34
+P 3400 2100
+F 0 "D101" H 3400 2200 50  0000 C CNN
+F 1 "LED - red" H 3400 2000 50  0000 C CNN
+F 2 "LED_THT:LED_D3.0mm" H 3400 2100 60  0001 C CNN
+F 3 "" H 3400 2100 60  0000 C CNN
+F 4 "LED 3mm RT" H 3400 2100 50  0001 C CNN "Reichelt"
+	1    3400 2100
+	0    1    1    0   
+$EndComp
+$Comp
+L wfred_rev6-rescue:LED-device-wfred_rev2-rescue D102
+U 1 1 5BDF6CF2
+P 3800 3200
+F 0 "D102" H 3800 3300 50  0000 C CNN
+F 1 "LED - green" H 3800 3100 50  0000 C CNN
+F 2 "LED_THT:LED_D3.0mm" H 3800 3200 60  0001 C CNN
+F 3 "" H 3800 3200 60  0000 C CNN
+F 4 "LED 3mm GN" H 3800 3200 50  0001 C CNN "Reichelt"
+	1    3800 3200
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4900 2400 3400 2400
+Wire Wire Line
+	3400 2300 3400 2400
+Wire Wire Line
+	3400 1800 3400 1900
+$Comp
+L wfred_rev6-rescue:GND-power-wfred_rev2-rescue #PWR0107
+U 1 1 5BDF6E99
+P 3800 3600
+F 0 "#PWR0107" H 3800 3600 30  0001 C CNN
+F 1 "GND" H 3800 3530 30  0001 C CNN
+F 2 "" H 3800 3600 60  0001 C CNN
+F 3 "" H 3800 3600 60  0001 C CNN
+	1    3800 3600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR0106
+U 1 1 5BDF6FC9
+P 3400 1200
+F 0 "#PWR0106" H 3400 1290 20  0001 C CNN
+F 1 "+5V" H 3400 1290 30  0000 C CNN
+F 2 "" H 3400 1200 60  0001 C CNN
+F 3 "" H 3400 1200 60  0001 C CNN
+	1    3400 1200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3400 1200 3400 1300
+$Comp
+L wfred_rev6-rescue:C-device-wfred_rev2-rescue C102
+U 1 1 5BDF745F
+P 6400 3200
+F 0 "C102" H 6400 3300 40  0000 L CNN
+F 1 "4u7" H 6406 3115 40  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 6438 3050 30  0001 C CNN
+F 3 "" H 6400 3200 60  0000 C CNN
+F 4 "C1779" H 6400 3200 50  0001 C CNN "LCSC"
+F 5 "KEM X5R0805 4,7U" H 6400 3200 50  0001 C CNN "Reichelt"
+	1    6400 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L wfred_rev6-rescue:GND-power-wfred_rev2-rescue #PWR0113
+U 1 1 5BDF761A
+P 6400 3600
+F 0 "#PWR0113" H 6400 3600 30  0001 C CNN
+F 1 "GND" H 6400 3530 30  0001 C CNN
+F 2 "" H 6400 3600 60  0001 C CNN
+F 3 "" H 6400 3600 60  0001 C CNN
+	1    6400 3600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6400 3600 6400 3400
+Wire Wire Line
+	6000 2400 6400 2400
+Wire Wire Line
+	6400 1200 6400 2400
+Connection ~ 6400 2400
+$Comp
+L power:+5V #PWR0112
+U 1 1 5BDF76F6
+P 6400 1200
+F 0 "#PWR0112" H 6400 1290 20  0001 C CNN
+F 1 "+5V" H 6400 1290 30  0000 C CNN
+F 2 "" H 6400 1200 60  0001 C CNN
+F 3 "" H 6400 1200 60  0001 C CNN
+	1    6400 1200
+	1    0    0    -1  
+$EndComp
+$Comp
+L wfred_rev6-rescue:R-device-wfred_rev2-rescue R105
+U 1 1 5BDF77A8
+P 6100 3250
+F 0 "R105" V 6180 3250 40  0000 C CNN
+F 1 "2k2" V 6107 3251 40  0000 C CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 6030 3250 30  0001 C CNN
+F 3 "" H 6100 3250 30  0000 C CNN
+F 4 "C17520" V 6100 3250 50  0001 C CNN "LCSC"
+F 5 "SMD-0805 2,20K" V 6100 3250 50  0001 C CNN "Reichelt"
+	1    6100 3250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6000 2500 6100 2500
+Wire Wire Line
+	6100 2500 6100 3000
+$Comp
+L wfred_rev6-rescue:GND-power-wfred_rev2-rescue #PWR0111
+U 1 1 5BDF79BD
+P 6100 3600
+F 0 "#PWR0111" H 6100 3600 30  0001 C CNN
+F 1 "GND" H 6100 3530 30  0001 C CNN
+F 2 "" H 6100 3600 60  0001 C CNN
+F 3 "" H 6100 3600 60  0001 C CNN
+	1    6100 3600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6100 3500 6100 3600
+$Comp
+L wfred_rev6-rescue:C-device-wfred_rev2-rescue C103
+U 1 1 5BDF7FBD
+P 7500 2500
+F 0 "C103" H 7500 2600 40  0000 L CNN
+F 1 "22u" H 7506 2415 40  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 7538 2350 30  0001 C CNN
+F 3 "" H 7500 2500 60  0000 C CNN
+F 4 "KEM X5R0805 22U" H 7500 2500 60  0001 C CNN "Reichelt"
+F 5 "C45783" H 7500 2500 50  0001 C CNN "LCSC"
+F 6 "187-CL21A226MAYNNNE" H 7500 2500 50  0001 C CNN "Mouser"
+F 7 "Mouser 25V, LCSC/Reichelt 6V3" H 7500 2500 50  0001 C CNN "Remark"
+	1    7500 2500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+BATT #PWR0114
+U 1 1 5BDF800C
+P 7500 1200
+F 0 "#PWR0114" H 7500 1150 20  0001 C CNN
+F 1 "+BATT" H 7500 1300 30  0000 C CNN
+F 2 "" H 7500 1200 60  0001 C CNN
+F 3 "" H 7500 1200 60  0001 C CNN
+	1    7500 1200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7500 1200 7500 2300
+$Comp
+L wfred_rev6-rescue:GND-power-wfred_rev2-rescue #PWR0115
+U 1 1 5BDF8082
+P 7500 3600
+F 0 "#PWR0115" H 7500 3600 30  0001 C CNN
+F 1 "GND" H 7500 3530 30  0001 C CNN
+F 2 "" H 7500 3600 60  0001 C CNN
+F 3 "" H 7500 3600 60  0001 C CNN
+	1    7500 3600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7500 2700 7500 3600
+Wire Wire Line
+	2350 1450 2350 1200
+$Comp
+L wfred_rev6-rescue:C-RESCUE-wfred_rev2-wfred_rev2-rescue C104
+U 1 1 59210E8B
+P 10400 2500
+F 0 "C104" H 10400 2600 40  0000 L CNN
+F 1 "4u7" H 10406 2415 40  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 10438 2350 30  0001 C CNN
+F 3 "" H 10400 2500 60  0000 C CNN
+F 4 "KEM X5R0805 4,7U" H 10400 2500 60  0001 C CNN "Reichelt"
+F 5 "C1779" H 10400 2500 50  0001 C CNN "LCSC"
+	1    10400 2500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:PWR_FLAG #FLG0101
+U 1 1 5BDFC97D
+P 1950 4450
+F 0 "#FLG0101" H 1950 4545 30  0001 C CNN
+F 1 "PWR_FLAG" H 1950 4630 30  0000 C CNN
+F 2 "" H 1950 4450 60  0001 C CNN
+F 3 "" H 1950 4450 60  0001 C CNN
+	1    1950 4450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1950 4450 1950 4750
+Connection ~ 2150 4750
+$Comp
+L power:PWR_FLAG #FLG0103
+U 1 1 5BDFCAA6
+P 2550 1150
+F 0 "#FLG0103" H 2550 1245 30  0001 C CNN
+F 1 "PWR_FLAG" H 2550 1330 30  0000 C CNN
+F 2 "" H 2550 1150 60  0001 C CNN
+F 3 "" H 2550 1150 60  0001 C CNN
+	1    2550 1150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2550 1450 2550 1150
+Connection ~ 2350 1450
+$Comp
+L power:PWR_FLAG #FLG0104
+U 1 1 5BDFDCEB
+P 10700 1200
+F 0 "#FLG0104" H 10700 1295 30  0001 C CNN
+F 1 "PWR_FLAG" H 10700 1380 30  0000 C CNN
+F 2 "" H 10700 1200 60  0001 C CNN
+F 3 "" H 10700 1200 60  0001 C CNN
+	1    10700 1200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10700 1200 10700 1400
+Wire Wire Line
+	10700 1400 10400 1400
+Connection ~ 10400 1400
+$Comp
+L wfred_rev6-rescue:MCP73831T-2ACI_OT-MCP73831T-2ACI_OT-wfred_rev2-rescue IC101
+U 1 1 5BDF6387
+P 4900 2400
+F 0 "IC101" H 5850 2700 50  0000 L CNN
+F 1 "TP4054" H 5850 2600 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23-5_HandSoldering" H 5850 2500 50  0001 L CNN
+F 3 "" H 5850 2400 50  0001 L CNN
+F 4 "Li-Ion Charge Controller 4.2V SOT23-5" H 5850 2300 50  0001 L CNN "Description"
+F 5 "C32574" H 4900 2400 50  0001 C CNN "LCSC"
+F 6 "LTC 4054XES5-4.2" H 4900 2400 50  0001 C CNN "Reichelt"
+F 7 "511-STC4054GR" H 4900 2400 50  0001 C CNN "Mouser"
+	1    4900 2400
+	1    0    0    -1  
+$EndComp
+$Comp
+L wfred_rev6-rescue:NCV8161BSN300T1G-NCV8161BSN300T1G-wfred_rev2-rescue IC102
+U 1 1 5BE0A471
+P 8500 2400
+F 0 "IC102" H 9550 2700 50  0000 L CNN
+F 1 "XC6220B331MR" H 9550 2600 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23-5_HandSoldering" H 9550 2500 50  0001 L CNN
+F 3 "" H 9550 2400 50  0001 L CNN
+F 4 "C86534" H 8500 2400 50  0001 C CNN "LCSC"
+F 5 "865-XC6220B331MR-G" H 8500 2400 50  0001 C CNN "Mouser"
+	1    8500 2400
+	1    0    0    -1  
+$EndComp
+$Comp
+L wfred_rev6-rescue:GND-power-wfred_rev2-rescue #PWR0117
+U 1 1 5BE0A873
+P 8400 3600
+F 0 "#PWR0117" H 8400 3600 30  0001 C CNN
+F 1 "GND" H 8400 3530 30  0001 C CNN
+F 2 "" H 8400 3600 60  0001 C CNN
+F 3 "" H 8400 3600 60  0001 C CNN
+	1    8400 3600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8400 3600 8400 2500
+Wire Wire Line
+	8400 2500 8500 2500
+$Comp
+L power:+BATT #PWR0116
+U 1 1 5BE0A8E4
+P 8400 1200
+F 0 "#PWR0116" H 8400 1150 20  0001 C CNN
+F 1 "+BATT" H 8400 1300 30  0000 C CNN
+F 2 "" H 8400 1200 60  0001 C CNN
+F 3 "" H 8400 1200 60  0001 C CNN
+	1    8400 1200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8400 1200 8400 2400
+Wire Wire Line
+	8400 2400 8500 2400
+Wire Wire Line
+	9700 2400 9800 2400
+Wire Wire Line
+	9800 2400 9800 3600
+$Comp
+L wfred_rev6-rescue:GND-power-wfred_rev2-rescue #PWR0118
+U 1 1 5BE0A9A9
+P 9800 3600
+F 0 "#PWR0118" H 9800 3600 30  0001 C CNN
+F 1 "GND" H 9800 3530 30  0001 C CNN
+F 2 "" H 9800 3600 60  0001 C CNN
+F 3 "" H 9800 3600 60  0001 C CNN
+	1    9800 3600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR0119
+U 1 1 5BE0AA4D
+P 9900 1200
+F 0 "#PWR0119" H 9900 1300 30  0001 C CNN
+F 1 "VCC" H 9900 1300 30  0000 C CNN
+F 2 "" H 9900 1200 60  0001 C CNN
+F 3 "" H 9900 1200 60  0001 C CNN
+	1    9900 1200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9900 1200 9900 2500
+Wire Wire Line
+	9900 2500 9700 2500
+Text GLabel 8300 2600 0    60   Input ~ 0
+ESP_ENABLE
+Wire Wire Line
+	8300 2600 8500 2600
+Wire Wire Line
+	1750 1650 1750 2150
+Wire Wire Line
+	3650 4900 3650 5200
+Wire Wire Line
+	3650 5200 3650 5350
+Wire Wire Line
+	3650 5350 3650 5750
+Wire Wire Line
+	4200 2600 4200 3000
+Wire Wire Line
+	6400 2400 6400 3000
+Wire Wire Line
+	2150 4750 2350 4750
+Wire Wire Line
+	2350 1450 2550 1450
+Wire Wire Line
+	10400 1400 10400 2300
+Text GLabel 1000 4900 0    50   BiDi ~ 0
+USB_DM
+Text GLabel 1000 5050 0    50   BiDi ~ 0
+USB_DP
+Wire Wire Line
+	10400 2700 10400 3600
+$Comp
+L wfred_rev6-rescue:R-device-wfred_rev2-rescue R101
+U 1 1 602C21EF
+P 1900 4900
+F 0 "R101" V 1980 4900 40  0000 C CNN
+F 1 "22R" V 1907 4901 40  0000 C CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 1830 4900 30  0001 C CNN
+F 3 "" H 1900 4900 30  0000 C CNN
+F 4 "C17561" V 1900 4900 50  0001 C CNN "LCSC"
+F 5 "SMD-0805 22,0" V 1900 4900 50  0001 C CNN "Reichelt"
+	1    1900 4900
+	0    -1   -1   0   
+$EndComp
+$Comp
+L wfred_rev6-rescue:R-device-wfred_rev2-rescue R102
+U 1 1 602C2C8B
+P 1900 5050
+F 0 "R102" V 1980 5050 40  0000 C CNN
+F 1 "22R" V 1907 5051 40  0000 C CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 1830 5050 30  0001 C CNN
+F 3 "" H 1900 5050 30  0000 C CNN
+F 4 "C17561" V 1900 5050 50  0001 C CNN "LCSC"
+F 5 "SMD-0805 22,0" V 1900 5050 50  0001 C CNN "Reichelt"
+	1    1900 5050
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	2150 4900 2350 4900
+Wire Wire Line
+	2350 5050 2150 5050
+Wire Wire Line
+	1650 4900 1150 4900
+Wire Wire Line
+	1000 5050 1450 5050
+$Comp
+L wfred_rev6-rescue:R-device-wfred_rev2-rescue R103
+U 1 1 5BDF69E9
+P 3400 1550
+F 0 "R103" V 3480 1550 40  0000 C CNN
+F 1 "680R" V 3407 1551 40  0000 C CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 3330 1550 30  0001 C CNN
+F 3 "" H 3400 1550 30  0000 C CNN
+F 4 "SMD-0805 680" V 3400 1550 50  0001 C CNN "Reichelt"
+F 5 "C17798" V 3400 1550 50  0001 C CNN "LCSC"
+	1    3400 1550
+	1    0    0    -1  
+$EndComp
+$Comp
+L wfred_rev6-rescue:C-device-wfred_rev2-rescue C105
+U 1 1 60151EB9
+P 1150 5350
+F 0 "C105" H 1150 5450 40  0000 L CNN
+F 1 "22p" H 1156 5265 40  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 1188 5200 30  0001 C CNN
+F 3 "" H 1150 5350 60  0000 C CNN
+F 4 "C1804" H 1150 5350 50  0001 C CNN "LCSC"
+F 5 "NPO-G0805 22P" H 1150 5350 50  0001 C CNN "Reichelt"
+	1    1150 5350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1150 4900 1150 5150
+Connection ~ 1150 4900
+Wire Wire Line
+	1150 4900 1000 4900
+$Comp
+L wfred_rev6-rescue:C-device-wfred_rev2-rescue C106
+U 1 1 60153BCB
+P 1450 5350
+F 0 "C106" H 1450 5450 40  0000 L CNN
+F 1 "22p" H 1456 5265 40  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 1488 5200 30  0001 C CNN
+F 3 "" H 1450 5350 60  0000 C CNN
+F 4 "C1804" H 1450 5350 50  0001 C CNN "LCSC"
+F 5 "NPO-G0805 22P" H 1450 5350 50  0001 C CNN "Reichelt"
+	1    1450 5350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1450 5050 1450 5150
+Connection ~ 1450 5050
+Wire Wire Line
+	1450 5050 1650 5050
+$Comp
+L wfred_rev6-rescue:GND-power-wfred_rev2-rescue #PWR0122
+U 1 1 60155918
+P 1450 5750
+F 0 "#PWR0122" H 1450 5750 30  0001 C CNN
+F 1 "GND" H 1450 5680 30  0001 C CNN
+F 2 "" H 1450 5750 60  0001 C CNN
+F 3 "" H 1450 5750 60  0001 C CNN
+	1    1450 5750
+	1    0    0    -1  
+$EndComp
+$Comp
+L wfred_rev6-rescue:GND-power-wfred_rev2-rescue #PWR0123
+U 1 1 60155D20
+P 1150 5750
+F 0 "#PWR0123" H 1150 5750 30  0001 C CNN
+F 1 "GND" H 1150 5680 30  0001 C CNN
+F 2 "" H 1150 5750 60  0001 C CNN
+F 3 "" H 1150 5750 60  0001 C CNN
+	1    1150 5750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1150 5750 1150 5550
+Wire Wire Line
+	1450 5550 1450 5750
+$Comp
+L wfred_rev6-rescue:R-device-wfred_rev2-rescue R104
+U 1 1 5BDF6A99
+P 3800 1550
+F 0 "R104" V 3880 1550 40  0000 C CNN
+F 1 "680R" V 3807 1551 40  0000 C CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 3730 1550 30  0001 C CNN
+F 3 "" H 3800 1550 30  0000 C CNN
+F 4 "C17798" V 3800 1550 50  0001 C CNN "LCSC"
+F 5 "SMD-0805 680" V 3800 1550 50  0001 C CNN "Reichelt"
+	1    3800 1550
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR0125
+U 1 1 6016DCF7
+P 3800 1200
+F 0 "#PWR0125" H 3800 1290 20  0001 C CNN
+F 1 "+5V" H 3800 1290 30  0000 C CNN
+F 2 "" H 3800 1200 60  0001 C CNN
+F 3 "" H 3800 1200 60  0001 C CNN
+	1    3800 1200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3800 1200 3800 1300
+Wire Wire Line
+	3800 1800 3800 2700
+Wire Wire Line
+	3800 3400 3800 3600
+$Comp
+L Diode:BAT54C D103
+U 1 1 6017E943
+P 3400 2700
+F 0 "D103" H 3400 2833 50  0000 C CNN
+F 1 "BAT54C" H 3400 2924 50  0000 C CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 3475 2825 50  0001 L CNN
+F 3 "http://www.diodes.com/_files/datasheets/ds11005.pdf" H 3320 2700 50  0001 C CNN
+F 4 "C375703" H 3400 2700 50  0001 C CNN "LCSC"
+F 5 "BAT 54C NXP" H 3400 2700 50  0001 C CNN "Reichelt"
+F 6 "583-BAT54C" H 3400 2700 50  0001 C CNN "Mouser"
+	1    3400 2700
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	3400 2400 3400 2500
+Connection ~ 3400 2400
+Wire Wire Line
+	3700 2700 3800 2700
+Connection ~ 3800 2700
+Wire Wire Line
+	3800 2700 3800 3000
+NoConn ~ 3100 2700
+$EndSCHEMATC
