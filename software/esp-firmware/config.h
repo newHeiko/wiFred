@@ -28,19 +28,19 @@
 #include "locoHandling.h"
 
 // Filenames and field names on SPIFFS
-#define FN_SERVER "server.txt"
+#define FN_SERVER "/server.txt"
 #define FIELD_SERVER_NAME "name"
 #define FIELD_SERVER_PORT "port"
 #define FIELD_SERVER_AUTOMATIC "automatic"
 
-#define FN_NAME "name.txt"
+#define FN_NAME "/name.txt"
 #define FIELD_NAME_NAME "name"
 
-#define FN_WIFI_STUB "wifi"
+#define FN_WIFI_STUB "/wifi"
 #define FIELD_WIFI_SSID "ssid"
 #define FIELD_WIFI_PSK "key"
 
-#define FN_LOCO_STUB "loco"
+#define FN_LOCO_STUB "/loco"
 #define FIELD_LOCO_ADDRESS "address"
 #define FIELD_LOCO_LONG "long"
 #define FIELD_LOCO_REVERSE "reverse"
