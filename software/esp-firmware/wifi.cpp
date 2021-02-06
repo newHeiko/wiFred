@@ -36,7 +36,7 @@
 #include "throttleHandling.h"
 #include "gitVersion.h"
 
-// #define DEBUG
+#define DEBUG
 
 std::vector<wifiAPEntry> apList;
 
@@ -130,6 +130,8 @@ void initWiFiSTA(void)
   {
     wifiMulti.addAP(it->ssid, it->key);
   }
+  // start configuration webserver
+  server.begin();
 }
 
 void shutdownWiFiSTA(void)
@@ -183,6 +185,9 @@ void initWiFiAP(void)
 
   MDNS.begin("config");
   MDNS.addService("http", "tcp", 80);
+
+  // start configuration webserver
+  server.begin();
 }
 
 void writeMainPage()
@@ -458,7 +463,4 @@ void initWiFi(void)
   server.onNotFound(writeMainPage);
 
   updater.setup(&server);
-
-  // start configuration webserver
-  server.begin();
 }
