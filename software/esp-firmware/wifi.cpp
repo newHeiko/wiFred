@@ -31,7 +31,6 @@
 #include "locoHandling.h"
 #include "config.h"
 #include "lowbat.h"
-#include "Ticker.h"
 #include "stateMachine.h"
 #include "throttleHandling.h"
 #include "gitVersion.h"
@@ -130,6 +129,7 @@ void initWiFiSTA(void)
   {
     wifiMulti.addAP(it->ssid, it->key);
   }
+
   // start configuration webserver
   server.begin();
 }
