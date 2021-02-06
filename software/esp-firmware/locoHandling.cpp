@@ -530,7 +530,6 @@ void requestLocoFunctions(uint8_t loco)
       case 's':
         locoState[loco] = LOCO_ACTIVE;
         // flush all input data
-        client.flush();
         while (client.read() > -1)
           ;
         break;
