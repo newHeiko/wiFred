@@ -1,5 +1,11 @@
 #!/bin/bash
 
+asciidoctor -b docbook docu.adoc
+asciidoctor -b html5 docu.adoc
+dblatex -P figure.warning="/etc/asciidoc/images/icons/warning" -P doc.collab.show=0 -P paper.type=a4paper docu.xml 
+
+exit
+
 echo "Creating eps files from image files and reducing sizes"
 
 for i in images/*jpg
