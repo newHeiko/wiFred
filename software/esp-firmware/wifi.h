@@ -23,6 +23,9 @@
 
 #include <vector>
 
+#define SINGLE_NETWORK_TIMEOUT_MS 20000
+#define TOTAL_NETWORK_TIMEOUT_MS 60000
+
 typedef struct
 {
   char * ssid;

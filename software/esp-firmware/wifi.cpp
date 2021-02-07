@@ -31,12 +31,11 @@
 #include "locoHandling.h"
 #include "config.h"
 #include "lowbat.h"
-#include "Ticker.h"
 #include "stateMachine.h"
 #include "throttleHandling.h"
 #include "gitVersion.h"
 
-// #define DEBUG
+#define DEBUG
 
 std::vector<wifiAPEntry> apList;
 
@@ -69,11 +68,11 @@ void handleWiFi(void)
       MDNS.update();
       break;
 
-    case STATE_STARTUP:
     case STATE_CONNECTING:
-      wifiMulti.run();
+      wifiMulti.run(SINGLE_NETWORK_TIMEOUT_MS);
       break;
 
+    case STATE_STARTUP:
     case STATE_LOWPOWER_WAITING:
     case STATE_LOWPOWER:
       break;
@@ -126,6 +125,9 @@ void initWiFiSTA(void)
   {
     wifiMulti.addAP(it->ssid, it->key);
   }
+
+  // start configuration webserver
+  server.begin();
 }
 
 void shutdownWiFiSTA(void)
@@ -179,6 +181,9 @@ void initWiFiAP(void)
 
   MDNS.begin("config");
   MDNS.addService("http", "tcp", 80);
+
+  // start configuration webserver
+  server.begin();
 }
 
 void writeMainPage()
@@ -454,7 +459,4 @@ void initWiFi(void)
   server.onNotFound(writeMainPage);
 
   updater.setup(&server);
-
-  // start configuration webserver
-  server.begin();
 }

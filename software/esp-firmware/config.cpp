@@ -51,11 +51,11 @@ void initConfig(void)
     locos[i].longAddress = true;
     for(int j=0; j<MAX_FUNCTION + 1; j++)
       {
-	locos[i].functions[j] = THROTTLE;
+	      locos[i].functions[j] = THROTTLE;
       }
   }
   
-  if(!SPIFFS.begin())
+  if(!SPIFFS.begin(true))
   {
     return;
   }

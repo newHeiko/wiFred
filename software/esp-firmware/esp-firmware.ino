@@ -31,7 +31,7 @@
 #include "stateMachine.h"
 #include "throttleHandling.h"
 
-// #define DEBUG
+#define DEBUG
 
 state wiFredState = STATE_STARTUP;
 uint32_t stateTimeout = UINT32_MAX;
@@ -51,6 +51,7 @@ void setup() {
   delay(100);
 
   initWiFi();
+
 }
 
 void loop() {
@@ -83,7 +84,7 @@ void loop() {
     case STATE_STARTUP:
       setLEDvalues("0/0", "0/0", "100/200");
       initWiFiSTA();
-      switchState(STATE_CONNECTING, 60 * 1000);
+      switchState(STATE_CONNECTING, TOTAL_NETWORK_TIMEOUT_MS);
       break;
       
     case STATE_CONNECTING:
