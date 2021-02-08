@@ -6,6 +6,7 @@ Heiko Rosemann
 :icons: image
 :iconsdir: /etc/asciidoc/images/icons/
 :imagesdir: images/
+:toc:
 
 image::2021-01-23-preview0001.jpg[wiFred with laser engraved housing]
 
