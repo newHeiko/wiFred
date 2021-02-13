@@ -25,6 +25,7 @@
 . Drill holes in enclosure - 3mm for LEDs, 3.5mm for push buttons, 6.5mm for direction switch, 8mm for potentiometer, 1.5mm for slide switches
 . Carefully file slide switch slots to match switch handles
 // end::laser[]
+. If push button switches are not installed: Place them on PCB, screw PCB into housing so they fit into the holes and solder them to the PCB
 . Connect battery to P101 - BATT-connector
 . Arrange battery so it fits between direction selection switch and PCB screws and glue into back housing
 

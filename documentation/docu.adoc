@@ -19,131 +19,106 @@ The most recent version of this document can be found at https://newheiko.github
 
 If you want to know more about the development history of the wiFred, skip ahead to section <<background>> - otherwise read on with section <<throttle>>.
 
-\thispagestyle{empty}
-\maketitle
-\clearpage
-\tableofcontents
-\clearpage
-wiFred Wireless throttle hardware {#throttle}
-=================================
+[#throttle]
+== Quickstart Guide
 
-\vspace{0.5em}
-\centering
-  Red LED                  Green LED (Left)   Green LED (Right)   Status
-  ------------------------ ------------------ ------------------- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  Slow Blinking (0.5 Hz)   Off                Off                 Trying to connect to WiFi network
-  Fast Blinking (2 Hz)     Off                Off                 Successful WiFi connection, trying to connect to wiThrottle server and acquire locos
-  Off                      Off                On                  Regular operation, forward direction
-  Off                      On                 Off                 Regular operation, reverse direction
-  Off                      Flashing           On                  Emergency stop, forward direction. Also happens when switching direction with speed potentiometer not at zero
-  Off                      On                 Flashing            Emergency stop, reverse direction. Also happens when switching direction with speed potentiometer not at zero
-  Off                      Off                Blinking            Battery low, regular operation, forward direction
-  Off                      Blinking           Off                 Battery low, regular operation, reverse direction
-  Off                      Flashing           Blinking            Battery low, Emergency stop, forward direction
-  Off                      Blinking           Flashing            Battery low, Emergency stop, reverse direction
-  Short flashes            Off                Off                 Throttle in low-power mode
-  Off                      Off                Off                 Battery empty or no battery inserted
-  On                       Off                Off                 No connection to existing WiFi network. Created internal configuration WiFi network
-  On                       On                 On                  Configuration mode enabled while connected to existing WiFi network. All locos emergency stop to avoid runaways. Push SHIFT + ESTOP again to exit configuration mode
+include::quickBuild.adoc[leveloffset=+1,tags=!laser]
+include::quickBuild.adoc[leveloffset=+1,tags=!drilljig]
+include::quickStartup.adoc[leveloffset=+1]
 
-  : LED patterns and their meaning on the wiFred
-  throttle[]{label="ledTable"}
+== Usage
 
-\vspace{0.5em}
-To recover from an emergency stop, turn speed potentiometer to zero to
-re-gain control.
+=== Operating locos
 
-Quickstart Guide
-----------------
+[#ledTable]
+[cols="1,1,1,3"]
+.LED patterns and their meaning on the wiFred
+|===
+|Red LED|Green LED (Left)|Green LED (Right)|Status
 
-Follow these steps for a new throttle (see later chapters for more
-explanation or if you run into trouble)
+|Slow Blinking (0.5 Hz)
+|Off
+|Off
+|Trying to connect to WiFi network
 
--5. Use PCB to determine positions of holes and cutouts in housing
+|Fast Blinking (2 Hz)
+|Off
+|Off
+|Successful WiFi connection, trying to connect to wiThrottle server and acquire locos
 
--4. Make said cutouts
+|Off
+|Off
+|On
+|Regular operation, forward direction
 
--3. Solder components to PCB
+|Off
+|On
+|Off
+|Regular operation, reverse direction
 
--2. Connect lithium battery to PCB, charge with Micro USB charger if
-    required
+|Off
+|Flashing
+|On
+|Emergency stop, forward direction. Also happens when switching direction with speed potentiometer not at zero
 
--1. Flash firmware to ATMega 328P
+|Off
+|On
+|Flashing
+|Emergency stop, reverse direction. Also happens when switching direction with speed potentiometer not at zero
 
-0.  Move any of the loco selection switches to "enabled" to power
-    ESP8266, then flash firmware to ESP8266, move loco selection switch
-    back to "disabled" to turn off power to ESP8266 again
+|Off
+|Off
+|Blinking
+|Battery low, regular operation, forward direction
 
-1.  Test fit PCB into housing, removing plastic parts of housing as
-    required
+|Off
+|Blinking
+|Off
+|Battery low, regular operation, reverse direction
 
-2.  Fit PCB into housing, insert four screws to fix PCB to housing
+|Off
+|Flashing
+|Blinking
+|Battery low, Emergency stop, forward direction
 
-3.  Fit lithium battery into other half of housing, fix with double
-    sided tape or similar, taking care that the battery will not be
-    squeezed or pinched by any parts on the PCB when the housing is
-    closed
+|Off
+|Blinking
+|Flashing
+|Battery low, Emergency stop, reverse direction
 
-4.  Make sure communication jumpers are set correctly, close housing and
-    fix back cover with two screws
+|Short flashes
+|Off
+|Off
+|Throttle in low-power mode
 
-5.  Add throttle knob
+|Off
+|Off
+|Off
+|Battery empty or no battery inserted
 
-6.  Move any loco selection switch to "enabled" to power ESP8266
+|On
+|Off
+|Off
+|No connection to existing WiFi network. Created internal configuration WiFi network
 
-7.  Using any WiFi client (laptop, smartphone, tablet\...), find and
-    connect to network *wiFred-configXXXX*
+|On
+|On
+|On
+|Configuration mode enabled while connected to existing WiFi network. All locos emergency stop to avoid runaways. Push SHIFT + ESTOP again to exit configuration mode
 
-8.  Using any web browser, navigate to *http://192.168.4.1* or
-    *http://config.local*
+4+|To recover from an emergency stop, turn speed potentiometer to zero to re-gain control.
+|===
 
-9.  Enter your WiFi configuration or scan for available networks (and a
-    throttle ID if you like -- highly recommended to easier tell them
-    apart) **and hit the *Submit*-Button**
+[#throttleControls]
+.Controls and features of the wiFred throttle
+image::_DSC0136.jpg[alt="Throttle",scaledwidth=30%,width=30%,align="center",float="right"]
 
-10. For every loco you want to control with this throttle, enter the
-    appropriate details below
+<<throttleControls>> shows the controls of the wireless throttle. They consist of the following:
+-   Four loco selection switches (loco 1 on the left, loco 4 on the right, move towards speed potentiometer to enable)
 
-11. **Hit the *Submit*-Button** for every loco
+-   Speed potentiometer (Counter-clockwise endstop: Stop, clockwise endstop: Full speed)
 
-12. Configure function settings for each loco on the respective sub
-    pages if required
-
-13. Restart the throttle by clicking on
-    `Restart system to enable new WiFi settings`
-
-Your throttle should now be ready to use and connect to your wiThrottle
-server on startup. Refer to the chapters below if it does not or contact
-the author of this document.
-
-Before operating the throttle, fully charge the battery which will also
-calibrate the internal battery voltage measurements. Before the first
-full charge, the throttle may not shut down when the battery is empty
-which can lead to damage to the battery. This can be checked by
-comparing the device's battery voltage measurement on the status subpage
-of the configuration website to voltage readings from a multimeter on
-the battery terminals -- an accuracy of 50 mV to 100 mV is OK.
-
-Usage
------
-
-\centering
-![Controls and features of the
-wiFred-throttle[]{label="throttleControls"}](images/_DSC0136){#throttleControls
-height="100mm"}
-
-Figure [1](#throttleControls){reference-type="ref"
-reference="throttleControls"} shows the controls of the wireless
-throttle. They consist of the following:
-
--   Four loco selection switches (loco 1 on the left, loco 4 on the
-    right, move towards speed potentiometer to enable)
-
--   Speed potentiometer (Counter-clockwise endstop: Stop, clockwise
-    endstop: Full speed)
-
--   Direction switch -- move right for forward movement, left for
-    reverse movement
+-   Direction switch -- move right for forward movement, left for reverse movement
 
 -   Black function keys F0 to F8
 
@@ -158,85 +133,33 @@ throttle. They consist of the following:
 -   Red charging indicator LED at lower end of device -- lit while
     charging
 
--   Green fully charged indicator LED at lower end of device -- lit when
-    fully charged as long as charger still connected
+-   Green fully charged indicator LED at lower end of device -- lit when fully charged as long as charger still connected
 
-As soon as any of the loco selection switches is moved into the
-"enabled" position, the throttle will boot up and try to connect to a
-wireless network. When all four loco selection switches are "disabled",
-the throttle will disconnect from the wireless network after a grace
-period of five seconds. The device will then go into low power mode, in
-which the battery will last for more than a year.
+As soon as any of the loco selection switches is moved into the "enabled" position, the throttle will boot up and try to connect to a wireless network. When all four loco selection switches are "disabled", the throttle will disconnect from the wireless network after a grace period of five seconds. The device will then go into low power mode, in which the battery will last for more than a year.
 
-If no connection to the network configured into the device can be
-established within 60 seconds, the throttle will create it's own
-wireless network named *wiFred-config* plus four hex digits taken from
-the MAC address of the throttle WiFi interface, for example
-*wiFred-config0CAC*, to enable configuration as described in
-section [2](#config){reference-type="ref" reference="config"}.
+If no connection to the network configured into the device can be established within 60 seconds, the throttle will create it's own wireless network named *wiFred-config* plus four hex digits taken from the MAC address of the throttle WiFi interface, for example *wiFred-config0CAC*, to enable configuration as described in <<config>>.
 
-Four different locos with long DCC addresses can be assigned to the four
-loco selection switches. Commands derived from the speed potentiometer,
-the direction switch and the function keys will be transmitted to all
-selected locos (near) simultaneously, with a certain translation table
-enabling some locos to go backwards when others go forwards and also
-limiting function keys to some of the four locos only -- this is
-described in more detail in
-sections [2.2.4](#throttle_LocoConf){reference-type="ref"
-reference="throttle_LocoConf"}
-and [2.2.5](#throttle_FunctionConf){reference-type="ref"
-reference="throttle_FunctionConf"}.
+Four different locos with long DCC addresses can be assigned to the four loco selection switches. Commands derived from the speed potentiometer, the direction switch and the function keys will be transmitted to all selected locos (near) simultaneously, with a certain translation table enabling some locos to go backwards when others go forwards and also limiting function keys to some of the four locos only -- this is described in more detail in <<throttle_LocoConf>> and <<throttle_FunctionConf>>.
 
-Pushing the red emergency stop key will cause the throttle to send an
-emergency stop signal to all four locos attached. After an emergency
-stop, turn the speed potentiometer to zero to re-enable control of the
-locos.
+Pushing the red emergency stop key will cause the throttle to send an emergency stop signal to all four locos attached. After an emergency stop, turn the speed potentiometer to zero to re-enable control of the locos.
 
-Pushing the red emergency stop key while holding down the shift key will
-place the device into configuration mode (as well as issueing an
-emergency stop to all attached locos). See
-section [2](#config){reference-type="ref" reference="config"} for more
-details on how to access the throttle to do the configuration.
+Pushing the red emergency stop key while holding down the shift key will place the device into configuration mode (as well as issueing an emergency stop to all attached locos). See <<config>> for more details on how to access the throttle to do the configuration.
 
-Any change in the loco selection switches will cause the throttle to
-send an emergency stop command to all attached locos. This makes sure
-that any loco that is deselected will stop on the layout and avoids
-newly selected locos suddenly taking off at speed. The same is true for
-a change in the direction switch, to avoid high-speed reverse maneuvers.
-Turn the speed potentiometer to zero to re-enable control of the locos.
+Any change in the loco selection switches will cause the throttle to send an emergency stop command to all attached locos. This makes sure that any loco that is deselected will stop on the layout and avoids newly selected locos suddenly taking off at speed. The same is true for a change in the direction switch, to avoid high-speed reverse maneuvers. Turn the speed potentiometer to zero to re-enable control of the locos.
 
-When the battery is low, the device will not re-activate before charging
-the batteries, but continue operating for approximately an hour if
-active. When the battery is empty, it will disconnect and enter low
-power mode. Expected runtime is around 20 hours of full time operations,
-more if the throttle is placed in low power mode when the locos are not
-running.
+When the battery is low, the device will not re-activate before charging the batteries, but continue operating for approximately an hour if active. When the battery is empty, it will disconnect and enter low power mode. Expected runtime is around 20 hours of full time operations, more if the throttle is placed in low power mode when the locos are not running.
 
-During startup and operation, the LEDs will show the patterns explained
-in table [\[ledTable\]](#ledTable){reference-type="ref"
-reference="ledTable"}.
+During startup and operation, the LEDs will show the patterns explained in <<ledTable>>.
 
-Charging the wiFred
--------------------
+=== Charging the wiFred
 
-The wiFred can be charged through the Micro-USB connector at the lower
-end of the device. Maximum charging current is approximately 400 mA and
-the device does not communicate with the USB host, so technically there
-is no guarantee that charging from a USB cable will work, but most
-chargers, computer ports or power banks do not check the current before
-powering up.
+The wiFred can be charged through the Micro-USB connector at the lower end of the device. Maximum charging current is approximately 400 mA and the device does not communicate with the USB host, so technically there is no guarantee that charging from a USB cable will work, but most chargers, computer ports or power banks do not check the current before powering up.
 
-As long as the battery is being charged, the red charging indicator LED
-will be lit. When the battery is fully charged, the green charged
-indicator LED will be lit as long as the charger is still connected.
-Expected charging time is around five to six hours for a full charge.
+As long as the battery is being charged, the red charging indicator LED will be lit. When the battery is fully charged, the green charged indicator LED will be lit as long as the charger is still connected. Expected charging time is around five to six hours for a full charge.
 
-Even while charging, the device can still be operated (particularly
-helpful with a power bank) but since the operating current will come out
-of the battery, the battery will never be fully charged.
+Even while charging, the device can still be operated (particularly helpful with a power bank) but since the operating current will come out of the battery, the battery will never be fully charged.
 
-If both charging status LEDs light up when a charging cable is
-connected, probably the internal connection to the battery is faulty.
+If both charging status LEDs light up when a charging cable is connected, probably the internal connection to the battery is faulty.
 
 Hardware description
 --------------------
