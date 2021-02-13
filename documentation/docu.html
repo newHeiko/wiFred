@@ -464,7 +464,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_charging_the_wifred">Charging the wiFred</a></li>
 </ul>
 </li>
-<li><a href="#_hardware_description">Hardware description</a></li>
+<li><a href="#_hardware_description">Hardware description</a>
+<ul class="sectlevel2">
+<li><a href="#_up_to_revision_0_5">Up to revision 0.5</a></li>
+</ul>
+</li>
 <li><a href="#_hints_for_building_the_wifred">Hints for building the wiFred</a></li>
 <li><a href="#_programming_instructions">Programming instructions</a></li>
 </ul>
@@ -521,7 +525,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Green LEDs at D102, D302 and D303 with 3mm spacers</p>
 </li>
 <li>
-<p>White LEDs at D304 and D305&#8201;&#8212;&#8201;you can choose if you want them on top or bottom and how long they should stick out of housing</p>
+<p>White LEDs at D304 and D305&#8201;&#8212;&#8201;choose where and how long they should stick out of housing</p>
 </li>
 </ul>
 </div>
@@ -536,7 +540,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Make cut-outs in housing fit slide switches and flashlight LEDs</p>
 </li>
 <li>
-<p>If pushbuttons are not installed: Place them on PCB, screw PCB into housing so they fit into the holes and solder them to the PCB</p>
+<p>If push button switches are not installed: Place them on PCB (red at SW204, yellow at SW215) screw PCB into housing so they fit into the holes and solder them to the PCB</p>
 </li>
 <li>
 <p>Connect battery to P101 - BATT-connector</p>
@@ -589,7 +593,7 @@ Make sure nothing pinches the battery. LiIon batteries are susceptible to mechan
 <p>Green LEDs at D102, D302 and D303 with 3mm spacers</p>
 </li>
 <li>
-<p>White LEDs at D304 and D305&#8201;&#8212;&#8201;you can choose if you want them on top or bottom and how long they should stick out of housing</p>
+<p>White LEDs at D304 and D305&#8201;&#8212;&#8201;choose where and how long they should stick out of housing</p>
 </li>
 </ul>
 </div>
@@ -601,13 +605,10 @@ Make sure nothing pinches the battery. LiIon batteries are susceptible to mechan
 <p>Install direction selection switch and connect pins to PCB with short wires or cutoffs from LEDs</p>
 </li>
 <li>
-<p>Drill holes in enclosure - 3mm for LEDs, 3.5mm for push buttons, 6.5mm for direction switch, 8mm for potentiometer, 1.5mm for slide switches</p>
+<p>Drill holes in enclosure - 3mm for LEDs, 3.5mm for push buttons, 6.5mm for direction switch, 8mm for potentiometer, 1.5mm for slide switches and carefully file slide switch slots to match switch handles</p>
 </li>
 <li>
-<p>Carefully file slide switch slots to match switch handles</p>
-</li>
-<li>
-<p>If pushbuttons are not installed: Place them on PCB, screw PCB into housing so they fit into the holes and solder them to the PCB</p>
+<p>If push button switches are not installed: Place them on PCB (red at SW204, yellow at SW215) screw PCB into housing so they fit into the holes and solder them to the PCB</p>
 </li>
 <li>
 <p>Connect battery to P101 - BATT-connector</p>
@@ -787,16 +788,18 @@ Make sure nothing pinches the battery. LiIon batteries are susceptible to mechan
 <div class="title">Figure 1. Controls and features of the wiFred throttle</div>
 </div>
 <div class="paragraph">
-<p><a href="#throttleControls">Controls and features of the wiFred throttle</a> shows the controls of the wireless throttle. They consist of the following:
--   Four loco selection switches (loco 1 on the left, loco 4 on the right, move towards speed potentiometer to enable)</p>
+<p><a href="#throttleControls">Controls and features of the wiFred throttle</a> shows the controls of the wireless throttle. They consist of the following:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
+<p>Four loco selection switches (loco 1 on the left, loco 4 on the right, move towards speed potentiometer to enable)</p>
+</li>
+<li>
 <p>Speed potentiometer (Counter-clockwise endstop: Stop, clockwise endstop: Full speed)</p>
 </li>
 <li>
-<p>Direction switch&#8201;&#8212;&#8201;move right for forward movement, left for reverse movement</p>
+<p>Direction switch - move right for forward movement, left for reverse movement</p>
 </li>
 <li>
 <p>Black function keys F0 to F8</p>
@@ -814,11 +817,10 @@ Make sure nothing pinches the battery. LiIon batteries are susceptible to mechan
 <p>Red status LED next to speed potentiometer</p>
 </li>
 <li>
-<p>Red charging indicator LED at lower end of device&#8201;&#8212;&#8201;lit while
-charging</p>
+<p>Red charging indicator LED at lower end of device - lit while charging</p>
 </li>
 <li>
-<p>Green fully charged indicator LED at lower end of device&#8201;&#8212;&#8201;lit when fully charged as long as charger still connected</p>
+<p>Green fully charged indicator LED at lower end of device - lit when fully charged as long as charger still connected</p>
 </li>
 </ul>
 </div>
@@ -867,65 +869,44 @@ charging</p>
 <div class="sect1">
 <h2 id="_hardware_description">Hardware description</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_up_to_revision_0_5">Up to revision 0.5</h3>
 <div class="paragraph">
-<p>The wiFred hardware is centered around an ESP8266 for the WiFi
-connection. The ESP8266 communicates through it&#8217;s serial port with an
-ATMega 328P microcontroller which manages the power, controls the LEDs,
-reads the loco selection switches, speed potentiometer, direction switch
-and pushbutton switches for functions and emergency stop. The
-communication goes through a 2x3 pin header which enables the user to
-connect a programming cable to the same serial port if removing the
-jumpers.</p>
+<p>The wiFred hardware is centered around an ESP8266 for the WiFi connection. The ESP8266 communicates through its serial port with an ATMega 328P microcontroller which manages the power, controls the LEDs, reads the loco selection switches, speed potentiometer, direction switch and pushbutton switches for functions and emergency stop. The communication goes through a 2x3 pin header which enables the user to connect a programming cable to the same serial port if removing the jumpers.</p>
 </div>
 <div class="paragraph">
-<p>Optionally, two white 5 mm-LEDs protruding from the top of the PCB can
-be installed to serve as a flashlight. They are driven by a
-constant-current source directly from the battery and enabled when
-pushing the yellow SHIFT key.</p>
+<p>Optionally, two white 5 mm-LEDs protruding from the top of the PCB can be installed to serve as a flashlight. They are driven by a constant-current source directly from the battery and enabled when pushing the yellow SHIFT key.</p>
 </div>
 <div class="paragraph">
-<p>The wiFred is powered by a single cell LiPo battery. The ATMega 328P is
-connected directly to the LiPo cell, going into sleep mode when no loco
-selection switch is active, thereby reducing the power consumption to
-less than 1 mA. The ESP8266 is powered by a low-drop linear voltage
-regulator with an output voltage of 3 V which is disabled by the
-ATMega 328P when the device goes into standby.</p>
+<p>The wiFred is powered by a single cell LiPo battery. The ATMega 328P is connected directly to the LiPo cell, going into sleep mode when no loco selection switch is active, thereby reducing the power consumption to less than 1 µA. The ESP8266 is powered by a low-drop linear voltage regulator with an output voltage of 3 V which is disabled by the ATMega 328P when the device goes into standby.</p>
 </div>
 <div class="paragraph">
-<p>The schematic is split into several pages and can be found in
-figures [2](#schematicPage1){reference-type="ref"
-reference="schematicPage1"} to [5](#schematicPage4){reference-type="ref"
-reference="schematicPage4"}. It has been created with kicad and is
-available on the github repository at
-<strong><a href="http://github.com/newHeiko/wiFred" class="bare">http://github.com/newHeiko/wiFred</a></strong> along with the PCB design.</p>
+<p>The schematic is split into several pages and can be found in <a href="#schematic05page1">Master schematic sheet with battery connector, charging circuit and power supply</a> to <a href="#schematic05page4">Schematic sheet including pushbutton switches, loco selection switches, direction switch, speed potentiometer and flashlight LEDs with controller</a>. It has been created with kicad and is available on the github repository at <strong><a href="http://github.com/newHeiko/wiFred" class="bare">http://github.com/newHeiko/wiFred</a></strong> along with the PCB design.</p>
 </div>
-<div class="paragraph">
-<p>\centering
-![Master schematic sheet with battery connector, charging circuit and
-power
-supply[]{label="schematicPage1"}](images/wfred_rev2){#schematicPage1
-width="\textwidth"}</p>
+<div id="schematic05page1" class="imageblock">
+<div class="content">
+<img src="images/wfred_rev2.png" alt="&quot;Schematic sheet 1 for rev0.5">
 </div>
-<div class="paragraph">
-<p>\centering
-![Schematic sheet including ESP8266 for WiFi connection with bootloader
-enabling jumper and connection to programming
-cable[]{label="schematicPage2"}](images/wfred-wifi-Wifi_connection){#schematicPage2
-width="\textwidth"}</p>
+<div class="title">Figure 2. Master schematic sheet with battery connector, charging circuit and power supply</div>
 </div>
-<div class="paragraph">
-<p>\centering
-![Schematic sheet including ATMega 328P along with crystal and in system
-programming
-header[]{label="schematicPage3"}](images/wfred-controller_rev2-Controller){#schematicPage3
-width="\textwidth"}</p>
+<div id="schematic05page2" class="imageblock">
+<div class="content">
+<img src="images/wfred-wifi-Wifi_connection.png" alt="&quot;Schematic sheet 2 for rev0.5">
 </div>
-<div class="paragraph">
-<p>\centering
-![Schematic sheet including pushbutton switches, loco selection
-switches, direction switch, speed potentiometer and flashlight LEDs with
-controller[]{label="schematicPage4"}](images/User_interface_rev2-User_Interface){#schematicPage4
-width="\textwidth"}</p>
+<div class="title">Figure 3. Schematic sheet including ESP8266 for WiFi connection with bootloader enabling jumper and connection to programming cable</div>
+</div>
+<div id="schematic05page3" class="imageblock">
+<div class="content">
+<img src="images/wfred-controller_rev2-Controller.png" alt="&quot;Schematic sheet 3 for rev0.5">
+</div>
+<div class="title">Figure 4. Schematic sheet including ATMega 328P along with crystal and in system programming header</div>
+</div>
+<div id="schematic05page4" class="imageblock">
+<div class="content">
+<img src="images/User_interface_rev2-User_Interface.png" alt="&quot;Schematic sheet 4 for rev0.5">
+</div>
+<div class="title">Figure 5. Schematic sheet including pushbutton switches, loco selection switches, direction switch, speed potentiometer and flashlight LEDs with controller</div>
+</div>
 </div>
 </div>
 </div>
@@ -969,8 +950,7 @@ order of installing the components is as follows:</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>IC101, IC102, IC201 (note: Rotate PCB so Designator is right side
-up, then Pin 1 is on top left) and IC301</p>
+<p>IC101, IC102, IC201 (note: Rotate PCB so Designator is right side up, then Pin 1 is on top left) and IC301</p>
 </li>
 <li>
 <p>X201 and D201</p>
@@ -979,26 +959,19 @@ up, then Pin 1 is on top left) and IC301</p>
 <p>USB connector CON101</p>
 </li>
 <li>
-<p>Capacitors and Resistors in 0805 size (first those on the same side
-as the items before) [\[0805devices\]]{#0805devices
-label="0805devices"}</p>
+<p>Capacitors and Resistors in 0805 size (first those on the same side as the items before)</p>
 </li>
 <li>
 <p>U401</p>
 </li>
 <li>
-<p>Capacitors and Resistors not installed in
-step [\[0805devices\]](#0805devices){reference-type="ref"
-reference="0805devices"}&#8201;&#8212;&#8201;that is R403, R404, R405, C401, C402 and
-C403</p>
+<p>Capacitors and Resistors not installed before - that is R403, R404, R405, C401, C402 and C403</p>
 </li>
 <li>
-<p>Pushbutton switches SW305 to SW312 and SW314 to SW316&#8201;&#8212;&#8201;taking care
-to put the red one at SW312 and the yellow one at SW311</p>
+<p>Pushbutton switches SW305 to SW312 and SW314 to SW316 - taking care to place the red one at SW312 and the yellow one at SW311</p>
 </li>
 <li>
-<p>Pin headers K401, K402 and P401 (correct alignment of K401 and K402
-can be assured by adding a jumper before soldering)</p>
+<p>Pin headers K401, K402 and P401 (correct alignment of K401 and K402 can be assured by adding a jumper before soldering)</p>
 </li>
 <li>
 <p>Pin headers P101 and P201</p>
@@ -1007,19 +980,13 @@ can be assured by adding a jumper before soldering)</p>
 <p>Loco selection switches SW301 to SW304</p>
 </li>
 <li>
-<p>LEDs D101, D102 and D301 to D303 with 3mm spacers to the PCB&#8201;&#8212;&#8201;making sure the Anode (long pin) is aligned with the square pad on
-all of them</p>
+<p>LEDs D101, D102 and D301 to D303 with 3mm spacers to the PCB - making sure the Anode (long pin) is aligned with the square pad on all of them</p>
 </li>
 <li>
-<p>LEDs D304 and D305&#8201;&#8212;&#8201;making sure the Anode (long pin) is aligned
-with the square pad on both, they can be installed on top or bottom
-of the PCB as desired</p>
+<p>LEDs D304 and D305&#8201;&#8212;&#8201;making sure the Anode (long pin) is aligned with the square pad on both, they can be installed on top or bottom of the PCB as desired</p>
 </li>
 <li>
-<p>Direction switch SW313 (screwed into the PCB with an 8 mm hex nut
-first, then attached to it&#8217;s pads using the cutoffs from D301, D302
-and D303) and Speed potentiometer RV301 (screwed into the PCB with a
-10 mm hex nut first)</p>
+<p>Direction switch SW313 (screwed into the PCB with an 8 mm hex nut first, then attached to it&#8217;s pads using the cutoffs from D301, D302 and D303) and Speed potentiometer RV301 (screwed into the PCB with a 10 mm hex nut first)</p>
 </li>
 </ol>
 </div>
@@ -2092,7 +2059,7 @@ spinoff of the wiClock project[@wiClock].
 <div id="footer">
 <div id="footer-text">
 Version 0.2-WIP<br>
-Last updated 2021-02-13 19:31:33 +0100
+Last updated 2021-02-13 20:36:27 +0100
 </div>
 </div>
 </body>

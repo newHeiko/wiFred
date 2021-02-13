@@ -114,26 +114,26 @@ include::quickStartup.adoc[leveloffset=+1]
 image::_DSC0136.jpg[alt="Throttle",scaledwidth=30%,width=30%,align="center",float="right"]
 
 <<throttleControls>> shows the controls of the wireless throttle. They consist of the following:
--   Four loco selection switches (loco 1 on the left, loco 4 on the right, move towards speed potentiometer to enable)
 
--   Speed potentiometer (Counter-clockwise endstop: Stop, clockwise endstop: Full speed)
+- Four loco selection switches (loco 1 on the left, loco 4 on the right, move towards speed potentiometer to enable)
 
--   Direction switch -- move right for forward movement, left for reverse movement
+- Speed potentiometer (Counter-clockwise endstop: Stop, clockwise endstop: Full speed)
 
--   Black function keys F0 to F8
+- Direction switch - move right for forward movement, left for reverse movement
 
--   Yellow shift key to trigger F9-F16 and turn on flashlight function
+- Black function keys F0 to F8
 
--   Red emergency stop key
+- Yellow shift key to trigger F9-F16 and turn on flashlight function
 
--   Two green direction indicator LEDs next to speed potentiometer
+- Red emergency stop key
 
--   Red status LED next to speed potentiometer
+- Two green direction indicator LEDs next to speed potentiometer
 
--   Red charging indicator LED at lower end of device -- lit while
-    charging
+- Red status LED next to speed potentiometer
 
--   Green fully charged indicator LED at lower end of device -- lit when fully charged as long as charger still connected
+- Red charging indicator LED at lower end of device - lit while charging
+
+-   Green fully charged indicator LED at lower end of device - lit when fully charged as long as charger still connected
 
 As soon as any of the loco selection switches is moved into the "enabled" position, the throttle will boot up and try to connect to a wireless network. When all four loco selection switches are "disabled", the throttle will disconnect from the wireless network after a grace period of five seconds. The device will then go into low power mode, in which the battery will last for more than a year.
 
@@ -161,60 +161,34 @@ Even while charging, the device can still be operated (particularly helpful with
 
 If both charging status LEDs light up when a charging cable is connected, probably the internal connection to the battery is faulty.
 
-Hardware description
---------------------
+== Hardware description
 
-The wiFred hardware is centered around an ESP8266 for the WiFi
-connection. The ESP8266 communicates through it's serial port with an
-ATMega 328P microcontroller which manages the power, controls the LEDs,
-reads the loco selection switches, speed potentiometer, direction switch
-and pushbutton switches for functions and emergency stop. The
-communication goes through a 2x3 pin header which enables the user to
-connect a programming cable to the same serial port if removing the
-jumpers.
+=== Up to revision 0.5
 
-Optionally, two white 5 mm-LEDs protruding from the top of the PCB can
-be installed to serve as a flashlight. They are driven by a
-constant-current source directly from the battery and enabled when
-pushing the yellow SHIFT key.
+The wiFred hardware is centered around an ESP8266 for the WiFi connection. The ESP8266 communicates through its serial port with an ATMega 328P microcontroller which manages the power, controls the LEDs, reads the loco selection switches, speed potentiometer, direction switch and pushbutton switches for functions and emergency stop. The communication goes through a 2x3 pin header which enables the user to connect a programming cable to the same serial port if removing the jumpers.
 
-The wiFred is powered by a single cell LiPo battery. The ATMega 328P is
-connected directly to the LiPo cell, going into sleep mode when no loco
-selection switch is active, thereby reducing the power consumption to
-less than 1 mA. The ESP8266 is powered by a low-drop linear voltage
-regulator with an output voltage of 3 V which is disabled by the
-ATMega 328P when the device goes into standby.
+Optionally, two white 5 mm-LEDs protruding from the top of the PCB can be installed to serve as a flashlight. They are driven by a constant-current source directly from the battery and enabled when pushing the yellow SHIFT key.
 
-The schematic is split into several pages and can be found in
-figures [2](#schematicPage1){reference-type="ref"
-reference="schematicPage1"} to [5](#schematicPage4){reference-type="ref"
-reference="schematicPage4"}. It has been created with kicad and is
-available on the github repository at
-*http://github.com/newHeiko/wiFred* along with the PCB design.
+The wiFred is powered by a single cell LiPo battery. The ATMega 328P is connected directly to the LiPo cell, going into sleep mode when no loco selection switch is active, thereby reducing the power consumption to less than 1 µA. The ESP8266 is powered by a low-drop linear voltage regulator with an output voltage of 3 V which is disabled by the ATMega 328P when the device goes into standby.
 
-\centering
-![Master schematic sheet with battery connector, charging circuit and
-power
-supply[]{label="schematicPage1"}](images/wfred_rev2){#schematicPage1
-width="\textwidth"}
+The schematic is split into several pages and can be found in <<schematic05page1>> to <<schematic05page4>>. It has been created with kicad and is available on the github repository at *http://github.com/newHeiko/wiFred* along with the PCB design.
 
-\centering
-![Schematic sheet including ESP8266 for WiFi connection with bootloader
-enabling jumper and connection to programming
-cable[]{label="schematicPage2"}](images/wfred-wifi-Wifi_connection){#schematicPage2
-width="\textwidth"}
 
-\centering
-![Schematic sheet including ATMega 328P along with crystal and in system
-programming
-header[]{label="schematicPage3"}](images/wfred-controller_rev2-Controller){#schematicPage3
-width="\textwidth"}
+[#schematic05page1]
+.Master schematic sheet with battery connector, charging circuit and power supply
+image::wfred_rev2.png[alt="Schematic sheet 1 for rev0.5]
 
-\centering
-![Schematic sheet including pushbutton switches, loco selection
-switches, direction switch, speed potentiometer and flashlight LEDs with
-controller[]{label="schematicPage4"}](images/User_interface_rev2-User_Interface){#schematicPage4
-width="\textwidth"}
+[#schematic05page2]
+.Schematic sheet including ESP8266 for WiFi connection with bootloader enabling jumper and connection to programming cable
+image::wfred-wifi-Wifi_connection.png[alt="Schematic sheet 2 for rev0.5]
+
+[#schematic05page3]
+.Schematic sheet including ATMega 328P along with crystal and in system programming header
+image::wfred-controller_rev2-Controller.png[alt="Schematic sheet 3 for rev0.5]
+
+[#schematic05page4]
+.Schematic sheet including pushbutton switches, loco selection switches, direction switch, speed potentiometer and flashlight LEDs with controller
+image::User_interface_rev2-User_Interface.png[alt="Schematic sheet 4 for rev0.5]
 
 Hints for building the wiFred
 -----------------------------
@@ -250,46 +224,31 @@ table [\[wiFredBOM\]](#wiFredBOM){reference-type="ref"
 reference="wiFredBOM"}. From assembling the prototypes, the suggested
 order of installing the components is as follows:
 
-1.  IC101, IC102, IC201 (note: Rotate PCB so Designator is right side
-    up, then Pin 1 is on top left) and IC301
+. IC101, IC102, IC201 (note: Rotate PCB so Designator is right side up, then Pin 1 is on top left) and IC301
 
-2.  X201 and D201
+. X201 and D201
 
-3.  USB connector CON101
+. USB connector CON101
 
-4.  Capacitors and Resistors in 0805 size (first those on the same side
-    as the items before) [\[0805devices\]]{#0805devices
-    label="0805devices"}
+. Capacitors and Resistors in 0805 size (first those on the same side as the items before)
 
-5.  U401
+. U401
 
-6.  Capacitors and Resistors not installed in
-    step [\[0805devices\]](#0805devices){reference-type="ref"
-    reference="0805devices"} -- that is R403, R404, R405, C401, C402 and
-    C403
+. Capacitors and Resistors not installed before - that is R403, R404, R405, C401, C402 and C403
 
-7.  Pushbutton switches SW305 to SW312 and SW314 to SW316 -- taking care
-    to put the red one at SW312 and the yellow one at SW311
+. Pushbutton switches SW305 to SW312 and SW314 to SW316 - taking care to place the red one at SW312 and the yellow one at SW311
 
-8.  Pin headers K401, K402 and P401 (correct alignment of K401 and K402
-    can be assured by adding a jumper before soldering)
+. Pin headers K401, K402 and P401 (correct alignment of K401 and K402 can be assured by adding a jumper before soldering)
 
-9.  Pin headers P101 and P201
+. Pin headers P101 and P201
 
-10. Loco selection switches SW301 to SW304
+. Loco selection switches SW301 to SW304
 
-11. LEDs D101, D102 and D301 to D303 with 3mm spacers to the PCB --
-    making sure the Anode (long pin) is aligned with the square pad on
-    all of them
+. LEDs D101, D102 and D301 to D303 with 3mm spacers to the PCB - making sure the Anode (long pin) is aligned with the square pad on all of them
 
-12. LEDs D304 and D305 -- making sure the Anode (long pin) is aligned
-    with the square pad on both, they can be installed on top or bottom
-    of the PCB as desired
+. LEDs D304 and D305 -- making sure the Anode (long pin) is aligned with the square pad on both, they can be installed on top or bottom of the PCB as desired
 
-13. Direction switch SW313 (screwed into the PCB with an 8 mm hex nut
-    first, then attached to it's pads using the cutoffs from D301, D302
-    and D303) and Speed potentiometer RV301 (screwed into the PCB with a
-    10 mm hex nut first)
+. Direction switch SW313 (screwed into the PCB with an 8 mm hex nut first, then attached to it's pads using the cutoffs from D301, D302 and D303) and Speed potentiometer RV301 (screwed into the PCB with a 10 mm hex nut first)
 
 \vspace{0.5em}
 \centering
