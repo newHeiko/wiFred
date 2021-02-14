@@ -2,7 +2,7 @@
 
 asciidoctor -b docbook docu.adoc
 asciidoctor -b html5 docu.adoc
-dblatex -P figure.warning="/etc/asciidoc/images/icons/warning" -P doc.collab.show=0 -P paper.type=a4paper -P page.margin.top=15mm -P page.margin.bottom=15mm -P page.margin.inner=20mm -P page.margin.outer=20mm docu.xml 
+dblatex -P figure.note="/etc/asciidoc/images/icons/note" -P figure.important="/etc/asciidoc/images/icons/important" -P figure.warning="/etc/asciidoc/images/icons/warning" -P doc.collab.show=0 -P paper.type=a4paper -P page.margin.top=15mm -P page.margin.bottom=15mm -P page.margin.inner=20mm -P page.margin.outer=20mm docu.xml 
 
 exit
 
