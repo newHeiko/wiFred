@@ -464,7 +464,29 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_charging_the_wifred">Charging the wiFred</a></li>
 </ul>
 </li>
-<li><a href="#config">Configuring the wiFred</a></li>
+<li><a href="#config">Configuring the wiFred</a>
+<ul class="sectlevel2">
+<li><a href="#_entering_configuration_mode">Entering configuration mode</a></li>
+<li><a href="#_general_configuration">General configuration</a></li>
+<li><a href="#_wifi_configuration">WiFi configuration</a></li>
+<li><a href="#_loco_server_configuration">Loco server configuration</a></li>
+<li><a href="#throttle_LocoConf">Loco configuration</a></li>
+<li><a href="#throttle_FunctionConf">DCC function configuration</a></li>
+<li><a href="#_wifred_status">wiFred status</a></li>
+<li><a href="#_wifred_system">wiFred system</a></li>
+</ul>
+</li>
+<li><a href="#serverSetup">Options for server setup</a>
+<ul class="sectlevel2">
+<li><a href="#_components_required_to_get_the_wifred_running">Components required to get the wiFred running</a></li>
+<li><a href="#_out_of_the_box_server_side_options">Out-of-the-box server-side options</a></li>
+<li><a href="#_step_by_step_instructions_for_a_windows_computer">Step by step instructions for a Windows computer</a></li>
+<li><a href="#serverWiFi">WiFi access point requirements</a></li>
+<li><a href="#serverJMRI">JMRI server requirements</a></li>
+<li><a href="#serverLayoutConn">Layout connection options</a></li>
+<li><a href="#configurationComputer">Computer or smartphone to configure wiFred</a></li>
+</ul>
+</li>
 <li><a href="#_hardware_description">Hardware description</a>
 <ul class="sectlevel2">
 <li><a href="#_from_revision_0_6_onwards">From revision 0.6 onwards</a></li>
@@ -833,7 +855,7 @@ Make sure nothing pinches the battery. LiIon batteries are susceptible to mechan
 <p>If no connection to the network configured into the device can be established within 60 seconds, the throttle will create it&#8217;s own wireless network named <strong>wiFred-config</strong> plus four hex digits taken from the MAC address of the throttle WiFi interface, for example <strong>wiFred-config0CAC</strong>, to enable configuration as described in <a href="#config">Configuring the wiFred</a>.</p>
 </div>
 <div class="paragraph">
-<p>Four different locos with long DCC addresses can be assigned to the four loco selection switches. Commands derived from the speed potentiometer, the direction switch and the function keys will be transmitted to all selected locos (near) simultaneously, with a certain translation table enabling some locos to go backwards when others go forwards and also limiting function keys to some of the four locos only&#8201;&#8212;&#8201;this is described in more detail in <a href="#throttle_LocoConf">[throttle_LocoConf]</a> and <a href="#throttle_FunctionConf">[throttle_FunctionConf]</a>.</p>
+<p>Four different locos with long DCC addresses can be assigned to the four loco selection switches. Commands derived from the speed potentiometer, the direction switch and the function keys will be transmitted to all selected locos (near) simultaneously, with a certain translation table enabling some locos to go backwards when others go forwards and also limiting function keys to some of the four locos only&#8201;&#8212;&#8201;this is described in more detail in <a href="#throttle_LocoConf">Loco configuration</a> and <a href="#throttle_FunctionConf">DCC function configuration</a>.</p>
 </div>
 <div class="paragraph">
 <p>Pushing the red emergency stop key will cause the throttle to send an emergency stop signal to all four locos attached. After an emergency stop, turn the speed potentiometer to zero to re-enable control of the locos.</p>
@@ -871,7 +893,469 @@ Make sure nothing pinches the battery. LiIon batteries are susceptible to mechan
 <div class="sect1">
 <h2 id="config">Configuring the wiFred</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Before using the device, it must be configured. At the very least, the General Configuration page <a href="#throttleConfMainPage">Screenshot of wiFred main configuration page</a> has to be submitted once to be saved to non-volatile memory. If no valid configuration is detected at startup, the device will start with a default configuration with no locos enabled and no WiFi settings, so it won&#8217;t be able to connect to any WiFi network.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<img src="/etc/asciidoc/images/icons/important.png" alt="Important">
+</td>
+<td class="content">
+After entering any kind of text (names, numbers&#8230;&#8203;) into text fields, the corresponding "Save" button has to be pressed to submit the changes to the wiFred.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_entering_configuration_mode">Entering configuration mode</h3>
+<div class="paragraph">
+<p>There are two ways to enter configuration mode:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Power up the throttle/select a loco when the configured WiFi network is not in range (or when there is no valid configuration - the first startup of a new throttle will fall into this category)</p>
+</li>
+<li>
+<p>Press SHIFT and ESTOP together when the throttle is connected</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>In the first case, the throttle will create a wireless network named <strong>wiFred-config</strong> plus four hex digits taken from the MAC address of the throttle WiFi interface, for example <strong>wiFred-config0CAC</strong> and announce its presence under the name <strong>config.local</strong> as well as creating a captive portal. Any WiFi device with a web browser can connect to that network and open a web browser to point to <strong><a href="http://192.168.4.1" class="bare">http://192.168.4.1</a></strong> or <strong><a href="http://config.local" class="bare">http://config.local</a></strong>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/etc/asciidoc/images/icons/note.png" alt="Note">
+</td>
+<td class="content">
+This has been tested with Mozilla Firefox and Opera on Linux with Avahi (a Zeroconf implementation), FOSS Browser on Android 9/10 and Safari on iOS 13/14.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In the second case, the throttle will only announce its presence under the name <strong>config.local</strong> using the Bonjour/Zeroconf-protocol. Any device on the same WiFi network with Bonjour/Zeroconf can use a web browser to access the configuration at <strong><a href="http://config.local" class="bare">http://config.local</a></strong>. See <a href="#configurationComputer">Computer or smartphone to configure wiFred</a> for an explanation what is required to have your device read Bonjour/Zeroconf announcements.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/etc/asciidoc/images/icons/note.png" alt="Note">
+</td>
+<td class="content">
+If the IP address or the name of the throttle during normal operation is known, the configuration pages can also be accessed by pointing a web browser to it at any time while it is connected. This is mostly untested and therefore not recommended while the throttle is running locos.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/etc/asciidoc/images/icons/note.png" alt="Note">
+</td>
+<td class="content">
+This has been tested with Mozilla Firefox and Opera on Linux with Avahi (a Zeroconf implementation) and BonjourBrowser on Android 10.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a href="#throttleConfMainPage">Screenshot of wiFred main configuration page</a> shows the first page you will see when you point a web browser at your wiFred throttle. It is divided into multiple sections explained in the following chapters.</p>
+</div>
+<div id="throttleConfMainPage" class="imageblock">
+<div class="content">
+<img src="images/wiFred_configuration_page.png" alt="wiFred main configuration page">
+</div>
+<div class="title">Figure 2. Screenshot of wiFred main configuration page</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_general_configuration">General configuration</h3>
+<div class="paragraph">
+<p>In the "General configuration" section there is only one configuration option: The throttle name. This is a free-form identification string of the throttle. It shows up in the wiThrottle window of JMRI as shown in <a href="#withrottleScreenshot">Screenshot of wiThrottle screen showing one throttle connected</a> and can be used to identify the throttle during configuration.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/etc/asciidoc/images/icons/note.png" alt="Note">
+</td>
+<td class="content">
+The wiFred also announces its presence on the WiFi network through Bonjour/Zeroconf using a sanitized version of the name, i.e. a throttle called "Heiko Prototype 2-2" will announce its presence as <strong>heikoprototype22.local</strong> when not in configuration mode.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_wifi_configuration">WiFi configuration</h3>
+<div class="paragraph">
+<p>The "WiFi configuration" section shows a list of configured WiFi networks. The wiFred will connect to any network in this list, choosing the strongest one if multiple configured networks are in range.</p>
+</div>
+<div class="paragraph">
+<p>Existing entries can be removed by clicking on the "Remove SSID" button in the line of the network that shall be removed.</p>
+</div>
+<div class="paragraph">
+<p>New entries can be added either by manually entering the SSID and PSK<sup class="footnote" id="_footnote_PSK">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> if required and clicking the "Manually add network" button or by clicking on the "Scan for networks" link which takes the user to the page shown in <a href="#throttleConfWiFiPage">Screenshot of wiFred "Scan for WiFi"-page</a>.</p>
+</div>
+<div id="throttleConfWiFiPage" class="imageblock">
+<div class="content">
+<img src="images/wiFred_wifi-scan_page.png" alt="Scan for WiFi page">
+</div>
+<div class="title">Figure 3. Screenshot of wiFred "Scan for WiFi"-page</div>
+</div>
+<div class="paragraph">
+<p>This page will take a few seconds to load, since the scan for networks has to be completed first. It shows all the networks found during the scan. Networks can be added to the list by clicking the "Add network" button, after entering the PSK<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> in the field next to it.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/etc/asciidoc/images/icons/note.png" alt="Note">
+</td>
+<td class="content">
+The wiFred does not support WPS and it won&#8217;t accept multiple networks with the same SSID but different PSKs. More details regarding the network requirements can be found in <a href="#serverSetup">Options for server setup</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The new WiFi configuration will not be activated until the wiFred is restarted, either through a power-cycle or by clicking on the "Restart wiFred to enable new WiFi-settings" link on the configuration page.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_loco_server_configuration">Loco server configuration</h3>
+<div class="paragraph">
+<p>Following the WiFi configuration, the section "Loco server configuration" allows configuring the wiThrottle server to which the wiFred shall connect. The default setting - automatically detect server - works well if there is only one wiThrottle server on the network. It will connect to any server announcing its presence on port 12090 through Zeroconf/Bonjour, the result of the Zeroconf/Bonjour-search will be shown here when the wiFred has automatically discovered a server.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="throttle_LocoConf">Loco configuration</h3>
+<div class="paragraph">
+<p>Following the "Loco server configuration", there are four identical sections assigned to the four different locomotives which can be controlled with this throttle. Each section consists of the following settings:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">DCC address</dt>
+<dd>
+<p>Can be a short address between 1 and 127 (also used for consists) or a long address between 0 and 10239.</p>
+</dd>
+</dl>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/etc/asciidoc/images/icons/note.png" alt="Note">
+</td>
+<td class="content">
+Short addresses between 1 and 127 are not the same as long addresses between 1 and 127, and many DCC systems do not support all those addresses.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>If this is set to -1, the corresponding loco is disabled.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Long address?</dt>
+<dd>
+<p>Checkbox to change the behaviour of the DCC address input field described above.</p>
+</dd>
+<dt class="hdlist1">Reverse?</dt>
+<dd>
+<p>If checked, the corresponding loco will invert it&#8217;s travel direction. Mainly intended for back-to-back consists without decoder reconfiguration.</p>
+</dd>
+<dt class="hdlist1">Function mapping</dt>
+<dd>
+<p>Link to the function mapping subpage for the corresponding loco, as described in <a href="#throttle_FunctionConf">DCC function configuration</a>. Clicking this link will lose all information entered on the current page and take the web browser to a different subpage.</p>
+</dd>
+</dl>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<img src="/etc/asciidoc/images/icons/important.png" alt="Important">
+</td>
+<td class="content">
+Reminder: Changes are saved using the "Save loco config" button which
+may look different in different web browsers (firefox shown).
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="throttle_FunctionConf">DCC function configuration</h3>
+<div class="paragraph">
+<p>By default, if a function key is pressed, the throttle will send the appropriate commands to every loco under control. Under certain circumstances, this may not be desired - the obvious example being a loco in the middle of a multi-unit consist, which should not have lights or ditchlights. So this page - shown in <a href="#throttleConfigFunctionPage">Screenshot of wiFred function handling config page</a> - offers the option to chose between three different settings for every function on each of the four locomotives (one page per locomotive):</p>
+</div>
+<div id="throttleConfigFunctionPage" class="imageblock">
+<div class="content">
+<img src="images/wiFred_function_page.png" alt="wiFred function page">
+</div>
+<div class="title">Figure 4. Screenshot of wiFred function handling config page</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Always Off</dt>
+<dd>
+<p>When the loco is enabled by moving the selection switch to the "selected" position, the current status of the function is queried. If the function is on, a function key press will be simulated to turn it off. No other function key events will be sent to this loco for this function.</p>
+</dd>
+<dt class="hdlist1">Throttle controlled</dt>
+<dd>
+<p>When the first loco is enabled by moving the selection switch to the "selected" position, the current status of the function is queried and saved. When selecting the next loco, the function status is set to be the same. Afterwards, key presses are handed through to the loco.</p>
+</dd>
+<dt class="hdlist1">Always On</dt>
+<dd>
+<p>Similar to the "Always Off" setting, but the throttle will attempt to enable the function when the locomotive is selected and ignore any further function key presses.</p>
+</dd>
+</dl>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<img src="/etc/asciidoc/images/icons/important.png" alt="Important">
+</td>
+<td class="content">
+Reminder: Changes are saved using the "Save function configuration" button which may look different in different web browsers (firefox shown).
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_wifred_status">wiFred status</h3>
+<div class="paragraph">
+<p>The "wiFred status" section shows the current battery voltage, as
+measured by the wiFred. This is updated on reloading the page, not
+continuosly.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_wifred_system">wiFred system</h3>
+<div class="paragraph">
+<p>The "wiFred system" section consists of two links:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Reset wiFred to factory defaults - which leads to a confirmation page shown in <a href="#throttleConfResetPage">Screenshot of wiFred configuration reset page</a> to reset all configuration data to factory defaults as on a new wiFred.</p>
+</li>
+<li>
+<p>Update wiFred firmware - which leads to a firmware update page shown in <a href="#throttleConfUpdatePage">Screenshot of wiFred firmware update page</a> to update the wiFred firmware of the ESP8266. Find the .bin-file from the arduino build folder or from the github repository, click on "Choose file", navigate to the .bin-file and finally initiate the update with a click on "Update" - which will take a while.</p>
+</li>
+</ul>
+</div>
+<div id="throttleConfResetPage" class="imageblock">
+<div class="content">
+<img src="images/wiFred_reset_page.png" alt="wiFred configuration reset page">
+</div>
+<div class="title">Figure 5. Screenshot of wiFred configuration reset page</div>
+</div>
+<div id="throttleConfUpdatePage" class="imageblock">
+<div class="content">
+<img src="images/wiFred_update_page.png" alt="wiFred firmware update page">
+</div>
+<div class="title">Figure 6. Screenshot of wiFred firmware update page</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="serverSetup">Options for server setup</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_components_required_to_get_the_wifred_running">Components required to get the wiFred running</h3>
+<div id="withrottleScreenshot" class="imageblock">
+<div class="content">
+<img src="images/withrottle_Screenshot.jpg" alt="wiThrottle screen">
+</div>
+<div class="title">Figure 7. Screenshot of wiThrottle screen showing one throttle connected</div>
+</div>
+<div class="paragraph">
+<p><a href="#runningTrains">Overview of devices required to run trains with the wiFred</a> shows the connections between the devices required to run trains using the wiFred.</p>
+</div>
+<div id="runningTrains" class="imageblock">
+<div class="content">
+<img src="images/runningTrains.png" alt="Devices required to run trains with a wiFred">
+</div>
+<div class="title">Figure 8. Overview of devices required to run trains with the wiFred</div>
+</div>
+<div class="paragraph">
+<p>The symbols in <a href="#runningTrains">Overview of devices required to run trains with the wiFred</a> symbolize the following parts:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>An IEEE 802.11b/g/n 2.4 GHz WiFi access point described in detail in <a href="#serverWiFi">WiFi access point requirements</a></p>
+</li>
+<li>
+<p>A PC or laptop computer with Windows, Linux or MacOS to run the JMRI server described in detail in <a href="#serverJMRI">JMRI server requirements</a></p>
+</li>
+<li>
+<p>A way to connect the JMRI server to the model railroading layout described in detail in <a href="#serverLayoutConn">Layout connection options</a></p>
+</li>
+<li>
+<p>A device with a web browser connected to the same network as the wiFred to configure it - can be the same physical device as the one running the server, if it meets the requirements in <a href="#configurationComputer">Computer or smartphone to configure wiFred</a></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Multiple options for every step or combining these steps are described in the following sections.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/etc/asciidoc/images/icons/note.png" alt="Note">
+</td>
+<td class="content">
+Basically, if a layout is set up to run trains with a smartphone running wiThrottle or EngineDriver, a wiFred should work with no changes to the layout configuration. If a layout is set up in a way that trains can be run from a JMRI screen throttle on a computer, only a WiFi connection to the JMRI computer needs to be added.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_out_of_the_box_server_side_options">Out-of-the-box server-side options</h3>
+<div class="paragraph">
+<p>A pretty much out-of-the-box solution is provided by Steve Todd at <a href="https://mstevetodd.com/rpi" class="bare">https://mstevetodd.com/rpi</a>, which auto-detects multiple options to interface to a DCC layout and has been tested in the JMRI 4.16 version to work with the wiFred, connecting to a Z21 black through both an RRCircuits LocoBuffer USB and a Digitrax PR3 via Loconet.</p>
+</div>
+<div class="paragraph">
+<p>Although untested so far, adding a <a href="http://www.digitrax.com/products/wireless/lnwi/">Digitrax LNWI</a> to a Digitrax system or an <a href="http://www.modelrectifier.com/Prodigy-WiFi-s/332.htm">MRC Prodigy WiFi</a> to an MRC system should allow the wiFred to run locos out-of-the-box as well.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_by_step_instructions_for_a_windows_computer">Step by step instructions for a Windows computer</h3>
+<div class="sect3">
+<h4 id="_tested_on_windows_7_64bit">Tested on Windows 7 64Bit</h4>
 
+</div>
+<div class="sect3">
+<h4 id="_requirements_wifi_2_4ghz">Requirements: WiFi 2.4GHz</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_installation">Installation</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Install <a href="https://www.nirsoft.net/utils/wifi_hotspot_starter.html">HostedNetworkStarter</a></p>
+</li>
+<li>
+<p>Install <a href="https://www.dhcpserver.de/cms/download/">DHCP server</a> - download and extract all the files from the zip file to somewhere on your harddrive, for example C:\DHCPServer</p>
+</li>
+<li>
+<p>Install a JDK, version 8 and 11 have been tested. For example, <a href="https://adoptopenjdk.net/releases.html">Version OpenJDK 11 (LTS), JVM HotSpot</a>. Choose the 64bit version for most modern hardware, 32bit only if you are running a 32bit operating system. Easiest option: MSI file, download and install.</p>
+</li>
+<li>
+<p>Install <a href="https://www.jmri.org">JMRI</a> - versions tested to run with the wiFred include 4.14, 4.16, 4.18 and 4.20. Most recent production version recommended.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/etc/asciidoc/images/icons/note.png" alt="Note">
+</td>
+<td class="content">
+Windows 10 provides a Hotspot feature that will work in place of HostedNetworkStarter and DHCP server, so you can jump right into installing JDK and JMRI.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration">Configuration</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Start HostedNetworkStarter from the start menu, enter a Network Name and Network Key, then hit the Start button. Note the "Hosted Network Connection Name" for the next step</p>
+</li>
+<li>
+<p>Start the DHCP server wizard from C:\DHCPServer\dhcpwiz.exe, select the network with the name that&#8217;s the same as the "Hosted Network Connection Name" from the step before, hit "Next" a few times (deselecting all additional supported protocols), Write INI file, Start Service and Configure Firewall Exceptions</p>
+</li>
+<li>
+<p>Start JMRI using the DecoderPro icon on the desktop, setup your layout connection, test if you can run a loco with a JMRI throttle</p>
+</li>
+<li>
+<p>Within JMRI, start the WiThrottle Server from the Actions menu. If a firewall popup comes up, allow all.</p>
+</li>
+<li>
+<p>Within JMRI, edit the Preferences from the Edit menu, choose WiThrottle on the left pane, click the "Start automatically with application" checkbox. All the Allowed Controls can be disabled.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_running">Running</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Start HostedNetworkStarter from the start menu, enter a Network Name and Network Key, then hit the Start button.</p>
+</li>
+<li>
+<p>Start JMRI using the DecoderPro icon on the desktop</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="serverWiFi">WiFi access point requirements</h3>
+<div class="paragraph">
+<p>IEEE802.11bg 2.4GHz DHCP server comm between clients</p>
+</div>
+<div class="paragraph">
+<p>Linux: hostapd (tested: netbook, Raspberry Pi 3 in a PiTop) Windows:
+link to ... Hardware.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="serverJMRI">JMRI server requirements</h3>
+<div class="paragraph">
+<p>Any PC.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="serverLayoutConn">Layout connection options</h3>
+<div class="paragraph">
+<p>Loconet: LocoBufferUSB Digitrax PR3 / PR4</p>
+</div>
+<div class="paragraph">
+<p>Tested: Intellibox, Z21 black, DCS 51 Zephyr xtra</p>
+</div>
+<div class="paragraph">
+<p>Should work: Anything JMRI can control trains on, even SPROG as command station plus boosters&#8230;&#8203;</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="configurationComputer">Computer or smartphone to configure wiFred</h3>
+<div class="paragraph">
+<p>Webbrowser, Zeroconf. Avahi. Bonjour (iTunes?). MacOS out of the box?
+iOS? Android?</p>
+</div>
+<div class="paragraph">
+<p>For initial configuration of the wiFred, most of the devices mentioned above can be omitted. As shown in <a href="#confWifred">For initial configuration, the requirements are very small</a>, only a WiFi capable device with a web browser is required.</p>
+</div>
+<div id="confWifred" class="imageblock">
+<div class="content">
+<img src="images/configuringWifred.png" alt="Configuring wiFred">
+</div>
+<div class="title">Figure 9. For initial configuration, the requirements are very small</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -883,13 +1367,13 @@ Make sure nothing pinches the battery. LiIon batteries are susceptible to mechan
 <div class="content">
 <img src="images/_DSC0126.jpg" alt="Drilljig">
 </div>
-<div class="title">Figure 2. Using the original PCB and drilling jig to transfer the positions of the holes to the housing - better results will be achieved when the PCBs are screwed in position</div>
+<div class="title">Figure 10. Using the original PCB and drilling jig to transfer the positions of the holes to the housing - better results will be achieved when the PCBs are screwed in position</div>
 </div>
 <div id="battConnection" class="imageblock">
 <div class="content">
 <img src="images/_DSC0148.jpg" alt="Battery connection">
 </div>
-<div class="title">Figure 3. Connection of battery to P101 - black wire is GND, red wire is positive</div>
+<div class="title">Figure 11. Connection of battery to P101 - black wire is GND, red wire is positive</div>
 </div>
 </div>
 <div class="sect2">
@@ -910,25 +1394,25 @@ Make sure nothing pinches the battery. LiIon batteries are susceptible to mechan
 <div class="content">
 <img src="images/wfred_rev2.png" alt="&quot;Schematic sheet 1 for rev0.5">
 </div>
-<div class="title">Figure 4. Master schematic sheet with battery connector, charging circuit and power supply</div>
+<div class="title">Figure 12. Master schematic sheet with battery connector, charging circuit and power supply</div>
 </div>
 <div id="schematic05page2" class="imageblock">
 <div class="content">
 <img src="images/wfred-wifi-Wifi_connection.png" alt="&quot;Schematic sheet 2 for rev0.5">
 </div>
-<div class="title">Figure 5. Schematic sheet including ESP8266 for WiFi connection with bootloader enabling jumper and connection to programming cable</div>
+<div class="title">Figure 13. Schematic sheet including ESP8266 for WiFi connection with bootloader enabling jumper and connection to programming cable</div>
 </div>
 <div id="schematic05page3" class="imageblock">
 <div class="content">
 <img src="images/wfred-controller_rev2-Controller.png" alt="&quot;Schematic sheet 3 for rev0.5">
 </div>
-<div class="title">Figure 6. Schematic sheet including ATMega 328P along with crystal and in system programming header</div>
+<div class="title">Figure 14. Schematic sheet including ATMega 328P along with crystal and in system programming header</div>
 </div>
 <div id="schematic05page4" class="imageblock">
 <div class="content">
 <img src="images/User_interface_rev2-User_Interface.png" alt="&quot;Schematic sheet 4 for rev0.5">
 </div>
-<div class="title">Figure 7. Schematic sheet including pushbutton switches, loco selection switches, direction switch, speed potentiometer and flashlight LEDs with controller</div>
+<div class="title">Figure 15. Schematic sheet including pushbutton switches, loco selection switches, direction switch, speed potentiometer and flashlight LEDs with controller</div>
 </div>
 </div>
 <div class="sect2">
@@ -1329,7 +1813,7 @@ Make sure nothing pinches the battery. LiIon batteries are susceptible to mechan
 <div class="content">
 <img src="images/_DSC0146.jpg" alt="AVR programming">
 </div>
-<div class="title">Figure 8. Programming connection for ATMega_328P - Pin 1 on purple cable</div>
+<div class="title">Figure 16. Programming connection for ATMega_328P - Pin 1 on purple cable</div>
 </div>
 </div>
 <div class="sect3">
@@ -1341,7 +1825,7 @@ Make sure nothing pinches the battery. LiIon batteries are susceptible to mechan
 <div class="content">
 <img src="images/_DSC0138.jpg" alt="ESP8266 programming">
 </div>
-<div class="title">Figure 9. Programming connection for ESP8266 - GND on orange wire, then TXD of programming cable (RXD of ESP8266), then RXD of programming cable (TXD of ESP8266) - also note the jumper on P401</div>
+<div class="title">Figure 17. Programming connection for ESP8266 - GND on orange wire, then TXD of programming cable (RXD of ESP8266), then RXD of programming cable (TXD of ESP8266) - also note the jumper on P401</div>
 </div>
 <div class="paragraph">
 <p>All files in the <strong>software/esp-firmware</strong>-subdirectory of the github repository need to be placed in a folder, then the main sketch <strong>arduino_main_sketch.ino.ino</strong> needs to be opened with the Arduino IDE. Settings for the Arduino IDE can be found inside the main file, programming the device should work using the <strong>Upload</strong>-button in the <strong>Sketch</strong>-menu.</p>
@@ -1356,410 +1840,20 @@ Make sure nothing pinches the battery. LiIon batteries are susceptible to mechan
 <div class="content">
 <img src="images/_DSC0149.jpg" alt="Serial communication jumpers">
 </div>
-<div class="title">Figure 10. Communication jumpers for connecting the ESP8266 and the ATMega 328P</div>
+<div class="title">Figure 18. Communication jumpers for connecting the ESP8266 and the ATMega 328P</div>
 </div>
 <div class="paragraph">
-<p>wiFred Wireless throttle configuration {#config}</p>
+<p>\clearpage
+wiFred Wireless throttle prototype {#oldThrottle}</p>
 </div>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>Before using the device, it must be configured. At the very least, the
-General Configuration
-page [13](#throttleConfMainPage){reference-type="ref"
-reference="throttleConfMainPage"} has to be submitted once to be saved
-to non-volatile memory. If no valid configuration is detected at
-startup, the device will start with a default configuration with no
-locos enabled and no WiFi settings, so it won&#8217;t be able to connect to
-any WiFi network.</p>
-</div>
-<div class="paragraph">
-<p>After entering any kind of text (names, numbers...) into text fields,
-the corresponding "Save" button has to be pressed to submit the changes
-to the wiFred.</p>
-</div>
-<div class="paragraph">
-<p>Entering configuration mode</p>
+<p>Quickstart Guide</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>There are two ways to enter configuration mode:
-
-1.  Power up the throttle/select a loco when the configured WiFi network
-    is not in range (or when there is no valid configuration -- the
-    first startup of a new throttle will fall into this category)
-
-2.  Press SHIFT and ESTOP together when the throttle is connected
-
-In the first case, the throttle will create a wireless network named
-*wiFred-config* plus four hex digits taken from the MAC address of the
-throttle WiFi interface, for example *wiFred-config0CAC* and announce
-its presence under the name *config.local* as well as creating a captive
-portal. Any WiFi device with a web browser can connect to that network
-and open a web browser to point to *http://192.168.4.1* or
-*http://config.local*. This has been tested with Mozilla Firefox and
-Opera on Linux with Avahi (a Zeroconf implementation) and Safari on iOS
-13.
-
-In the second case, the throttle will only announce its presence under
-the name *config.local* using the Bonjour/Zeroconf-protocol. Any device
-on the same WiFi network with Bonjour/Zeroconf can use a web browser to
-access the configuration at *http://config.local*. See
-section [3.6](#configurationComputer){reference-type="ref"
-reference="configurationComputer"} for an explanation what is required
-to have your device read Bonjour/Zeroconf announcements. This has been
-tested with Mozilla Firefox and Opera on Linux with Avahi (a Zeroconf
-implementation).
-
-If the IP address or the name of the throttle during normal operation is
-known, the configuration pages can also be accessed by pointing a web
-browser to it at any time while it is connected. Note that this is
-mostly untested and therefore not recommended while the throttle is
-running locos.
-
-\centering
-![Screenshot of wiThrottle screen showing one throttle
-connected[]{label="withrottleScreenshot"}](images/withrottle_Screenshot){#withrottleScreenshot
-width="0.8 \textwidth"}
-
-Throttle configuration
-----------------------
-
-Figure [13](#throttleConfMainPage){reference-type="ref"
-reference="throttleConfMainPage"} shows the first page you will see when
-you point a web browser at your wiFred throttle. It is divided into
-multiple sections explained in the following chapters.
-
-\centering
-![Screenshot of wiFred main configuration
-page[]{label="throttleConfMainPage"}](images/wiFred_configuration_page){#throttleConfMainPage
-width="0.8 \textwidth"}
-
-### General configuration {#throttle_GeneralConf}
-
-In the "General configuration" section there is only one configuration
-option: The throttle name. This is a free-form identification string of
-the throttle. It shows up in the wiThrottle window of JMRI as shown in
-figure [12](#withrottleScreenshot){reference-type="ref"
-reference="withrottleScreenshot"} and can be used to identify the
-throttle during configuration. The wiFred also announces its presence on
-the WiFi network through Bonjour/Zeroconf using a sanitized version of
-the name, i.e. a throttle called "Heiko Prototype 2-2" will announce its
-presence as *heikoprototype22.local* when not in configuration mode.
-
-### WiFi configuration
-
-The "WiFi configuration" section shows a list of configured WiFi
-networks. The wiFred will connect to any network in this list, more or
-less randomly choosing one if multiple configured networks are in range.
-
-Existing entries can be removed by clicking on the "Remove SSID" button
-in the line of the network that shall be removed.
-
-New entries can be added either by manually entering the SSID and
-PSK[^1] if required and clicking the "Manually add network" button or by
-clicking on the "Scan for networks" link which takes the user to the
-page shown in figure [14](#throttleConfWiFiPage){reference-type="ref"
-reference="throttleConfWiFiPage"}.
-
-\centering
-![Screenshot of wiFred "Scan for
-WiFi"-page[]{label="throttleConfWiFiPage"}](images/wiFred_wifi-scan_page){#throttleConfWiFiPage
-width="0.8 \textwidth"}
-
-This page will take a few seconds to load, since the scan for networks
-has to be completed first. It shows all the networks found during the
-scan. Networks can be added to the list by clicking the "Add network"
-button, after entering the PSK[^2] in the field next to it.
-
-Note that the wiFred does not support WPS and it won't accept multiple
-networks with the same SSID but different PSKs. More details regarding
-the network requirements can be found in
-section [3](#serverSetup){reference-type="ref" reference="serverSetup"}.
-
-The new WiFi configuration will not be activated until the wiFred is
-restarted, either through a power-cycle or by clicking on the "Restart
-wiFred to enable new WiFi-settings" link on the configuration page.
-
-### Loco server configuration
-
-Following the WiFi configuration, the section "Loco server
-configuration" allows configuring the wiThrottle server to which the
-wiFred shall connect. The default setting -- automatically detect server
--- works well if there is only one wiThrottle server on the network. It
-will connect to any server announcing its presence on port 12090 through
-Zeroconf/Bonjour, the result of the Zeroconf/Bonjour-search will be
-shown here when the wiFred has automatically discovered a server.
-
-### Loco configuration {#throttle_LocoConf}
-
-Following the "Loco server configuration", there are four identical
-sections assigned to the four different locomotives which can be
-controlled with this throttle. Each section consists of the following
-settings:
-
-DCC address: Can be a short address between 1 and 127 (also used for
-consists) or a long address between 0 and 10239. Note: Short addresses
-between 1 and 127 are not the same as long addresses between 1 and 127.
-If this is set to -1, the corresponding loco is disabled.
-
-Long address?: Checkbox to change the behaviour of the DCC address input
-field described above.
-
-Reverse?: If checked, the corresponding loco will invert it's travel
-direction. Mainly intended for back-to-back consists without decoder
-reconfiguration.
-
-Function mapping: Link to the function mapping subpage for the
-corresponding loco, as described in
-section [2.2.5](#throttle_FunctionConf){reference-type="ref"
-reference="throttle_FunctionConf"}. Clicking this link will lose all
-information entered on the current page and take the web browser to a
-different subpage.
-
-**Reminder: Changes are saved using the "Save loco config" button which
-may look different in different web browsers (firefox shown).**
-
-### DCC function configuration {#throttle_FunctionConf}
-
-By default, if a function key is pressed, the throttle will send the
-appropriate commands to every loco under control. Under certain
-circumstances, this may not be desired -- the obvious example being a
-loco in the middle of a multi-unit consist, which should not have lights
-or ditchlights. So this page -- shown in
-figure [15](#throttleConfigFunctionPage){reference-type="ref"
-reference="throttleConfigFunctionPage"} -- offers the option to chose
-between three different settings for every function on each of the four
-locomotives (one page per locomotive):
-
-\centering
-![Screenshot of wiFred function handling config
-page[]{label="throttleConfigFunctionPage"}](images/wiFred_function_page){#throttleConfigFunctionPage
-width="0.8 \textwidth"}
-
-Always Off: When the loco is enabled by moving the selection switch to
-the "selected" position, the current status of the function is queried.
-If the function is on, a function key press will be simulated to turn it
-off. No other function key events will be sent to this loco for this
-function.
-
-Throttle controlled: When the first loco is enabled by moving the
-selection switch to the "selected" position, the current status of the
-function is queried and saved. When selecting the next loco, the status
-is queried. If it does not match the first loco, the function status is
-changed by simulating a function key press. Afterwards, key presses are
-handed through to the loco.
-
-Always On: Similar to the "Always Off" setting, but the throttle will
-attempt to enable the function when the locomotive is selected and
-ignore any further function key presses. This will probably not work
-with so-called momentary functions that are only active as long as the
-function key is pressed.
-
-**Reminder: Changes are saved using the "Save function configuration"
-button which may look different in different web browsers (firefox
-shown).**
-
-### wiFred status
-
-The "wiFred status" section shows the current battery voltage, as
-measured by the wiFred. This is updated on reloading the page, not
-continuosly.
-
-### wiFred system
-
-The "wiFred system" section consists of two links:
-
--   Reset wiFred to factory defaults -- which leads to a confirmation
-    page shown in [16](#throttleConfResetPage){reference-type="ref"
-    reference="throttleConfResetPage"} to reset all configuration data
-    to factory defaults as on a new wiFred.
-
--   Update wiFred firmware -- which leads to a firmware update page
-    shown in [17](#throttleConfUpdatePage){reference-type="ref"
-    reference="throttleConfUpdatePage"} to update the wiFred firmware of
-    the ESP8266. Find the .bin-file from the arduino build folder, click
-    on "Choose file", navigate to the .bin-file and finally initiate the
-    update with a click on "Update" -- which will take a while.
-
-\centering
-![Screenshot of wiFred configuration reset
-page[]{label="throttleConfResetPage"}](images/wiFred_reset_page){#throttleConfResetPage
-width="0.8 \textwidth"}
-
-\centering
-![Screenshot of wiFred firmware update
-page[]{label="throttleConfUpdatePage"}](images/wiFred_update_page){#throttleConfUpdatePage
-width="0.8 \textwidth"}
-
-\clearpage
-Options for server setup {#serverSetup}
-========================
-
-Figure [18](#runningTrains){reference-type="ref"
-reference="runningTrains"} shows the connections between the devices
-required to run trains using the wiFred.
-
-\centering
-![Overview of devices required to run trains with the
-wiFred[]{label="runningTrains"}](images/runningTrains){#runningTrains
-width="0.99 \textwidth"}
-
-The symbols in figure [18](#runningTrains){reference-type="ref"
-reference="runningTrains"} symbolize the following parts:
-
-1.  An IEEE 802.11b/g/n 2.4 GHz WiFi access point described in detail in
-    section [3.3](#serverWiFi){reference-type="ref"
-    reference="serverWiFi"} [\[indexWiFi\]]{#indexWiFi
-    label="indexWiFi"}
-
-2.  A PC or laptop computer with Windows, Linux or MacOS to run the JMRI
-    server described in detail in
-    section [3.4](#serverJMRI){reference-type="ref"
-    reference="serverJMRI"} [\[indexJMRIserver\]]{#indexJMRIserver
-    label="indexJMRIserver"}
-
-3.  A way to connect the JMRI server to the model railroading layout
-    described in detail in
-    section [3.5](#serverLayoutConn){reference-type="ref"
-    reference="serverLayoutConn"} [\[indexLocoBuffer\]]{#indexLocoBuffer
-    label="indexLocoBuffer"}
-
-4.  A device with a web browser connected to the same network as the
-    wiFred to configure it -- can be the same physical device
-    as [\[indexJMRIserver\]](#indexJMRIserver){reference-type="ref"
-    reference="indexJMRIserver"} if requirements in
-    section [3.6](#configurationComputer){reference-type="ref"
-    reference="configurationComputer"} are met
-    [\[indexConfigurationComputer\]]{#indexConfigurationComputer
-    label="indexConfigurationComputer"}
-
-Multiple options for every step or combining these steps are described
-in the following sections.
-
-Basically, if a layout is set up to run trains with a smartphone running
-wiThrottle or EngineDriver, a wiFred should work with no changes to the
-layout configuration.
-
-If a layout is set up in a way that trains can be run from a JMRI screen
-throttle on a computer, only a WiFi connection to the JMRI computer
-needs to be added.
-
-Out-of-the-box server-side options
-----------------------------------
-
-A pretty much out-of-the-box solution is provided by Steve Todd
-at [@raspiImage] which auto-detects multiple options to interface to a
-DCC layout and has been tested in the JMRI 4.16 version to work with the
-wiFred, connecting to a Z21 black through both an RRCircuits
-LocoBuffer USB and a Digitrax PR3 via Loconet.
-
-Although untested so far, adding a Digitrax LNWI [@digitrax] to a
-Digitrax system or an MRC Prodigy WiFi [@mrc] to an MRC system should
-allow the wiFred to run locos out-of-the-box as well.
-
-Step by step instructions for a Windows computer
-------------------------------------------------
-
-Tested on Windows 7 64Bit
-
-Requirements: WiFi 2.4GHz
-
-Installation:
-
-1.  Install HostedNetworkStarter from
-    https://www.nirsoft.net/utils/wifi\_hotspot\_starter.html
-
-2.  Install DHCP server from https://www.dhcpserver.de/cms/download/ --
-    download and extract all the files from the zip file to somewhere on
-    your harddrive, for example C:\\DHCPServer
-
-3.  Install a JDK, version 8 and 11 have been tested. For example,
-    https://adoptopenjdk.net/releases.html Version OpenJDK 11 (LTS), JVM
-    HotSpot. Choose the 64bit version for most modern hardware, 32bit
-    only if you are running a 32bit operating system. Easiest option:
-    MSI file, download and install.
-
-4.  Install JMRI from https://www.jmri.org -- versions tested to run
-    with the wiFred include 4.14, 4.16, 4.18 and 4.20. Most recent
-    production version recommended.
-
-Configuration:
-
-1.  Start HostedNetworkStarter from the start menu, enter a Network Name
-    and Network Key, then hit the Start button. Note the "Hosted Network
-    Connection Name" for the next step
-
-2.  Start the DHCP server wizard from C:\\DHCPServer\\dhcpwiz.exe,
-    select the network with the name that's the same as the "Hosted
-    Network Connection Name" from the step before, hit "Next" a few
-    times (deselecting all additional supported protocols), Write INI
-    file, Start Service and Configure Firewall Exceptions
-
-3.  Start JMRI using the DecoderPro icon on the desktop, setup your
-    layout connection, test if you can run a loco with a JMRI throttle
-
-4.  Within JMRI, start the WiThrottle Server from the Actions menu. If a
-    firewall popup comes up, allow all.
-
-5.  Within JMRI, edit the Preferences from the Edit menu, choose
-    WiThrottle on the left pane, click the "Start automatically with
-    application" checkbox. All the Allowed Controls can be disabled.
-
-Running:
-
-1.  Start HostedNetworkStarter from the start menu, enter a Network Name
-    and Network Key, then hit the Start button.
-
-2.  Start JMRI using the DecoderPro icon on the desktop
-
-WiFi access point requirements {#serverWiFi}
-------------------------------
-
-IEEE802.11bg 2.4GHz DHCP server comm between clients
-
-Linux: hostapd (tested: netbook, Raspberry Pi 3 in a PiTop) Windows:
-link to \... Hardware.
-
-JMRI server requirements {#serverJMRI}
-------------------------
-
-Any PC.
-
-Layout connection options {#serverLayoutConn}
--------------------------
-
-Loconet: LocoBufferUSB Digitrax PR3 / PR4
-
-Tested: Intellibox, Z21 black, DCS 51 Zephyr xtra
-
-Should work: Anything JMRI can control trains on, even SPROG as command
-station plus boosters\...
-
-Computer or smartphone to configure wiFred {#configurationComputer}
-------------------------------------------
-
-Webbrowser, Zeroconf. Avahi. Bonjour (iTunes?). MacOS out of the box?
-iOS? Android?
-
-For initial configuration of the wiFred, most of the devices mentioned
-above can be omitted. As shown in
-figure [19](#confWifred){reference-type="ref" reference="confWifred"},
-only a WiFi capable device with a web browser is required.
-
-\centering
-![For initial configuration, the requirements are very
-small[]{label="confWifred"}](images/configuringWifred){#confWifred
-width="0.5 \textwidth"}
-
-\clearpage
-wiFred Wireless throttle prototype {#oldThrottle}
-==================================
-
-Quickstart Guide
-----------------
-
-Follow these steps for a new throttle (see later chapters for more
+<pre>Follow these steps for a new throttle (see later chapters for more
 explanation or if you run into trouble)
 
 -3. Use PCB to determine positions of holes and cutouts in housing
@@ -2248,10 +2342,16 @@ spinoff of the wiClock project[@wiClock].
 </div>
 </div>
 </div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. Pre-Shared Key, often just called password
+</div>
+</div>
 <div id="footer">
 <div id="footer-text">
 Version 0.2-WIP<br>
-Last updated 2021-02-14 18:45:26 +0100
+Last updated 2021-02-14 21:56:45 +0100
 </div>
 </div>
 </body>
