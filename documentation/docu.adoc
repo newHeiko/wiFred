@@ -17,7 +17,7 @@ This document describes the usage and configuration of the wiFred - a very simpl
 
 The most recent version of this document can be found at https://newheiko.github.io/wiFred, https://github.com/newHeiko/wiFred/raw/master/documentation/docu.pdf and https://github.com/newHeiko/wiFred/blob/master/documentation/docu.adoc.
 
-If you want to know more about the development history of the wiFred, skip ahead to section <<background>> - otherwise read on with section <<throttle>>.
+If you want to know more about the development history of the wiFred, skip ahead to <<background>> - otherwise read on with <<throttle>>.
 
 [#throttle]
 == Quickstart Guide
@@ -433,209 +433,108 @@ The PCB has holes in the center of the LED footprints to enable transferring the
 |===
 |Designator|Package|Designation
 
-|C102, C101
-|C_0805_HandSoldering
-|4u7
+|C102, C101|C_0805_HandSoldering|4u7
 
-|C105, C103, C302
-|C_0805_HandSoldering
-|1u
+|C105, C103, C302|C_0805_HandSoldering|1u
 
-|C206, C205
-|C_0805_HandSoldering
-|22p
+|C206, C205|C_0805_HandSoldering|22p
 
-|C401, C203, C202, C201, C207
-|C_0805_HandSoldering
-|100n
+|C401, C203, C202, C201, C207|C_0805_HandSoldering|100n
 
-|C402, C301
-|C_0805_HandSoldering
-|22u
+|C402, C301|C_0805_HandSoldering|22u
 
-|C403
-|C_0805_HandSoldering
-|100u
+|C403|C_0805_HandSoldering|100u
 
-|CON101
-|USB_Micro-B_Molex-105017-0001
-|USB-MICRO-B
+|CON101|USB_Micro-B_Molex-105017-0001|USB-MICRO-B
 
-|D101
-|LED_D3.0mm
-|LED - red
+|D101|LED_D3.0mm|LED - red
 
-|D102
-|LED_D3.0mm
-|LED - green
+|D102|LED_D3.0mm|LED - green
 
-|D201
-|SOT-23_Handsoldering
-|BAR43
+|D201|SOT-23_Handsoldering|BAR43
 
-|D301
-|LED_D3.0mm
-|STOP - red
+|D301|LED_D3.0mm|STOP - red
 
-|D302
-|LED_D3.0mm
-|FORWARD - green
+|D302|LED_D3.0mm|FORWARD - green
 
-|D303
-|LED_D3.0mm
-|REVERSE - green
+|D303|LED_D3.0mm|REVERSE - green
 
-|D303, D302, D301, D101, D102
-|LED Spacer
-|3mm
+|D303, D302, D301, D101, D102|LED Spacer|3mm
 
-|D304
-|LED_D5.0mm_Horicontal_FLIPPED_O1.27mm
-|LED white
+|D304|LED_D5.0mm_Horicontal_FLIPPED_O1.27mm|LED white
 
-|D305
-|LED_D5.0mm_Horicontal_O1.27mm
-|LED white
+|D305|LED_D5.0mm_Horicontal_O1.27mm|LED white
 
-|IC101
-|SOT95P270X145-5N
-|MCP73831T-2ACI_OT
+|IC101|SOT95P270X145-5N|MCP73831T-2ACI_OT
 
-|IC102
-|SOT95P275X110-5N
-|NCV8161BSN300T1G
+|IC102|SOT95P275X110-5N|NCV8161BSN300T1G
 
-|IC201
-|TQFP-32_7x7mm_Pitch0.8mm
-|ATMEGA328P-A
+|IC201|TQFP-32_7x7mm_Pitch0.8mm|ATMEGA328P-A
 
-|IC301
-|SOT-23-6_Handsoldering
-|MIC2860-2PYD6
+|IC301|SOT-23-6_Handsoldering|MIC2860-2PYD6
 
-|K401
-|Pin_Header_Straight_1x03_Pitch2.54mm
-|UART_ESP
+|K401|Pin_Header_Straight_1x03_Pitch2.54mm|UART_ESP
 
-|K402
-|Pin_Header_Straight_1x03_Pitch2.54mm
-|UART_AVR
+|K402|Pin_Header_Straight_1x03_Pitch2.54mm|UART_AVR
 
-|P1
-|PCB
-|124mm x 35mm x 1.6mm
+|P1|PCB|124mm x 35mm x 1.6mm
 
-|P101
-|Pin_Header_Angled_1x02_Pitch2.54mm
-|BATT
+|P101|Pin_Header_Angled_1x02_Pitch2.54mm|BATT
 
-|P201
-|Pin_Header_Straight_2x03_Pitch2.54mm_SMD
-|ISP
+|P201|Pin_Header_Straight_2x03_Pitch2.54mm_SMD|ISP
 
-|P401
-|Pin_Header_Straight_1x02_Pitch2.54mm
-|ESP_BOOTLOAD
+|P401|Pin_Header_Straight_1x02_Pitch2.54mm|ESP_BOOTLOAD
 
-|R101, R102
-|C_0805_HandSoldering
-|680R
+|R101, R102|C_0805_HandSoldering|680R
 
-|R103
-|C_0805_HandSoldering
-|2k2
+|R103|C_0805_HandSoldering|2k2
 
-|R301
-|C_0805_HandSoldering
-|4k7
+|R301|C_0805_HandSoldering|4k7
 
-|R304, R303, R302, R204
-|C_0805_HandSoldering
-|220R
+|R304, R303, R302, R204|C_0805_HandSoldering|220R
 
-|R305
-|C_0805_HandSoldering
-|15k
+|R305|C_0805_HandSoldering|15k
 
-|R405, R404, R403, R201, R104
-|C_0805_HandSoldering
-|10k
+|R405, R404, R403, R201, R104|C_0805_HandSoldering|10k
 
-|RV301
-|P160KNPD
-|10k lin P160KNPD-4FC20B10K
+|RV301|P160KNPD|10k lin P160KNPD-4FC20B10K
 
-|SW301
-|OS102011MS2Q
-|LOCO1
+|SW301|OS102011MS2Q|LOCO1
 
-|SW302
-|OS102011MS2Q
-|LOCO2
+|SW302|OS102011MS2Q|LOCO2
 
-|SW303
-|OS102011MS2Q
-|LOCO3
+|SW303|OS102011MS2Q|LOCO3
 
-|SW304
-|OS102011MS2Q
-|LOCO4
+|SW304|OS102011MS2Q|LOCO4
 
-|SW305
-|SW_SPST_PTS645
-|F0
+|SW305|SW_SPST_PTS645|F0
 
-|SW306
-|SW_SPST_PTS645
-|F1
+|SW306|SW_SPST_PTS645|F1
 
-|SW307
-|SW_SPST_PTS645
-|F2
+|SW307|SW_SPST_PTS645|F2
 
-|SW308
-|SW_SPST_PTS645
-|F3
+|SW308|SW_SPST_PTS645|F3
 
-|SW309
-|SW_SPST_PTS645
-|F4
+|SW309|SW_SPST_PTS645|F4
 
-|SW310
-|SW_SPST_PTS645
-|F5
+|SW310|SW_SPST_PTS645|F5
 
-|SW311
-|SW_SPST_PTS645
-|SHIFT
+|SW311|SW_SPST_PTS645|SHIFT
 
-|SW312
-|SW_SPST_PTS645
-|ESTOP
+|SW312|SW_SPST_PTS645|ESTOP
 
-|SW313
-|100SP1T1B1M1QEH
-|DIRECTION
+|SW313|100SP1T1B1M1QEH|DIRECTION
 
-|SW314
-|SW_SPST_PTS645
-|F6
+|SW314|SW_SPST_PTS645|F6
 
-|SW315
-|SW_SPST_PTS645
-|F7
+|SW315|SW_SPST_PTS645|F7
 
-|SW316
-|SW_SPST_PTS645
-|F8
+|SW316|SW_SPST_PTS645|F8
 
-|U401
-|ESP-12E_SMD
-|ESP-12E
+|U401|ESP-12E_SMD|ESP-12E
 
-|X201
-|Crystal_SMD_TXC_7M-4pin_3.2x2.5mm_HandSoldering
-|14.7456MHz
+|X201|Crystal_SMD_TXC_7M-4pin_3.2x2.5mm_HandSoldering|14.7456MHz
+
 |===
 
 The remaining assembly is a basic exercise in installing all the components to the PCB, listed in <<BOM05>>. From assembling the prototypes, the suggested order of installing the components is as follows:
@@ -674,37 +573,21 @@ To form a complete BOM, also include the parts listed in <<BOM05extra>> which ar
 |===
 |Designator|Package|Designation
 
-|B1
-|Battery
-|Lithium battery 1700mAh
+|B1|Battery|Lithium battery 1700mAh
 
-|H1a
-|Housing black
-|Strapubox 2090
+|H1a|Housing black|Strapubox 2090
 
-|or H1b
-|Housing white
-|Strapubox 2090
+|or H1b|Housing white|Strapubox 2090
 
-|J1, J2
-|Jumper
-|
+|J1, J2|Jumper|
 
-|K1a
-|Potentiometer Knob silver
-|24mm
+|K1a|Potentiometer Knob silver|24mm
 
-|or K1b
-|Potentiometer Knob black
-|24mm
+|or K1b|Potentiometer Knob black|24mm
 
-|P1
-|PCB
-|124mm x 35mm x 1.6mm
+|P1|PCB|124mm x 35mm x 1.6mm
 
-|S1, S2, S3, S4
-|Mounting Screws
-|2,9mm x 6,5mm
+|S1, S2, S3, S4|Mounting Screws|2,9mm x 6,5mm
 
 |===
 
@@ -739,182 +622,12 @@ After programming, two jumpers need to be placed between the K401 and K402 pin h
 .Communication jumpers for connecting the ESP8266 and the ATMega 328P
 image::_DSC0149.jpg[Serial communication jumpers]
 
-\clearpage
-wiFred Wireless throttle prototype {#oldThrottle}
-==================================
+[#oldThrottle]
+=== AA battery first prototype
 
-Quickstart Guide
-----------------
+The wiFred prototype hardware is centered around an ESP8266 for the WiFi connection. The ESP8266 also reads the loco selection switches and the battery voltage and communicates through it's serial port with an ATMega 328P microcontroller which controls the LEDs, reads the speed potentiometer, direction switch and pushbutton switches for functions and emergency stop. The communication goes through a 2x3 pin header which enables the user to connect a programming cable to the same serial port if removing the jumpers.
 
-Follow these steps for a new throttle (see later chapters for more
-explanation or if you run into trouble)
-
--3. Use PCB to determine positions of holes and cutouts in housing
-
--2. Make said cutouts and glue little pieces of 3mm thick plastic or
-    wood underneath PCB screw holes
-
--1. Solder components to PCB
-
-0.  Flash firmware to ESP8266 and to ATMega 328P
-
-1.  Test fit PCB into housing, removing plastic parts of housing as
-    required
-
-2.  Fit PCB into housing, insert three screws to fix PCB to housing
-
-3.  Make sure communication jumpers are set correctly, close housing and
-    fix back cover with two screws
-
-4.  Add throttle knob
-
-5.  Insert batteries
-
-6.  Using any WiFi client (laptop, smartphone, tablet\...), find and
-    connect to network *wiFred-configXXXX*
-
-7.  Using any web browser, navigate to *http://192.168.4.1*
-
-8.  Enter your WiFi configuration (and a throttle ID if you like --
-    highly recommended to easier tell them apart) **and hit the
-    *Submit*-Button**
-
-9.  Click on `Loco configuration subpage`
-
-10. Enter your wiThrottle server settings
-
-11. For every loco you want to control with this throttle, enter the
-    appropriate details below
-
-12. Finish by **hitting the *Submit*-Button**
-
-13. Configure function settings for each loco on the respective sub
-    pages if required
-
-14. Restart the throttle by navigating back to the main configuration
-    page and clicking on `Restart system to enable new WiFi settings`
-
-Your throttle should now be ready to use and connect to your wiThrottle
-server on startup. Refer to the chapters below if it does not or contact
-the author of this document.
-
-Usage
------
-
-\centering
-![Controls and features of the wiFred-throttle -- prototype
-version[]{label="oldThrottleControls"}](images/throttle_Front "fig:"){#oldThrottleControls
-height="100mm"} ![Controls and features of the wiFred-throttle --
-prototype
-version[]{label="oldThrottleControls"}](images/throttle_Back "fig:"){#oldThrottleControls
-height="100mm"} ![Controls and features of the wiFred-throttle --
-prototype
-version[]{label="oldThrottleControls"}](images/throttle_Back_openBattery "fig:"){#oldThrottleControls
-height="100mm"}
-
-Figure [22](#oldThrottleControls){reference-type="ref"
-reference="oldThrottleControls"} shows the controls of the wireless
-throttle. They consist of the following:
-
--   Four loco selection switches (loco 1 on the left, loco 4 on the
-    right, move towards speed potentiometer to enable)
-
--   Speed potentiometer (Counter-clockwise endstop: Stop, clockwise
-    endstop: Full speed)
-
--   Direction switch -- move right for forward movement, left for
-    reverse movement
-
--   Black function keys F0 to F4
-
--   Two yellow shift keys to trigger F5-F8 (SHIFT1, lower key), F9-F12
-    (SHIFT2, upper key) and F13-F16 (both shift keys)
-
--   Red emergency stop key
-
--   Two green direction indicator LEDs
-
--   One red status LED
-
--   Battery compartment (on the rear) for two AA cells, 1.2 V to 1.5 V
-    nominal voltage
-
-As soon as a pair of batteries is inserted into the battery compartment
-as the symbols inside the battery compartment show, the throttle will
-boot up and try to connect to a wireless network. The throttle will not
-be damaged if batteries are inserted wrongly, but it will not work
-either. Use NiMH- or primary AA cells with 1.2 V to 1.5 V nominal
-voltage, low self discharge NiMH cells like Eneloop or similar are
-recommended. Do not insert 3 V or 3.6 V AA size lithium batteries as
-this may damage the throttle.
-
-If no connection to the network configured into the device can be
-established within 60 seconds, the throttle will create it's own
-wireless network named *wiFred-config* plus four hex digits taken from
-the MAC address of the throttle WiFi interface, for example
-*wiFred-config0CAC*, to enable configuration as described in
-section [2](#config){reference-type="ref" reference="config"}.
-
-Four different locos with long DCC addresses can be assigned to the four
-loco selection switches. Commands derived from the speed potentiometer,
-the direction switch and the function keys will be transmitted to all
-selected locos (near) simultaneously, with a certain translation table
-enabling some locos to go backwards when others go forwards and also
-limiting function keys to some of the four locos only -- this is
-described in more detail in
-sections [2.2.4](#throttle_LocoConf){reference-type="ref"
-reference="throttle_LocoConf"}
-and [2.2.5](#throttle_FunctionConf){reference-type="ref"
-reference="throttle_FunctionConf"}.
-
-Pushing the red emergency stop key will cause the throttle to send an
-emergency stop signal to all four locos attached. After an emergency
-stop, turn the speed potentiometer to zero to re-enable control of the
-locos.
-
-Pushing the red emergency stop key while holding down either of the
-shift keys will place the device into configuration mode (as well as
-issueing an emergency stop to all attached locos). See
-section [2](#config){reference-type="ref" reference="config"} for more
-details on how to access the throttle to do the configuration.
-
-Any change in the loco selection switches will cause the throttle to
-send an emergency stop command to all attached locos. This makes sure
-that any loco that is deselected will stop on the layout and avoids
-newly selected locos suddenly taking off at speed. The same is true for
-a change in the direction switch, to avoid high-speed reverse maneuvers.
-Turn the speed potentiometer to zero to re-enable control of the locos.
-
-When all four loco selection switches are set to the disabled state, the
-throttle will send an emergency stop command to all four locos attached
-and -- after a wait time of 30 seconds -- it will disconnect from the
-network and go into low power mode. To reconnect, re-enable any loco
-selection switch.
-
-The same happens when the batteries are empty, but the throttle will not
-reactivate before changing the batteries. Expected runtime with a pair
-of 2500 mAh-NiMH-batteries is around 8-10 hours of full time operations,
-more if the throttle is placed in low power mode when the locos are not
-running.
-
-During startup and operation, the LEDs will show the patterns explained
-in table [\[ledTable\]](#ledTable){reference-type="ref"
-reference="ledTable"}.
-
-Hardware description
---------------------
-
-The wiFred hardware is centered around an ESP8266 for the WiFi
-connection. The ESP8266 also reads the loco selection switches and the
-battery voltage and communicates through it's serial port with an
-ATMega 328P microcontroller which controls the LEDs, reads the speed
-potentiometer, direction switch and pushbutton switches for functions
-and emergency stop. The communication goes through a 2x3 pin header
-which enables the user to connect a programming cable to the same serial
-port if removing the jumpers.
-
-The wiFred is powered by two AA size battery cells connected to a
-step-up converter creating 3.3 V for the entire device.
+The wiFred prototype is powered by two AA size battery cells connected to a step-up converter creating 3.3 V for the entire device. As soon as a pair of batteries is inserted into the battery compartment as the symbols inside the battery compartment show, the throttle will boot up and try to connect to a wireless network. The throttle will not be damaged if batteries are inserted wrongly, but it will not work either. Use NiMH- or primary AA cells with 1.2 V to 1.5 V nominal voltage, low self discharge NiMH cells like Eneloop or similar are recommended. 
 
 The schematic is split into several pages and can be found in
 figures [23](#oldSchematicPage1){reference-type="ref"
@@ -947,8 +660,7 @@ switches, direction switch and speed
 potentiometer[]{label="oldSchematicPage4"}](images/old_User_interface_rev2-User_Interface){#oldSchematicPage4
 width="\textwidth"}
 
-Hints for building the wiFred
------------------------------
+=== Hints for building the wiFred prototype
 
 The PCB has holes in the center of the pushbutton switch footprints and
 LED footprints to enable transferring their positions to a StrapuBox

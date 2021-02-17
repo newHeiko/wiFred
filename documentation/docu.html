@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="generator" content="Asciidoctor 2.0.12">
 <meta name="description" content="Usage documentation, server choices, building instructions, schematics, part lists...">
 <meta name="author" content="Heiko Rosemann">
 <title>wiFred: WiFi throttle for model railroads using the wiThrottle protocol</title>
@@ -49,7 +49,7 @@ textarea{overflow:auto;vertical-align:top}
 table{border-collapse:collapse;border-spacing:0}
 *,*::before,*::after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
 html,body{font-size:100%}
-body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
 a:hover{cursor:pointer}
 img,object,embed{max-width:100%;height:auto}
 object,embed{height:100%}
@@ -64,10 +64,8 @@ img{-ms-interpolation-mode:bicubic}
 img,object,svg{display:inline-block;vertical-align:middle}
 textarea{height:auto;min-height:50px}
 select{width:100%}
-.center{margin-left:auto;margin-right:auto}
-.stretch{width:100%}
 .subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
-div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
 a{color:#2156a5;text-decoration:underline;line-height:inherit}
 a:hover,a:focus{color:#1d4b8f}
 a img{border:0}
@@ -107,19 +105,22 @@ h1{font-size:2.75em}
 h2{font-size:2.3125em}
 h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
 h4{font-size:1.4375em}}
-table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede;word-wrap:normal}
 table thead,table tfoot{background:#f7f8f7}
 table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
 table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
 table tr.even,table tr.alt{background:#f8f8f7}
-table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
 h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
 h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
 .clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
 .clearfix::after,.float-group::after{clear:both}
-:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
-:not(pre)>code.nobreak{word-wrap:normal}
-:not(pre)>code.nowrap{white-space:nowrap}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
 pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
 pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
 pre>code{display:block}
@@ -184,7 +185,7 @@ body.toc2.toc-right{padding-left:0;padding-right:20em}}
 #content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
 #content #toc>:first-child{margin-top:0}
 #content #toc>:last-child{margin-bottom:0}
-#footer{max-width:100%;background:rgba(0,0,0,.8);padding:1.25em}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
 #footer-text{color:rgba(255,255,255,.8);line-height:1.44}
 #content{margin-bottom:.625em}
 .sect1{padding-bottom:.625em}
@@ -207,7 +208,7 @@ table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font
 .admonitionblock>table td.icon{text-align:center;width:80px}
 .admonitionblock>table td.icon img{max-width:none}
 .admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
-.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6)}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
 .admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
 .exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
 .exampleblock>.content>:first-child{margin-top:0}
@@ -217,7 +218,7 @@ table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font
 .sidebarblock>:last-child{margin-bottom:0}
 .sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
 .exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
-.literalblock pre,.listingblock>.content>pre{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;overflow-x:auto;padding:1em;font-size:.8125em}
+.literalblock pre,.listingblock>.content>pre{-webkit-border-radius:4px;border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
 @media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
 @media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
 .literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class="highlight"],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
@@ -263,21 +264,20 @@ pre.pygments .lineno::before{content:"";margin-right:-.125em}
 .quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
 .quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
 .quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;text-align:left;margin-right:0}
-table.tableblock{max-width:100%;border-collapse:separate}
 p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
 td.tableblock>.content>:last-child{margin-bottom:-1.25em}
-td.tableblock>.content>:last-child.sidebarblock{margin-bottom:0}
 table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
-table.grid-all>thead>tr>.tableblock,table.grid-all>tbody>tr>.tableblock{border-width:0 1px 1px 0}
-table.grid-all>tfoot>tr>.tableblock{border-width:1px 1px 0 0}
-table.grid-cols>*>tr>.tableblock{border-width:0 1px 0 0}
-table.grid-rows>thead>tr>.tableblock,table.grid-rows>tbody>tr>.tableblock{border-width:0 0 1px}
-table.grid-rows>tfoot>tr>.tableblock{border-width:1px 0 0}
-table.grid-all>*>tr>.tableblock:last-child,table.grid-cols>*>tr>.tableblock:last-child{border-right-width:0}
-table.grid-all>tbody>tr:last-child>.tableblock,table.grid-all>thead:last-child>tr>.tableblock,table.grid-rows>tbody>tr:last-child>.tableblock,table.grid-rows>thead:last-child>tr>.tableblock{border-bottom-width:0}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
 table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
 table.frame-sides{border-width:0 1px}
-table.frame-topbot,table.frame-ends{border-width:1px 0}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
 table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd),table.stripes-even tr:nth-of-type(even),table.stripes-hover tr:hover{background:#f8f8f7}
 th.halign-left,td.halign-left{text-align:left}
 th.halign-right,td.halign-right{text-align:right}
@@ -286,7 +286,7 @@ th.valign-top,td.valign-top{vertical-align:top}
 th.valign-bottom,td.valign-bottom{vertical-align:bottom}
 th.valign-middle,td.valign-middle{vertical-align:middle}
 table thead th,table tfoot th{font-weight:bold}
-tbody tr th{display:table-cell;line-height:1.6;background:#f7f8f7}
+tbody tr th{background:#f7f8f7}
 tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
 p.tableblock>code:only-child{background:none;padding:0}
 p.tableblock{font-size:1em}
@@ -315,6 +315,7 @@ ol.lowergreek{list-style-type:lower-greek}
 .hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
 td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
 td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
 .literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
 .colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
 .colist td:not([class]):first-child img{max-width:none}
@@ -387,7 +388,7 @@ a span.icon>.fa{cursor:inherit}
 .admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
 .admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
 .admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
-.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);-webkit-border-radius:100px;border-radius:100px;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);-webkit-border-radius:50%;border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
 .conum[data-value] *{color:#fff!important}
 .conum[data-value]+b{display:none}
 .conum[data-value]::after{content:attr(data-value)}
@@ -414,6 +415,7 @@ thead{display:table-header-group}
 svg{max-width:100%}
 p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
 h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
 #toc,.sidebarblock,.exampleblock>.content{background:none!important}
 #toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
 body.book #header{text-align:center}
@@ -493,8 +495,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_up_to_revision_0_5">Up to revision 0.5</a></li>
 <li><a href="#_hints_for_building_revisions_up_to_0_5">Hints for building revisions up to 0.5</a></li>
 <li><a href="#flashing05">Writing the firmware to revision 0.5 and older wiFreds</a></li>
+<li><a href="#oldThrottle">AA battery first prototype</a></li>
+<li><a href="#_hints_for_building_the_wifred_prototype">Hints for building the wiFred prototype</a></li>
 </ul>
 </li>
+<li><a href="#_programming_instructions">Programming instructions</a></li>
 </ul>
 </div>
 </div>
@@ -518,7 +523,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>The most recent version of this document can be found at <a href="https://newheiko.github.io/wiFred" class="bare">https://newheiko.github.io/wiFred</a>, <a href="https://github.com/newHeiko/wiFred/raw/master/documentation/docu.pdf" class="bare">https://github.com/newHeiko/wiFred/raw/master/documentation/docu.pdf</a> and <a href="https://github.com/newHeiko/wiFred/blob/master/documentation/docu.adoc" class="bare">https://github.com/newHeiko/wiFred/blob/master/documentation/docu.adoc</a>.</p>
 </div>
 <div class="paragraph">
-<p>If you want to know more about the development history of the wiFred, skip ahead to section <a href="#background">[background]</a> - otherwise read on with section <a href="#throttle">Quickstart Guide</a>.</p>
+<p>If you want to know more about the development history of the wiFred, skip ahead to <a href="#background">[background]</a> - otherwise read on with <a href="#throttle">Quickstart Guide</a>.</p>
 </div>
 </div>
 </div>
@@ -1842,250 +1847,88 @@ iOS? Android?</p>
 </div>
 <div class="title">Figure 18. Communication jumpers for connecting the ESP8266 and the ATMega 328P</div>
 </div>
-<div class="paragraph">
-<p>\clearpage
-wiFred Wireless throttle prototype {#oldThrottle}</p>
 </div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>Quickstart Guide</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre>Follow these steps for a new throttle (see later chapters for more
-explanation or if you run into trouble)
-
--3. Use PCB to determine positions of holes and cutouts in housing
-
--2. Make said cutouts and glue little pieces of 3mm thick plastic or
-    wood underneath PCB screw holes
-
--1. Solder components to PCB
-
-0.  Flash firmware to ESP8266 and to ATMega 328P
-
-1.  Test fit PCB into housing, removing plastic parts of housing as
-    required
-
-2.  Fit PCB into housing, insert three screws to fix PCB to housing
-
-3.  Make sure communication jumpers are set correctly, close housing and
-    fix back cover with two screws
-
-4.  Add throttle knob
-
-5.  Insert batteries
-
-6.  Using any WiFi client (laptop, smartphone, tablet\...), find and
-    connect to network *wiFred-configXXXX*
-
-7.  Using any web browser, navigate to *http://192.168.4.1*
-
-8.  Enter your WiFi configuration (and a throttle ID if you like --
-    highly recommended to easier tell them apart) **and hit the
-    *Submit*-Button**
-
-9.  Click on `Loco configuration subpage`
-
-10. Enter your wiThrottle server settings
-
-11. For every loco you want to control with this throttle, enter the
-    appropriate details below
-
-12. Finish by **hitting the *Submit*-Button**
-
-13. Configure function settings for each loco on the respective sub
-    pages if required
-
-14. Restart the throttle by navigating back to the main configuration
-    page and clicking on `Restart system to enable new WiFi settings`
-
-Your throttle should now be ready to use and connect to your wiThrottle
-server on startup. Refer to the chapters below if it does not or contact
-the author of this document.
-
-Usage
------
-
-\centering
-![Controls and features of the wiFred-throttle -- prototype
-version[]{label="oldThrottleControls"}](images/throttle_Front "fig:"){#oldThrottleControls
-height="100mm"} ![Controls and features of the wiFred-throttle --
-prototype
-version[]{label="oldThrottleControls"}](images/throttle_Back "fig:"){#oldThrottleControls
-height="100mm"} ![Controls and features of the wiFred-throttle --
-prototype
-version[]{label="oldThrottleControls"}](images/throttle_Back_openBattery "fig:"){#oldThrottleControls
-height="100mm"}
-
-Figure [22](#oldThrottleControls){reference-type="ref"
-reference="oldThrottleControls"} shows the controls of the wireless
-throttle. They consist of the following:
-
--   Four loco selection switches (loco 1 on the left, loco 4 on the
-    right, move towards speed potentiometer to enable)
-
--   Speed potentiometer (Counter-clockwise endstop: Stop, clockwise
-    endstop: Full speed)
-
--   Direction switch -- move right for forward movement, left for
-    reverse movement
-
--   Black function keys F0 to F4
-
--   Two yellow shift keys to trigger F5-F8 (SHIFT1, lower key), F9-F12
-    (SHIFT2, upper key) and F13-F16 (both shift keys)
-
--   Red emergency stop key
-
--   Two green direction indicator LEDs
-
--   One red status LED
-
--   Battery compartment (on the rear) for two AA cells, 1.2 V to 1.5 V
-    nominal voltage
-
-As soon as a pair of batteries is inserted into the battery compartment
-as the symbols inside the battery compartment show, the throttle will
-boot up and try to connect to a wireless network. The throttle will not
-be damaged if batteries are inserted wrongly, but it will not work
-either. Use NiMH- or primary AA cells with 1.2 V to 1.5 V nominal
-voltage, low self discharge NiMH cells like Eneloop or similar are
-recommended. Do not insert 3 V or 3.6 V AA size lithium batteries as
-this may damage the throttle.
-
-If no connection to the network configured into the device can be
-established within 60 seconds, the throttle will create it's own
-wireless network named *wiFred-config* plus four hex digits taken from
-the MAC address of the throttle WiFi interface, for example
-*wiFred-config0CAC*, to enable configuration as described in
-section [2](#config){reference-type="ref" reference="config"}.
-
-Four different locos with long DCC addresses can be assigned to the four
-loco selection switches. Commands derived from the speed potentiometer,
-the direction switch and the function keys will be transmitted to all
-selected locos (near) simultaneously, with a certain translation table
-enabling some locos to go backwards when others go forwards and also
-limiting function keys to some of the four locos only -- this is
-described in more detail in
-sections [2.2.4](#throttle_LocoConf){reference-type="ref"
-reference="throttle_LocoConf"}
-and [2.2.5](#throttle_FunctionConf){reference-type="ref"
-reference="throttle_FunctionConf"}.
-
-Pushing the red emergency stop key will cause the throttle to send an
-emergency stop signal to all four locos attached. After an emergency
-stop, turn the speed potentiometer to zero to re-enable control of the
-locos.
-
-Pushing the red emergency stop key while holding down either of the
-shift keys will place the device into configuration mode (as well as
-issueing an emergency stop to all attached locos). See
-section [2](#config){reference-type="ref" reference="config"} for more
-details on how to access the throttle to do the configuration.
-
-Any change in the loco selection switches will cause the throttle to
-send an emergency stop command to all attached locos. This makes sure
-that any loco that is deselected will stop on the layout and avoids
-newly selected locos suddenly taking off at speed. The same is true for
-a change in the direction switch, to avoid high-speed reverse maneuvers.
-Turn the speed potentiometer to zero to re-enable control of the locos.
-
-When all four loco selection switches are set to the disabled state, the
-throttle will send an emergency stop command to all four locos attached
-and -- after a wait time of 30 seconds -- it will disconnect from the
-network and go into low power mode. To reconnect, re-enable any loco
-selection switch.
-
-The same happens when the batteries are empty, but the throttle will not
-reactivate before changing the batteries. Expected runtime with a pair
-of 2500 mAh-NiMH-batteries is around 8-10 hours of full time operations,
-more if the throttle is placed in low power mode when the locos are not
-running.
-
-During startup and operation, the LEDs will show the patterns explained
-in table [\[ledTable\]](#ledTable){reference-type="ref"
-reference="ledTable"}.
-
-Hardware description
---------------------
-
-The wiFred hardware is centered around an ESP8266 for the WiFi
-connection. The ESP8266 also reads the loco selection switches and the
-battery voltage and communicates through it's serial port with an
-ATMega 328P microcontroller which controls the LEDs, reads the speed
-potentiometer, direction switch and pushbutton switches for functions
-and emergency stop. The communication goes through a 2x3 pin header
-which enables the user to connect a programming cable to the same serial
-port if removing the jumpers.
-
-The wiFred is powered by two AA size battery cells connected to a
-step-up converter creating 3.3 V for the entire device.
-
-The schematic is split into several pages and can be found in
+<div class="sect2">
+<h3 id="oldThrottle">AA battery first prototype</h3>
+<div class="paragraph">
+<p>The wiFred prototype hardware is centered around an ESP8266 for the WiFi connection. The ESP8266 also reads the loco selection switches and the battery voltage and communicates through it&#8217;s serial port with an ATMega 328P microcontroller which controls the LEDs, reads the speed potentiometer, direction switch and pushbutton switches for functions and emergency stop. The communication goes through a 2x3 pin header which enables the user to connect a programming cable to the same serial port if removing the jumpers.</p>
+</div>
+<div class="paragraph">
+<p>The wiFred prototype is powered by two AA size battery cells connected to a step-up converter creating 3.3 V for the entire device. As soon as a pair of batteries is inserted into the battery compartment as the symbols inside the battery compartment show, the throttle will boot up and try to connect to a wireless network. The throttle will not be damaged if batteries are inserted wrongly, but it will not work either. Use NiMH- or primary AA cells with 1.2 V to 1.5 V nominal voltage, low self discharge NiMH cells like Eneloop or similar are recommended.</p>
+</div>
+<div class="paragraph">
+<p>The schematic is split into several pages and can be found in
 figures [23](#oldSchematicPage1){reference-type="ref"
 reference="oldSchematicPage1"}
 to [26](#oldSchematicPage4){reference-type="ref"
 reference="oldSchematicPage4"}. It has been created with kicad and is
 available on the github repository at
-*http://github.com/newHeiko/wiFred* along with the PCB design.
-
-\centering
+<strong><a href="http://github.com/newHeiko/wiFred" class="bare">http://github.com/newHeiko/wiFred</a></strong> along with the PCB design.</p>
+</div>
+<div class="paragraph">
+<p>\centering
 ![Master schematic sheet with batteries and power
 supply[]{label="oldSchematicPage1"}](images/old_wfred_rev2){#oldSchematicPage1
-width="\textwidth"}
-
-\centering
+width="\textwidth"}</p>
+</div>
+<div class="paragraph">
+<p>\centering
 ![Schematic sheet including ESP8266 for WiFi connection with bootloader
 enabling jumper and connection to programming
 cable[]{label="oldSchematicPage2"}](images/old_wfred-wifi-Wifi_connection){#oldSchematicPage2
-width="\textwidth"}
-
-\centering
+width="\textwidth"}</p>
+</div>
+<div class="paragraph">
+<p>\centering
 ![Schematic sheet including ATMega 328P along with crystal and in system
 programming
 header[]{label="oldSchematicPage3"}](images/old_wfred-controller_rev2-Controller){#oldSchematicPage3
-width="\textwidth"}
-
-\centering
+width="\textwidth"}</p>
+</div>
+<div class="paragraph">
+<p>\centering
 ![Schematic sheet including pushbutton switches, loco selection
 switches, direction switch and speed
 potentiometer[]{label="oldSchematicPage4"}](images/old_User_interface_rev2-User_Interface){#oldSchematicPage4
-width="\textwidth"}
-
-Hints for building the wiFred
------------------------------
-
-The PCB has holes in the center of the pushbutton switch footprints and
+width="\textwidth"}</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_hints_for_building_the_wifred_prototype">Hints for building the wiFred prototype</h3>
+<div class="paragraph">
+<p>The PCB has holes in the center of the pushbutton switch footprints and
 LED footprints to enable transferring their positions to a StrapuBox
 housing with a sharp needle or similar, and the position of the loco
 selection switches can also be transferred to the housing by marking it
 through the non-copper holes at their ends.
 Figure [28](#oldTransferHoles){reference-type="ref"
-reference="oldTransferHoles"} shows the process and it's results. Holes
+reference="oldTransferHoles"} shows the process and it&#8217;s results. Holes
 for the pushbutton switches should be drilled at 3.5 mm diameter and
 countersunk from the inside. Holes for the LEDs should be drilled at
 3 mm diameter and holes for the speed potentiometer and direction switch
 at 6.5 mm or 7 mm diameter and countersunk. The cutouts for the loco
 selection switches are best created when the PCB is assembled and
-carefully cut out with a sharp hobby knife and a file until they fit.
-
-\centering
+carefully cut out with a sharp hobby knife and a file until they fit.</p>
+</div>
+<div class="paragraph">
+<p>\centering
 ![Using the PCB to transfer the positions of the holes to the
 housing[]{label="oldTransferHoles"}](images/_DSC8652 "fig:"){#oldTransferHoles
 width="0.49 \textwidth"} ![Using the PCB to transfer the positions of
 the holes to the
 housing[]{label="oldTransferHoles"}](images/_DSC8653 "fig:"){#oldTransferHoles
-width="0.49 \textwidth"}
-
-The remaining assembly is a basic exercise in installing all the
+width="0.49 \textwidth"}</p>
+</div>
+<div class="paragraph">
+<p>The remaining assembly is a basic exercise in installing all the
 components to the PCB, listed in
 table [\[oldWiFredBOM\]](#oldWiFredBOM){reference-type="ref"
 reference="oldWiFredBOM"}. From assembling the prototypes, the suggested
-order of installing the components is as follows:
-
-\vspace{0.5em}
+order of installing the components is as follows:</p>
+</div>
+<div class="paragraph">
+<p>\vspace{0.5em}
 \centering
   Designator                        Package                                                Designation
   --------------------------------- ------------------------------------------------------ ----------------------------
@@ -2128,47 +1971,68 @@ order of installing the components is as follows:
                                     Housing StrapuBox 6090
                                     Two Jumpers, 2.54mm
                                     Potentiometer Knob, 21 mm
-                                    Three fastening screws, 2.9 mm dia x 6.5 mm
-
-  : List of components for the wiFred[]{label="oldWiFredBOM"}
-
-1.  IC201 and U101 (note: Rotate PCB so Designator is right side up,
-    then Pin 1 is on top left)
-
-2.  X201
-
-3.  Capacitors and Resistors in 0805 size (only those on the same side
-    as the items before) [\[old0805devices\]]{#old0805devices
-    label="old0805devices"}
-
-4.  U401
-
-5.  LEDs D301 to D303
-
-6.  Pushbutton switches SW305 to SW312
-
-7.  Loco selection switches SW301 to SW304
-
-8.  L101
-
-9.  Capacitors and Resistors not installed in
-    step [\[old0805devices\]](#old0805devices){reference-type="ref"
-    reference="old0805devices"}
-
-10. Pin header P201
-
-11. Pin headers K401, K402 and P401 (correct alignment of K401 and K402
-    can be assured by adding a jumper before soldering)
-
-12. Direction switch SW313 (screwed into the PCB with an 8 mm hex nut
-    first, then attached to it's pads using the cutoffs from D301, D302
-    and D303) and Speed potentiometer RV301 (screwed into the PCB with a
-    10 mm hex nut first and slightly shortening the pins before
-    soldering)
-
-13. Battery holder B101
-
-After assembling the PCB with all the components and drilling and
+                                    Three fastening screws, 2.9 mm dia x 6.5 mm</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>: List of components for the wiFred[]{label="oldWiFredBOM"}</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>IC201 and U101 (note: Rotate PCB so Designator is right side up,
+then Pin 1 is on top left)</p>
+</li>
+<li>
+<p>X201</p>
+</li>
+<li>
+<p>Capacitors and Resistors in 0805 size (only those on the same side
+as the items before) [\[old0805devices\]]{#old0805devices
+label="old0805devices"}</p>
+</li>
+<li>
+<p>U401</p>
+</li>
+<li>
+<p>LEDs D301 to D303</p>
+</li>
+<li>
+<p>Pushbutton switches SW305 to SW312</p>
+</li>
+<li>
+<p>Loco selection switches SW301 to SW304</p>
+</li>
+<li>
+<p>L101</p>
+</li>
+<li>
+<p>Capacitors and Resistors not installed in
+step [\[old0805devices\]](#old0805devices){reference-type="ref"
+reference="old0805devices"}</p>
+</li>
+<li>
+<p>Pin header P201</p>
+</li>
+<li>
+<p>Pin headers K401, K402 and P401 (correct alignment of K401 and K402
+can be assured by adding a jumper before soldering)</p>
+</li>
+<li>
+<p>Direction switch SW313 (screwed into the PCB with an 8 mm hex nut
+first, then attached to it&#8217;s pads using the cutoffs from D301, D302
+and D303) and Speed potentiometer RV301 (screwed into the PCB with a
+10 mm hex nut first and slightly shortening the pins before
+soldering)</p>
+</li>
+<li>
+<p>Battery holder B101</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>After assembling the PCB with all the components and drilling and
 cutting the holes and cutouts into the housing, there are few steps
 left. First, a few protrusions inside the housing need to be removed so
 the PCB fits properly.
@@ -2183,76 +2047,91 @@ making sure not to be in the way of any components on the PCB, but any
 kind of easily worked upon material with a thickness of 3 mm can be
 used, as long as it will take self-driving screws (prototype uses 2.9 mm
 by 6.5 mm DIN 7981 screws). Third, the two shift keys need yellow paint
-on the top and the emergency stop key needs red paint -- either any kind
+on the top and the emergency stop key needs red paint&#8201;&#8212;&#8201;either any kind
 of paint or a paint marker like Edding 751 will do. Finally, both the
 ESP8266 and the ATMega 328P will need to be programmed as described in
-the next section.
-
-\centering
+the next section.</p>
+</div>
+<div class="paragraph">
+<p>\centering
 ![Removing protrusions inside the housing so the PCB
 fits[]{label="breakProtrusions"}](images/_DSC8654 "fig:"){#breakProtrusions
 width="0.49 \textwidth"} ![Removing protrusions inside the housing so
 the PCB
 fits[]{label="breakProtrusions"}](images/_DSC8655 "fig:"){#breakProtrusions
-width="0.49 \textwidth"}
-
-\centering
+width="0.49 \textwidth"}</p>
+</div>
+<div class="paragraph">
+<p>\centering
 ![New PCB mounting pads made from 3 mm thick Forex
 PVC[]{label="mountingPads"}](images/_DSC8658){#mountingPads
-width="0.8 \textwidth"}
-
-Programming instructions
-------------------------
-
-The ESP8266 is programmed using the Arduino IDE connected via a serial
+width="0.8 \textwidth"}</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_programming_instructions">Programming instructions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The ESP8266 is programmed using the Arduino IDE connected via a serial
 or USB-to-serial port to the K401 header as shown in
 figure [32](#oldProgESP){reference-type="ref" reference="oldProgESP"}.
 The serial port needs to be at 3.3 V-levels like from an FTDI232-device
-run at 3.3 V.
-
-\centering
-![Programming connection for ESP8266 -- GND on orange wire, then TXD of
+run at 3.3 V.</p>
+</div>
+<div class="paragraph">
+<p>\centering
+![Programming connection for ESP8266&#8201;&#8212;&#8201;GND on orange wire, then TXD of
 programming cable (RXD of ESP8266), then RXD of programming cable (TXD
 of ESP8266)[]{label="oldProgESP"}](images/_DSC8637){#oldProgESP
-width="0.8 \textwidth"}
-
-\centering
-![Programming connection for ATMega 328P -- Pin 1 on purple
+width="0.8 \textwidth"}</p>
+</div>
+<div class="paragraph">
+<p>\centering
+![Programming connection for ATMega 328P&#8201;&#8212;&#8201;Pin 1 on purple
 cable[]{label="oldProgAVR"}](images/_DSC8638){#oldProgAVR
-width="0.8 \textwidth"}
-
-All files in the *software/esp-firmware*-subdirectory of the github
+width="0.8 \textwidth"}</p>
+</div>
+<div class="paragraph">
+<p>All files in the <strong>software/esp-firmware</strong>-subdirectory of the github
 repository need to be placed in a folder, then the main sketch
-*arduino\_main\_sketch.ino.ino* needs to be opened with the Arduino IDE.
+<strong>arduino\_main\_sketch.ino.ino</strong> needs to be opened with the Arduino IDE.
 Settings for the Arduino IDE can be found inside the main file,
-programming the device should work using the *Upload*-button in the
-*Sketch*-menu.
-
-To put the ESP8266 into programming mode, a jumper needs to be placed
+programming the device should work using the <strong>Upload</strong>-button in the
+<strong>Sketch</strong>-menu.</p>
+</div>
+<div class="paragraph">
+<p>To put the ESP8266 into programming mode, a jumper needs to be placed
 across the P401 header before inserting batteries to start the device in
 programming mode. The bootloader should show some results on the serial
-port and during download the LED on the ESP8266 module should flash.
-
-The ATMega 328P is programmed using the regular AVR ISP connection on
-P201. Pin 1 -- GND -- is towards the PCB edge, as shown in
+port and during download the LED on the ESP8266 module should flash.</p>
+</div>
+<div class="paragraph">
+<p>The ATMega 328P is programmed using the regular AVR ISP connection on
+P201. Pin 1&#8201;&#8212;&#8201;GND&#8201;&#8212;&#8201;is towards the PCB edge, as shown in
 figure [33](#oldProgAVR){reference-type="ref" reference="oldProgAVR"}.
 An ISP dongle with either automatic voltage selection or 3.3 V supply
 voltage should be used to avoid placing too high voltage on the ESP8266,
 which can only support 3.3 V power. The firmware for the ATMega 328P can
-be found in the *software/avr-firmware*-subdirectory of the github
+be found in the <strong>software/avr-firmware</strong>-subdirectory of the github
 repository with both a precompiled hexfile and all source code including
 a Makefile to recompile as needed. After writing the firmware file, also
-the fuse bits need to be set properly as detailed in the *main.c*-file.
-
-After programming, two jumpers need to be placed between the K401 and
+the fuse bits need to be set properly as detailed in the <strong>main.c</strong>-file.</p>
+</div>
+<div class="paragraph">
+<p>After programming, two jumpers need to be placed between the K401 and
 K402 pin headers to re-enable communication between the ESP8266 and the
-ATMega 328P.
-
-\clearpage
-Background for wiFred development {#background}
-=================================
-
-As of the writing of this document, JMRI [@jmri] has a long track record
+ATMega 328P.</p>
+</div>
+<div class="paragraph">
+<p>\clearpage
+Background for wiFred development {#background}</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>As of the writing of this document, JMRI [@jmri] has a long track record
 of offering a server for using smartphones as wireless model railroad
 throttles, along with apps like withrottle [@withrottleApp][^3] and
 EngineDriver [@EngineDriver]. This server will enable WiFi throttles to
@@ -2260,19 +2139,22 @@ control locos any model railroading layout to which JMRI can build a
 connection [@jmrihardwaresupport]. In addition, Digitrax [@digitrax] and
 MRC [@mrc] offer specific hardware solutions to enable the connection of
 the abovementioned smartphone apps to their DCC systems through a WiFi
-network.
-
-The Fremo [@fremo] is a European modular model railroading club whose
-unique requirements on it's DCC throttles led to the creation of the
-throttles FRED and FREDI [@fred] -- a series of LocoNet-throttles which
+network.</p>
+</div>
+<div class="paragraph">
+<p>The Fremo [@fremo] is a European modular model railroading club whose
+unique requirements on it&#8217;s DCC throttles led to the creation of the
+throttles FRED and FREDI [@fred]&#8201;&#8212;&#8201;a series of LocoNet-throttles which
 started their life as hobbyist projects with large numbers in
 circulation but were also commercially available from
-Uhlenbrock [@uhlenbrock].
-
-Specification wishlist
-----------------------
-
-In modular railroading events, particularly of the
+Uhlenbrock [@uhlenbrock].</p>
+</div>
+<div class="paragraph">
+<p>Specification wishlist</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>In modular railroading events, particularly of the
 Fremo-americaN-group [@fremo], multiple people have evaluated the
 smartphone throttle solutions and found them lacking a nice, haptical
 feedback. But the idea of wireless control without locking into a
@@ -2340,8 +2222,6 @@ spinoff of the wiClock project[@wiClock].
 </div>
 </div>
 </div>
-</div>
-</div>
 <div id="footnotes">
 <hr>
 <div class="footnote" id="_footnotedef_1">
@@ -2351,7 +2231,7 @@ spinoff of the wiClock project[@wiClock].
 <div id="footer">
 <div id="footer-text">
 Version 0.2-WIP<br>
-Last updated 2021-02-14 21:56:45 +0100
+Last updated 2021-02-17 21:43:40 +0100
 </div>
 </div>
 </body>
