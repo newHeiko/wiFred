@@ -12,10 +12,10 @@
 // tag::drilljig[]
 . Use PCB to drill holes for LEDs next to micro USB connector (D101, D102)
 // end::drilljig[]
-. Install LEDs -- long pin (positive) into square pad
+. Install LEDs - long pin (positive) into square pad
   - Red LEDs at D101 and D301 with 3mm spacers
   - Green LEDs at D102, D302 and D303 with 3mm spacers
-  - White LEDs at D304 and D305 -- choose where and how long they should stick out of housing
+  - White LEDs at D304 and D305 - choose where and how long they should stick out of housing
 . Install potentiometer and loco selection switches
 . Install direction selection switch and connect pins to PCB with short wires or cutoffs from LEDs
 // tag::drilljig[]
