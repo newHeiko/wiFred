@@ -4,7 +4,7 @@ Heiko Rosemann
 :description: Usage documentation, server choices, building instructions, schematics, part lists...
 :url-repo: https://github.com/newHeiko/wiFred
 :icons: image
-:iconsdir: /etc/asciidoc/images/icons/
+:iconsdir: images/icons/
 :imagesdir: images/
 :toc:
 
@@ -69,7 +69,7 @@ include::quickStartup.adoc[leveloffset=+1]
 
 [#throttleControls]
 .Controls and features of the wiFred throttle
-image::_DSC0136.jpg[alt="Throttle",scaledwidth=30%,width=30%,align="center"]
+image::DSC0136.jpg[alt="Throttle",scaledwidth=30%,width=30%,align="center"]
 
 <<throttleControls>> shows the controls of the wireless throttle. They consist of the following:
 
@@ -346,11 +346,11 @@ image::configuringWifred.png[Configuring wiFred]
 
 [#drilljigPicture]
 .Using the original PCB and drilling jig to transfer the positions of the holes to the housing - better results will be achieved when the PCBs are screwed in position
-image::_DSC0126.jpg[Drilljig]
+image::DSC0126.jpg[Drilljig]
 
 [#battConnection]
 .Connection of battery to P101 - black wire is GND, red wire is positive
-image::_DSC0148.jpg[Battery connection]
+image::DSC0148.jpg[Battery connection]
 
 === Up to revision 0.5
 
@@ -558,7 +558,7 @@ The ATMega 328P is programmed using the regular AVR ISP connection on P201. Pin
 
 [#progAVR]
 .Programming connection for ATMega_328P - Pin 1 on purple cable
-image::_DSC0146.jpg[AVR programming]
+image::DSC0146.jpg[AVR programming]
 
 ==== ESP8266 firmware
 
@@ -566,7 +566,7 @@ The ESP8266 is programmed using the Arduino IDE connected via a serial or USB-to
 
 [#progESP8266]
 .Programming connection for ESP8266 - GND on orange wire, then TXD of programming cable (RXD of ESP8266), then RXD of programming cable (TXD of ESP8266) - also note the jumper on P401
-image::_DSC0138.jpg[ESP8266 programming]
+image::DSC0138.jpg[ESP8266 programming]
 
 All files in the *software/esp-firmware*-subdirectory of the <<github>> need to be placed in a folder, then the main sketch *arduino_main_sketch.ino.ino* needs to be opened with the Arduino IDE. Settings for the Arduino IDE can be found inside the main file, programming the device should work using the *Upload*-button in the *Sketch*-menu.
 
@@ -576,7 +576,7 @@ After programming, two jumpers need to be placed between the K401 and K402 pin h
 
 [#serialJumpers]
 .Communication jumpers for connecting the ESP8266 and the ATMega 328P
-image::_DSC0149.jpg[Serial communication jumpers]
+image::DSC0149.jpg[Serial communication jumpers]
 
 [#oldThrottle]
 === AA battery first prototype
@@ -699,11 +699,11 @@ After assembling the PCB with all the components and drilling and cutting the ho
 
 [#breakProtrusions]
 .Removing protrusions inside the housing so the PCB fits
-image::_DSC8654.jpg[alt="Remove protrusions"]
+image::DSC8654.jpg[alt="Remove protrusions"]
 
 [#mountingPads]
 .New PCB mounting pads made from 3 mm thick Forex PVC
-image::_DSC8658.jpg[alt="New mounting pads"]
+image::DSC8658.jpg[alt="New mounting pads"]
 
 [#background]
 == Background for wiFred development
