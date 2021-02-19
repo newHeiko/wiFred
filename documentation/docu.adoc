@@ -69,7 +69,7 @@ include::quickStartup.adoc[leveloffset=+1]
 
 [#throttleControls]
 .Controls and features of the wiFred throttle
-image::DSC0136.jpg[alt="Throttle",scaledwidth=30%,width=30%,align="center"]
+image::DSC0690.jpg[alt="Throttle"]
 
 <<throttleControls>> shows the controls of the wireless throttle. They consist of the following:
 
