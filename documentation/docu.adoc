@@ -272,9 +272,10 @@ A pretty much out-of-the-box solution for a Raspberry Pi is provided by <<rpiIma
 
 Although untested so far, adding a <<Digitrax>> to a Digitrax system or an <<MRC>> to an MRC system should allow the wiFred to run locos out-of-the-box as well.
 
+[#windowsWiFi]
 === Step by step instructions for a Windows computer
 
-Tested on Windows 7 64Bit, requires a 2.4GHz WiFi card inside the PC.
+This has been tested on a Windows 7 64Bit laptop computer with a 2.4GHz WiFi card inside the PC.
 
 ==== Installation
 
@@ -309,24 +310,23 @@ NOTE: Windows 10 provides a Hotspot feature that will work in place of HostedNet
 [#serverWiFi]
 === WiFi access point requirements
 
-IEEE802.11bg 2.4GHz DHCP server comm between clients
+The wiFred will work on basically any 2.4GHz IEEE802.11b or -g WiFi network that will accept new devices and provide them with an IPv4 address through a DHCP server. It supports open networks or WPA2 encryption, though not WPS.
 
-Linux: hostapd (tested: netbook, Raspberry Pi 3 in a PiTop) Windows:
-link to \... Hardware.
+It has successfully been tested with a FRITZ!Box, a random cable router, multiple public WiFi networks and several software hotspots including Linux hostapd both on a first generation Intel Atom netbook and a Raspberry Pi, the Windows 10 Hotspot and a Windows 7 software as described in <<windowsWiFi>>.
+
+NOTE: Some WiFi access points and routers offer a feature called "Wireless Isolation" or similar that will forbid connected devices from connecting to each other. This feature should be disabled for wiFreds to find their server and to be configured.
 
 [#serverJMRI]
 === JMRI server requirements
 
-Any PC.
+Any PC that can run at least Java 8 will be able to run the JMRI server. Even old 32Bit first generation netbook computers like the 2008 Eee-PC have more than enough computing power for that task. There are JMRI versions for Windows, Linux or MacOS available, so any of these operating systems should be fine.
 
 [#serverLayoutConn]
 === Layout connection options
 
-Loconet: LocoBufferUSB Digitrax PR3 / PR4
+<<JMRI>> supports a multitude of different connections to the layout as described in <<jmrihardwaresupport>>. In general, if a JMRI installation can run a loco on the layout, it's a simple matter of connecting the JMRI computer to a WiFi access point (if not already connected) and starting the wiThrottle server from the Actions-menu inside DecoderPro.
 
-Tested: Intellibox, Z21 black, DCS 51 Zephyr xtra
-
-Should work: Anything JMRI can control trains on, even SPROG as command station plus boosters...
+The wiFred has been tested to work with a LocoBufferUSB or a Digitrax PR3 connected via Loconet to an Intellibox, a Z21 black, a DCS 51 Zephyr xtra or a Minibox 2 DIY DCC central station. It has also been used to run a loco on a SPROG programmer.
 
 [#configurationComputer]
 === Computer or smartphone to configure wiFred
@@ -339,6 +339,16 @@ For initial configuration of the wiFred, most of the devices mentioned above can
 [#confWifred]
 .For initial configuration, the requirements are very small
 image::configuringWifred.png[Configuring wiFred]
+
+Tested with iOS 13 and iOS 14, Android 9 and 10 as well as Firefox on Linux, the initial configuration page is automatically loaded when the device is connected to the *wiFred-configXXXX*-network.
+
+For regular configuration, once the wiFred has successfully connected to a WiFi network and put into configuration mode, Bonjour/Zeroconf/mDNS support is required to find the device announcing itself as http://config.local. This service is provided on Linux by a software package called avahi, should work out of the box on iOS and MacOS and can be installed on Windows with iTunes. For mobile operating systems, there are apps called Discovery for iOS and BonjourBrowser for Android which not only translate http://config.local to point to the configuration website of the one wiFred on the network that is in configuration mode but also browse all wiFreds currently announcing their presence. <<bonjourBrowser>> shows a screenshot of the Android version. Clicking on a device will open a browser to its configuration website.
+
+NOTE: Configuring a wiFred without putting it into configuration mode first is largely untested and may produce undesired results, particularly if you are running a train with it at the same time.
+
+[#bonjourBrowser]
+.User interface of BonjourBrowser, showing two wiFreds active on the network.
+image::bonjourBrowser.png[alt="BonjourBrowser with two wiFreds",width=50%,scaledwidth=50%]
 
 == Hardware description
 
