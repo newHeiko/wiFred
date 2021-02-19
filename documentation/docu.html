@@ -482,7 +482,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_components_required_to_get_the_wifred_running">Components required to get the wiFred running</a></li>
 <li><a href="#_out_of_the_box_server_side_options">Out-of-the-box server-side options</a></li>
-<li><a href="#_step_by_step_instructions_for_a_windows_computer">Step by step instructions for a Windows computer</a></li>
+<li><a href="#windowsWiFi">Step by step instructions for a Windows computer</a></li>
 <li><a href="#serverWiFi">WiFi access point requirements</a></li>
 <li><a href="#serverJMRI">JMRI server requirements</a></li>
 <li><a href="#serverLayoutConn">Layout connection options</a></li>
@@ -1248,9 +1248,9 @@ Basically, if a layout is set up to run trains with a smartphone running wiThrot
 </div>
 </div>
 <div class="sect2">
-<h3 id="_step_by_step_instructions_for_a_windows_computer">Step by step instructions for a Windows computer</h3>
+<h3 id="windowsWiFi">Step by step instructions for a Windows computer</h3>
 <div class="paragraph">
-<p>Tested on Windows 7 64Bit, requires a 2.4GHz WiFi card inside the PC.</p>
+<p>This has been tested on a Windows 7 64Bit laptop computer with a 2.4GHz WiFi card inside the PC.</p>
 </div>
 <div class="sect3">
 <h4 id="_installation">Installation</h4>
@@ -1322,29 +1322,37 @@ Windows 10 provides a Hotspot feature that will work in place of HostedNetworkSt
 <div class="sect2">
 <h3 id="serverWiFi">WiFi access point requirements</h3>
 <div class="paragraph">
-<p>IEEE802.11bg 2.4GHz DHCP server comm between clients</p>
+<p>The wiFred will work on basically any 2.4GHz IEEE802.11b or -g WiFi network that will accept new devices and provide them with an IPv4 address through a DHCP server. It supports open networks or WPA2 encryption, though not WPS.</p>
 </div>
 <div class="paragraph">
-<p>Linux: hostapd (tested: netbook, Raspberry Pi 3 in a PiTop) Windows:
-link to ... Hardware.</p>
+<p>It has successfully been tested with a FRITZ!Box, a random cable router, multiple public WiFi networks and several software hotspots including Linux hostapd both on a first generation Intel Atom netbook and a Raspberry Pi, the Windows 10 Hotspot and a Windows 7 software as described in <a href="#windowsWiFi">Step by step instructions for a Windows computer</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="images/icons/note.png" alt="Note">
+</td>
+<td class="content">
+Some WiFi access points and routers offer a feature called "Wireless Isolation" or similar that will forbid connected devices from connecting to each other. This feature should be disabled for wiFreds to find their server and to be configured.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
 <h3 id="serverJMRI">JMRI server requirements</h3>
 <div class="paragraph">
-<p>Any PC.</p>
+<p>Any PC that can run at least Java 8 will be able to run the JMRI server. Even old 32Bit first generation netbook computers like the 2008 Eee-PC have more than enough computing power for that task. There are JMRI versions for Windows, Linux or MacOS available, so any of these operating systems should be fine.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="serverLayoutConn">Layout connection options</h3>
 <div class="paragraph">
-<p>Loconet: LocoBufferUSB Digitrax PR3 / PR4</p>
+<p><a href="#JMRI">[JMRI]</a> supports a multitude of different connections to the layout as described in <a href="#jmrihardwaresupport">[Supported Hardware]</a>. In general, if a JMRI installation can run a loco on the layout, it&#8217;s a simple matter of connecting the JMRI computer to a WiFi access point (if not already connected) and starting the wiThrottle server from the Actions-menu inside DecoderPro.</p>
 </div>
 <div class="paragraph">
-<p>Tested: Intellibox, Z21 black, DCS 51 Zephyr xtra</p>
-</div>
-<div class="paragraph">
-<p>Should work: Anything JMRI can control trains on, even SPROG as command station plus boosters&#8230;&#8203;</p>
+<p>The wiFred has been tested to work with a LocoBufferUSB or a Digitrax PR3 connected via Loconet to an Intellibox, a Z21 black, a DCS 51 Zephyr xtra or a Minibox 2 DIY DCC central station. It has also been used to run a loco on a SPROG programmer.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1362,6 +1370,30 @@ iOS? Android?</p>
 </div>
 <div class="title">Figure 9. For initial configuration, the requirements are very small</div>
 </div>
+<div class="paragraph">
+<p>Tested with iOS 13 and iOS 14, Android 9 and 10 as well as Firefox on Linux, the initial configuration page is automatically loaded when the device is connected to the <strong>wiFred-configXXXX</strong>-network.</p>
+</div>
+<div class="paragraph">
+<p>For regular configuration, once the wiFred has successfully connected to a WiFi network and put into configuration mode, Bonjour/Zeroconf/mDNS support is required to find the device announcing itself as <a href="http://config.local" class="bare">http://config.local</a>. This service is provided on Linux by a software package called avahi, should work out of the box on iOS and MacOS and can be installed on Windows with iTunes. For mobile operating systems, there are apps called Discovery for iOS and BonjourBrowser for Android which not only translate <a href="http://config.local" class="bare">http://config.local</a> to point to the configuration website of the one wiFred on the network that is in configuration mode but also browse all wiFreds currently announcing their presence. <a href="#bonjourBrowser">User interface of BonjourBrowser, showing two wiFreds active on the network.</a> shows a screenshot of the Android version. Clicking on a device will open a browser to its configuration website.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="images/icons/note.png" alt="Note">
+</td>
+<td class="content">
+Configuring a wiFred without putting it into configuration mode first is largely untested and may produce undesired results, particularly if you are running a train with it at the same time.
+</td>
+</tr>
+</table>
+</div>
+<div id="bonjourBrowser" class="imageblock">
+<div class="content">
+<img src="images/bonjourBrowser.png" alt="BonjourBrowser with two wiFreds" width="50%">
+</div>
+<div class="title">Figure 10. User interface of BonjourBrowser, showing two wiFreds active on the network.</div>
+</div>
 </div>
 </div>
 </div>
@@ -1374,13 +1406,13 @@ iOS? Android?</p>
 <div class="content">
 <img src="images/DSC0126.jpg" alt="Drilljig">
 </div>
-<div class="title">Figure 10. Using the original PCB and drilling jig to transfer the positions of the holes to the housing - better results will be achieved when the PCBs are screwed in position</div>
+<div class="title">Figure 11. Using the original PCB and drilling jig to transfer the positions of the holes to the housing - better results will be achieved when the PCBs are screwed in position</div>
 </div>
 <div id="battConnection" class="imageblock">
 <div class="content">
 <img src="images/DSC0148.jpg" alt="Battery connection">
 </div>
-<div class="title">Figure 11. Connection of battery to P101 - black wire is GND, red wire is positive</div>
+<div class="title">Figure 12. Connection of battery to P101 - black wire is GND, red wire is positive</div>
 </div>
 </div>
 <div class="sect2">
@@ -1401,25 +1433,25 @@ iOS? Android?</p>
 <div class="content">
 <img src="images/wfred_rev2.png" alt="&quot;Schematic sheet 1 for rev0.5">
 </div>
-<div class="title">Figure 12. Master schematic sheet with battery connector, charging circuit and power supply</div>
+<div class="title">Figure 13. Master schematic sheet with battery connector, charging circuit and power supply</div>
 </div>
 <div id="schematic05page2" class="imageblock">
 <div class="content">
 <img src="images/wfred-wifi-Wifi_connection.png" alt="&quot;Schematic sheet 2 for rev0.5">
 </div>
-<div class="title">Figure 13. Schematic sheet including ESP8266 for WiFi connection with bootloader enabling jumper and connection to programming cable</div>
+<div class="title">Figure 14. Schematic sheet including ESP8266 for WiFi connection with bootloader enabling jumper and connection to programming cable</div>
 </div>
 <div id="schematic05page3" class="imageblock">
 <div class="content">
 <img src="images/wfred-controller_rev2-Controller.png" alt="&quot;Schematic sheet 3 for rev0.5">
 </div>
-<div class="title">Figure 14. Schematic sheet including ATMega 328P along with crystal and in system programming header</div>
+<div class="title">Figure 15. Schematic sheet including ATMega 328P along with crystal and in system programming header</div>
 </div>
 <div id="schematic05page4" class="imageblock">
 <div class="content">
 <img src="images/User_interface_rev2-User_Interface.png" alt="&quot;Schematic sheet 4 for rev0.5">
 </div>
-<div class="title">Figure 15. Schematic sheet including pushbutton switches, loco selection switches, direction switch, speed potentiometer and flashlight LEDs with controller</div>
+<div class="title">Figure 16. Schematic sheet including pushbutton switches, loco selection switches, direction switch, speed potentiometer and flashlight LEDs with controller</div>
 </div>
 </div>
 <div class="sect2">
@@ -1820,7 +1852,7 @@ iOS? Android?</p>
 <div class="content">
 <img src="images/DSC0146.jpg" alt="AVR programming">
 </div>
-<div class="title">Figure 16. Programming connection for ATMega_328P - Pin 1 on purple cable</div>
+<div class="title">Figure 17. Programming connection for ATMega_328P - Pin 1 on purple cable</div>
 </div>
 </div>
 <div class="sect3">
@@ -1832,7 +1864,7 @@ iOS? Android?</p>
 <div class="content">
 <img src="images/DSC0138.jpg" alt="ESP8266 programming">
 </div>
-<div class="title">Figure 17. Programming connection for ESP8266 - GND on orange wire, then TXD of programming cable (RXD of ESP8266), then RXD of programming cable (TXD of ESP8266) - also note the jumper on P401</div>
+<div class="title">Figure 18. Programming connection for ESP8266 - GND on orange wire, then TXD of programming cable (RXD of ESP8266), then RXD of programming cable (TXD of ESP8266) - also note the jumper on P401</div>
 </div>
 <div class="paragraph">
 <p>All files in the <strong>software/esp-firmware</strong>-subdirectory of the <a href="#github">[Github repository for wiFred]</a> need to be placed in a folder, then the main sketch <strong>arduino_main_sketch.ino.ino</strong> needs to be opened with the Arduino IDE. Settings for the Arduino IDE can be found inside the main file, programming the device should work using the <strong>Upload</strong>-button in the <strong>Sketch</strong>-menu.</p>
@@ -1847,7 +1879,7 @@ iOS? Android?</p>
 <div class="content">
 <img src="images/DSC0149.jpg" alt="Serial communication jumpers">
 </div>
-<div class="title">Figure 18. Communication jumpers for connecting the ESP8266 and the ATMega 328P</div>
+<div class="title">Figure 19. Communication jumpers for connecting the ESP8266 and the ATMega 328P</div>
 </div>
 </div>
 </div>
@@ -1866,25 +1898,25 @@ iOS? Android?</p>
 <div class="content">
 <img src="images/old_wfred_rev2.png" alt="Schematic page 1 for AA battery prototype">
 </div>
-<div class="title">Figure 19. Master schematic sheet with batteries and power supply</div>
+<div class="title">Figure 20. Master schematic sheet with batteries and power supply</div>
 </div>
 <div id="oldSchematicPage2" class="imageblock">
 <div class="content">
 <img src="images/old_wfred-wifi-Wifi_connection.png" alt="Schematic page 2 for AA battery prototype">
 </div>
-<div class="title">Figure 20. Schematic sheet including ESP8266 for WiFi connection with bootloader enabling jumper and connection to programming cable</div>
+<div class="title">Figure 21. Schematic sheet including ESP8266 for WiFi connection with bootloader enabling jumper and connection to programming cable</div>
 </div>
 <div id="oldSchematicPage3" class="imageblock">
 <div class="content">
 <img src="images/old_wfred-controller_rev2-Controller.png" alt="Schematic page 3 for AA battery prototype">
 </div>
-<div class="title">Figure 21. Schematic sheet including ATMega 328P along with crystal and in system programming header</div>
+<div class="title">Figure 22. Schematic sheet including ATMega 328P along with crystal and in system programming header</div>
 </div>
 <div id="oldSchematicPage4" class="imageblock">
 <div class="content">
 <img src="images/old_User_interface_rev2-User_Interface.png" alt="Schematic page 4 for AA battery prototype">
 </div>
-<div class="title">Figure 22. Schematic sheet including pushbutton switches, loco selection switches, direction switch and speed potentiometer</div>
+<div class="title">Figure 23. Schematic sheet including pushbutton switches, loco selection switches, direction switch and speed potentiometer</div>
 </div>
 </div>
 <div class="sect2">
@@ -2114,13 +2146,13 @@ iOS? Android?</p>
 <div class="content">
 <img src="images/DSC8654.jpg" alt="Remove protrusions">
 </div>
-<div class="title">Figure 23. Removing protrusions inside the housing so the PCB fits</div>
+<div class="title">Figure 24. Removing protrusions inside the housing so the PCB fits</div>
 </div>
 <div id="mountingPads" class="imageblock">
 <div class="content">
 <img src="images/DSC8658.jpg" alt="New mounting pads">
 </div>
-<div class="title">Figure 24. New PCB mounting pads made from 3 mm thick Forex PVC</div>
+<div class="title">Figure 25. New PCB mounting pads made from 3 mm thick Forex PVC</div>
 </div>
 </div>
 </div>
@@ -2246,7 +2278,7 @@ iOS? Android?</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.2<br>
-Last updated 2021-02-19 20:57:22 +0100
+Last updated 2021-02-19 22:05:08 +0100
 </div>
 </div>
 </body>
