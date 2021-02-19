@@ -445,9 +445,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>wiFred: WiFi throttle for model railroads using the wiThrottle protocol</h1>
 <div class="details">
 <span id="author" class="author">Heiko Rosemann</span><br>
-<span id="revnumber">version 0.2-WIP,</span>
-<span id="revdate">2-7-2021</span>
-<br><span id="revremark">Converting to asciidoc</span>
+<span id="revnumber">version 0.2,</span>
+<span id="revdate">2-19-2021</span>
+<br><span id="revremark">Converted to asciidoc</span>
 </div>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
@@ -493,13 +493,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_from_revision_0_6_onwards">From revision 0.6 onwards</a></li>
 <li><a href="#_up_to_revision_0_5">Up to revision 0.5</a></li>
-<li><a href="#_hints_for_building_revisions_up_to_0_5">Hints for building revisions up to 0.5</a></li>
+<li><a href="#hintsFor05">Hints for building revisions up to 0.5</a></li>
 <li><a href="#flashing05">Writing the firmware to revision 0.5 and older wiFreds</a></li>
 <li><a href="#oldThrottle">AA battery first prototype</a></li>
-<li><a href="#_hints_for_building_the_wifred_prototype">Hints for building the wiFred prototype</a></li>
+<li><a href="#_hints_for_building_the_wifred_aa_battery_prototype">Hints for building the wiFred AA battery prototype</a></li>
 </ul>
 </li>
-<li><a href="#_programming_instructions">Programming instructions</a></li>
+<li><a href="#background">Background for wiFred development</a>
+<ul class="sectlevel2">
+<li><a href="#_specification_wishlist">Specification wishlist</a></li>
+<li><a href="#_development_history">Development history</a></li>
+<li><a href="#_wireless_clock">Wireless clock</a></li>
+</ul>
+</li>
+<li><a href="#_references">References</a></li>
 </ul>
 </div>
 </div>
@@ -523,7 +530,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>The most recent version of this document can be found at <a href="https://newheiko.github.io/wiFred" class="bare">https://newheiko.github.io/wiFred</a>, <a href="https://github.com/newHeiko/wiFred/raw/master/documentation/docu.pdf" class="bare">https://github.com/newHeiko/wiFred/raw/master/documentation/docu.pdf</a> and <a href="https://github.com/newHeiko/wiFred/blob/master/documentation/docu.adoc" class="bare">https://github.com/newHeiko/wiFred/blob/master/documentation/docu.adoc</a>.</p>
 </div>
 <div class="paragraph">
-<p>If you want to know more about the development history of the wiFred, skip ahead to <a href="#background">[background]</a> - otherwise read on with <a href="#throttle">Quickstart Guide</a>.</p>
+<p>If you want to know more about the development history of the wiFred, skip ahead to <a href="#background">Background for wiFred development</a> - otherwise read on with <a href="#throttle">Quickstart Guide</a>.</p>
 </div>
 </div>
 </div>
@@ -860,7 +867,7 @@ Make sure nothing pinches the battery. LiIon batteries are susceptible to mechan
 <p>If no connection to the network configured into the device can be established within 60 seconds, the throttle will create it&#8217;s own wireless network named <strong>wiFred-config</strong> plus four hex digits taken from the MAC address of the throttle WiFi interface, for example <strong>wiFred-config0CAC</strong>, to enable configuration as described in <a href="#config">Configuring the wiFred</a>.</p>
 </div>
 <div class="paragraph">
-<p>Four different locos with long DCC addresses can be assigned to the four loco selection switches. Commands derived from the speed potentiometer, the direction switch and the function keys will be transmitted to all selected locos (near) simultaneously, with a certain translation table enabling some locos to go backwards when others go forwards and also limiting function keys to some of the four locos only&#8201;&#8212;&#8201;this is described in more detail in <a href="#throttle_LocoConf">Loco configuration</a> and <a href="#throttle_FunctionConf">DCC function configuration</a>.</p>
+<p>Four different locos with long DCC addresses can be assigned to the four loco selection switches. Commands derived from the speed potentiometer, the direction switch and the function keys will be transmitted to all selected locos (near) simultaneously, with a certain translation table enabling some locos to go backwards when others go forwards and also limiting function keys to some of the four locos only - this is described in more detail in <a href="#throttle_LocoConf">Loco configuration</a> and <a href="#throttle_FunctionConf">DCC function configuration</a>.</p>
 </div>
 <div class="paragraph">
 <p>Pushing the red emergency stop key will cause the throttle to send an emergency stop signal to all four locos attached. After an emergency stop, turn the speed potentiometer to zero to re-enable control of the locos.</p>
@@ -1157,7 +1164,7 @@ continuosly.</p>
 <p>Reset wiFred to factory defaults - which leads to a confirmation page shown in <a href="#throttleConfResetPage">Screenshot of wiFred configuration reset page</a> to reset all configuration data to factory defaults as on a new wiFred.</p>
 </li>
 <li>
-<p>Update wiFred firmware - which leads to a firmware update page shown in <a href="#throttleConfUpdatePage">Screenshot of wiFred firmware update page</a> to update the wiFred firmware of the ESP8266. Find the .bin-file from the arduino build folder or from the github repository, click on "Choose file", navigate to the .bin-file and finally initiate the update with a click on "Update" - which will take a while.</p>
+<p>Update wiFred firmware - which leads to a firmware update page shown in <a href="#throttleConfUpdatePage">Screenshot of wiFred firmware update page</a> to update the wiFred firmware of the ESP8266. Find the .bin-file from the arduino build folder or from the <a href="#github">[Github repository for wiFred]</a>, click on "Choose file", navigate to the .bin-file and finally initiate the update with a click on "Update" - which will take a while.</p>
 </li>
 </ul>
 </div>
@@ -1234,21 +1241,16 @@ Basically, if a layout is set up to run trains with a smartphone running wiThrot
 <div class="sect2">
 <h3 id="_out_of_the_box_server_side_options">Out-of-the-box server-side options</h3>
 <div class="paragraph">
-<p>A pretty much out-of-the-box solution is provided by Steve Todd at <a href="https://mstevetodd.com/rpi" class="bare">https://mstevetodd.com/rpi</a>, which auto-detects multiple options to interface to a DCC layout and has been tested in the JMRI 4.16 version to work with the wiFred, connecting to a Z21 black through both an RRCircuits LocoBuffer USB and a Digitrax PR3 via Loconet.</p>
+<p>A pretty much out-of-the-box solution for a Raspberry Pi is provided by <a href="#rpiImage">[Steve Todd]</a>, which creates its own WiFi network, auto-detects multiple options to interface to a DCC layout and starts a wiThrottle server. It has been tested in the JMRI 4.16 and JMRI 4.20 versions to work with the wiFred, connecting to a Z21 black through both an RRCircuits LocoBuffer USB and a Digitrax PR3 via Loconet.</p>
 </div>
 <div class="paragraph">
-<p>Although untested so far, adding a <a href="http://www.digitrax.com/products/wireless/lnwi/">Digitrax LNWI</a> to a Digitrax system or an <a href="http://www.modelrectifier.com/Prodigy-WiFi-s/332.htm">MRC Prodigy WiFi</a> to an MRC system should allow the wiFred to run locos out-of-the-box as well.</p>
+<p>Although untested so far, adding a <a href="#Digitrax">[Digitrax LNWI]</a> to a Digitrax system or an <a href="#MRC">[MRC Prodigy WiFi]</a> to an MRC system should allow the wiFred to run locos out-of-the-box as well.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_step_by_step_instructions_for_a_windows_computer">Step by step instructions for a Windows computer</h3>
-<div class="sect3">
-<h4 id="_tested_on_windows_7_64bit">Tested on Windows 7 64Bit</h4>
-
-</div>
-<div class="sect3">
-<h4 id="_requirements_wifi_2_4ghz">Requirements: WiFi 2.4GHz</h4>
-
+<div class="paragraph">
+<p>Tested on Windows 7 64Bit, requires a 2.4GHz WiFi card inside the PC.</p>
 </div>
 <div class="sect3">
 <h4 id="_installation">Installation</h4>
@@ -1393,7 +1395,7 @@ iOS? Android?</p>
 <p>The wiFred is powered by a single cell LiPo battery. The ATMega 328P is connected directly to the LiPo cell, going into sleep mode when no loco selection switch is active, thereby reducing the power consumption to less than 1 µA. The ESP8266 is powered by a low-drop linear voltage regulator with an output voltage of 3 V which is disabled by the ATMega 328P when the device goes into standby.</p>
 </div>
 <div class="paragraph">
-<p>The schematic is split into several pages and can be found in <a href="#schematic05page1">Master schematic sheet with battery connector, charging circuit and power supply</a> to <a href="#schematic05page4">Schematic sheet including pushbutton switches, loco selection switches, direction switch, speed potentiometer and flashlight LEDs with controller</a>. It has been created with kicad and is available on the github repository at <strong><a href="http://github.com/newHeiko/wiFred" class="bare">http://github.com/newHeiko/wiFred</a></strong> along with the PCB design.</p>
+<p>The schematic is split into several pages and can be found in <a href="#schematic05page1">Master schematic sheet with battery connector, charging circuit and power supply</a> to <a href="#schematic05page4">Schematic sheet including pushbutton switches, loco selection switches, direction switch, speed potentiometer and flashlight LEDs with controller</a>. It has been created with kicad and is available on the <a href="#github">[Github repository for wiFred]</a> along with the PCB design.</p>
 </div>
 <div id="schematic05page1" class="imageblock">
 <div class="content">
@@ -1421,7 +1423,7 @@ iOS? Android?</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_hints_for_building_revisions_up_to_0_5">Hints for building revisions up to 0.5</h3>
+<h3 id="hintsFor05">Hints for building revisions up to 0.5</h3>
 <div class="paragraph">
 <p>The PCB has holes in the center of the LED footprints to enable transferring their positions to a StrapuBox housing with a sharp needle or to drill pilot holes with a 1 mm drill. For all other holes, there is a drill jig available which also allows the drilling of pilot holes for the pushbutton switches, the direction control switch and the speed potentiometer. <a href="#drilljigPicture">Using the original PCB and drilling jig to transfer the positions of the holes to the housing - better results will be achieved when the PCBs are screwed in position</a> shows the process and its results. Holes for the pushbutton switches should be drilled at 3.5 mm diameter. Holes for the LEDs should be drilled at 3 mm diameter and holes for the speed potentiometer at 8 mm, for the direction switch at 6.5 mm diameter. The cutouts for the loco selection switches are best drilled at 1.5 mm and extended to fit when the PCB is assembled with a jigsaw or a sharp hobby knife and a file.</p>
 </div>
@@ -1736,7 +1738,7 @@ iOS? Android?</p>
 <p>LEDs D101, D102 and D301 to D303 with 3mm spacers to the PCB - making sure the Anode (long pin) is aligned with the square pad on all of them</p>
 </li>
 <li>
-<p>LEDs D304 and D305&#8201;&#8212;&#8201;making sure the Anode (long pin) is aligned with the square pad on both, they can be installed on top or bottom of the PCB as desired</p>
+<p>LEDs D304 and D305 - making sure the Anode (long pin) is aligned with the square pad on both, they can be installed on top or bottom of the PCB as desired</p>
 </li>
 <li>
 <p>Direction switch SW313 (screwed into the PCB with an 8 mm hex nut first, then attached to it&#8217;s pads using the cutoffs from D301, D302 and D303) and Speed potentiometer RV301 (screwed into the PCB with a 10 mm hex nut first)</p>
@@ -1812,7 +1814,7 @@ iOS? Android?</p>
 <div class="sect3">
 <h4 id="_avr_firmware">AVR firmware</h4>
 <div class="paragraph">
-<p>The ATMega 328P is programmed using the regular AVR ISP connection on P201. Pin 1 - GND - is towards the PCB edge, as shown in <a href="#progAVR">Programming connection for ATMega_328P - Pin 1 on purple cable</a>. An ISP dongle with either automatic voltage selection or 3.3 V supply voltage should be used to avoid placing too high voltage on the ESP8266, which can only support 3.3 V power. The firmware for the ATMega 328P can be found in the <strong>software/avr-firmware</strong>-subdirectory of the github repository with both a precompiled hexfile and all source code including a Makefile to recompile as needed. After writing the firmware file and the eeprom file, also the fuse bits need to be set properly as detailed in the <strong>main.c</strong>-file.</p>
+<p>The ATMega 328P is programmed using the regular AVR ISP connection on P201. Pin 1 - GND - is towards the PCB edge, as shown in <a href="#progAVR">Programming connection for ATMega_328P - Pin 1 on purple cable</a>. An ISP dongle with either automatic voltage selection or 3.3 V supply voltage should be used to avoid placing too high voltage on the ESP8266, which can only support 3.3 V power. The firmware for the ATMega 328P can be found in the <strong>software/avr-firmware</strong>-subdirectory of the <a href="#github">[Github repository for wiFred]</a> with both a precompiled hexfile and all source code including a Makefile to recompile as needed. After writing the firmware file and the eeprom file, also the fuse bits need to be set properly as detailed in the <strong>main.c</strong>-file.</p>
 </div>
 <div id="progAVR" class="imageblock">
 <div class="content">
@@ -1833,7 +1835,7 @@ iOS? Android?</p>
 <div class="title">Figure 17. Programming connection for ESP8266 - GND on orange wire, then TXD of programming cable (RXD of ESP8266), then RXD of programming cable (TXD of ESP8266) - also note the jumper on P401</div>
 </div>
 <div class="paragraph">
-<p>All files in the <strong>software/esp-firmware</strong>-subdirectory of the github repository need to be placed in a folder, then the main sketch <strong>arduino_main_sketch.ino.ino</strong> needs to be opened with the Arduino IDE. Settings for the Arduino IDE can be found inside the main file, programming the device should work using the <strong>Upload</strong>-button in the <strong>Sketch</strong>-menu.</p>
+<p>All files in the <strong>software/esp-firmware</strong>-subdirectory of the <a href="#github">[Github repository for wiFred]</a> need to be placed in a folder, then the main sketch <strong>arduino_main_sketch.ino.ino</strong> needs to be opened with the Arduino IDE. Settings for the Arduino IDE can be found inside the main file, programming the device should work using the <strong>Upload</strong>-button in the <strong>Sketch</strong>-menu.</p>
 </div>
 <div class="paragraph">
 <p>To put the ESP8266 into programming mode, a jumper needs to be placed across the P401 header before powering up the ESP8266 by enabling one of the loco selection switches to start the device in programming mode. The red STOP LED should start flashing and the bootloader should show some results on the serial port and during download the LED on the ESP8266 module should flash as well.</p>
@@ -1858,366 +1860,376 @@ iOS? Android?</p>
 <p>The wiFred prototype is powered by two AA size battery cells connected to a step-up converter creating 3.3 V for the entire device. As soon as a pair of batteries is inserted into the battery compartment as the symbols inside the battery compartment show, the throttle will boot up and try to connect to a wireless network. The throttle will not be damaged if batteries are inserted wrongly, but it will not work either. Use NiMH- or primary AA cells with 1.2 V to 1.5 V nominal voltage, low self discharge NiMH cells like Eneloop or similar are recommended.</p>
 </div>
 <div class="paragraph">
-<p>The schematic is split into several pages and can be found in
-figures [23](#oldSchematicPage1){reference-type="ref"
-reference="oldSchematicPage1"}
-to [26](#oldSchematicPage4){reference-type="ref"
-reference="oldSchematicPage4"}. It has been created with kicad and is
-available on the github repository at
-<strong><a href="http://github.com/newHeiko/wiFred" class="bare">http://github.com/newHeiko/wiFred</a></strong> along with the PCB design.</p>
+<p>The schematic is split into several pages and can be found in <a href="#oldSchematicPage1">Master schematic sheet with batteries and power supply</a> to <a href="#oldSchematicPage4">Schematic sheet including pushbutton switches, loco selection switches, direction switch and speed potentiometer</a>. It has been created with kicad and is available on the <a href="#github">[Github repository for wiFred]</a> along with the PCB design.</p>
 </div>
-<div class="paragraph">
-<p>\centering
-![Master schematic sheet with batteries and power
-supply[]{label="oldSchematicPage1"}](images/old_wfred_rev2){#oldSchematicPage1
-width="\textwidth"}</p>
+<div id="oldSchematicPage1" class="imageblock">
+<div class="content">
+<img src="images/old_wfred_rev2.png" alt="Schematic page 1 for AA battery prototype">
 </div>
-<div class="paragraph">
-<p>\centering
-![Schematic sheet including ESP8266 for WiFi connection with bootloader
-enabling jumper and connection to programming
-cable[]{label="oldSchematicPage2"}](images/old_wfred-wifi-Wifi_connection){#oldSchematicPage2
-width="\textwidth"}</p>
+<div class="title">Figure 19. Master schematic sheet with batteries and power supply</div>
 </div>
-<div class="paragraph">
-<p>\centering
-![Schematic sheet including ATMega 328P along with crystal and in system
-programming
-header[]{label="oldSchematicPage3"}](images/old_wfred-controller_rev2-Controller){#oldSchematicPage3
-width="\textwidth"}</p>
+<div id="oldSchematicPage2" class="imageblock">
+<div class="content">
+<img src="images/old_wfred-wifi-Wifi_connection.png" alt="Schematic page 2 for AA battery prototype">
 </div>
-<div class="paragraph">
-<p>\centering
-![Schematic sheet including pushbutton switches, loco selection
-switches, direction switch and speed
-potentiometer[]{label="oldSchematicPage4"}](images/old_User_interface_rev2-User_Interface){#oldSchematicPage4
-width="\textwidth"}</p>
+<div class="title">Figure 20. Schematic sheet including ESP8266 for WiFi connection with bootloader enabling jumper and connection to programming cable</div>
+</div>
+<div id="oldSchematicPage3" class="imageblock">
+<div class="content">
+<img src="images/old_wfred-controller_rev2-Controller.png" alt="Schematic page 3 for AA battery prototype">
+</div>
+<div class="title">Figure 21. Schematic sheet including ATMega 328P along with crystal and in system programming header</div>
+</div>
+<div id="oldSchematicPage4" class="imageblock">
+<div class="content">
+<img src="images/old_User_interface_rev2-User_Interface.png" alt="Schematic page 4 for AA battery prototype">
+</div>
+<div class="title">Figure 22. Schematic sheet including pushbutton switches, loco selection switches, direction switch and speed potentiometer</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_hints_for_building_the_wifred_prototype">Hints for building the wiFred prototype</h3>
+<h3 id="_hints_for_building_the_wifred_aa_battery_prototype">Hints for building the wiFred AA battery prototype</h3>
 <div class="paragraph">
-<p>The PCB has holes in the center of the pushbutton switch footprints and
-LED footprints to enable transferring their positions to a StrapuBox
-housing with a sharp needle or similar, and the position of the loco
-selection switches can also be transferred to the housing by marking it
-through the non-copper holes at their ends.
-Figure [28](#oldTransferHoles){reference-type="ref"
-reference="oldTransferHoles"} shows the process and it&#8217;s results. Holes
-for the pushbutton switches should be drilled at 3.5 mm diameter and
-countersunk from the inside. Holes for the LEDs should be drilled at
-3 mm diameter and holes for the speed potentiometer and direction switch
-at 6.5 mm or 7 mm diameter and countersunk. The cutouts for the loco
-selection switches are best created when the PCB is assembled and
-carefully cut out with a sharp hobby knife and a file until they fit.</p>
+<p>The prototype PCB has holes in the center of the pushbutton switch footprints and LED footprints to enable transferring their positions to a StrapuBox housing with a sharp needle or similar, and the position of the loco selection switches can also be transferred to the housing by marking it through the non-copper holes at their ends. Refer to <a href="#hintsFor05">Hints for building revisions up to 0.5</a> for pictures and more detail, the differences between the AA battery prototype and the LiPo battery revisions are minimal in this aspect.</p>
 </div>
 <div class="paragraph">
-<p>\centering
-![Using the PCB to transfer the positions of the holes to the
-housing[]{label="oldTransferHoles"}](images/_DSC8652 "fig:"){#oldTransferHoles
-width="0.49 \textwidth"} ![Using the PCB to transfer the positions of
-the holes to the
-housing[]{label="oldTransferHoles"}](images/_DSC8653 "fig:"){#oldTransferHoles
-width="0.49 \textwidth"}</p>
+<p>The remaining assembly is a basic exercise in installing all the components to the PCB, listed in <a href="#oldWiFredBOM">List of components for the AA battery prototype wiFred</a>.</p>
 </div>
+<table id="oldWiFredBOM" class="tableblock frame-all grid-all fit-content">
+<caption class="title">Table 4. List of components for the AA battery prototype wiFred</caption>
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Designator</th>
+<th class="tableblock halign-left valign-top">Package</th>
+<th class="tableblock halign-left valign-top">Designation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">B101</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">KEYSTONE1013</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BATT_HOLDER</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C206, C205</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C_0805_HandSoldering</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22p</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C301, C105, C104, C102, C101, C402</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C_0805_HandSoldering</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22u</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C401, C204, C203, C202, C201, C103</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C_0805_HandSoldering</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">100n</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">D301</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LED_D3.0mm</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STOP - red</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">D302</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LED_D3.0mm</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FORWARD - green</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">D303</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LED_D3.0mm</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">REVERSE - green</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IC201</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TQFP-32_7x7mm_Pitch0.8mm</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ATMEGA328P-A</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">K401</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pin_Header_Straight_1x03_Pitch2.54mm</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UART_ESP</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">K402</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pin_Header_Straight_1x03_Pitch2.54mm</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UART_AVR</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">L101</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">L_2424_HandSoldering</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22u</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P201</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pin_Header_Straight_2x03_Pitch2.54mm_SMD</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ISP</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P401</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pin_Header_Straight_1x02_Pitch2.54mm</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ESP_BOOTLOAD</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">R301</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C_0805_HandSoldering</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4k7</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">R304, R303, R302</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C_0805_HandSoldering</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">470R</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">R401</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C_0805_HandSoldering</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">100k</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">R402</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C_0805_HandSoldering</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">47k</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">R405, R404, R403, R201</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C_0805_HandSoldering</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10k</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RV301</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P160KNPD</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10k lin P160KNPD-4FC20B10K</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SW301</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OS102011MS2Q</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LOCO1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SW302</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OS102011MS2Q</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LOCO2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SW303</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OS102011MS2Q</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LOCO3</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SW304</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OS102011MS2Q</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LOCO4</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SW305</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">KSC621G</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">F0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SW306</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">KSC621G</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">F1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SW307</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">KSC621G</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">F2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SW308</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">KSC621G</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">F3</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SW309</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">KSC621G</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">F4</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SW310</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">KSC621G</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SHIFT2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SW311</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">KSC621G</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SHIFT</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SW312</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">KSC621G</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ESTOP</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SW313</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">100SP1T1B1M1QEH</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DIRECTION</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">U101</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TSSOP-8_4.4x3mm_Pitch0.65mm</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">L6920D</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">U401</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ESP-12E_SMD</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ESP-12E</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">X201</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Crystal_SMD_TXC_7M-4pin_3.2x2.5mm_HandSoldering</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14.7456MHz</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Housing StrapuBox 6090</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Two Jumpers, 2.54mm</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Potentiometer Knob, 21 mm</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Three fastening screws, 2.9 mm dia x 6.5 mm</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
-<p>The remaining assembly is a basic exercise in installing all the
-components to the PCB, listed in
-table [\[oldWiFredBOM\]](#oldWiFredBOM){reference-type="ref"
-reference="oldWiFredBOM"}. From assembling the prototypes, the suggested
-order of installing the components is as follows:</p>
+<p>After assembling the PCB with all the components and drilling and cutting the holes and cutouts into the housing, there are few steps left. First, a few protrusions inside the housing need to be removed so the PCB fits properly. <a href="#breakProtrusions">Removing protrusions inside the housing so the PCB fits</a> shows how they can be removed easily, remains may be cut off with a hobby knife. Second, new PCB mounting pads need to be installed as shown in <a href="#mountingPads">New PCB mounting pads made from 3 mm thick Forex PVC</a>. For the prototype, Forex PVC foam was used, cut with a pair of scissors and glued to the housing with superglue, making sure not to be in the way of any components on the PCB, but any kind of easily worked upon material with a thickness of 3 mm can be used, as long as it will take self-driving screws (prototype uses 2.9 mm by 6.5 mm DIN 7981 screws). Third, the two shift keys need yellow paint on the top and the emergency stop key needs red paint - either any kind of paint or a paint marker like Edding 751 will do. Finally, both the ESP8266 and the ATMega 328P will need to be programmed as described in <a href="#flashing05">Writing the firmware to revision 0.5 and older wiFreds</a>.</p>
 </div>
-<div class="paragraph">
-<p>\vspace{0.5em}
-\centering
-  Designator                        Package                                                Designation
-  --------------------------------- ------------------------------------------------------ ----------------------------
-  B101                              KEYSTONE1013                                           BATT\_HOLDER
-  C206,C205                         C\_0805\_HandSoldering                                 22p
-  C301,C105, C104,C102, C101        C\_0805\_HandSoldering                                 22u/25V
-  C401,C204, C203,C202, C201,C103   C\_0805\_HandSoldering                                 100n
-  C402                              C\_0805\_HandSoldering                                 22u
-  D301                              LED\_D3.0mm                                            STOP - red
-  D302                              LED\_D3.0mm                                            FORWARD - green
-  D303                              LED\_D3.0mm                                            REVERSE - green
-  IC201                             TQFP-32\_7x7mm\_Pitch0.8mm                             ATMEGA328P-A
-  K401                              Pin\_Header\_Straight\_1x03\_Pitch2.54mm               UART\_ESP
-  K402                              Pin\_Header\_Straight\_1x03\_Pitch2.54mm               UART\_AVR
-  L101                              L\_2424\_HandSoldering                                 22u
-  P201                              Pin\_Header\_Straight\_2x03\_Pitch2.54mm\_SMD          ISP
-  P401                              Pin\_Header\_Straight\_1x02\_Pitch2.54mm               ESP\_BOOTLOAD
-  R301                              C\_0805\_HandSoldering                                 4k7
-  R304,R303, R302                   C\_0805\_HandSoldering                                 470R
-  R401                              C\_0805\_HandSoldering                                 100k
-  R402                              C\_0805\_HandSoldering                                 47k
-  R405,R404, R403,R201              C\_0805\_HandSoldering                                 10k
-  RV301                             P160KNPD                                               10k lin P160KNPD-4FC20B10K
-  SW301                             OS102011MS2Q                                           LOCO1
-  SW302                             OS102011MS2Q                                           LOCO2
-  SW303                             OS102011MS2Q                                           LOCO3
-  SW304                             OS102011MS2Q                                           LOCO4
-  SW305                             KSC621G                                                F0
-  SW306                             KSC621G                                                F1
-  SW307                             KSC621G                                                F2
-  SW308                             KSC621G                                                F3
-  SW309                             KSC621G                                                F4
-  SW310                             KSC621G                                                SHIFT2
-  SW311                             KSC621G                                                SHIFT
-  SW312                             KSC621G                                                ESTOP
-  SW313                             100SP1T1B1M1QEH                                        DIRECTION
-  U101                              TSSOP-8\_4.4x3mm\_Pitch0.65mm                          L6920D
-  U401                              ESP-12E\_SMD                                           ESP-12E
-  X201                              Crystal\_SMD\_TXC\_7M-4pin\_3.2x2.5mm\_HandSoldering   14.7456MHz
-                                    Housing StrapuBox 6090
-                                    Two Jumpers, 2.54mm
-                                    Potentiometer Knob, 21 mm
-                                    Three fastening screws, 2.9 mm dia x 6.5 mm</p>
-</div>
-<div class="literalblock">
+<div id="breakProtrusions" class="imageblock">
 <div class="content">
-<pre>: List of components for the wiFred[]{label="oldWiFredBOM"}</pre>
+<img src="images/_DSC8654.jpg" alt="Remove protrusions">
 </div>
+<div class="title">Figure 23. Removing protrusions inside the housing so the PCB fits</div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>IC201 and U101 (note: Rotate PCB so Designator is right side up,
-then Pin 1 is on top left)</p>
-</li>
-<li>
-<p>X201</p>
-</li>
-<li>
-<p>Capacitors and Resistors in 0805 size (only those on the same side
-as the items before) [\[old0805devices\]]{#old0805devices
-label="old0805devices"}</p>
-</li>
-<li>
-<p>U401</p>
-</li>
-<li>
-<p>LEDs D301 to D303</p>
-</li>
-<li>
-<p>Pushbutton switches SW305 to SW312</p>
-</li>
-<li>
-<p>Loco selection switches SW301 to SW304</p>
-</li>
-<li>
-<p>L101</p>
-</li>
-<li>
-<p>Capacitors and Resistors not installed in
-step [\[old0805devices\]](#old0805devices){reference-type="ref"
-reference="old0805devices"}</p>
-</li>
-<li>
-<p>Pin header P201</p>
-</li>
-<li>
-<p>Pin headers K401, K402 and P401 (correct alignment of K401 and K402
-can be assured by adding a jumper before soldering)</p>
-</li>
-<li>
-<p>Direction switch SW313 (screwed into the PCB with an 8 mm hex nut
-first, then attached to it&#8217;s pads using the cutoffs from D301, D302
-and D303) and Speed potentiometer RV301 (screwed into the PCB with a
-10 mm hex nut first and slightly shortening the pins before
-soldering)</p>
-</li>
-<li>
-<p>Battery holder B101</p>
-</li>
-</ol>
+<div id="mountingPads" class="imageblock">
+<div class="content">
+<img src="images/_DSC8658.jpg" alt="New mounting pads">
 </div>
-<div class="paragraph">
-<p>After assembling the PCB with all the components and drilling and
-cutting the holes and cutouts into the housing, there are few steps
-left. First, a few protrusions inside the housing need to be removed so
-the PCB fits properly.
-Figure [30](#breakProtrusions){reference-type="ref"
-reference="breakProtrusions"} shows how they can be removed easily,
-remains may be cut off with a hobby knife. Second, new PCB mounting pads
-need to be installed as shown in
-figure [31](#mountingPads){reference-type="ref"
-reference="mountingPads"}. For the prototype, Forex PVC foam was used,
-cut with a pair of scissors and glued to the housing with superglue,
-making sure not to be in the way of any components on the PCB, but any
-kind of easily worked upon material with a thickness of 3 mm can be
-used, as long as it will take self-driving screws (prototype uses 2.9 mm
-by 6.5 mm DIN 7981 screws). Third, the two shift keys need yellow paint
-on the top and the emergency stop key needs red paint&#8201;&#8212;&#8201;either any kind
-of paint or a paint marker like Edding 751 will do. Finally, both the
-ESP8266 and the ATMega 328P will need to be programmed as described in
-the next section.</p>
-</div>
-<div class="paragraph">
-<p>\centering
-![Removing protrusions inside the housing so the PCB
-fits[]{label="breakProtrusions"}](images/_DSC8654 "fig:"){#breakProtrusions
-width="0.49 \textwidth"} ![Removing protrusions inside the housing so
-the PCB
-fits[]{label="breakProtrusions"}](images/_DSC8655 "fig:"){#breakProtrusions
-width="0.49 \textwidth"}</p>
-</div>
-<div class="paragraph">
-<p>\centering
-![New PCB mounting pads made from 3 mm thick Forex
-PVC[]{label="mountingPads"}](images/_DSC8658){#mountingPads
-width="0.8 \textwidth"}</p>
+<div class="title">Figure 24. New PCB mounting pads made from 3 mm thick Forex PVC</div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_programming_instructions">Programming instructions</h2>
+<h2 id="background">Background for wiFred development</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The ESP8266 is programmed using the Arduino IDE connected via a serial
-or USB-to-serial port to the K401 header as shown in
-figure [32](#oldProgESP){reference-type="ref" reference="oldProgESP"}.
-The serial port needs to be at 3.3 V-levels like from an FTDI232-device
-run at 3.3 V.</p>
+<p>As of the writing of this document, <a href="#JMRI">[JMRI]</a> has a long track record of offering a server for using smartphones as wireless model railroad throttles, along with apps like <a href="#wiThrottleApp">[wiThrottle]</a><sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> and <a href="#EngineDriver">[EngineDriver]</a>. This server will enable WiFi throttles to control locos any model railroading layout to which JMRI can build a connection <a href="#jmrihardwaresupport">[Supported Hardware]</a>. In addition, <a href="#Digitrax">[Digitrax LNWI]</a> and <a href="#MRC">[MRC Prodigy WiFi]</a> offer specific hardware solutions to enable the connection of the abovementioned smartphone apps to their DCC systems through a WiFi network.</p>
 </div>
 <div class="paragraph">
-<p>\centering
-![Programming connection for ESP8266&#8201;&#8212;&#8201;GND on orange wire, then TXD of
-programming cable (RXD of ESP8266), then RXD of programming cable (TXD
-of ESP8266)[]{label="oldProgESP"}](images/_DSC8637){#oldProgESP
-width="0.8 \textwidth"}</p>
+<p>The <a href="#Fremo">[Fremo]</a> is a European modular model railroading club whose unique requirements on its DCC throttles led to the creation of the throttles <a href="#FRED">[FRED]</a> and <a href="#FREDI">[FREDI]</a> - a series of LocoNet-throttles which started their life as hobbyist projects with large numbers in circulation but were also commercially available from <a href="#Uhlenbrock">[Uhlenbrock]</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="_specification_wishlist">Specification wishlist</h3>
+<div class="paragraph">
+<p>In modular railroading events, particularly of the Fremo-americaN-group, multiple people have evaluated the smartphone throttle solutions and found them lacking a nice, haptical feedback. But the idea of wireless control without locking into a specific vendor and their necessarily expensive equipment found great approval. So a wishlist was compiled to define the requirements for a wireless throttle:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Same form factor as the <a href="#FRED">[FRED]</a> with similar controls</p>
+</li>
+<li>
+<p>Option to control at least two, better four locomotives for double/triple traction (similar to the double FRED)</p>
+</li>
+<li>
+<p>Battery runtime of at least six hours</p>
+</li>
+<li>
+<p>Exchangeable batteries, so when the battery runs down, they can be quickly exchanged for a charged set or cheap primary cells</p>
+</li>
+<li>
+<p>Easy configuration, but not too easy to prevent operators from accidentally selecting other locomotives</p>
+</li>
+<li>
+<p>As little change to the existing Fremo Loconet network as possible</p>
+</li>
+<li>
+<p>Use of wiThrottle protocol, so the server side of the communication can be assumed to work and does not have to be developed as well</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_development_history">Development history</h3>
+<div class="paragraph">
+<p>The first prototype versions of the wiFred were built to run from two AA cells, either dry batteries or rechargeable NiMH cells. As described in <a href="#oldThrottle">AA battery first prototype</a> this required some special adaptations of the housing to fit all components. Even then, experience with the prototypes showed the battery compartment cover did not really fit and easily broke when trying to open and close the battery compartment.</p>
 </div>
 <div class="paragraph">
-<p>\centering
-![Programming connection for ATMega 328P&#8201;&#8212;&#8201;Pin 1 on purple
-cable[]{label="oldProgAVR"}](images/_DSC8638){#oldProgAVR
-width="0.8 \textwidth"}</p>
+<p>So the next versions were built around an integrated lithium battery, losing the ability to exchange empty batteries, but with increased runtime and proper fit into the housing. Recharging of the second generation is done through a Micro USB connector, so a powerbank can extend the runtime of the device when the internal battery is exhausted. Also, the loco selection switches act as more of a power switch than they did with the first prototypes, reducing power consumption to a negligible amount when all locos are deselected.</p>
 </div>
 <div class="paragraph">
-<p>All files in the <strong>software/esp-firmware</strong>-subdirectory of the github
-repository need to be placed in a folder, then the main sketch
-<strong>arduino\_main\_sketch.ino.ino</strong> needs to be opened with the Arduino IDE.
-Settings for the Arduino IDE can be found inside the main file,
-programming the device should work using the <strong>Upload</strong>-button in the
-<strong>Sketch</strong>-menu.</p>
+<p>The latest prototype will switch from a double processor implementation to a single, new ESP32-S2 processor, saving space, reducing the number of components, placing all SMD components on one side of the PCB and enabling direct USB firmware download. It will not contain any new features over the earlier LiPo battery versions, but mainly be easier to build for the hobbyist.</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_wireless_clock">Wireless clock</h3>
 <div class="paragraph">
-<p>To put the ESP8266 into programming mode, a jumper needs to be placed
-across the P401 header before inserting batteries to start the device in
-programming mode. The bootloader should show some results on the serial
-port and during download the LED on the ESP8266 module should flash.</p>
-</div>
-<div class="paragraph">
-<p>The ATMega 328P is programmed using the regular AVR ISP connection on
-P201. Pin 1&#8201;&#8212;&#8201;GND&#8201;&#8212;&#8201;is towards the PCB edge, as shown in
-figure [33](#oldProgAVR){reference-type="ref" reference="oldProgAVR"}.
-An ISP dongle with either automatic voltage selection or 3.3 V supply
-voltage should be used to avoid placing too high voltage on the ESP8266,
-which can only support 3.3 V power. The firmware for the ATMega 328P can
-be found in the <strong>software/avr-firmware</strong>-subdirectory of the github
-repository with both a precompiled hexfile and all source code including
-a Makefile to recompile as needed. After writing the firmware file, also
-the fuse bits need to be set properly as detailed in the <strong>main.c</strong>-file.</p>
-</div>
-<div class="paragraph">
-<p>After programming, two jumpers need to be placed between the K401 and
-K402 pin headers to re-enable communication between the ESP8266 and the
-ATMega 328P.</p>
-</div>
-<div class="paragraph">
-<p>\clearpage
-Background for wiFred development {#background}</p>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>As of the writing of this document, JMRI [@jmri] has a long track record
-of offering a server for using smartphones as wireless model railroad
-throttles, along with apps like withrottle [@withrottleApp][^3] and
-EngineDriver [@EngineDriver]. This server will enable WiFi throttles to
-control locos any model railroading layout to which JMRI can build a
-connection [@jmrihardwaresupport]. In addition, Digitrax [@digitrax] and
-MRC [@mrc] offer specific hardware solutions to enable the connection of
-the abovementioned smartphone apps to their DCC systems through a WiFi
-network.</p>
-</div>
-<div class="paragraph">
-<p>The Fremo [@fremo] is a European modular model railroading club whose
-unique requirements on it&#8217;s DCC throttles led to the creation of the
-throttles FRED and FREDI [@fred]&#8201;&#8212;&#8201;a series of LocoNet-throttles which
-started their life as hobbyist projects with large numbers in
-circulation but were also commercially available from
-Uhlenbrock [@uhlenbrock].</p>
-</div>
-<div class="paragraph">
-<p>Specification wishlist</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>In modular railroading events, particularly of the
-Fremo-americaN-group [@fremo], multiple people have evaluated the
-smartphone throttle solutions and found them lacking a nice, haptical
-feedback. But the idea of wireless control without locking into a
-specific vendor and their necessarily expensive equipment found great
-approval. So a wishlist was compiled to define the requirements for a
-wireless throttle:
-
--   Same form factor as the FRED [@fred] with similar controls
-
--   Option to control at least two, better four locomotives for
-    double/triple traction (similar to the double FRED)
-
--   Battery runtime of at least six hours
-
--   Exchangeable batteries, so when the battery runs down, they can be
-    quickly exchanged for a charged set or cheap primary cells
-
--   Easy configuration, but not too easy to prevent operators from
-    accidentally selecting other locomotives
-
--   As little change to the existing Fremo Loconet network as possible
-
--   Use of withrottle protocol, so the server side of the communication
-    can be assumed to work and does not have to be developed as well
-
-Development history
--------------------
-
-The first prototype versions of the wiFred were built to run from two AA
-cells, either dry batteries or rechargeable NiMH cells. As described in
-section [4](#oldThrottle){reference-type="ref" reference="oldThrottle"},
-this led to some special adaptations of the housing to fit all
-components. Even then, experience with the prototypes showed the battery
-compartment cover did not really fit and easily broke when trying to
-open and close the battery compartment. So the next versions were built
-around an integrated lithium battery, losing the ability to exchange
-empty batteries, but with increased runtime and proper fit into the
-housing. Recharging of the second generation is done through a Micro USB
-connector, so a powerbank can extend the runtime of the device when the
-internal battery is exhausted. Also, the loco selection switches act as
-more of a power switch than they did with the first prototypes, reducing
-power consumption to a negligible amount when all locos are deselected.
-
-Wireless clock
---------------
-
-During the development of this wiFred another topic came up in the
-americaN group of the Fremo, namely wireless clocks with adjustable
-clock rate for Timetable &amp; Trainorder operations. This led to the
-spinoff of the wiClock project[@wiClock].
-
-\clearpage
-99
-
-[^1]: Pre-Shared Key, often just called password
-
-[^2]: Pre-Shared Key, often just called password
-
-[^3]: withrottle is also the name JMRI uses for the protocol and the
-    server.</pre>
+<p>During the development of this wiFred another topic came up in the americaN group of the Fremo, namely wireless clocks with adjustable clock rate for Timetable &amp; Trainorder operations. This led to the spinoff of the <a href="#wiClock">[wiClock]</a> project.</p>
 </div>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_references">References</h2>
+<div class="sectionbody">
+<div class="ulist bibliography">
+<ul class="bibliography">
+<li>
+<p><a id="github"></a>[Github repository for wiFred] newHeiko/wiFred: wiThrottle-compatible hardware controller, <a href="https://github.com/newHeiko/wiFred" class="bare">https://github.com/newHeiko/wiFred</a></p>
+</li>
+<li>
+<p><a id="JMRI"></a>[JMRI] JMRI: A Java Model Railroad Interface, <a href="https://www.jmri.org" class="bare">https://www.jmri.org</a></p>
+</li>
+<li>
+<p><a id="jmrihardwaresupport"></a>[Supported Hardware] JMRI: Hardware Support, <a href="https://www.jmri.org/help/en/html/hardware/index.shtml" class="bare">https://www.jmri.org/help/en/html/hardware/index.shtml</a></p>
+</li>
+<li>
+<p><a id="wiThrottleApp"></a>[wiThrottle] WiThrottle, <a href="https://www.withrottle.com/html/home.html" class="bare">https://www.withrottle.com/html/home.html</a></p>
+</li>
+<li>
+<p><a id="EngineDriver"></a>[EngineDriver] Home | EngineDriver, <a href="https://enginedriver.mstevetodd.com/" class="bare">https://enginedriver.mstevetodd.com/</a></p>
+</li>
+<li>
+<p><a id="Fremo"></a>[Fremo] Home - FREMO - Freundeskreis Europäischer Modelleisenbahner e.V., <a href="https://www.fremo-net.eu/en/home/" class="bare">https://www.fremo-net.eu/en/home/</a></p>
+</li>
+<li>
+<p><a id="FRED"></a>[FRED] FRED, <a href="http://fremodcc.sourceforge.net/diy/fred/fred_e.html" class="bare">http://fremodcc.sourceforge.net/diy/fred/fred_e.html</a></p>
+</li>
+<li>
+<p><a id="FREDI"></a>[FREDI] FREDI, <a href="http://fremodcc.sourceforge.net/diy/fred2/fredi_d.html" class="bare">http://fremodcc.sourceforge.net/diy/fred2/fredi_d.html</a> (German only)</p>
+</li>
+<li>
+<p><a id="Uhlenbrock"></a>[Uhlenbrock] Uhlenbrock | FRED, der Handregler für die Intellibox, <a href="https://uhlenbrock.de/de_DE/produkte/prodarch/I62AD172-001.htm!ArcEntryInfo=0004.41.I62AD172" class="bare">https://uhlenbrock.de/de_DE/produkte/prodarch/I62AD172-001.htm!ArcEntryInfo=0004.41.I62AD172</a></p>
+</li>
+<li>
+<p><a id="Digitrax"></a>[Digitrax LNWI] LocoNet WiFi interface, <a href="https://www.digitrax.com/products/wireless/lnwi/" class="bare">https://www.digitrax.com/products/wireless/lnwi/</a></p>
+</li>
+<li>
+<p><a id="MRC"></a>[MRC Prodigy WiFi] Prodigy WiFi, <a href="https://www.modelrectifier.com/Prodigy-WiFi-s/332.htm" class="bare">https://www.modelrectifier.com/Prodigy-WiFi-s/332.htm</a></p>
+</li>
+<li>
+<p><a id="rpiImage"></a>[Steve Todd] JMRI RaspberryPi as Access Point | M Steve Todd, <a href="https://mstevetodd.com/rpi" class="bare">https://mstevetodd.com/rpi</a></p>
+</li>
+<li>
+<p><a id="wiClock"></a>[wiClock] wiClock, a WiFi-JMRI-Clock, found at <a href="https://github.com/newHeiko/WiFi-JMRI-Clock" class="bare">https://github.com/newHeiko/WiFi-JMRI-Clock</a> or its documentation at <a href="https://newHeiko.github.io/WiFi-JMRI-Clock" class="bare">https://newHeiko.github.io/WiFi-JMRI-Clock</a></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -2227,11 +2239,14 @@ spinoff of the wiClock project[@wiClock].
 <div class="footnote" id="_footnotedef_1">
 <a href="#_footnoteref_1">1</a>. Pre-Shared Key, often just called password
 </div>
+<div class="footnote" id="_footnotedef_2">
+<a href="#_footnoteref_2">2</a>. wiThrottle is also the name JMRI uses for the protocol and the server.
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.2-WIP<br>
-Last updated 2021-02-17 21:43:40 +0100
+Version 0.2<br>
+Last updated 2021-02-19 15:02:04 +0100
 </div>
 </div>
 </body>
