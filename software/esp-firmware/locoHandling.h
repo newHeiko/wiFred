@@ -81,6 +81,13 @@ void locoDisconnect(void);
 void locoRegister(void);
 
 /**
+ * Wait for timeout in greeting message
+ * 
+ * @returns true if timeout received
+ */
+bool timeoutReceived(void);
+
+/**
  * Call periodically to check response from wiThrottle server and send new speed/direction info
  */
 void locoHandler(void);
