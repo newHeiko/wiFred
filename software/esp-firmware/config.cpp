@@ -55,7 +55,7 @@ void initConfig(void)
       }
   }
   
-  if(!SPIFFS.begin(true))
+  if(!SPIFFS.begin())
   {
     return;
   }
