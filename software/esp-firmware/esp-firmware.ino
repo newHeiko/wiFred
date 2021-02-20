@@ -22,7 +22,7 @@
  * Board settings: Generic ESP8266 Module, 2, 115200, 80MHz, 26MHz,
  * 4MB (FS:1MB, OTA:~1019kB), DOUT (compatible), 40MHz, no dtr (aka ck), 
  * Disabled, None, v1.4 Higher Bandwidth, Flash, Legacy, Only Sketch, 
- * nonos-sdk 2.2.1+100 (190703), Basic SSL, /dev/ttyUSB0
+ * nonos-sdk 2.2.1+119 (191122), Basic SSL, /dev/ttyUSB0
  */
 
 #include "wifi.h"

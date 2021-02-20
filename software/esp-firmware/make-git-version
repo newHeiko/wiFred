@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # This file is part of the wiFred wireless model railroading throttle project
-# Copyright (C) 2018  Heiko Rosemann
+# Copyright (C) 2018-2021 Heiko Rosemann
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
 [ -n "$1" ] && cd "$1" || exit 1
 
 # Build a version string with git.
-version=$(date -I)-$(git log -n 1 --pretty=format:%h 2> /dev/null)
+version=$(date -I)-$(git log -n 1 --pretty=format:%h 2> /dev/null)-$(git branch --show-current)
 
 # Save this in git_version.h.
 echo "#define REV \"$version\"" > $2/sketch/gitVersion.h
