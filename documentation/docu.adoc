@@ -207,11 +207,19 @@ By default, if a function key is pressed, the throttle will send the appropriate
 .Screenshot of wiFred function handling config page
 image::wiFred_function_page.png[wiFred function page]
 
-Always Off:: When the loco is enabled by moving the selection switch to the "selected" position, the current status of the function is queried. If the function is on, a function key press will be simulated to turn it off. No other function key events will be sent to this loco for this function.
+Throttle controlled:: When the first loco is enabled by moving the selection switch to the "selected" position, the current status of the function is queried and saved. When selecting the next loco, the function status is set to be the same. Afterwards, key presses are handed through to the loco. Whether the function will be momentaryfootnote:MOM[Momentary functions are only activated for as long as the function key is pressed - like a whistle or horn that sounds just as long as the key is pressed.] or lockingfootnote:TOG[Locking functions are toggled with every press of the function key - like pressing F0 once typically turns the headlight on, pressing F0 again turns it off.] will be determined by the server, in the case of JMRI by the roster entry.
 
-Throttle controlled:: When the first loco is enabled by moving the selection switch to the "selected" position, the current status of the function is queried and saved. When selecting the next loco, the function status is set to be the same. Afterwards, key presses are handed through to the loco.
+Throttle controlled, force momentary:: Function key will be handed through to the loco as a momentaryfootnote:MOM[] function.
 
-Always On:: Similar to the "Always Off" setting, but the throttle will attempt to enable the function when the locomotive is selected and ignore any further function key presses.
+Throttle controlled, force locking:: As described for *Throttle controlled* but the function will be forced to be lockingfootnote:TOG[] regardless of the server settingsfootnote:[The JMRI setting "F2 always momentary" will override this.].
+
+Throttle controlled if this is the only loco:: As described for *Throttle controlled, force locking* but the function key will only be toggling the function if no other loco is enabled. This allows for i.e. turning headlights and rearlights on and off on individual locos before assembling a consist.
+
+Force function always on:: The function will be forced on when the loco is activated and kept on regardless of key pressesfootnote:[This will also turn momentary functions permanently on.].
+
+Force function always off:: The function will be forced off when the loco is activated and kept off regardless of key presses.
+
+Ingore function key:: No function commands will be sent to this loco.
 
 IMPORTANT: Reminder: Changes are saved using the "Save function configuration" button which may look different in different web browsers (firefox shown).
 
