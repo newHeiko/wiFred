@@ -34,7 +34,7 @@
 
 enum functionInfo { THROTTLE, THROTTLE_MOMENTARY, THROTTLE_LOCKING, THROTTLE_SINGLE, ALWAYS_ON, ALWAYS_OFF, IGNORE, UNKNOWN = THROTTLE };
 
-enum eLocoState { LOCO_ACTIVATE, LOCO_FUNCTIONS, LOCO_ACTIVE, LOCO_DEACTIVATE, LOCO_INACTIVE };
+enum eLocoState { LOCO_ACTIVATE, LOCO_FUNCTIONS, LOCO_LEAVE_FUNCTIONS, LOCO_ACTIVE, LOCO_DEACTIVATE, LOCO_INACTIVE };
 
 extern eLocoState locoState[4];
 
@@ -134,9 +134,14 @@ void setESTOP(void);
 void requestLoco(uint8_t loco);
 
 /**
- * Correctly set functions on newly acquired loco
+ * Set correct function and direction settings on newly acquired loco
  */
-void requestLocoFunctions(uint8_t loco);
+void setLocoFunctions(uint8_t loco);
+
+/**
+ * Read current function and direction settings on newly acquired loco
+ */
+void getLocoFunctions(uint8_t loco);
 
 
 /**
