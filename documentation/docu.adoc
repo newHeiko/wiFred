@@ -235,7 +235,9 @@ The "wiFred system" section consists of two links:
 
 - Reset wiFred to factory defaults - which leads to a confirmation page shown in <<throttleConfResetPage>> to reset all configuration data to factory defaults as on a new wiFred.
 
-- Update wiFred firmware - which leads to a firmware update page shown in <<throttleConfUpdatePage>> to update the wiFred firmware of the ESP8266. Find the .bin-file from the arduino build folder or from the <<github>>, click on "Choose file", navigate to the .bin-file and finally initiate the update with a click on "Update" - which will take a while.
+- Update wiFred firmware - which leads to a firmware update page shown in <<throttleConfUpdatePage>> to update the wiFred firmware of the ESP8266 / ESP32-S2. Find the .bin-file from the arduino build folder or from the <<github>>, click on "Browse", navigate to the .bin-file and finally initiate the update with a click on "Update Firmware" - which will take a while.
+
+NOTE: It may be necessary to power down the wiFred entirely for a firmware update to restart properly.
 
 [#throttleConfResetPage]
 .Screenshot of wiFred configuration reset page
