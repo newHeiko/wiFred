@@ -1081,9 +1081,22 @@ Short addresses between 1 and 127 are not the same as long addresses between 1 a
 <dd>
 <p>Checkbox to change the behaviour of the DCC address input field described above.</p>
 </dd>
-<dt class="hdlist1">Reverse?</dt>
+<dt class="hdlist1">Direction</dt>
 <dd>
-<p>If checked, the corresponding loco will invert it&#8217;s travel direction. Mainly intended for back-to-back consists without decoder reconfiguration.</p>
+<p>This has three options:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Normal: Loco will travel forwards if wiFred is set to forwards and vice versa</p>
+</li>
+<li>
+<p>Reverse: Loco will travel backwards if wiFred is set to forwards and vice versa</p>
+</li>
+<li>
+<p>Don&#8217;t change: Loco will continue to travel in the same direction it was set to when it was activated and switch direction when the wiFred switches direction</p>
+</li>
+</ul>
+</div>
 </dd>
 <dt class="hdlist1">Function mapping</dt>
 <dd>
@@ -1167,6 +1180,9 @@ Reminder: Changes are saved using the "Save function configuration" button which
 <p>The "wiFred status" section shows the current battery voltage, as
 measured by the wiFred. This is updated on reloading the page, not
 continuosly.</p>
+</div>
+<div class="paragraph">
+<p>It also shows the current firmware version(s).</p>
 </div>
 </div>
 <div class="sect2">
@@ -2318,7 +2334,7 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <div id="footer">
 <div id="footer-text">
 Version 0.2<br>
-Last updated 2021-02-20 22:31:38 +0100
+Last updated 2021-02-20 22:49:40 +0100
 </div>
 </div>
 </body>

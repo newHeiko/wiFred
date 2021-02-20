@@ -191,7 +191,13 @@ If this is set to -1, the corresponding loco is disabled.
 
 Long address?:: Checkbox to change the behaviour of the DCC address input field described above.
 
-Reverse?:: If checked, the corresponding loco will invert it's travel direction. Mainly intended for back-to-back consists without decoder reconfiguration.
+Direction:: This has three options:
+
+* Normal: Loco will travel forwards if wiFred is set to forwards and vice versa
+
+* Reverse: Loco will travel backwards if wiFred is set to forwards and vice versa
+
+* Don't change: Loco will continue to travel in the same direction it was set to when it was activated and switch direction when the wiFred switches direction
 
 Function mapping:: Link to the function mapping subpage for the corresponding loco, as described in <<throttle_FunctionConf>>. Clicking this link will lose all information entered on the current page and take the web browser to a different subpage.
 
@@ -228,6 +234,8 @@ IMPORTANT: Reminder: Changes are saved using the "Save function configuration" b
 The "wiFred status" section shows the current battery voltage, as
 measured by the wiFred. This is updated on reloading the page, not
 continuosly.
+
+It also shows the current firmware version(s).
 
 === wiFred system
 
