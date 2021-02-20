@@ -1,6 +1,6 @@
 /**
  * This file is part of the wiFred wireless model railroading throttle project
- * Copyright (C) 2018  Heiko Rosemann
+ * Copyright (C) 2018-2021 Heiko Rosemann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@
 
 #include "config.h"
 
-enum functionInfo { THROTTLE, ALWAYS_ON, ALWAYS_OFF, UNKNOWN = THROTTLE };
+enum functionInfo { THROTTLE, THROTTLE_MOMENTARY, THROTTLE_LOCKING, THROTTLE_SINGLE, ALWAYS_ON, ALWAYS_OFF, IGNORE, UNKNOWN = THROTTLE };
 
 enum eLocoState { LOCO_ACTIVATE, LOCO_FUNCTIONS, LOCO_ACTIVE, LOCO_DEACTIVATE, LOCO_INACTIVE };
 
