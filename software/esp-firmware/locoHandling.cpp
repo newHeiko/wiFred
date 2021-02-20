@@ -596,6 +596,31 @@ void setLocoFunctions(uint8_t loco)
     }
   }
 
+  switch(locos[loco].direction)
+  {
+    case DIR_NORMAL:
+      locos[loco].reverse = false;
+      break;
+
+    case DIR_REVERSE:
+      locos[loco].reverse = true;
+      break;
+
+    case DIR_DONTCHANGE:
+      // set in readout
+      break;
+  }
+
+  // Set correct direction
+  if(myReverse ^ locos[loco].reverse)
+  {
+    client.print(String("MTA") + locoThrottleID[loco] + "<;>R0\n");
+  }
+  else
+  {
+    client.print(String("MTA") + locoThrottleID[loco] + "<;>R1\n");
+  }
+
   // flush all client data
   client.flush();
   while(client.read() > -1)
@@ -655,15 +680,11 @@ void getLocoFunctions(uint8_t loco)
         }
         break;
 
-      // responding with direction status - take this as our chance to set correct direction (ignoring the one set before)
+      // responding with direction status - if this loco should keep its direction, set its reverse parameter accordingly
       case 'R':
-        if(myReverse ^ locos[loco].reverse)
+        if(locos[loco].direction == DIR_DONTCHANGE)
         {
-          client.print(String("MTA") + locoThrottleID[loco] + "<;>R0\n");
-        }
-        else
-        {
-          client.print(String("MTA") + locoThrottleID[loco] + "<;>R1\n");
+          locos[loco].reverse = (line.charAt(7 + locoThrottleID[loco].length()) == '0') ^ myReverse;
         }
         break;
 
