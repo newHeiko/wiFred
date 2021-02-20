@@ -143,12 +143,18 @@ void setLocoFunctions(uint8_t loco);
  */
 void getLocoFunctions(uint8_t loco);
 
-
 /**
  * Are there any active locos left?
  * 
  * @returns true if all locos have been deactivated
  */
 bool allLocosInactive(void);
+
+/**
+ * Is this the only active loco?
+ * 
+ * @returns true if all other locos are inactive
+ */
+bool isOnlyLoco(uint8_t loco);
 
 #endif
