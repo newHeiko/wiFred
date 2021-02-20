@@ -160,9 +160,14 @@ void locoHandler(void)
   // check if any of the loco selectors have been changed
   for(uint8_t currentLoco = 0; currentLoco < 4; currentLoco++)
   {
-    if(locoState[currentLoco] == LOCO_FUNCTIONS)
+    if(locoState[currentLoco] == LOCO_LEAVE_FUNCTIONS)
     {
-      requestLocoFunctions(currentLoco);
+      setLocoFunctions(currentLoco);
+      break;
+    }
+    else if(locoState[currentLoco] == LOCO_FUNCTIONS)
+    {
+      getLocoFunctions(currentLoco);
       break;
     }
     else if(locoState[currentLoco] == LOCO_ACTIVATE && locos[currentLoco].address != -1)
@@ -487,9 +492,72 @@ void requestLoco(uint8_t loco)
 }
 
 /**
- * Correctly set functions on newly acquired loco
+ * Correctly set functions and direction on newly acquired loco
  */
-void requestLocoFunctions(uint8_t loco)
+void setLocoFunctions(uint8_t loco)
+{
+  for(uint8_t f=0; f<=MAX_FUNCTION; f++)
+  {
+    // Set function momentary setting correctly
+    switch(locos[loco].functions[f])
+    {
+      case THROTTLE_MOMENTARY:
+        client.print(String("MTA") + locoThrottleID[loco] + "<;>m1" + f + "\n");
+        break;
+      
+      case THROTTLE_LOCKING:
+      case THROTTLE_SINGLE:
+        client.print(String("MTA") + locoThrottleID[loco] + "<;>m0" + f + "\n");
+        break;
+
+      case THROTTLE:
+      case ALWAYS_ON:
+      case ALWAYS_OFF:
+      case IGNORE:
+        break;
+    }
+
+    // Set function to requested state
+    switch(locos[loco].functions[f])
+    {
+      case THROTTLE:
+      case THROTTLE_LOCKING:
+        if(globalFunctionStatus[f] == ALWAYS_ON)
+        {
+          client.print(String("MTA") + locoThrottleID[loco] + "<;>f1" + f + "\n");
+        }
+        if(globalFunctionStatus[f] == ALWAYS_OFF)
+        {
+          client.print(String("MTA") + locoThrottleID[loco] + "<;>f0" + f + "\n");
+        }
+        break;
+
+      case ALWAYS_ON:
+        client.print(String("MTA") + locoThrottleID[loco] + "<;>f1" + f + "\n");
+        break;
+
+      case ALWAYS_OFF:
+        client.print(String("MTA") + locoThrottleID[loco] + "<;>f0" + f + "\n");
+        break;
+            
+      case THROTTLE_MOMENTARY:
+      case THROTTLE_SINGLE:
+      case IGNORE:
+        break;
+    }
+  }
+
+  // flush all client data
+  client.flush();
+  while(client.read() > -1)
+    ;
+  locoState[loco] = LOCO_ACTIVE;
+}
+
+/**
+ * Read functions on newly acquired loco
+ */
+void getLocoFunctions(uint8_t loco)
 {
   String line = client.readStringUntil('\n');
 #ifdef DEBUG
@@ -521,7 +589,7 @@ void requestLocoFunctions(uint8_t loco)
         {
           set = true;
         }
-        if(locos[loco].functions[f] == THROTTLE)
+        if(locos[loco].functions[f] == THROTTLE || locos[loco].functions[f] == THROTTLE_LOCKING)
         {
           // if this is the first loco that has this function controlled by our function keys, copy state
           if(globalFunctionStatus[f] == UNKNOWN)
@@ -535,20 +603,6 @@ void requestLocoFunctions(uint8_t loco)
               globalFunctionStatus[f] = ALWAYS_OFF;
             }
           }
-          // if this is not the first loco, match function status to other locos
-          // note: This does not work properly with momentary functions
-          else if( (set && globalFunctionStatus[f] == ALWAYS_OFF) || (!set && globalFunctionStatus[f] == ALWAYS_ON) )
-          {
-            client.print(String("MTA") + locoThrottleID[loco] + "<;>F1" + f + "\n");
-            client.print(String("MTA") + locoThrottleID[loco] + "<;>F0" + f + "\n");
-          }
-        }
-        // if the function is not throttle controlled, match function status to requested function status
-        // note: This does not work properly with momentary functions
-        if( (set && locos[loco].functions[f] == ALWAYS_OFF) || (!set && locos[loco].functions[f] == ALWAYS_ON) )
-        {
-          client.print(String("MTA") + locoThrottleID[loco] + "<;>F1" + f + "\n");
-          client.print(String("MTA") + locoThrottleID[loco] + "<;>F0" + f + "\n");            
         }
         break;
 
@@ -566,7 +620,7 @@ void requestLocoFunctions(uint8_t loco)
 
       // last line of regular response, everything should be done by now, so switch to online state and flush client buffer
       case 's':
-        locoState[loco] = LOCO_ACTIVE;
+        locoState[loco] = LOCO_LEAVE_FUNCTIONS;
         // flush all input data
         client.flush();
         while (client.read() > -1)
