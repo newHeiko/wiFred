@@ -129,6 +129,17 @@ void loop() {
       }
       break;
 
+    case STATE_LOCO_WAITFORTIMEOUT:
+      if(WiFi.status() != WL_CONNECTED)
+      {
+        switchState(STATE_STARTUP);
+      }
+      if(timeoutReceived() || millis() > stateTimeout)
+      {
+        switchState(STATE_LOCO_ONLINE);      
+      }
+      break;
+
     case STATE_LOCO_ONLINE:
       if(WiFi.status() != WL_CONNECTED)
       {

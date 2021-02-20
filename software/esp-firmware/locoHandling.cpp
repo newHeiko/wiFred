@@ -54,6 +54,11 @@ uint32_t eStopTimeout = 0;
 uint32_t speedTimeout = 0;
 
 /**
+ * Timeout for keep alive (used to reload speedTimeout)
+ */
+uint32_t keepAliveTimeout = 5000;
+
+/**
  * Client used to connect to wiThrottle server
  */
 WiFiClient client;
@@ -151,7 +156,7 @@ void locoHandler(void)
   if(!eSTOP && millis() > speedTimeout)
   {
     client.print(String("MTA*<;>V") + speed + "\n");
-    speedTimeout += 5000;
+    speedTimeout += keepAliveTimeout;
   }
       
   // check if any of the loco selectors have been changed
@@ -305,12 +310,9 @@ void locoRegister(void)
       String id = String(mac[0], 16) + String(mac[1], 16) + String(mac[2], 16) + String(mac[3], 16) + String(mac[4], 16) + String(mac[5], 16);
       client.print(String("N") + throttleName + "\n");
       client.print("HU" + id + "\n");
-      client.print("*+\n");
-      switchState(STATE_LOCO_ONLINE);
+      switchState(STATE_LOCO_WAITFORTIMEOUT, 1000);
       Serial.println("ON");
       // flush all input data
-      while (client.read() > -1)
-        ;
       client.flush();
     }
   }  
@@ -319,6 +321,27 @@ void locoRegister(void)
     switchState(STATE_CONNECTED, 60 * 1000);
     Serial.println("OF");
   }
+}
+
+/**
+ * Wait for timeout in greeting message
+ * 
+ * @returns true if timeout received
+ */
+bool timeoutReceived(void)
+{
+  bool success = false;
+  while(client.available())
+  {
+    String line = client.readStringUntil('\n');
+    if(line.charAt(0) == '*')
+    {
+      keepAliveTimeout = 400 * line.substring(1).toInt();
+      client.print("*+\n");
+      success = true;
+    }
+  }
+  return success;
 }
 
 /**
