@@ -1118,17 +1118,33 @@ may look different in different web browsers (firefox shown).
 </div>
 <div class="dlist">
 <dl>
-<dt class="hdlist1">Always Off</dt>
-<dd>
-<p>When the loco is enabled by moving the selection switch to the "selected" position, the current status of the function is queried. If the function is on, a function key press will be simulated to turn it off. No other function key events will be sent to this loco for this function.</p>
-</dd>
 <dt class="hdlist1">Throttle controlled</dt>
 <dd>
-<p>When the first loco is enabled by moving the selection switch to the "selected" position, the current status of the function is queried and saved. When selecting the next loco, the function status is set to be the same. Afterwards, key presses are handed through to the loco.</p>
+<p>When the first loco is enabled by moving the selection switch to the "selected" position, the current status of the function is queried and saved. When selecting the next loco, the function status is set to be the same. Afterwards, key presses are handed through to the loco. Whether the function will be momentary<sup class="footnote" id="_footnote_MOM">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> or locking<sup class="footnote" id="_footnote_TOG">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> will be determined by the server, in the case of JMRI by the roster entry.</p>
 </dd>
-<dt class="hdlist1">Always On</dt>
+<dt class="hdlist1">Throttle controlled, force momentary</dt>
 <dd>
-<p>Similar to the "Always Off" setting, but the throttle will attempt to enable the function when the locomotive is selected and ignore any further function key presses.</p>
+<p>Function key will be handed through to the loco as a momentary<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> function.</p>
+</dd>
+<dt class="hdlist1">Throttle controlled, force locking</dt>
+<dd>
+<p>As described for <strong>Throttle controlled</strong> but the function will be forced to be locking<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> regardless of the server settings<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup>.</p>
+</dd>
+<dt class="hdlist1">Throttle controlled if this is the only loco</dt>
+<dd>
+<p>As described for <strong>Throttle controlled, force locking</strong> but the function key will only be toggling the function if no other loco is enabled. This allows for i.e. turning headlights and rearlights on and off on individual locos before assembling a consist.</p>
+</dd>
+<dt class="hdlist1">Force function always on</dt>
+<dd>
+<p>The function will be forced on when the loco is activated and kept on regardless of key presses<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup>.</p>
+</dd>
+<dt class="hdlist1">Force function always off</dt>
+<dd>
+<p>The function will be forced off when the loco is activated and kept off regardless of key presses.</p>
+</dd>
+<dt class="hdlist1">Ingore function key</dt>
+<dd>
+<p>No function commands will be sent to this loco.</p>
 </dd>
 </dl>
 </div>
@@ -2161,7 +2177,7 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <h2 id="background">Background for wiFred development</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>As of the writing of this document, <a href="#JMRI">[JMRI]</a> has a long track record of offering a server for using smartphones as wireless model railroad throttles, along with apps like <a href="#wiThrottleApp">[wiThrottle]</a><sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> and <a href="#EngineDriver">[EngineDriver]</a>. This server will enable WiFi throttles to control locos any model railroading layout to which JMRI can build a connection <a href="#jmrihardwaresupport">[Supported Hardware]</a>. In addition, <a href="#Digitrax">[Digitrax LNWI]</a> and <a href="#MRC">[MRC Prodigy WiFi]</a> offer specific hardware solutions to enable the connection of the abovementioned smartphone apps to their DCC systems through a WiFi network.</p>
+<p>As of the writing of this document, <a href="#JMRI">[JMRI]</a> has a long track record of offering a server for using smartphones as wireless model railroad throttles, along with apps like <a href="#wiThrottleApp">[wiThrottle]</a><sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup> and <a href="#EngineDriver">[EngineDriver]</a>. This server will enable WiFi throttles to control locos any model railroading layout to which JMRI can build a connection <a href="#jmrihardwaresupport">[Supported Hardware]</a>. In addition, <a href="#Digitrax">[Digitrax LNWI]</a> and <a href="#MRC">[MRC Prodigy WiFi]</a> offer specific hardware solutions to enable the connection of the abovementioned smartphone apps to their DCC systems through a WiFi network.</p>
 </div>
 <div class="paragraph">
 <p>The <a href="#Fremo">[Fremo]</a> is a European modular model railroading club whose unique requirements on its DCC throttles led to the creation of the throttles <a href="#FRED">[FRED]</a> and <a href="#FREDI">[FREDI]</a> - a series of LocoNet-throttles which started their life as hobbyist projects with large numbers in circulation but were also commercially available from <a href="#Uhlenbrock">[Uhlenbrock]</a>.</p>
@@ -2272,13 +2288,25 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <a href="#_footnoteref_1">1</a>. Pre-Shared Key, often just called password
 </div>
 <div class="footnote" id="_footnotedef_2">
-<a href="#_footnoteref_2">2</a>. wiThrottle is also the name JMRI uses for the protocol and the server.
+<a href="#_footnoteref_2">2</a>. Momentary functions are only activated for as long as the function key is pressed - like a whistle or horn that sounds just as long as the key is pressed.
+</div>
+<div class="footnote" id="_footnotedef_3">
+<a href="#_footnoteref_3">3</a>. Locking functions are toggled with every press of the function key - like pressing F0 once typically turns the headlight on, pressing F0 again turns it off.
+</div>
+<div class="footnote" id="_footnotedef_4">
+<a href="#_footnoteref_4">4</a>. The JMRI setting "F2 always momentary" will override this.
+</div>
+<div class="footnote" id="_footnotedef_5">
+<a href="#_footnoteref_5">5</a>. This will also turn momentary functions permanently on.
+</div>
+<div class="footnote" id="_footnotedef_6">
+<a href="#_footnoteref_6">6</a>. wiThrottle is also the name JMRI uses for the protocol and the server.
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.2<br>
-Last updated 2021-02-19 22:05:08 +0100
+Last updated 2021-02-20 20:21:46 +0100
 </div>
 </div>
 </body>
