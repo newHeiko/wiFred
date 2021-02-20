@@ -34,6 +34,8 @@
 
 enum functionInfo { THROTTLE, THROTTLE_MOMENTARY, THROTTLE_LOCKING, THROTTLE_SINGLE, ALWAYS_ON, ALWAYS_OFF, IGNORE, UNKNOWN = THROTTLE };
 
+enum eDirection { DIR_NORMAL, DIR_REVERSE, DIR_DONTCHANGE };
+
 enum eLocoState { LOCO_ACTIVATE, LOCO_FUNCTIONS, LOCO_LEAVE_FUNCTIONS, LOCO_ACTIVE, LOCO_DEACTIVATE, LOCO_INACTIVE };
 
 extern eLocoState locoState[4];
@@ -52,6 +54,7 @@ typedef struct
   int16_t address;
   bool longAddress;
   functionInfo functions[MAX_FUNCTION + 1];
+  eDirection direction;
   bool reverse;
 } locoInfo;
 

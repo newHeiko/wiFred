@@ -222,7 +222,7 @@ void writeMainPage()
     {
       locos[i].address = server.arg(String("loco.address") + i+1).toInt();
       locos[i].longAddress = server.hasArg(String("loco.longAddress") + i+1);
-      locos[i].reverse = server.hasArg(String("loco.reverse") + i+1);
+      locos[i].direction = (eDirection) server.arg(String("loco.direction") + i+1).toInt();
       saveLocoConfig(i);
     }
   }
@@ -232,7 +232,7 @@ void writeMainPage()
   {
     locos[loco-1].address = server.arg("loco.address").toInt();
     locos[loco-1].longAddress = server.hasArg("loco.longAddress");
-    locos[loco-1].reverse = server.hasArg("loco.reverse");
+    locos[loco-1].direction = (eDirection) server.arg("loco.direction").toInt();
     saveLocoConfig(loco-1);
   }
 
@@ -336,12 +336,16 @@ void writeMainPage()
     resp      += String("<hr>Loco configuration for loco: ") + (i+1) + "\r\n" 
               + "<form action=\"index.html\" method=\"get\"><table border=0>"
               + "<tr><td>DCC address: (-1 to disable)</td> <td><input type=\"text\" name=\"loco.address\" value=\"" + locos[i].address + "\"></td></tr>"
+              + "<tr><td>Direction:</td><td>"
+              + "<input type=\"radio\" name=\"direction\" value=\"" + DIR_NORMAL + "\"" + (locos[i].direction == DIR_NORMAL ? " checked" : "" ) + ">Forward"
+              + "<input type=\"radio\" name=\"direction\" value=\"" + DIR_REVERSE + "\"" + (locos[i].direction == DIR_REVERSE ? " checked" : "" ) + ">Reverse"
+              + "<input type=\"radio\" name=\"direction\" value=\"" + DIR_DONTCHANGE + "\"" + (locos[i].direction == DIR_DONTCHANGE ? " checked" : "" ) + ">Don't change"
+              + "</td></tr>"
               + "<tr><td>Long Address?</td> <td><input type=\"checkbox\" name=\"loco.longAddress\"" + (locos[i].longAddress ? " checked" : "" ) + "></td></tr>"
-              + "<tr><td>Reverse?</td> <td><input type=\"checkbox\" name=\"loco.reverse\"" + (locos[i].reverse ? " checked" : "" ) + "></td></tr>"
               + "<tr><td colspan=2><a href=\"funcmap.html?loco=" + (i+1) + "\">Function mapping</a></td></tr></table>"
               + "<input type=\"hidden\" name=\"loco\" value=\"" + (i+1) + "\"><input type=\"submit\" value=\"Save loco config\"></form>";
   }
-  
+
   resp        += String("<hr>wiFred status<hr>\r\n")
               + "<table border=0>"
               + "<tr><td>Battery voltage: </td><td>" + batteryVoltage + " mV" + (lowBattery ? " Battery LOW" : "" ) + "</td></tr>"

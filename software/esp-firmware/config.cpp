@@ -157,6 +157,18 @@ void initConfig(void)
         if(doc.containsKey(FIELD_LOCO_REVERSE))
         {
           locos[i].reverse = doc[FIELD_LOCO_REVERSE];
+          if(locos[i].reverse)
+          {
+            locos[i].direction = DIR_REVERSE;
+          }
+          else
+          {
+            locos[i].direction = DIR_NORMAL;
+          }
+        }
+        if(doc.containsKey(FIELD_LOCO_DIRECTION))
+        {
+          locos[i].direction = doc[FIELD_LOCO_DIRECTION];
         }
         for(uint8_t j = 0; j < MAX_FUNCTION + 1; j++)
         {
@@ -231,7 +243,7 @@ void saveLocoConfig(uint8_t loco)
   // save loco configuration for current loco to SPIFFS
   doc[FIELD_LOCO_ADDRESS] = locos[loco].address;
   doc[FIELD_LOCO_LONG] = locos[loco].longAddress;
-  doc[FIELD_LOCO_REVERSE] = locos[loco].reverse;
+  doc[FIELD_LOCO_DIRECTION] = locos[loco].direction;
   doc.createNestedArray(FIELD_LOCO_FUNCTIONS);
   for(uint8_t i = 0; i < MAX_FUNCTION + 1; i++)
   {
