@@ -35,7 +35,7 @@
 #include "throttleHandling.h"
 #include "gitVersion.h"
 
-#define DEBUG
+// #define DEBUG
 
 std::vector<wifiAPEntry> apList;
 
