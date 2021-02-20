@@ -63,6 +63,7 @@ void handleWiFi(void)
     case STATE_CONNECTED:
     case STATE_LOCO_CONNECTING:
     case STATE_LOCO_ONLINE:
+    case STATE_LOCOS_OFF:
     case STATE_CONFIG_STATION:
     case STATE_CONFIG_STATION_WAITING:
       MDNS.update();

@@ -131,4 +131,12 @@ void requestLoco(uint8_t loco);
  */
 void requestLocoFunctions(uint8_t loco);
 
+
+/**
+ * Are there any active locos left?
+ * 
+ * @returns true if all locos have been deactivated
+ */
+bool allLocosInactive(void);
+
 #endif
