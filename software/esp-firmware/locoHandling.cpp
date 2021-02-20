@@ -169,9 +169,13 @@ void locoHandler(void)
     }
     else if(locoState[currentLoco] == LOCO_DEACTIVATE)
     {
-      setESTOP();
-      client.print(String("MTA") + locoThrottleID[currentLoco] + "<;>r\n");
-      client.print(String("MT-") + locoThrottleID[currentLoco] + "<;>" + locoThrottleID[currentLoco] + "\n");
+      if(locos[currentLoco].address != -1)
+      {
+        setESTOP();
+        client.print(String("MTA") + locoThrottleID[currentLoco] + "<;>r\n");
+        client.print(String("MT-") + locoThrottleID[currentLoco] + "<;>" + locoThrottleID[currentLoco] + "\n");
+      }
+
       locoState[currentLoco] = LOCO_INACTIVE;
       if(allLocosInactive())
       {
@@ -432,11 +436,18 @@ void setESTOP(void)
  */
 void requestLoco(uint8_t loco)
 {
-  // only act if the loco is valid and active
-  if(loco >= 4 || locos[loco].address == -1)
+  // only act if the loco is valid...
+  if(loco >= 4)
   {
     return;
   }
+  // ...and active
+  if(locos[loco].address == -1)
+  {
+    locoState[loco] = LOCO_ACTIVE;
+    return;
+  }
+  
   // first step for new loco: Send "loco acquire" command and send ESTOP command right afterwards to make sure loco is not moving
   if(locos[loco].longAddress)
   {
