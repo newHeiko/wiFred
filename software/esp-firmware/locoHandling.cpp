@@ -1,6 +1,6 @@
 /**
  * This file is part of the wiFred wireless model railroading throttle project
- * Copyright (C) 2018  Heiko Rosemann
+ * Copyright (C) 2018-2021 Heiko Rosemann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -295,8 +295,8 @@ void locoRegister(void)
       uint8_t mac[6];
       WiFi.macAddress(mac);
       String id = String(mac[0], 16) + String(mac[1], 16) + String(mac[2], 16) + String(mac[3], 16) + String(mac[4], 16) + String(mac[5], 16);
-      client.print("HU" + id + "\n");
       client.print(String("N") + throttleName + "\n");
+      client.print("HU" + id + "\n");
       client.print("*+\n");
       switchState(STATE_LOCO_ONLINE);
       Serial.println("ON");
