@@ -1,6 +1,6 @@
 /**
  * This file is part of the wiFred wireless model railroading throttle project
- * Copyright (C) 2018  Heiko Rosemann
+ * Copyright (C) 2018-2021  Heiko Rosemann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,10 +18,11 @@
  * This file ties everything together to initialize the hardware and
  * form the main loop.
  * 
- * This project was made for ESP12E/ESP12F with Arduino ESP version 2.5.2
- * Board settings: Generic ESP8266 Module, 80MHz, Flash, Disabled, ck, 26MHz,
- * 40MHz, DOUT (compatible), 4M (1M SPIFFS), 2, v1.4 Higher Bandwidth, 
- * Disabled, None, Only Sketch, 115200 on /dev/ttyUSB0
+ * This project was made for ESP12E/ESP12F with Arduino ESP version 2.7.4
+ * Board settings: Generic ESP8266 Module, 2, 115200, 80MHz, 26MHz,
+ * 4MB (FS:1MB, OTA:~1019kB), DOUT (compatible), 40MHz, no dtr (aka ck), 
+ * Disabled, None, v1.4 Higher Bandwidth, Flash, Legacy, Only Sketch, 
+ * nonos-sdk 2.2.1+100 (190703), Basic SSL, /dev/ttyUSB0
  */
 
 #include "wifi.h"
