@@ -1,6 +1,6 @@
 /**
  * This file is part of the wiFred wireless model railroading throttle project
- * Copyright (C) 2018  Heiko Rosemann
+ * Copyright (C) 2018-2021 Heiko Rosemann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -378,16 +378,31 @@ void writeFuncMapPage()
   else
   {
     resp      += String("<hr>Function configuration for loco ") + loco + " (DCC address: " + locos[loco-1].address + ")<hr>"
-              + "<form action=\"index.html\" method=\"get\"><table border=0>";
+              + "<form action=\"index.html\" method=\"get\"><table border=0>"
+              + "<tr style=\"text-align: center\">"
+              + "<td>Function</td>"
+              + "<td>Throttle controlled</td>"
+              + "<td>Throttle controlled, force momentary</td>"
+              + "<td>Throttle controlled, force locking</td>"
+              + "<td>Throttle controlled if this is the only loco</td>"
+              + "<td>Force function always on</td>"
+              + "<td>Force function always off</td>"
+              + "<td>Ignore function key</td></tr>";
+
     for(uint8_t i=0; i<=MAX_FUNCTION; i++)
     {
-      resp    += String("<tr><td>Function ") + i + ":</td>"
-              + "<td><input type=\"radio\" name=\"f" + i + "\" value=\"" + ALWAYS_ON + "\"" 
-                + (locos[loco-1].functions[i] == ALWAYS_ON ? " checked" : "" ) + ">Always On</td>"
-              + "<td><input type=\"radio\" name=\"f" + i + "\" value=\"" + THROTTLE + "\"" 
-                + (locos[loco-1].functions[i] == THROTTLE ? " checked" : "" ) + ">Throttle controlled</td>"
-              + "<td><input type=\"radio\" name=\"f" + i + "\" value=\"" + ALWAYS_OFF + "\"" 
-                + (locos[loco-1].functions[i] == ALWAYS_OFF ? " checked" : "" ) + ">Always Off</td><tr>";
+      resp    += String("<tr style=\"text-align: center");
+      if(i%2)
+      {
+        resp  += String("; background-color: #eee");
+      }
+      resp += String("\"><td>F") + i + "</td>";
+      for(uint8_t j=THROTTLE; j<=IGNORE; j++)
+      {
+        resp += String("<td><input type=\"radio\" name=\"f") + i + "\" value=\"" + j + "\"" 
+             + (locos[loco-1].functions[i] == j ? " checked" : "" ) + "></td>";
+      }
+      resp    += String("</tr>");
     }
     resp      += String("<tr><td colspan=4><input type=\"hidden\" name=\"loco\" value=\"") + loco + "\"><input type=\"submit\" value=\"Save function configuration and return to main page\"></td></tr></table></form>\r\n";
   }
