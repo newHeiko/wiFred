@@ -175,6 +175,10 @@ void locoHandler(void)
       client.print(String("MTA") + locoThrottleID[currentLoco] + "<;>r\n");
       client.print(String("MT-") + locoThrottleID[currentLoco] + "<;>" + locoThrottleID[currentLoco] + "\n");
       locoState[currentLoco] = LOCO_INACTIVE;
+      if(allLocosInactive())
+      {
+        switchState(STATE_LOCOS_OFF, 5000);
+      }
     }
     else if(currentLoco == 3)
     {
@@ -537,4 +541,21 @@ void requestLocoFunctions(uint8_t loco)
         break;
     }
   }
+}
+
+/**
+ * Are there any active locos left?
+ * 
+ * @returns true if all locos have been deactivated
+ */
+bool allLocosInactive(void)
+{
+  for(uint8_t l = 0; l < 4; l++)
+  {
+    if(locoState[l] != LOCO_INACTIVE)
+    {
+      return false;
+    }
+  }
+  return true;
 }

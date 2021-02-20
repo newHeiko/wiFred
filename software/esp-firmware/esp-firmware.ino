@@ -158,6 +158,17 @@ void loop() {
       }
       break;
 
+    case STATE_LOCOS_OFF:
+      if(millis() > stateTimeout)
+      {
+        switchState(STATE_LOWPOWER_WAITING, 100);
+      }
+      if(!allLocosInactive())
+      {
+        switchState(STATE_LOCO_ONLINE);
+      }
+      break;
+
     case STATE_LOWPOWER_WAITING:
       setLEDvalues("0/0", "0/0", "1/250");
       if(millis() > stateTimeout)
