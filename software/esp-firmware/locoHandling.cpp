@@ -361,23 +361,49 @@ void setFunction(uint8_t f)
   bool firstLoco = true;
   for(uint8_t l = 0; l < 4 && f <= MAX_FUNCTION; l++)
   {
-    if(locos[l].functions[f] == THROTTLE)
+    // skip inactive locos
+    if(locoState[l] != LOCO_ACTIVE)
     {
-      client.print(String("MTA") + locoThrottleID[l] + "<;>F1" + f + "\n");
+      continue;
+    }
+    
+    switch(locos[l].functions[f])
+    {
+      case THROTTLE_SINGLE:
+        if(!isOnlyLoco(l))
+        {
+          break;
+        }
+      
+      // intentionally fall through
+      
+      case THROTTLE:
+      case THROTTLE_LOCKING:
       // if this is the first loco which uses this function
       if(firstLoco)
-      {
-        firstLoco = false;
-        // remember function status to match new locos
-        if(globalFunctionStatus[f] == ALWAYS_ON)
         {
-          globalFunctionStatus[f] = ALWAYS_OFF;
+          firstLoco = false;
+          // remember function status to match new locos
+          if(globalFunctionStatus[f] == ALWAYS_ON)
+          {
+            globalFunctionStatus[f] = ALWAYS_OFF;
+          }
+          else if(globalFunctionStatus[f] == ALWAYS_OFF)
+          {
+            globalFunctionStatus[f] = ALWAYS_ON;
+          }
         }
-        else if(globalFunctionStatus[f] == ALWAYS_OFF)
-        {
-          globalFunctionStatus[f] = ALWAYS_ON;
-        }
-      }
+
+      // intentionally fall through
+      
+      case THROTTLE_MOMENTARY:
+        client.print(String("MTA") + locoThrottleID[l] + "<;>F1" + f + "\n");
+        break;
+
+      case ALWAYS_ON:
+      case ALWAYS_OFF:
+      case IGNORE:
+        break;
     }
   }
 }
@@ -393,9 +419,32 @@ void clearFunction(uint8_t f)
   }
   for(uint8_t l = 0; l < 4 && f <= MAX_FUNCTION; l++)
   {
-    if(locos[l].functions[f] == THROTTLE)
+    // skip inactive locos
+    if(locoState[l] != LOCO_ACTIVE)
     {
-      client.print(String("MTA") + locoThrottleID[l] + "<;>F0" + f + "\n");
+      continue;
+    }
+    
+    switch(locos[l].functions[f])
+    {
+      case THROTTLE_SINGLE:
+        if(!isOnlyLoco(l))
+        {
+          break;
+        }
+      
+      // intentionally fall through
+      
+      case THROTTLE:
+      case THROTTLE_LOCKING:
+      case THROTTLE_MOMENTARY:
+        client.print(String("MTA") + locoThrottleID[l] + "<;>F0" + f + "\n");
+        break;
+
+      case ALWAYS_ON:
+      case ALWAYS_OFF:
+      case IGNORE:
+        break;
     }
   }
 }
@@ -640,6 +689,27 @@ bool allLocosInactive(void)
 {
   for(uint8_t l = 0; l < 4; l++)
   {
+    if(locoState[l] != LOCO_INACTIVE)
+    {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * Is this the only active loco?
+ * 
+ * @returns true if all other locos are inactive
+ */
+bool isOnlyLoco(uint8_t loco)
+{
+  for(uint8_t l = 0; l < 4; l++)
+  {
+    if(l == loco)
+    {
+      continue;
+    }
     if(locoState[l] != LOCO_INACTIVE)
     {
       return false;
