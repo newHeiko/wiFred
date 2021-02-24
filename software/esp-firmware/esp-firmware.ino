@@ -43,12 +43,15 @@ void setup() {
   Serial.begin(115200);
   Serial.setTimeout(10);
   initConfig();
+
+  initThrottle();
   
   #ifdef DEBUG
   Serial.setDebugOutput(true);
   #else
   Serial.setDebugOutput(false);
   #endif
+  
   delay(100);
 
   initWiFi();

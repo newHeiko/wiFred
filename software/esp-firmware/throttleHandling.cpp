@@ -1,6 +1,6 @@
 /**
  * This file is part of the wiFred wireless model railroading throttle project
- * Copyright (C) 2018  Heiko Rosemann
+ * Copyright (C) 2018-2021 Heiko Rosemann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,16 +15,62 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>
  *
- * This file handles the connection to the AVR handling keys, direction switch 
- * and speed input and also forms proper wiThrottle commands from them to be
- * sent to the server via the functions in locoHandling.*
+ * This file handles reading in keys and pushbuttons as well as setting LEDs
+ * and reading in the speed potentiometer
  */
 
 #include <stdbool.h>
+#include <Ticker.h>
 
 #include "locoHandling.h"
 #include "stateMachine.h"
 #include "lowbat.h"
+#include "throttleHandling.h"
+
+/**
+ * LED handling tickers
+ */
+Ticker ledStopTickerOn;
+Ticker ledStopTickerOff;
+Ticker ledFwdTickerOn;
+Ticker ledFwdTickerOff;
+Ticker ledRevTickerOn;
+Ticker ledRevTickerOff;
+
+/**
+ * LED cycle times
+ */
+uint8_t ledStopOnTime;
+uint8_t ledFwdOnTime;
+uint8_t ledRevOnTime;
+
+/**
+ * turn LED off
+ */
+void ledOff(int ledPin)
+{
+  digitalWrite(ledPin, HIGH);
+}
+
+/**
+ * turn LED on and schedule turning it off again
+ */
+void ledOn(int ledPin)
+{
+  digitalWrite(ledPin, LOW);
+  switch(ledPin)
+  {
+    case LED_STOP:
+      ledStopTickerOff.once_ms(10 * ledStopOnTime, ledOff, LED_STOP);
+      break;
+    case LED_FWD:
+      ledFwdTickerOff.once_ms(10 * ledFwdOnTime, ledOff, LED_FWD);
+      break;
+    case LED_REV:
+      ledRevTickerOff.once_ms(10 * ledRevOnTime, ledOff, LED_REV);
+      break;
+  }
+}
 
 /**
  * Remember current direction setting
@@ -32,44 +78,41 @@
 bool reverseOut = false;
 
 /**
- * String keeping the AVR firmware revision
+ * Change LED timers
  */
-char * avrRevision = NULL;
-
-/**
- * Send LED settings to AVR - Strings are of the shape "20/100" meaning 20*10ms on time and 100*10ms total cycle time
- */
-void setLEDvalues(String led1, String led2, String led3)
+void setLEDvalues(String ledFwd, String ledRev, String ledStop)
 {
-  static uint32_t timeout = 0;
-  static String oldLed1 = "";
-  static String oldLed2 = "";
-  static String oldLed3 = "";
+  static String oldLedFwd = "";
+  static String oldLedRev = "";
+  static String oldLedStop = "";
 
-  if(oldLed1 != led1)
+  if(oldLedFwd != ledFwd || oldLedRev != ledRev || oldLedStop != ledStop)
   {
-    Serial.println("L1:" + led1);
-    oldLed1 = led1;
-  }
-  else if(oldLed2 != led2)
-  {
-    Serial.println("L2:" + led2);
-    oldLed2 = led2;
-  }
-  else if(oldLed3 != led3)
-  {
-    Serial.println("L3:" + led3);
-    oldLed3 = led3;
-  }
-  else if(millis() > timeout)
-  {
-    Serial.println("L1:" + led1);
-    Serial.println("L2:" + led2);
-    Serial.println("L3:" + led3);
+    alignas(4) unsigned int onTime;
+    alignas(4) unsigned int cycleTime;
 
-    timeout = millis() + 5000;
+    if(sscanf(ledStop.c_str(), "%u/%u", &onTime, &cycleTime) == 2)
+    {
+      ledStopTickerOn.attach_ms(10 * cycleTime, ledOn, LED_STOP);
+      ledStopOnTime = onTime;
+    }
+
+    if(sscanf(ledFwd.c_str(), "%u/%u", &onTime, &cycleTime) == 2)
+    {
+      ledFwdTickerOn.attach_ms(10 * cycleTime, ledOn, LED_FWD);
+      ledFwdOnTime = onTime;
+    }
+
+    if(sscanf(ledRev.c_str(), "%u/%u", &onTime, &cycleTime) == 2)
+    {
+      ledRevTickerOn.attach_ms(10 * cycleTime, ledOn, LED_REV);
+      ledRevOnTime = onTime;
+    }
+
+    oldLedStop = ledStop;
+    oldLedFwd = ledFwd;
+    oldLedRev = ledRev;
   }
-  Serial.flush();  
 }
 
 /**
@@ -77,12 +120,6 @@ void setLEDvalues(String led1, String led2, String led3)
  */
 void handleThrottle(void)
 {
-  // initialization for avr revision
-  if(avrRevision == NULL)
-  {
-    avrRevision = strdup("unknown");
-  }
-  
   // if there is input on the serial port
   while(Serial.available() > 0)
   {
@@ -229,15 +266,17 @@ void handleThrottle(void)
           switchState(STATE_LOWPOWER_WAITING, 1000);
         }
         break;
-      
-      // Firmware revision received
-      case 'R':
-        if(avrRevision != NULL)
-        {
-          free(avrRevision);
-        }
-        avrRevision = strdup(inputLine.substring(1).c_str());
-        break;       
-    }
+      }
   }
+}
+
+/**
+ * Initialize key settings and LED timer settings
+ */
+void initThrottle(void)
+{
+  // Set all LED ports as outputs
+  pinMode(LED_STOP, OUTPUT);
+  pinMode(LED_FWD, OUTPUT);
+  pinMode(LED_REV, OUTPUT);
 }
