@@ -314,4 +314,15 @@ void initThrottle(void)
   pinMode(LED_STOP, OUTPUT);
   pinMode(LED_FWD, OUTPUT);
   pinMode(LED_REV, OUTPUT);
+  pinMode(FLASHLIGHT, OUTPUT);
+  
+  // Set all key inputs to pullup, all loco selection switch inputs to floating
+  for(int k = KEY_F0; k <= KEY_REV; k++)
+  {
+    pinMode(KEY_PIN[k], INPUT_PULLUP); 
+  }
+  for(int k = KEY_LOCO1; k <= KEY_LOCO4; k++)
+  {
+    pinMode(KEY_PIN[k], INPUT);
+  }
 }

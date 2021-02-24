@@ -25,6 +25,15 @@
 #define LED_STOP 17
 #define LED_FWD 19
 #define LED_REV 18
+#define FLASHLIGHT 20
+
+enum keys { KEY_F0, KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6, KEY_F7, KEY_F8,
+            KEY_ESTOP, KEY_SHIFT, KEY_FWD, KEY_REV,
+            KEY_LOCO1, KEY_LOCO2, KEY_LOCO3, KEY_LOCO4 };
+
+const int KEY_PIN[] = { 2, 3, 4, 5, 6, 7, 8, 9, 10,
+            11, 12, 13, 14,
+            15, 16, 17, 18 };
 
 /**
  * Change LED settings
