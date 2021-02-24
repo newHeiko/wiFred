@@ -40,9 +40,9 @@ Ticker ledRevTickerOff;
 /**
  * LED cycle times
  */
-uint8_t ledStopOnTime;
-uint8_t ledFwdOnTime;
-uint8_t ledRevOnTime;
+unsigned int ledStopOnTime;
+unsigned int ledFwdOnTime;
+unsigned int ledRevOnTime;
 
 /**
  * turn LED off
@@ -57,17 +57,28 @@ void ledOff(int ledPin)
  */
 void ledOn(int ledPin)
 {
-  digitalWrite(ledPin, LOW);
   switch(ledPin)
   {
     case LED_STOP:
-      ledStopTickerOff.once_ms(10 * ledStopOnTime, ledOff, LED_STOP);
+      if(ledStopOnTime > 0)
+        {
+          digitalWrite(ledPin, LOW);
+          ledStopTickerOff.once_ms(10 * ledStopOnTime, ledOff, LED_STOP);
+        }
       break;
     case LED_FWD:
-      ledFwdTickerOff.once_ms(10 * ledFwdOnTime, ledOff, LED_FWD);
+      if(ledFwdOnTime > 0)
+      {
+        digitalWrite(ledPin, LOW);
+        ledFwdTickerOff.once_ms(10 * ledFwdOnTime, ledOff, LED_FWD);
+      }
       break;
     case LED_REV:
-      ledRevTickerOff.once_ms(10 * ledRevOnTime, ledOff, LED_REV);
+      if(ledRevOnTime > 0)
+      {
+        digitalWrite(ledPin, LOW);
+        ledRevTickerOff.once_ms(10 * ledRevOnTime, ledOff, LED_REV);
+      }
       break;
   }
 }
@@ -95,18 +106,42 @@ void setLEDvalues(String ledFwd, String ledRev, String ledStop)
     {
       ledStopTickerOn.attach_ms(10 * cycleTime, ledOn, LED_STOP);
       ledStopOnTime = onTime;
+      if(ledStopOnTime > 0)
+      {
+        ledOn(LED_STOP);
+      }
+      else
+      {
+        ledOff(LED_STOP);
+      }
     }
 
     if(sscanf(ledFwd.c_str(), "%u/%u", &onTime, &cycleTime) == 2)
     {
       ledFwdTickerOn.attach_ms(10 * cycleTime, ledOn, LED_FWD);
       ledFwdOnTime = onTime;
+      if(ledFwdOnTime > 0)
+      {
+        ledOn(LED_FWD);
+      }
+      else
+      {
+        ledOff(LED_FWD);
+      }
     }
 
     if(sscanf(ledRev.c_str(), "%u/%u", &onTime, &cycleTime) == 2)
     {
       ledRevTickerOn.attach_ms(10 * cycleTime, ledOn, LED_REV);
       ledRevOnTime = onTime;
+      if(ledRevOnTime > 0)
+      {
+        ledOn(LED_REV);
+      }
+      else
+      {
+        ledOff(LED_REV);
+      }
     }
 
     oldLedStop = ledStop;
