@@ -47,6 +47,11 @@
 #define FIELD_LOCO_DIRECTION "direction"
 #define FIELD_LOCO_FUNCTIONS "functions"
 
+#define FN_ANALOG "/calibration.txt"
+#define FIELD_POTI_MAX "potiMax"
+#define FIELD_POTI_MIN "potiMin"
+#define FIELD_BATT_FACTOR "battFactor"
+
 /**
  * A user-given name for this device
  */
@@ -78,6 +83,11 @@ void saveLocoConfig(uint8_t loco);
  * Save WiFi configuration
  */
 void saveWiFiConfig();
+
+/**
+ * Save reference factors for analog inputs
+ */
+void saveAnalogConfig();
 
 /**
  * Reformat configuration filesystem

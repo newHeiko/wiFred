@@ -36,6 +36,22 @@ const int KEY_PIN[] = { 3, 11, 4, 37, 12, 5, 38, 13, 6,
             34, 35, 2, 1 };
 
 /**
+ * Potentiometer value for zero speed (counterclockwise limit)
+ */
+extern unsigned int potiMin;
+
+/**
+ * Potentiometer value for max speed (clockwise limit)
+ */
+extern unsigned int potiMax;
+
+/**
+ * Battery voltage readout factor
+ * Multiply readout by this value to correct it
+ */
+extern float battFactor;
+
+/**
  * Change LED settings
  */
 void setLEDvalues(String ledFwd, String ledRev, String ledStop);

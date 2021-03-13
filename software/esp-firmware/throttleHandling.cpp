@@ -56,6 +56,22 @@ bool inputState[17] = { false };
 bool inputPressed[17] = { false };
 
 /**
+ * Potentiometer value for zero speed (counterclockwise limit)
+ */
+unsigned int potiMin;
+
+/**
+ * Potentiometer value for max speed (clockwise limit)
+ */
+unsigned int potiMax;
+
+/**
+ * Battery voltage readout factor
+ * Multiply readout by this value to correct it
+ */
+float battFactor = 1.0f;
+
+/**
  * turn LED off
  */
 void ledOff(int ledPin)
