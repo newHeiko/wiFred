@@ -40,6 +40,8 @@ uint32_t stateTimeout = UINT32_MAX;
 void setup() {
 // put your setup code here, to run once:
 
+  delay(100);
+
   Serial.begin(115200);
   Serial.setTimeout(10);
   initConfig();
