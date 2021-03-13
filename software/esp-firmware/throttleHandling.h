@@ -50,4 +50,20 @@ void handleThrottle(void);
  */
 void initThrottle(void);
 
+/**
+ * Get state of input buttons
+ * 
+ * @param the key to query
+ * @return true if input button is pressed (pin value is low)
+ */
+bool getInputState(keys key);
+
+/**
+ * Get input state changes from input button
+ * 
+ * @param the key to query
+ * @returns true if button has been pressed since last call
+ */
+bool getInputPressed(keys key);
+
 #endif

@@ -45,6 +45,17 @@ unsigned int ledFwdOnTime;
 unsigned int ledRevOnTime;
 
 /**
+ * Input handling ticker
+ */
+Ticker debounceInput;
+
+/**
+ * Current state of inputs
+ */
+bool inputState[17] = { false };
+bool inputPressed[17] = { false };
+
+/**
  * turn LED off
  */
 void ledOff(int ledPin)
@@ -151,7 +162,75 @@ void setLEDvalues(String ledFwd, String ledRev, String ledStop)
 }
 
 /**
- * Periodically check serial port for new information from the AVR and react accordingly
+ * Get state of input buttons
+ * 
+ * @param the key to query
+ * @return true if input button is pressed (pin value is low)
+ */
+bool getInputState(keys key)
+{
+  return inputState[key];
+}
+
+/**
+ * Get input state changes from input button
+ * 
+ * @param the key to query
+ * @returns true if button has been pressed since last call
+ */
+bool getInputPressed(keys key)
+{
+  if(inputPressed[key])
+  {
+    inputPressed[key] = false;
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Callback function for debouncing keys
+ */
+void debounceInputCallback(void)
+{
+  static uint8_t counter[17] = {};
+
+  for(uint8_t index = KEY_F0; index <= KEY_LOCO4; index++)
+  {
+    if(digitalRead(KEY_PIN[index]) == LOW && inputState[index] == false)
+    {
+      if(counter[index] >= 4)
+      {
+        inputState[index] = true;
+        inputPressed[index] = true;
+        counter[index] = 0;
+      }
+      else
+      {
+        counter[index]++;
+      }
+    }
+    else if(digitalRead(KEY_PIN[index]) == HIGH && inputState[index] == true)
+    {
+      if (counter[index] >= 4)
+      {
+        inputState[index] = false;
+        counter[index] = 0;
+      }
+      else
+      {
+        counter[index]++;
+      }
+    }
+    else
+    {
+      counter[index] = 0;
+    }
+  }
+}
+
+/**
+ * Periodically check keys for new user input and react accordingly
  */
 void handleThrottle(void)
 {
@@ -325,4 +404,7 @@ void initThrottle(void)
   {
     pinMode(KEY_PIN[k], INPUT);
   }
+  
+  // Run timer to debounce keys
+  debounceInput.attach_ms(10, debounceInputCallback);
 }
