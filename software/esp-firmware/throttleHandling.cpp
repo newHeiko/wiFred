@@ -234,6 +234,16 @@ void debounceInputCallback(void)
  */
 void handleThrottle(void)
 {
+  for(unsigned int index = KEY_F0; index <= KEY_LOCO4; index++)
+  {
+    if(getInputPressed((keys) index))
+    {
+      Serial.println(String("Key ") + index + " has been pressed.");
+    }
+  }
+
+  return;
+  
   // if there is input on the serial port
   while(Serial.available() > 0)
   {
