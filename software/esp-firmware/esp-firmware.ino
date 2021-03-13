@@ -98,7 +98,7 @@ void loop() {
       if(WiFi.status() == WL_CONNECTED)
       {
         initMDNS();
-        switchState(STATE_CONNECTED, 60 * 1000);
+        switchState(STATE_CONNECTED, TOTAL_NETWORK_TIMEOUT_MS);
       }
       else if(millis() > stateTimeout)
       {
