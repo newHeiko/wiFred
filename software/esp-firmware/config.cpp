@@ -175,8 +175,9 @@ void initConfig(void)
         for(uint8_t j = 0; j < MAX_FUNCTION + 1; j++)
         {
           locos[i].functions[j] = (functionInfo) doc[FIELD_LOCO_FUNCTIONS][j].as<int>();
-        } 
+        }
       }
+      f.close();
     }
   }
 
