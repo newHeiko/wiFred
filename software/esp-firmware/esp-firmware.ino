@@ -21,7 +21,7 @@
  * This project was made for ESP32-S2
  * with Arduino ESP32 from the idf-release/v4.2-branch
  * Board settings: ESP32S2 Dev Module, UART0, Disabled,
- * Default 4MB with spiffs (1.2MB APP/1.5MB SPIFFS), 80MHz (WiFi),
+ * Default 4MB with spiffs (1.2MB APP/1.5MB SPIFFS), 160MHz (WiFi),
  * QIO, 40MHz, 4MB (32Mb), 921600, None on /dev/ttyUSB0
  */
 
