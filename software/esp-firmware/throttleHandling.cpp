@@ -414,12 +414,12 @@ void adcCallback(void)
   if(counter >= NUM_SAMPLES)
   {
     speedBuffer /= NUM_SAMPLES;
-    if(speedBuffer < potiMin)
+    if(speedBuffer < potiMin - potiMin / 100)
     {
       potiMin = speedBuffer;
       saveAnalogConfig();
     }
-    if(speedBuffer > potiMax)
+    if(speedBuffer > potiMax + potiMax / 100)
     {
       potiMax = speedBuffer;
       saveAnalogConfig();
