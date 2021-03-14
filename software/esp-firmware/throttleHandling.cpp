@@ -262,6 +262,16 @@ void debounceInputCallback(void)
       counter[index] = 0;
     }
   }
+
+  // abuse this to set flashlight correctly
+  if(inputState[KEY_SHIFT])
+  {
+    digitalWrite(FLASHLIGHT, HIGH);
+  }
+  else
+  {
+    digitalWrite(FLASHLIGHT, LOW);
+  }
 }
 
 /**
