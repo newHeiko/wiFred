@@ -302,6 +302,21 @@ void writeMainPage()
     saveWiFiConfig();
   }
 
+  // check if this is a "recalibrate speed" request
+  if (server.hasArg("resetPoti"))
+  {
+    potiMin = potiMax / 2;
+    potiMax = potiMin;
+    saveAnalogConfig();
+  }
+
+  // check if this is a "recalibrate battery" request
+  if (server.hasArg("newVoltage"))
+  {
+    battFactor = battFactor * server.arg("newVoltage").toInt() / batteryVoltage;
+    saveAnalogConfig();
+  }
+
   String resp = String("<!DOCTYPE HTML>\r\n")
               + "<html><head><title>wiFred configuration page</title></head>\r\n"
               + "<body><h1>wiFred configuration page</h1>\r\n"
@@ -354,6 +369,9 @@ void writeMainPage()
               + "<table border=0>"
               + "<tr><td>Battery voltage: </td><td>" + batteryVoltage + " mV" + (lowBattery ? " Battery LOW" : "" ) + "</td></tr>"
               + "<tr><td>Firmware revision: </td><td>" + REV + "</td></tr></table>\r\n"
+              + "<hr>wiFred calibration<hr>\r\n"
+              + "<form action=\"index.html\" method=\"get\"><input type=\"hidden\" name=\"resetPoti\" value=\"true\"><input type=\"submit\" value=\"Reset speed calibration\"></form>"
+              + "<form action=\"index.html\" method=\"get\">Actual battery voltage: <input type=\"text\" name=\"newVoltage\" value=\"" + batteryVoltage + "\"><input type=\"submit\" value=\"Correct battery voltage calibration\"></form>"
               + "<hr>wiFred system<hr>\r\n"
               + "<a href=resetConfig.html>Reset wiFred to factory defaults</a>\r\n"
               + "<a href=update>Update wiFred firmware</a>\r\n"
