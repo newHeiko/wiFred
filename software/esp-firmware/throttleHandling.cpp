@@ -62,6 +62,11 @@ bool inputToggled[17] = { false };
 Ticker analogInput;
 
 /**
+ * Flag to show we want to save new config data
+ */
+volatile boolean saveAnalog = false;
+
+/**
  * Potentiometer value for zero speed (counterclockwise limit)
  */
 unsigned int potiMin;
@@ -395,7 +400,11 @@ void handleThrottle(void)
   }
 
   log_d("Current battery voltage: %u", batteryVoltage);
-
+  if(saveAnalog)
+  {
+    saveAnalogConfig();
+    saveAnalog = false;
+  }
 }
 
 /**
@@ -417,14 +426,15 @@ void adcCallback(void)
     if(speedBuffer < potiMin - potiMin / 100)
     {
       potiMin = speedBuffer;
-      saveAnalogConfig();
+      saveAnalog = true;
     }
     if(speedBuffer > potiMax + potiMax / 100)
     {
       potiMax = speedBuffer;
-      saveAnalogConfig();
+      saveAnalog = true;
     }
     setSpeed(map(speedBuffer, potiMin, potiMax, 127, 0) - 1);
+    log_d("New speed: %u", map(speedBuffer, potiMin, potiMax, 127, 0) - 1);
 
     batteryBuffer /= NUM_SAMPLES;
     batteryBuffer *= battFactor * 2;
@@ -432,7 +442,7 @@ void adcCallback(void)
     {
       battFactor = battFactor * 4200.0f / batteryBuffer;
       batteryBuffer = 4200;
-      saveAnalogConfig();
+      saveAnalog = true;
     }
     if(batteryBuffer < EMPTY_BATTERY_THRESHOLD)
     {
@@ -448,7 +458,6 @@ void adcCallback(void)
     }
 
     batteryVoltage = batteryBuffer;
-
     batteryBuffer = speedBuffer = counter = 0;
   }
 }
