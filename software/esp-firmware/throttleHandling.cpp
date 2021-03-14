@@ -54,6 +54,7 @@ Ticker debounceInput;
  */
 bool inputState[17] = { false };
 bool inputPressed[17] = { false };
+bool inputToggled[17] = { false };
 
 /**
  * Potentiometer value for zero speed (counterclockwise limit)
@@ -205,6 +206,22 @@ bool getInputPressed(keys key)
 }
 
 /**
+ * Get input state changes from input button
+ * 
+ * @param the key to query
+ * @returns true if button has been toggled since last call
+ */
+bool getInputToggled(keys key)
+{
+  if(inputToggled[key])
+  {
+    inputToggled[key] = false;
+    return true;
+  }
+  return false;
+}
+
+/**
  * Callback function for debouncing keys
  */
 void debounceInputCallback(void)
@@ -219,6 +236,7 @@ void debounceInputCallback(void)
       {
         inputState[index] = true;
         inputPressed[index] = true;
+        inputToggled[index] = true;
         counter[index] = 0;
       }
       else
@@ -231,6 +249,7 @@ void debounceInputCallback(void)
       if (counter[index] >= 4)
       {
         inputState[index] = false;
+        inputToggled[index] = true;
         counter[index] = 0;
       }
       else
@@ -250,131 +269,122 @@ void debounceInputCallback(void)
  */
 void handleThrottle(void)
 {
-  for(unsigned int index = KEY_F0; index <= KEY_LOCO4; index++)
+  // handle direction switch
+  if(getInputPressed(KEY_REV))
   {
-    if(getInputPressed((keys) index))
+    setReverse(true);
+    log_v("Setting direction to reverse");
+  }
+  if(getInputPressed(KEY_FWD))
+  {
+    setReverse(false);
+    log_v("Setting direction to forward");
+  }
+
+  // handle f0 key
+  if(getInputToggled(KEY_F0))
+  {
+    if(getInputState(KEY_F0))
     {
-      Serial.println(String("Key ") + index + " has been pressed.");
+      log_v("Setting function 0");
+      setFunction(0);
+    }
+    else
+    {
+      log_v("Releasing function 0");
+      clearFunction(0);
+    }
+  }
+  // handle keys f1 to f8
+  {
+    // check for shift on press, remember shift for release
+    static boolean shift[8] = { false };
+    for(int f=1; f<=8; f++)
+    {
+      if(getInputToggled((keys) ((int) KEY_F0 + f)))
+      {
+        if(getInputState((keys) ((int) KEY_F0 + f)))
+        {
+          if(getInputState(KEY_SHIFT))
+          {
+            shift[f-1] = true;
+            log_v("Setting function %u", f+8);
+            setFunction(f + 8);
+          }
+          else
+          {
+            shift[f-1] = false;
+            log_v("Setting function %u", f);
+            setFunction(f);
+          }
+        }
+        else
+        {
+          if(shift[f-1])
+          {
+            log_v("Releasing function %u", f+8);
+            clearFunction(f+8);
+          }
+          else
+          {
+            log_v("Releasing function %u", f);
+            clearFunction(f);
+          }
+        }
+      }
     }
   }
 
-  return;
-  
-  // if there is input on the serial port
-  while(Serial.available() > 0)
+  // check for new loco switch activity
+  // inverse logic: getInputState == true means loco switch off
+  for(int l=0; l<4; l++)
   {
-    // Parse input from AVR and react appropriately
-    String inputLine = Serial.readStringUntil('\n');
-    switch(inputLine.charAt(0))
+    if(getInputToggled((keys) ((int) KEY_LOCO1 + l)))
     {
-      // ESTOP command received
-      case 'E':
-        if(inputLine.charAt(6) == 'D')
-        {
-          setESTOP();
-        }
-        break;
+      log_v("Loco selection switch %u changed to %u", l+1, getInputState((keys) ((int) KEY_LOCO1 + l)));
+      if(getInputState((keys) ((int) KEY_LOCO1 + l)) && locoState[l] != LOCO_INACTIVE)
+      {
+        log_v("Deactivating loco %u", l+1);
+        locoState[l] = LOCO_DEACTIVATE;
+      }
+      if(!getInputState((keys) ((int) KEY_LOCO1 + l)) && locoState[l] != LOCO_ACTIVE)
+      {
+        log_v("Activating loco %u", l+1);
+        locoState[l] = LOCO_ACTIVATE;
+      }
+    }
+  }
   
-      // CONF command received
-      case 'C':
-        if(inputLine.charAt(5) == 'D')
-        {
-          if(wiFredState == STATE_LOCO_ONLINE || wiFredState == STATE_CONNECTED || wiFredState == STATE_LOCO_CONNECTING)
-          {
-            // disconnect and start config mode
-            setESTOP();
-            locoDisconnect();
-            initWiFiConfigSTA();
-            switchState(STATE_CONFIG_STATION_WAITING, 120 * 1000);
-          }
-          else if(wiFredState == STATE_CONFIG_STATION || wiFredState == STATE_CONFIG_STATION_WAITING)
-          {
-            shutdownWiFiConfigSTA();
-            switchState(STATE_STARTUP, 60 * 1000);
-          }
-        }
-        break;
+  // handle emergency stop key
+  if(getInputPressed(KEY_ESTOP))
+  {
+    setESTOP();
+    log_v("Setting ESTOP\n");
+    if(getInputState(KEY_SHIFT))
+    {
+      log_v("Shift key active as well - set config mode\n");
+      if(wiFredState == STATE_LOCO_ONLINE || wiFredState == STATE_CONNECTED || wiFredState == STATE_LOCO_CONNECTING)
+      {
+        // disconnect and start config mode
+        setESTOP();
+        locoDisconnect();
+        initWiFiConfigSTA();
+        switchState(STATE_CONFIG_STATION_WAITING, 120 * 1000);
+      }
+      else if(wiFredState == STATE_CONFIG_STATION || wiFredState == STATE_CONFIG_STATION_WAITING)
+      {
+        shutdownWiFiConfigSTA();
+        switchState(STATE_STARTUP, TOTAL_NETWORK_TIMEOUT_MS);
+      }
+    }
+  }
   
-      // Speed and direction command received
+/*      // Speed and direction command received
       case 'S':
         {
-          alignas(4) char direction;
-          alignas(4) unsigned int speedIn;
-          if(sscanf(inputLine.c_str(), "S:%u:%c", &speedIn, &direction) == 2)
-          {
-            if(speedIn <= 126)
-            {
-              if(direction == 'F')
-              {
-                setReverse(false);
                 setSpeed((uint8_t) speedIn);
-              }
-              else if(direction == 'R')
-              {
-                setReverse(true);
-                setSpeed((uint8_t) speedIn);
-              }
-              else
-              {
-                setESTOP();
-              }
-            }
-            else
-            {
-              setESTOP();
-            }
-          }
-        }
-        break;
-  
-      // Function command received
-      case 'F':
-        {
-          alignas(4) unsigned int f;
-          alignas(4) char upDown;
-          if(sscanf(inputLine.c_str(), "F%u_%c", &f, &upDown) == 2)
-          {
-            if(upDown == 'D')
-            {
-              setFunction((uint8_t) f);
-            }
-            else if(upDown == 'U')
-            {
-              clearFunction((uint8_t) f);
-            }
-          }
-        }
-        break;
-  
-      // Command to add a loco received
-      case '+':
-        {
-          uint8_t l = inputLine.substring(2).toInt();
-          if(l >= 1 && l <= 4)
-          {
-            if(locoState[l-1] != LOCO_ACTIVE)
-            {
-              locoState[l-1] = LOCO_ACTIVATE;
-            }
-          }
-        }
-        break;
-    
-      // Command to remove a loco received
-      case '-':
-        {
-          uint8_t l = inputLine.substring(2).toInt();
-          if(l >= 1 && l <= 4)
-          {
-            if(locoState[l-1] != LOCO_INACTIVE)
-            {
-              locoState[l-1] = LOCO_DEACTIVATE;
-            }
-          }
-        }
-        break;
-    
-      // Battery voltage received
+*/
+/*      // Battery voltage received
       case 'V':
         batteryVoltage = inputLine.substring(2).toInt();
         break;
@@ -407,7 +417,7 @@ void handleThrottle(void)
         }
         break;
       }
-  }
+  }*/
 }
 
 /**
