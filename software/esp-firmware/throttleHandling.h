@@ -32,7 +32,7 @@ enum keys { KEY_F0, KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6, KEY_F7, KEY_
             KEY_LOCO1, KEY_LOCO2, KEY_LOCO3, KEY_LOCO4 };
 
 const int KEY_PIN[] = { 3, 11, 4, 37, 12, 5, 38, 13, 6,
-            10, 40, 36, 16,
+            10, 40, 16, 36,
             34, 35, 2, 1 };
 
 #define ANALOG_PIN_VBATT 8
