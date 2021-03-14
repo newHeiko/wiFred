@@ -261,18 +261,11 @@ void locoConnect(void)
   if(locoServer.automatic && automaticServer == nullptr
      && (wiFredState == STATE_CONNECTED || wiFredState == STATE_CONFIG_AP) )
     {
-#ifdef DEBUG
-      Serial.println("Looking for automatic server");
-      Serial.println("Installing service query");
-#endif
+      log_d("Looking for automatic server");
       uint32_t n = MDNS.queryService("withrottle", "tcp");
       for(uint32_t i = 0; i < n; i++)
       {
-#ifdef DEBUG
-        Serial.print(String("Hostname: ") + MDNS.hostname(i) + " IP ");
-        Serial.print(MDNS.IP(i));
-        Serial.println(String(" port ") + MDNS.port(i));
-#endif
+        log_d("Hostname: %s IP %s Port %u", MDNS.hostname(i), MDNS.IP(i), MDNS.port(i));
         if(MDNS.port(i) == locoServer.port)
 	      {
 	        automaticServer = strdup(MDNS.hostname(i).c_str());
