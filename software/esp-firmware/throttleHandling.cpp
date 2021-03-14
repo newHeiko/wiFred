@@ -57,6 +57,11 @@ bool inputPressed[17] = { false };
 bool inputToggled[17] = { false };
 
 /**
+ * A/D conversion ticker
+ */
+Ticker analogInput;
+
+/**
  * Potentiometer value for zero speed (counterclockwise limit)
  */
 unsigned int potiMin;
@@ -388,50 +393,67 @@ void handleThrottle(void)
       }
     }
   }
-  
-/*      // Speed and direction command received
-      case 'S':
-        {
-                setSpeed((uint8_t) speedIn);
-*/
-/*      // Battery voltage received
-      case 'V':
-        batteryVoltage = inputLine.substring(2).toInt();
-        break;
-  
-      // Battery information received
-        case 'B':
-        if(inputLine.charAt(1) == 'L')
-        {
-          lowBattery = true;
-        }
-        else if(inputLine.charAt(1) == 'E')
-        {
-          lowBattery = true;
-          emptyBattery = true;
-        }
-        else
-        {
-          lowBattery = false;
-          emptyBattery = false;
-        }
-        break;
-  
-      // Power Down command received
-      case 'P':
-        if(inputLine.startsWith("PWR_DOWN"))
-        {
-          setESTOP();
-          locoDisconnect();
-          switchState(STATE_LOWPOWER_WAITING, 1000);
-        }
-        break;
-      }
-  }*/
 }
 
 /**
- * Initialize key settings and LED timer settings
+ * Analog to digital converter callback
+ */
+void adcCallback(void)
+{
+  static unsigned int counter = 0;
+  static uint32_t speedBuffer;
+  static uint32_t batteryBuffer;
+
+  speedBuffer += analogRead(ANALOG_PIN_POTI);
+  batteryBuffer += analogReadMilliVolts(ANALOG_PIN_VBATT);
+  counter++;
+
+  if(counter >= NUM_SAMPLES)
+  {
+    speedBuffer /= NUM_SAMPLES;
+    if(speedBuffer < potiMin)
+    {
+      potiMin = speedBuffer;
+      saveAnalogConfig();
+    }
+    if(speedBuffer > potiMax)
+    {
+      potiMax = speedBuffer;
+      saveAnalogConfig();
+    }
+    log_d("Set speed to %u", map(speedBuffer, potiMin, potiMax, 127, 0) - 1);
+    setSpeed(map(speedBuffer, potiMin, potiMax, 127, 0) - 1);
+
+    batteryBuffer /= NUM_SAMPLES;
+    batteryBuffer *= battFactor * 2;
+    if(batteryBuffer > 4200)
+    {
+      battFactor = battFactor * 4200.0f / batteryBuffer;
+      batteryBuffer = 4200;
+      saveAnalogConfig();
+    }
+    log_d("Measured battery voltage as %u mV", batteryBuffer);
+    if(batteryBuffer < EMPTY_BATTERY_THRESHOLD)
+    {
+      lowBattery = emptyBattery = true;
+    }
+    else if(batteryBuffer < LOW_BATTERY_THRESHOLD)
+    {
+      emptyBattery = true;
+    }
+    else
+    {
+      lowBattery = emptyBattery = false;
+    }
+
+    batteryVoltage = batteryBuffer;
+
+    batteryBuffer = speedBuffer = counter = 0;
+  }
+}
+
+/**
+ * Initialize key settings, analog inputs and LED timer settings
  */
 void initThrottle(void)
 {
@@ -454,4 +476,7 @@ void initThrottle(void)
   
   // Run timer to debounce keys
   debounceInput.attach_ms(10, debounceInputCallback);
+
+  // Run timer to read analog inputs
+  analogInput.attach_ms(10, adcCallback);
 }

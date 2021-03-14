@@ -38,6 +38,11 @@ const int KEY_PIN[] = { 3, 11, 4, 37, 12, 5, 38, 13, 6,
 #define ANALOG_PIN_VBATT 8
 #define ANALOG_PIN_POTI 9
 
+#define LOW_BATTERY_THRESHOLD 3550
+#define EMPTY_BATTERY_THRESHOLD 3450
+
+#define NUM_SAMPLES 16
+
 /**
  * Potentiometer value for zero speed (counterclockwise limit)
  */
