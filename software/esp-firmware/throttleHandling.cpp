@@ -439,6 +439,7 @@ void initThrottle(void)
   for(int k = KEY_LOCO1; k <= KEY_LOCO4; k++)
   {
     pinMode(KEY_PIN[k], INPUT);
+    inputState[k] = true;
   }
   
   // Run timer to debounce keys
