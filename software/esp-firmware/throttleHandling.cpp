@@ -359,7 +359,7 @@ void handleThrottle(void)
   if(getInputPressed(KEY_ESTOP))
   {
     setESTOP();
-    log_v("Setting ESTOP\n");
+    log_v("Setting ESTOP");
     if(getInputState(KEY_SHIFT))
     {
       log_v("Shift key active as well - set config mode\n");
