@@ -393,6 +393,9 @@ void handleThrottle(void)
       }
     }
   }
+
+  log_d("Current battery voltage: %u", batteryVoltage);
+
 }
 
 /**
@@ -421,7 +424,6 @@ void adcCallback(void)
       potiMax = speedBuffer;
       saveAnalogConfig();
     }
-    log_d("Set speed to %u", map(speedBuffer, potiMin, potiMax, 127, 0) - 1);
     setSpeed(map(speedBuffer, potiMin, potiMax, 127, 0) - 1);
 
     batteryBuffer /= NUM_SAMPLES;
@@ -432,7 +434,6 @@ void adcCallback(void)
       batteryBuffer = 4200;
       saveAnalogConfig();
     }
-    log_d("Measured battery voltage as %u mV", batteryBuffer);
     if(batteryBuffer < EMPTY_BATTERY_THRESHOLD)
     {
       lowBattery = emptyBattery = true;
