@@ -243,20 +243,27 @@ void locoConnect(void)
 {
   if(locoServer.automatic && automaticServer != nullptr)
     {
-#ifdef DEBUG
-      Serial.println("Trying to connect to automatic server...");
-#endif
+      log_d("Trying to connect to automatic server %s...", automaticServer);
       if(client.connect(automaticServerIP, locoServer.port))
 	    {
+        log_d("...succeeded.");
 	      client.setNoDelay(true);
 	      client.setTimeout(10);
 	      switchState(STATE_LOCO_CONNECTING, 10 * 1000);
 	    }
+      else
+      {
+        log_d("...failed. Resetting server info.");
+        free(automaticServer);
+        automaticServer = nullptr;
+      }
     }
   else if(!locoServer.automatic)
     {
+      log_d("Trying to connect to server %s...", locoServer.name);
       if(client.connect(locoServer.name, locoServer.port))
 	    {
+        log_d("...succeeded.");
 	      client.setNoDelay(true);
 	      client.setTimeout(10);
 	      switchState(STATE_LOCO_CONNECTING, 10 * 1000);
@@ -266,7 +273,7 @@ void locoConnect(void)
   if(locoServer.automatic && automaticServer == nullptr
      && (wiFredState == STATE_CONNECTED || wiFredState == STATE_CONFIG_AP) )
     {
-      log_d("Looking for automatic server");
+      log_d("Looking for automatic server.");
       uint32_t n = MDNS.queryService("withrottle", "tcp");
       for(uint32_t i = 0; i < n; i++)
       {
@@ -278,6 +285,13 @@ void locoConnect(void)
 //	        MDNS.removeQuery();
 	        break;          
 	      }
+      }
+      if(n == 0)
+      {
+        automaticServerIP = WiFi.localIP();
+        automaticServerIP[3] = 1;
+        automaticServer = strdup(automaticServerIP.toString().c_str());
+        log_d("No MDNS-announced wiThrottle server found. Trying LNWI/DCCEX at %s.", automaticServer);
       }
     }
 }
