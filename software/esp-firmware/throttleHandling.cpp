@@ -399,7 +399,13 @@ void handleThrottle(void)
     }
   }
 
-  log_d("Current battery voltage: %u", batteryVoltage);
+  static uint32_t nextOutput;
+  if(nextOutput < millis())
+  {
+    log_d("Current battery voltage: %u", batteryVoltage);
+    nextOutput = millis() + 5000;
+  }
+
   if(saveAnalog)
   {
     saveAnalogConfig();
@@ -416,11 +422,17 @@ void adcCallback(void)
   static uint32_t speedBuffer;
   static uint32_t batteryBuffer;
 
-  speedBuffer += analogRead(ANALOG_PIN_POTI);
-  batteryBuffer += analogReadMilliVolts(ANALOG_PIN_VBATT);
+  if(counter % 2)
+  {
+    speedBuffer += analogRead(ANALOG_PIN_POTI);
+  }
+  else
+  {
+    batteryBuffer += analogReadMilliVolts(ANALOG_PIN_VBATT);
+  }
   counter++;
 
-  if(counter >= NUM_SAMPLES)
+  if(counter >= NUM_SAMPLES * 2)
   {
     speedBuffer /= NUM_SAMPLES;
     if(speedBuffer < potiMin - potiMin / 100)
@@ -434,7 +446,6 @@ void adcCallback(void)
       saveAnalog = true;
     }
     setSpeed(map(speedBuffer, potiMin, potiMax, 127, 0) - 1);
-    log_d("New speed: %u", map(speedBuffer, potiMin, potiMax, 127, 0) - 1);
 
     batteryBuffer /= NUM_SAMPLES;
     batteryBuffer *= battFactor * 2;
@@ -488,5 +499,5 @@ void initThrottle(void)
   debounceInput.attach_ms(10, debounceInputCallback);
 
   // Run timer to read analog inputs
-  analogInput.attach_ms(10, adcCallback);
+  analogInput.attach_ms(2, adcCallback);
 }
