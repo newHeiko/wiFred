@@ -92,6 +92,11 @@ IPAddress automaticServerIP;
 eLocoState locoState[4] = { LOCO_INACTIVE, LOCO_INACTIVE, LOCO_INACTIVE, LOCO_INACTIVE };
 
 /**
+ * locoState timeouts
+ */
+uint32_t locoTimeout[4] = { UINT32_MAX, UINT32_MAX, UINT32_MAX, UINT32_MAX };
+
+/**
  * Remember status of functions
  */
 functionInfo globalFunctionStatus[MAX_FUNCTION + 1] = { UNKNOWN,
@@ -541,6 +546,7 @@ void requestLoco(uint8_t loco)
   client.print(String("MTA") + locoThrottleID[loco] + "<;>X\n");
   setESTOP();
   locoState[loco] = LOCO_FUNCTIONS;
+  locoTimeout[loco] = millis() + 500;
 }
 
 /**
@@ -636,51 +642,61 @@ void setLocoFunctions(uint8_t loco)
  */
 void getLocoFunctions(uint8_t loco)
 {
-  String line = client.readStringUntil('\n');
-#ifdef DEBUG
-  Serial.println();
-  Serial.println(line);
-#endif
-  if(line.startsWith(String("MTA") + locoThrottleID[loco]))
+  if(!client.available())
   {
+    if(locoTimeout[loco] < millis())
+    {
+      locoTimeout[loco] = UINT32_MAX;
+      locoState[loco] = LOCO_LEAVE_FUNCTIONS;
+    }
+  }
+  else
+  {
+    String line = client.readStringUntil('\n');
 #ifdef DEBUG
-  Serial.println(line);
-  Serial.println(locoThrottleID[loco]);
-  Serial.println(String("") + loco + " " + line.charAt(6 + locoThrottleID[loco].length()));
+    Serial.println();
+    Serial.println(line);
+#endif
+    if(line.startsWith(String("MTA") + locoThrottleID[loco]))
+    {
+#ifdef DEBUG
+      Serial.println(line);
+      Serial.println(locoThrottleID[loco]);
+      Serial.println(String("") + loco + " " + line.charAt(6 + locoThrottleID[loco].length()));
 #endif
 
-    bool set = false;
-    uint8_t f = 0;
-    
-    switch(line.charAt(6 + locoThrottleID[loco].length()))
-    {
-      // responding with function status
-      case 'F':
-        f = line.substring(8 + locoThrottleID[loco].length()).toInt();
-        // only work on functions up to our maximum
-        if(f > MAX_FUNCTION)
-        {
-          break;
-        }
-        if(line.charAt(7 + locoThrottleID[loco].length()) == '1')
-        {
-          set = true;
-        }
-        if(locos[loco].functions[f] == THROTTLE || locos[loco].functions[f] == THROTTLE_LOCKING)
-        {
-          // if this is the first loco that has this function controlled by our function keys, copy state
-          if(globalFunctionStatus[f] == UNKNOWN)
+      bool set = false;
+      uint8_t f = 0;
+      
+      switch(line.charAt(6 + locoThrottleID[loco].length()))
+      {
+        // responding with function status
+        case 'F':
+          f = line.substring(8 + locoThrottleID[loco].length()).toInt();
+          // only work on functions up to our maximum
+          if(f > MAX_FUNCTION)
           {
-            if(set)
+            break;
+          }
+          if(line.charAt(7 + locoThrottleID[loco].length()) == '1')
+          {
+            set = true;
+          }
+          if(locos[loco].functions[f] == THROTTLE || locos[loco].functions[f] == THROTTLE_LOCKING)
+          {
+            // if this is the first loco that has this function controlled by our function keys, copy state
+            if(globalFunctionStatus[f] == UNKNOWN)
             {
-              globalFunctionStatus[f] = ALWAYS_ON;
-            }
-            else
-            {
-              globalFunctionStatus[f] = ALWAYS_OFF;
+              if(set)
+              {
+                globalFunctionStatus[f] = ALWAYS_ON;
+              }
+              else
+              {
+                globalFunctionStatus[f] = ALWAYS_OFF;
+              }
             }
           }
-        }
         break;
 
       // responding with direction status - if this loco should keep its direction, set its reverse parameter accordingly
@@ -694,6 +710,7 @@ void getLocoFunctions(uint8_t loco)
       // last line of regular response, everything should be done by now, so switch to online state and flush client buffer
       case 's':
         locoState[loco] = LOCO_LEAVE_FUNCTIONS;
+	locoTimeout[loco] = UINT32_MAX;
         // flush all input data
         client.flush();
         while (client.read() > -1)
