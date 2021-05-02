@@ -75,15 +75,13 @@ void loop() {
     switchState(STATE_LOWPOWER_WAITING, 100);
   }
   
-#ifdef DEBUG
-  static uint32_t test = 0;
+  static uint32_t nextOutput = 0;
 
-  if(test < millis())
+  if(nextOutput < millis())
   {
-    test = millis() + 5000;
-    Serial.println(ESP.getFreeHeap());
+    nextOutput = millis() + 5000;
+    log_d("Heap: %d", ESP.getFreeHeap());
   }
-#endif
 
   switch(wiFredState)
   {
@@ -210,6 +208,7 @@ void loop() {
 
 void switchState(state newState, uint32_t timeout)
 {
+  log_d("Old state: %d, New state: %d", wiFredState, newState);
   wiFredState = newState;
   if(timeout == UINT32_MAX)
   {
