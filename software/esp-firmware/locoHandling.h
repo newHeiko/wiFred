@@ -25,6 +25,11 @@
 
 #define MAX_FUNCTION 16
 
+/** 
+ * Don't send speed commands more often than this (milliseconds)
+ */
+#define SPEED_HOLDOFF_PERIOD 150
+
 #include <WiFi.h>
 
 #include <stdint.h>

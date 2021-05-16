@@ -156,12 +156,16 @@ void locoHandler(void)
   {
     eSTOP = false;
   }
-      
-  // if not in emergency stop, send speed value to all locos
-  if(!eSTOP && millis() > speedTimeout)
+
   {
-    client.print(String("MTA*<;>V") + speed + "\n");
-    speedTimeout += keepAliveTimeout;
+    static uint32_t speedHoldoff = 0;
+    // if not in emergency stop, send speed value to all locos
+    if(!eSTOP && millis() > speedTimeout && millis() > speedHoldoff)
+    {
+      client.print(String("MTA*<;>V") + speed + "\n");
+      speedTimeout += keepAliveTimeout;
+      speedHoldoff = millis() + SPEED_HOLDOFF_PERIOD;
+    }
   }
       
   // check if any of the loco selectors have been changed
