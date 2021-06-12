@@ -42,23 +42,6 @@ F 5 "C17673" V 1550 5250 50  0001 C CNN "LCSC"
 $EndComp
 Wire Wire Line
 	1150 5250 1300 5250
-$Comp
-L wfred_rev6-rescue:C-RESCUE-wfred_rev2-wfred_rev2-rescue C201
-U 1 1 59210B2F
-P 2000 5650
-AR Path="/59210B2F" Ref="C201"  Part="1" 
-AR Path="/5920DD4A/59210B2F" Ref="C201"  Part="1" 
-F 0 "C201" H 2000 5750 40  0000 L CNN
-F 1 "22u" H 2006 5565 40  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 2038 5500 30  0001 C CNN
-F 3 "" H 2000 5650 60  0000 C CNN
-F 4 "KEM X5R0805 22U" H 2000 5650 60  0001 C CNN "Reichelt"
-F 5 "C45783" H 2000 5650 50  0001 C CNN "LCSC"
-F 6 "187-CL21A226MAYNNNE" H 2000 5650 50  0001 C CNN "Mouser"
-F 7 "Mouser 25V, LCSC/Reichelt 6V3" H 2000 5650 50  0001 C CNN "Remark"
-	1    2000 5650
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	1800 5250 2000 5250
 Wire Wire Line
@@ -1134,4 +1117,19 @@ F 3 "" H 6650 5750 60  0001 C CNN
 $EndComp
 Wire Wire Line
 	6650 5750 6650 5650
+$Comp
+L wfred_rev6-rescue:C-RESCUE-wfred_rev2-wfred_rev2-rescue C?
+U 1 1 60C635A2
+P 2000 5650
+AR Path="/60C635A2" Ref="C?"  Part="1" 
+AR Path="/5920DD4A/60C635A2" Ref="C201"  Part="1" 
+F 0 "C201" H 2000 5750 40  0000 L CNN
+F 1 "4u7" H 2006 5565 40  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 2038 5500 30  0001 C CNN
+F 3 "" H 2000 5650 60  0000 C CNN
+F 4 "KEM X5R0805 4,7U" H 2000 5650 60  0001 C CNN "Reichelt"
+F 5 "C1779" H 2000 5650 50  0001 C CNN "LCSC"
+	1    2000 5650
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
