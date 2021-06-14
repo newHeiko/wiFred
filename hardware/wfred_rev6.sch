@@ -80,6 +80,7 @@ F 1 "BATT" V 1000 1550 40  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Horizontal" H 950 1550 60  0001 C CNN
 F 3 "" H 950 1550 60  0001 C CNN
 F 4 "SL 1X36W 2,54" V 950 1550 50  0001 C CNN "Reichelt"
+F 5 "C706865" V 950 1550 50  0001 C CNN "LCSC"
 	1    950  1550
 	-1   0    0    1   
 $EndComp

@@ -101,7 +101,7 @@ U 1 1 60134419
 P 5550 3850
 F 0 "U301" H 5550 5231 50  0000 C CNN
 F 1 "ESP32-S2-WROOM" H 5550 5140 50  0000 C CNN
-F 2 "RF_Module:ESP32-S2-WROVER" H 6300 2700 50  0001 C CNN
+F 2 "myFootprints:ESP32-S2-WROVER-HandSoldering" H 6300 2700 50  0001 C CNN
 F 3 "https://www.espressif.com/sites/default/files/documentation/esp32-s2-wroom_esp32-s2-wroom-i_datasheet_en.pdf" H 5250 3050 50  0001 C CNN
 F 4 "356-ESP32S2WRM3200PH" H 5550 3850 50  0001 C CNN "Mouser"
 	1    5550 3850
@@ -141,35 +141,6 @@ Wire Wire Line
 	6350 4450 6150 4450
 Wire Wire Line
 	6150 4550 6350 4550
-$Comp
-L wfred_rev6-rescue:GND-RESCUE-wfred_rev2-wfred_rev2-rescue #PWR0301
-U 1 1 60292B21
-P 2750 3150
-AR Path="/60292B21" Ref="#PWR0301"  Part="1" 
-AR Path="/5A122619/60292B21" Ref="#PWR0301"  Part="1" 
-F 0 "#PWR0301" H 2750 3150 30  0001 C CNN
-F 1 "GND" H 2750 3080 30  0001 C CNN
-F 2 "" H 2750 3150 60  0001 C CNN
-F 3 "" H 2750 3150 60  0001 C CNN
-	1    2750 3150
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2650 3050 2750 3050
-Wire Wire Line
-	2750 3050 2750 3150
-$Comp
-L Connector_Generic:Conn_01x03 J302
-U 1 1 60295C52
-P 7600 3050
-F 0 "J302" H 7680 3092 50  0000 L CNN
-F 1 "Conn_01x03" H 7680 3001 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 7600 3050 50  0001 C CNN
-F 3 "~" H 7600 3050 50  0001 C CNN
-F 4 "SL 1X36G 2,54" H 7600 3050 50  0001 C CNN "Reichelt"
-	1    7600 3050
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	6150 3050 7400 3050
 Wire Wire Line
@@ -308,18 +279,6 @@ Wire Wire Line
 	4700 4450 4950 4450
 Wire Wire Line
 	4700 4550 4950 4550
-$Comp
-L Connector_Generic:Conn_01x02 J301
-U 1 1 60294EB8
-P 2450 3050
-F 0 "J301" H 2368 2725 50  0000 C CNN
-F 1 "Conn_01x02" H 2368 2816 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 2450 3050 50  0001 C CNN
-F 3 "~" H 2450 3050 50  0001 C CNN
-F 4 "SL 1X36G 2,54" H 2450 3050 50  0001 C CNN "Reichelt"
-	1    2450 3050
-	-1   0    0    1   
-$EndComp
 Text GLabel 6350 4050 2    50   Input ~ 0
 LOCO1
 Text GLabel 6350 3950 2    50   Input ~ 0
@@ -540,8 +499,6 @@ Wire Wire Line
 Wire Wire Line
 	3600 2850 4950 2850
 Wire Wire Line
-	2650 2950 4950 2950
-Wire Wire Line
 	3200 3750 4950 3750
 $Comp
 L Device:R R304
@@ -573,4 +530,58 @@ Wire Wire Line
 	4000 2650 4000 4750
 Wire Wire Line
 	4000 4750 4950 4750
+$Comp
+L Connector_Generic:Conn_02x03_Odd_Even J301
+U 1 1 60C7D9FD
+P 7600 3050
+F 0 "J301" H 7650 3367 50  0000 C CNN
+F 1 "Conn_02x03_Odd_Even" H 7650 3276 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_2x03_P2.54mm_Vertical" H 7600 3050 50  0001 C CNN
+F 3 "~" H 7600 3050 50  0001 C CNN
+F 4 "C358692" H 7600 3050 50  0001 C CNN "LCSC"
+	1    7600 3050
+	1    0    0    -1  
+$EndComp
+$Comp
+L wfred_rev6-rescue:GND-RESCUE-wfred_rev2-wfred_rev2-rescue #PWR?
+U 1 1 60C7E0E1
+P 8100 3350
+AR Path="/60C7E0E1" Ref="#PWR?"  Part="1" 
+AR Path="/5A122619/60C7E0E1" Ref="#PWR0312"  Part="1" 
+F 0 "#PWR0312" H 8100 3350 30  0001 C CNN
+F 1 "GND" H 8100 3280 30  0001 C CNN
+F 2 "" H 8100 3350 60  0001 C CNN
+F 3 "" H 8100 3350 60  0001 C CNN
+	1    8100 3350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8100 3350 8100 2950
+Wire Wire Line
+	8100 2950 7900 2950
+Wire Wire Line
+	7900 3050 8200 3050
+Wire Wire Line
+	8200 3050 8200 2000
+Wire Wire Line
+	8200 2000 4850 2000
+Wire Wire Line
+	4850 2000 4850 2950
+Wire Wire Line
+	4850 2950 4950 2950
+$Comp
+L power:VCC #PWR0301
+U 1 1 60C84260
+P 8000 2250
+F 0 "#PWR0301" H 8000 2100 50  0001 C CNN
+F 1 "VCC" H 8015 2423 50  0000 C CNN
+F 2 "" H 8000 2250 50  0001 C CNN
+F 3 "" H 8000 2250 50  0001 C CNN
+	1    8000 2250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8000 2250 8000 3150
+Wire Wire Line
+	8000 3150 7900 3150
 $EndSCHEMATC
