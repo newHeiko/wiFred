@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.12">
+<meta name="generator" content="Asciidoctor 2.0.15">
 <meta name="description" content="Usage documentation, server choices, building instructions, schematics, part lists...">
 <meta name="author" content="Heiko Rosemann">
 <title>wiFred: WiFi throttle for model railroads using the wiThrottle protocol</title>
@@ -96,9 +96,6 @@ dl dd{margin-bottom:1.25em}
 abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-bottom:1px dotted #ddd;cursor:help}
 abbr{text-transform:none}
 blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
-blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
-blockquote cite::before{content:"\2014 \0020"}
-blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
 blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
 @media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
 h1{font-size:2.75em}
@@ -263,7 +260,7 @@ pre.pygments .lineno::before{content:"";margin-right:-.125em}
 .quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
 .quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
 .quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
-.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;text-align:left;margin-right:0}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;font-size:.85rem;text-align:left;margin-right:0}
 p.tableblock:last-child{margin-bottom:0}
 td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
 td.tableblock>.content>:last-child{margin-bottom:-1.25em}
@@ -445,9 +442,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>wiFred: WiFi throttle for model railroads using the wiThrottle protocol</h1>
 <div class="details">
 <span id="author" class="author">Heiko Rosemann</span><br>
-<span id="revnumber">version 0.2,</span>
-<span id="revdate">2-19-2021</span>
-<br><span id="revremark">Converted to asciidoc</span>
+<span id="revnumber">version 0.3,</span>
+<span id="revdate">6-27-2021</span>
+<br><span id="revremark">Added v0.6 description</span>
 </div>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
@@ -455,8 +452,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_abstract">Abstract</a></li>
 <li><a href="#throttle">Quickstart Guide</a>
 <ul class="sectlevel2">
-<li><a href="#_finish_assembly_laser_engraved_enclosure">Finish assembly (laser engraved enclosure)</a></li>
-<li><a href="#_finish_assembly_blank_enclosure">Finish assembly (blank enclosure)</a></li>
 <li><a href="#_first_startup">First startup</a></li>
 </ul>
 </li>
@@ -492,6 +487,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_hardware_description">Hardware description</a>
 <ul class="sectlevel2">
 <li><a href="#_from_revision_0_6_onwards">From revision 0.6 onwards</a></li>
+<li><a href="#_writing_the_firmware_to_the_esp32_s2_wroom">Writing the firmware to the ESP32-S2-WROOM</a></li>
+<li><a href="#_hints_for_building_revision_0_6">Hints for building revision 0.6</a></li>
 <li><a href="#_up_to_revision_0_5">Up to revision 0.5</a></li>
 <li><a href="#hintsFor05">Hints for building revisions up to 0.5</a></li>
 <li><a href="#flashing05">Writing the firmware to revision 0.5 and older wiFreds</a></li>
@@ -537,148 +534,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="throttle">Quickstart Guide</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_finish_assembly_laser_engraved_enclosure">Finish assembly (laser engraved enclosure)</h3>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Make cutout for micro USB connector</p>
-</li>
-<li>
-<p>Install LEDs - long pin (positive) into square pad</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Red LEDs at D101 and D205/D301 with 3mm spacers</p>
-</li>
-<li>
-<p>Green LEDs at D102, D206/D302 and D207/D303 with 3mm spacers</p>
-</li>
-<li>
-<p>White LEDs at D208/D304 and D209/D305 - choose where and how long they should stick out of housing</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Install potentiometer and loco selection switches</p>
-</li>
-<li>
-<p>Install direction selection switch and connect pins to PCB with short wires or cutoffs from LEDs</p>
-</li>
-<li>
-<p>Drill holes in enclosure - 3mm for LEDs, 3.5mm for push buttons, 6.5mm for direction switch, 8mm for potentiometer, 1.5mm for slide switches and carefully file slide switch slots to match switch handles</p>
-</li>
-<li>
-<p>If push button switches are not installed: Place them on PCB (red at SW204, yellow at SW215) screw PCB into housing so they fit into the holes and solder them to the PCB</p>
-</li>
-<li>
-<p>Connect battery to P101 - BATT-connector</p>
-</li>
-<li>
-<p>Arrange battery so it fits between direction selection switch and PCB screws and glue into back housing</p>
-</li>
-</ol>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<img src="images/icons/warning.png" alt="Warning">
-</td>
-<td class="content">
-Make sure red wire is connected to + and black wire connected to GND. Reversing the connection may destroy the wiFred.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<img src="images/icons/warning.png" alt="Warning">
-</td>
-<td class="content">
-Make sure nothing pinches the battery. LiIon batteries are susceptible to mechanical damage.
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_finish_assembly_blank_enclosure">Finish assembly (blank enclosure)</h3>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Use drilling jig to drill holes into housing</p>
-</li>
-<li>
-<p>Make cutout for micro USB connector</p>
-</li>
-<li>
-<p>Use PCB to drill holes for LEDs next to micro USB connector (D101, D102)</p>
-</li>
-<li>
-<p>Install LEDs - long pin (positive) into square pad</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Red LEDs at D101 and D205/D301 with 3mm spacers</p>
-</li>
-<li>
-<p>Green LEDs at D102, D206/D302 and D207/D303 with 3mm spacers</p>
-</li>
-<li>
-<p>White LEDs at D208/D304 and D209/D305 - choose where and how long they should stick out of housing</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Install potentiometer and loco selection switches</p>
-</li>
-<li>
-<p>Install direction selection switch and connect pins to PCB with short wires or cutoffs from LEDs</p>
-</li>
-<li>
-<p>Make cut-outs in housing fit slide switches and flashlight LEDs</p>
-</li>
-<li>
-<p>If push button switches are not installed: Place them on PCB (red at SW204, yellow at SW215) screw PCB into housing so they fit into the holes and solder them to the PCB</p>
-</li>
-<li>
-<p>Connect battery to P101 - BATT-connector</p>
-</li>
-<li>
-<p>Arrange battery so it fits between direction selection switch and PCB screws and glue into back housing</p>
-</li>
-</ol>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<img src="images/icons/warning.png" alt="Warning">
-</td>
-<td class="content">
-Make sure red wire is connected to + and black wire connected to GND. Reversing the connection may destroy the wiFred.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<img src="images/icons/warning.png" alt="Warning">
-</td>
-<td class="content">
-Make sure nothing pinches the battery. LiIon batteries are susceptible to mechanical damage.
-</td>
-</tr>
-</table>
-</div>
-</div>
 <div class="sect2">
 <h3 id="_first_startup">First startup</h3>
 <div class="olist arabic">
@@ -1446,17 +1301,167 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_from_revision_0_6_onwards">From revision 0.6 onwards</h3>
+<div class="paragraph">
+<p>The wiFred hardware is centered around an ESP32-S2-WROOM module that controls the LEDs and reads the switches, push buttons and speed potentiometer. It gets its power from a single cell LiPo battery through a 3.3V low drop linear voltage regulator that is activated directly from the loco selection switches combined through a set of diodes. An RC lowpass will delay turning off the wiFred by a couple of seconds.</p>
+</div>
+<div class="paragraph">
+<p>Optionally, two white 5 mm-LEDs protruding from the top of the PCB can be installed to serve as a flashlight. They are driven by a constant-current source directly from the battery and enabled when pushing the yellow SHIFT key.</p>
+</div>
+<div class="paragraph">
+<p>The ESP32-S2 also monitors the battery voltage, going into sleep mode when the battery voltage drops too low. This should drop power consumption to a reasonably safe value, even though not as low as it can go when all the loco selection switches are off. Charging the battery can be done through the integrated USB port with two LEDs showing the charging status.</p>
+</div>
+<div class="paragraph">
+<p>The schematic is split into several pages and can be found in <a href="#schematic06page1">Master schematic sheet with battery connector, charging circuit and power supply</a> to <a href="#schematic06page3">Schematic sheet for user interface</a>. It has been created with kicad and is available on the <a href="#github">[Github repository for wiFred]</a> along with the PCB design.</p>
+</div>
+<div id="schematic06page1" class="imageblock">
+<div class="content">
+<img src="images/wfred_rev2.png" alt="&quot;Schematic sheet 1 for rev0.6">
+</div>
+<div class="title">Figure 11. Master schematic sheet with battery connector, charging circuit and power supply</div>
+</div>
+<div id="schematic06page2" class="imageblock">
+<div class="content">
+<img src="images/wfred-wifi-Wifi_connection.png" alt="&quot;Schematic sheet 2 for rev0.6">
+</div>
+<div class="title">Figure 12. Schematic sheet including ESP32-S2-WROOM for WiFi connection with bootloader enabling jumper and connection to programming cable</div>
+</div>
+<div id="schematic06page3" class="imageblock">
+<div class="content">
+<img src="images/wfred-controller_rev2-Controller.png" alt="&quot;Schematic sheet 3 for rev0.6">
+</div>
+<div class="title">Figure 13. Schematic sheet for user interface</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_writing_the_firmware_to_the_esp32_s2_wroom">Writing the firmware to the ESP32-S2-WROOM</h3>
+<div class="paragraph">
+<p>To place the ESP32-S2 into firmware flashing mode, a jumper has to be installed on the BOOT pins as shown in_<a href="#bootJumper06">Display of boot jumper</a> when the device is powered up. After entering boot mode, the ESP32-S2 will register as a USB CDC device when connected to a PC and can be programmed through it. Alternately, the serial port at the TXD/RXD pins can be used. The serial port needs to be at 3.3 V-levels like from an FTDI232-device run at 3.3 V.</p>
+</div>
+<div id="bootJumper06" class="imageblock">
+<div class="content">
+<img src="images/wfred-controller_rev2-Controller.png" alt="&quot;Schematic sheet 3 for rev0.6">
+</div>
+<div class="title">Figure 14. Display of boot jumper</div>
+</div>
+<div class="paragraph">
+<p>All files in the <strong>software/esp-firmware</strong>-subdirectory of the <a href="#github">[Github repository for wiFred]</a> need to be placed in a folder, then the main sketch <strong>arduino_main_sketch.ino.ino</strong> needs to be opened with the Arduino IDE. Settings for the Arduino IDE can be found inside the main file, programming the device should work using the <strong>Upload</strong>-button in the <strong>Sketch</strong>-menu. An alternate solution using a pre-compiled firmware and esptool.py may be documented in the future.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_hints_for_building_revision_0_6">Hints for building revision 0.6</h3>
+<div class="paragraph">
+<p>All the SMD parts and connectors in <a href="#BOM06SMD">List of bottom side components - SMDs and pin headers - for the wiFred PCB</a> are located on the bottom side, so they can easily be installed by an automated PCB assembly service. Gerber files and location files will be made available on the <a href="#github">[Github repository for wiFred]</a>. They are no smaller than 0805, though, so it should be possible for experienced electronics hobbyists to hand-solder them as well, although the USB-C-connector has a very small pitch.</p>
+</div>
+<table id="BOM06SMD" class="tableblock frame-all grid-all fit-content">
+<caption class="title">Table 2. List of bottom side components - SMDs and pin headers - for the wiFred PCB</caption>
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Designator</th>
+<th class="tableblock halign-left valign-top">Package</th>
+<th class="tableblock halign-left valign-top">Designation</th>
+</tr>
+</thead>
+</table>
+<div class="paragraph">
+<p>Then - as shown in <a href="#BOM06TOP">List of top side components - ESP32-S2-WROOM and user interface - for the wiFred PCB</a> - there is only the ESP32-S2-WROOM module on the top of the PCB and all the switches, push buttons, potentiometer and LEDs. After installing the ESP32-S2-WROOM, the direction switch should be screwed into the PCB with an 8 mm hex nut first, then attached to it&#8217;s pads using the cutoffs from the LEDs, and the speed potentiometer should be screwed into the PCB with a 10 mm hex nut before soldering its leads.</p>
+</div>
+<div class="paragraph">
+<p>For all other switches, push buttons and LEDs, it is recommended to drill the holes in the housing first, then place the parts on the PCB and screw the PCB into the housing before soldering the parts. Holes for the pushbutton switches should be drilled at 3.5 mm diameter. Holes for the LEDs should be drilled at 3 mm diameter and holes for the speed potentiometer at 8 mm, for the direction switch at 6.5 mm diameter. The cutouts for the loco selection switches are best drilled at 1.5 mm and extended to fit with a jigsaw or a sharp hobby knife and a file. The easiest approach is a laser engraved housing - PDF and DXF files of the markings are available on the <a href="#github">[Github repository for wiFred]</a> as well.</p>
+</div>
+<table id="BOM06TOP" class="tableblock frame-all grid-all fit-content">
+<caption class="title">Table 3. List of top side components - ESP32-S2-WROOM and user interface - for the wiFred PCB</caption>
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Designator</th>
+<th class="tableblock halign-left valign-top">Package</th>
+<th class="tableblock halign-left valign-top">Designation</th>
+</tr>
+</thead>
+</table>
+<div class="paragraph">
+<p>To form a complete BOM, also include the parts listed in <a href="#BOM06extra">List of components for the wiFred excluding electronic parts to solder to PCB</a> which are not soldered to the PCB but used in assembly later on.</p>
+</div>
+<table id="BOM06extra" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. List of components for the wiFred excluding electronic parts to solder to PCB</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 50%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Designator</th>
+<th class="tableblock halign-left valign-top">Package</th>
+<th class="tableblock halign-left valign-top">Designation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">B1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Battery</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lithium battery 1700mAh</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">H1a</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Housing black</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Strapubox 2090</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">or H1b</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Housing white</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Strapubox 2090</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">J1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jumper</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">K1a</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Potentiometer Knob silver</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24mm</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">or K1b</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Potentiometer Knob black</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24mm</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PCB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">124mm x 35mm x 1.6mm</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S1, S2, S3, S4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mounting Screws</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2,9mm x 6,5mm</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>After assembling the PCB with all the components, the holes and cutouts in the enclosure most likely will have to be reworked / extended to actually fit the PCB, then the PCB can be screwed into the enclosure with four screws. Afterwards the battery should be connected to the BATT connector making sure the orientation is correct as shown in <a href="#battConnection">Connection of battery to P101 - black wire is GND, red wire is positive</a> and printed on the PCB, then the battery should be glued to the bottom of the enclosure with double-sided tape so it does not collide with any parts on the PCB, particularly the pin headers and the direction switch.</p>
+</div>
 <div id="drilljigPicture" class="imageblock">
 <div class="content">
 <img src="images/DSC0126.jpg" alt="Drilljig">
 </div>
-<div class="title">Figure 11. Using the original PCB and drilling jig to transfer the positions of the holes to the housing - better results will be achieved when the PCBs are screwed in position</div>
+<div class="title">Figure 15. Using the original PCB and drilling jig to transfer the positions of the holes to the housing - better results will be achieved when the PCBs are screwed in position</div>
 </div>
 <div id="battConnection" class="imageblock">
 <div class="content">
 <img src="images/DSC0148.jpg" alt="Battery connection">
 </div>
-<div class="title">Figure 12. Connection of battery to P101 - black wire is GND, red wire is positive</div>
+<div class="title">Figure 16. Connection of battery to P101 - black wire is GND, red wire is positive</div>
 </div>
 </div>
 <div class="sect2">
@@ -1477,25 +1482,25 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <div class="content">
 <img src="images/wfred_rev2.png" alt="&quot;Schematic sheet 1 for rev0.5">
 </div>
-<div class="title">Figure 13. Master schematic sheet with battery connector, charging circuit and power supply</div>
+<div class="title">Figure 17. Master schematic sheet with battery connector, charging circuit and power supply</div>
 </div>
 <div id="schematic05page2" class="imageblock">
 <div class="content">
 <img src="images/wfred-wifi-Wifi_connection.png" alt="&quot;Schematic sheet 2 for rev0.5">
 </div>
-<div class="title">Figure 14. Schematic sheet including ESP8266 for WiFi connection with bootloader enabling jumper and connection to programming cable</div>
+<div class="title">Figure 18. Schematic sheet including ESP8266 for WiFi connection with bootloader enabling jumper and connection to programming cable</div>
 </div>
 <div id="schematic05page3" class="imageblock">
 <div class="content">
 <img src="images/wfred-controller_rev2-Controller.png" alt="&quot;Schematic sheet 3 for rev0.5">
 </div>
-<div class="title">Figure 15. Schematic sheet including ATMega 328P along with crystal and in system programming header</div>
+<div class="title">Figure 19. Schematic sheet including ATMega 328P along with crystal and in system programming header</div>
 </div>
 <div id="schematic05page4" class="imageblock">
 <div class="content">
 <img src="images/User_interface_rev2-User_Interface.png" alt="&quot;Schematic sheet 4 for rev0.5">
 </div>
-<div class="title">Figure 16. Schematic sheet including pushbutton switches, loco selection switches, direction switch, speed potentiometer and flashlight LEDs with controller</div>
+<div class="title">Figure 20. Schematic sheet including pushbutton switches, loco selection switches, direction switch, speed potentiometer and flashlight LEDs with controller</div>
 </div>
 </div>
 <div class="sect2">
@@ -1504,7 +1509,7 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <p>The PCB has holes in the center of the LED footprints to enable transferring their positions to a StrapuBox housing with a sharp needle or to drill pilot holes with a 1 mm drill. For all other holes, there is a drill jig available which also allows the drilling of pilot holes for the pushbutton switches, the direction control switch and the speed potentiometer. <a href="#drilljigPicture">Using the original PCB and drilling jig to transfer the positions of the holes to the housing - better results will be achieved when the PCBs are screwed in position</a> shows the process and its results. Holes for the pushbutton switches should be drilled at 3.5 mm diameter. Holes for the LEDs should be drilled at 3 mm diameter and holes for the speed potentiometer at 8 mm, for the direction switch at 6.5 mm diameter. The cutouts for the loco selection switches are best drilled at 1.5 mm and extended to fit when the PCB is assembled with a jigsaw or a sharp hobby knife and a file.</p>
 </div>
 <table id="BOM05" class="tableblock frame-all grid-all fit-content">
-<caption class="title">Table 2. List of components for the wiFred PCB</caption>
+<caption class="title">Table 5. List of components for the wiFred PCB</caption>
 <colgroup>
 <col>
 <col>
@@ -1825,7 +1830,7 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <p>To form a complete BOM, also include the parts listed in <a href="#BOM05extra">List of components for the wiFred excluding electronic parts to solder to PCB</a> which are not soldered to the PCB but used in assembly later on.</p>
 </div>
 <table id="BOM05extra" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. List of components for the wiFred excluding electronic parts to solder to PCB</caption>
+<caption class="title">Table 6. List of components for the wiFred excluding electronic parts to solder to PCB</caption>
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 50%;">
@@ -1896,7 +1901,7 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <div class="content">
 <img src="images/DSC0146.jpg" alt="AVR programming">
 </div>
-<div class="title">Figure 17. Programming connection for ATMega_328P - Pin 1 on purple cable</div>
+<div class="title">Figure 21. Programming connection for ATMega_328P - Pin 1 on purple cable</div>
 </div>
 </div>
 <div class="sect3">
@@ -1908,7 +1913,7 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <div class="content">
 <img src="images/DSC0138.jpg" alt="ESP8266 programming">
 </div>
-<div class="title">Figure 18. Programming connection for ESP8266 - GND on orange wire, then TXD of programming cable (RXD of ESP8266), then RXD of programming cable (TXD of ESP8266) - also note the jumper on P401</div>
+<div class="title">Figure 22. Programming connection for ESP8266 - GND on orange wire, then TXD of programming cable (RXD of ESP8266), then RXD of programming cable (TXD of ESP8266) - also note the jumper on P401</div>
 </div>
 <div class="paragraph">
 <p>All files in the <strong>software/esp-firmware</strong>-subdirectory of the <a href="#github">[Github repository for wiFred]</a> need to be placed in a folder, then the main sketch <strong>arduino_main_sketch.ino.ino</strong> needs to be opened with the Arduino IDE. Settings for the Arduino IDE can be found inside the main file, programming the device should work using the <strong>Upload</strong>-button in the <strong>Sketch</strong>-menu.</p>
@@ -1923,7 +1928,7 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <div class="content">
 <img src="images/DSC0149.jpg" alt="Serial communication jumpers">
 </div>
-<div class="title">Figure 19. Communication jumpers for connecting the ESP8266 and the ATMega 328P</div>
+<div class="title">Figure 23. Communication jumpers for connecting the ESP8266 and the ATMega 328P</div>
 </div>
 </div>
 </div>
@@ -1942,25 +1947,25 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <div class="content">
 <img src="images/old_wfred_rev2.png" alt="Schematic page 1 for AA battery prototype">
 </div>
-<div class="title">Figure 20. Master schematic sheet with batteries and power supply</div>
+<div class="title">Figure 24. Master schematic sheet with batteries and power supply</div>
 </div>
 <div id="oldSchematicPage2" class="imageblock">
 <div class="content">
 <img src="images/old_wfred-wifi-Wifi_connection.png" alt="Schematic page 2 for AA battery prototype">
 </div>
-<div class="title">Figure 21. Schematic sheet including ESP8266 for WiFi connection with bootloader enabling jumper and connection to programming cable</div>
+<div class="title">Figure 25. Schematic sheet including ESP8266 for WiFi connection with bootloader enabling jumper and connection to programming cable</div>
 </div>
 <div id="oldSchematicPage3" class="imageblock">
 <div class="content">
 <img src="images/old_wfred-controller_rev2-Controller.png" alt="Schematic page 3 for AA battery prototype">
 </div>
-<div class="title">Figure 22. Schematic sheet including ATMega 328P along with crystal and in system programming header</div>
+<div class="title">Figure 26. Schematic sheet including ATMega 328P along with crystal and in system programming header</div>
 </div>
 <div id="oldSchematicPage4" class="imageblock">
 <div class="content">
 <img src="images/old_User_interface_rev2-User_Interface.png" alt="Schematic page 4 for AA battery prototype">
 </div>
-<div class="title">Figure 23. Schematic sheet including pushbutton switches, loco selection switches, direction switch and speed potentiometer</div>
+<div class="title">Figure 27. Schematic sheet including pushbutton switches, loco selection switches, direction switch and speed potentiometer</div>
 </div>
 </div>
 <div class="sect2">
@@ -1972,7 +1977,7 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <p>The remaining assembly is a basic exercise in installing all the components to the PCB, listed in <a href="#oldWiFredBOM">List of components for the AA battery prototype wiFred</a>.</p>
 </div>
 <table id="oldWiFredBOM" class="tableblock frame-all grid-all fit-content">
-<caption class="title">Table 4. List of components for the AA battery prototype wiFred</caption>
+<caption class="title">Table 7. List of components for the AA battery prototype wiFred</caption>
 <colgroup>
 <col>
 <col>
@@ -2190,13 +2195,13 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <div class="content">
 <img src="images/DSC8654.jpg" alt="Remove protrusions">
 </div>
-<div class="title">Figure 24. Removing protrusions inside the housing so the PCB fits</div>
+<div class="title">Figure 28. Removing protrusions inside the housing so the PCB fits</div>
 </div>
 <div id="mountingPads" class="imageblock">
 <div class="content">
 <img src="images/DSC8658.jpg" alt="New mounting pads">
 </div>
-<div class="title">Figure 25. New PCB mounting pads made from 3 mm thick Forex PVC</div>
+<div class="title">Figure 29. New PCB mounting pads made from 3 mm thick Forex PVC</div>
 </div>
 </div>
 </div>
@@ -2333,8 +2338,8 @@ Configuring a wiFred without putting it into configuration mode first is largely
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.2<br>
-Last updated 2021-02-20 22:49:40 +0100
+Version 0.3<br>
+Last updated 2021-06-27 18:40:43 +0200
 </div>
 </div>
 </body>

@@ -1,6 +1,6 @@
 = wiFred: WiFi throttle for model railroads using the wiThrottle protocol
 Heiko Rosemann
-0.2, 2-19-2021: Converted to asciidoc
+0.3, 6-27-2021: Added v0.6 description
 :description: Usage documentation, server choices, building instructions, schematics, part lists...
 :url-repo: https://github.com/newHeiko/wiFred
 :icons: image
@@ -371,6 +371,88 @@ image::bonjourBrowser.png[alt="BonjourBrowser with two wiFreds",width=50%,scaled
 == Hardware description
 
 === From revision 0.6 onwards
+
+The wiFred hardware is centered around an ESP32-S2-WROOM module that controls the LEDs and reads the switches, push buttons and speed potentiometer. It gets its power from a single cell LiPo battery through a 3.3V low drop linear voltage regulator that is activated directly from the loco selection switches combined through a set of diodes. An RC lowpass will delay turning off the wiFred by a couple of seconds.
+
+Optionally, two white 5 mm-LEDs protruding from the top of the PCB can be installed to serve as a flashlight. They are driven by a constant-current source directly from the battery and enabled when pushing the yellow SHIFT key.
+
+The ESP32-S2 also monitors the battery voltage, going into sleep mode when the battery voltage drops too low. This should drop power consumption to a reasonably safe value, even though not as low as it can go when all the loco selection switches are off. Charging the battery can be done through the integrated USB port with two LEDs showing the charging status.
+
+The schematic is split into several pages and can be found in <<schematic06page1>> to <<schematic06page3>>. It has been created with kicad and is available on the <<github>> along with the PCB design.
+
+[#schematic06page1]
+.Master schematic sheet with battery connector, charging circuit and power supply
+image::wfred_rev2.png[alt="Schematic sheet 1 for rev0.6]
+
+[#schematic06page2]
+.Schematic sheet including ESP32-S2-WROOM for WiFi connection with bootloader enabling jumper and connection to programming cable
+image::wfred-wifi-Wifi_connection.png[alt="Schematic sheet 2 for rev0.6]
+
+[#schematic06page3]
+.Schematic sheet for user interface
+image::wfred-controller_rev2-Controller.png[alt="Schematic sheet 3 for rev0.6]
+
+=== Writing the firmware to the ESP32-S2-WROOM
+
+To place the ESP32-S2 into firmware flashing mode, a jumper has to be installed on the BOOT pins as shown in <<bootJumper06>> when the device is powered up. After entering boot mode, the ESP32-S2 will register as a USB CDC device when connected to a PC and can be programmed through it. Alternately, the serial port at the TXD/RXD pins can be used. The serial port needs to be at 3.3 V-levels like from an FTDI232-device run at 3.3 V.
+
+[#bootJumper06]
+.Display of boot jumper
+image::wfred-controller_rev2-Controller.png[alt="Schematic sheet 3 for rev0.6]
+
+All files in the *software/esp-firmware*-subdirectory of the <<github>> need to be placed in a folder, then the main sketch *arduino_main_sketch.ino.ino* needs to be opened with the Arduino IDE. Settings for the Arduino IDE can be found inside the main file, programming the device should work using the *Upload*-button in the *Sketch*-menu. An alternate solution using a pre-compiled firmware and esptool.py may be documented in the future.
+
+=== Hints for building revision 0.6
+
+All the SMD parts and connectors in <<BOM06SMD>> are located on the bottom side, so they can easily be installed by an automated PCB assembly service. Gerber files and location files will be made available on the <<github>>. They are no smaller than 0805, though, so it should be possible for experienced electronics hobbyists to hand-solder them as well, although the USB-C-connector has a very small pitch.
+
+[#BOM06SMD]
+[cols="1,2,1",options="breakable,autowidth"]
+.List of bottom side components - SMDs and pin headers - for the wiFred PCB
+|===
+|Designator|Package|Designation
+
+|===
+
+Then - as shown in <<BOM06TOP>> - there is only the ESP32-S2-WROOM module on the top of the PCB and all the switches, push buttons, potentiometer and LEDs. After installing the ESP32-S2-WROOM, the direction switch should be screwed into the PCB with an 8 mm hex nut first, then attached to it's pads using the cutoffs from the LEDs, and the speed potentiometer should be screwed into the PCB with a 10 mm hex nut before soldering its leads.
+
+For all other switches, push buttons and LEDs, it is recommended to drill the holes in the housing first, then place the parts on the PCB and screw the PCB into the housing before soldering the parts. Holes for the pushbutton switches should be drilled at 3.5 mm diameter. Holes for the LEDs should be drilled at 3 mm diameter and holes for the speed potentiometer at 8 mm, for the direction switch at 6.5 mm diameter. The cutouts for the loco selection switches are best drilled at 1.5 mm and extended to fit with a jigsaw or a sharp hobby knife and a file. The easiest approach is a laser engraved housing - PDF and DXF files of the markings are available on the <<github>> as well.
+
+[#BOM06TOP]
+[cols="1,2,1",options="breakable,autowidth"]
+.List of top side components - ESP32-S2-WROOM and user interface - for the wiFred PCB
+|===
+|Designator|Package|Designation
+
+|===
+
+To form a complete BOM, also include the parts listed in <<BOM06extra>> which are not soldered to the PCB but used in assembly later on.
+
+[#BOM06extra]
+[cols="1,2,1"]
+.List of components for the wiFred excluding electronic parts to solder to PCB
+|===
+|Designator|Package|Designation
+
+|B1|Battery|Lithium battery 1700mAh
+
+|H1a|Housing black|Strapubox 2090
+
+|or H1b|Housing white|Strapubox 2090
+
+|J1|Jumper|
+
+|K1a|Potentiometer Knob silver|24mm
+
+|or K1b|Potentiometer Knob black|24mm
+
+|P1|PCB|124mm x 35mm x 1.6mm
+
+|S1, S2, S3, S4|Mounting Screws|2,9mm x 6,5mm
+
+|===
+
+After assembling the PCB with all the components, the holes and cutouts in the enclosure most likely will have to be reworked / extended to actually fit the PCB, then the PCB can be screwed into the enclosure with four screws. Afterwards the battery should be connected to the BATT connector making sure the orientation is correct as shown in <<battConnection>> and printed on the PCB, then the battery should be glued to the bottom of the enclosure with double-sided tape so it does not collide with any parts on the PCB, particularly the pin headers and the direction switch. 
 
 [#drilljigPicture]
 .Using the original PCB and drilling jig to transfer the positions of the holes to the housing - better results will be achieved when the PCBs are screwed in position
