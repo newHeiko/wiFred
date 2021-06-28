@@ -408,7 +408,7 @@ All the SMD parts and connectors in <<BOM06SMD>> are located on the bottom side,
 
 [#BOM06SMD]
 [cols="1,2,1",options="breakable,autowidth"]
-.List of bottom side components - SMDs and pin headers - for the wiFred PCB
+.List of bottom side components - SMDs and pin headers - for the wiFred PCB from revision 0.6
 |===
 |Designator|Package|Designation
 
@@ -454,7 +454,7 @@ For all other switches, push buttons and LEDs, it is recommended to drill the ho
 
 [#BOM06TOP]
 [cols="1,2,1",options="breakable,autowidth"]
-.List of top side components - ESP32-S2-WROOM and user interface - for the wiFred PCB
+.List of top side components - ESP32-S2-WROOM and user interface - for the wiFred PCB from revision 0.6
 |===
 |Designator|Package|Designation
 
@@ -514,7 +514,7 @@ To form a complete BOM, also include the parts listed in <<BOM06extra>> which ar
 
 [#BOM06extra]
 [cols="1,2,1"]
-.List of components for the wiFred excluding electronic parts to solder to PCB
+.List of components for the wiFred from revision 0.6 excluding electronic parts to solder to PCB
 |===
 |Designator|Package|Designation
 
@@ -536,14 +536,18 @@ To form a complete BOM, also include the parts listed in <<BOM06extra>> which ar
 
 |===
 
-After assembling the PCB with all the components, the holes and cutouts in the enclosure most likely will have to be reworked / extended to actually fit the PCB, then the PCB can be screwed into the enclosure with four screws. Afterwards the battery should be connected to the BATT connector making sure the orientation is correct as shown in <<battConnection>> and printed on the PCB, then the battery should be glued to the bottom of the enclosure with double-sided tape so it does not collide with any parts on the PCB, particularly the pin headers and the direction switch. 
+After assembling the PCB with all the components, the holes and cutouts in the enclosure most likely will have to be reworked / extended to actually fit the PCB, then the PCB can be screwed into the enclosure with four screws. Afterwards the battery should be connected to the BATT connector making sure the orientation is correct as shown in <<battConnection06>> and printed on the PCB, then the battery should be glued to the bottom of the enclosure with double-sided tape so it does not collide with any parts on the PCB, particularly the pin headers and the direction switch. 
+
+[#battConnection06]
+.Connection of battery to P101 on revision 0.6 and up - black wire is GND, red wire is positve
+image::_DSC0779.jpg[alt="Battery connection"]
 
 [#drilljigPicture]
 .Using the original PCB and drilling jig to transfer the positions of the holes to the housing - better results will be achieved when the PCBs are screwed in position
 image::DSC0126.jpg[Drilljig]
 
 [#battConnection]
-.Connection of battery to P101 - black wire is GND, red wire is positive
+.Connection of battery to P101 on revision 0.4 - black wire is GND, red wire is positive
 image::DSC0148.jpg[Battery connection]
 
 === Up to revision 0.5
@@ -579,7 +583,7 @@ The PCB has holes in the center of the LED footprints to enable transferring the
 
 [#BOM05]
 [cols="1,2,1",options="breakable,autowidth"]
-.List of components for the wiFred PCB
+.List of components for the wiFred PCB up to revision 0.5
 |===
 |Designator|Package|Designation
 
@@ -719,7 +723,7 @@ To form a complete BOM, also include the parts listed in <<BOM05extra>> which ar
 
 [#BOM05extra]
 [cols="1,2,1"]
-.List of components for the wiFred excluding electronic parts to solder to PCB
+.List of components for the wiFred up to revision 0.5 excluding electronic parts to solder to PCB
 |===
 |Designator|Package|Designation
 
