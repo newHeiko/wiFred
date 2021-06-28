@@ -412,6 +412,40 @@ All the SMD parts and connectors in <<BOM06SMD>> are located on the bottom side,
 |===
 |Designator|Package|Designation
 
+|C106, C105|C_0805_2012Metric_Pad1.15x1.40mm_HandSolder|22p
+
+|C201, C302, C102, C203, C202, C104, C101|C_0805_2012Metric_Pad1.15x1.40mm_HandSolder|4u7
+
+|C303, C301|C_0805_2012Metric_Pad1.15x1.40mm_HandSolder|100n
+
+|C308, C307, C306, C305, C103, C304|C_0805_2012Metric_Pad1.15x1.40mm_HandSolder|22u
+
+|D103, D204, D203, D202, D201|SOT-23|BAT54C
+
+|IC101|SOT-23-5_HandSoldering|TP4054
+
+|IC102|SOT-23-5_HandSoldering|XC6220B331MR
+
+|IC201|SOT-23-6_Handsoldering|CAT4002ATD-GT3
+
+|J101|USB_C_Receptacle_HRO_TYPE-C-31-M-12|USB_C_Receptacle_USB2.0
+
+|J301|PinHeader_2x03_P2.54mm_Vertical|Conn_02x03_Odd_Even
+
+|P101|PinHeader_1x02_P2.54mm_Horizontal|BATT
+
+|R102, R101|R_0805_2012Metric_Pad1.15x1.40mm_HandSolder|22R
+
+|R103, R209, R208, R207, R104|R_0805_2012Metric_Pad1.15x1.40mm_HandSolder|680R
+
+|R105|R_0805_2012Metric_Pad1.15x1.40mm_HandSolder|2k2
+
+|R107, R106|R_0805_2012Metric_Pad1.15x1.40mm_HandSolder|5k1
+
+|R212, R302, R301|R_0805_2012Metric_Pad1.15x1.40mm_HandSolder|4M7
+
+|R303, R304, R206, R211, R205, R204, R203, R202, R201|R_0805_2012Metric_Pad1.15x1.40mm_HandSolder|4k7
+
 |===
 
 Then - as shown in <<BOM06TOP>> - there is only the ESP32-S2-WROOM module on the top of the PCB and all the switches, push buttons, potentiometer and LEDs. After installing the ESP32-S2-WROOM, the direction switch should be screwed into the PCB with an 8 mm hex nut first, then attached to it's pads using the cutoffs from the LEDs, and the speed potentiometer should be screwed into the PCB with a 10 mm hex nut before soldering its leads.
@@ -423,6 +457,56 @@ For all other switches, push buttons and LEDs, it is recommended to drill the ho
 .List of top side components - ESP32-S2-WROOM and user interface - for the wiFred PCB
 |===
 |Designator|Package|Designation
+
+|D101|LED_D3.0mm|LED - red
+
+|D102|LED_D3.0mm|LED - green
+
+|D205|LED_D3.0mm|STOP - red
+
+|D206|LED_D3.0mm|FORWARD - green
+
+|D207|LED_D3.0mm|REVERSE - green
+
+|D208|LED_D5.0mm_Horicontal_FLIPPED_O1.27mm|Cree C543A-WMN-CCCKK141
+
+|D209|LED_D5.0mm_Horizontal_O1.27mm_Z3.0mm_Clear|Cree C543A-WMN-CCCKK141
+
+|RV201|P160KNPD|10k lin P160KNPD-4FC20B10K
+
+|SW201|SW_PUSH_6mm_H9.5mm|F1
+
+|SW202|SW_PUSH_6mm_H9.5mm|F4
+
+|SW203|SW_PUSH_6mm_H9.5mm|F7
+
+|SW204|SW_PUSH_6mm_H9.5mm|ESTOP
+
+|SW205|SW_PUSH_6mm_H9.5mm|F0
+
+|SW206|SW_PUSH_6mm_H9.5mm|F2
+
+|SW207|SW_PUSH_6mm_H9.5mm|F5
+
+|SW208|SW_PUSH_6mm_H9.5mm|F8
+
+|SW209|OS102011MS2Q|LOCO1
+
+|SW210|OS102011MS2Q|LOCO2
+
+|SW211|OS102011MS2Q|LOCO3
+
+|SW212|OS102011MS2Q|LOCO4
+
+|SW213|SW_PUSH_6mm_H9.5mm|F3
+
+|SW214|SW_PUSH_6mm_H9.5mm|F6
+
+|SW215|SW_PUSH_6mm_H9.5mm|SHIFT
+
+|SW216|100SP1T1B1M1QEH|DIRECTION
+
+|U301|ESP32-S2-WROVER-HandSoldering|ESP32-S2-WROOM
 
 |===
 
