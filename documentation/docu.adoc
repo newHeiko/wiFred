@@ -540,7 +540,7 @@ After assembling the PCB with all the components, the holes and cutouts in the e
 
 [#battConnection06]
 .Connection of battery to P101 on revision 0.6 and up - black wire is GND, red wire is positve
-image::_DSC0779.jpg[alt="Battery connection"]
+image::DSC0779.jpg[alt="Battery connection"]
 
 [#drilljigPicture]
 .Using the original PCB and drilling jig to transfer the positions of the holes to the housing - better results will be achieved when the PCBs are screwed in position
