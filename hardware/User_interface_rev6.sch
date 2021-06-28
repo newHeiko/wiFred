@@ -4,14 +4,14 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 2 3
-Title "Wireless FREDI (and clock interface)"
-Date "2017-11-19"
-Rev "0.2"
+Title "Wireless FREDI"
+Date "2021-06-28"
+Rev "0.62"
 Comp "Heiko Rosemann (heiko.rosemann@web.de) CC-BY-SA"
 Comment1 ""
 Comment2 ""
-Comment3 ""
-Comment4 "Keys, LEDs and Potentiometer for throttle"
+Comment3 "Keys, LEDs and Potentiometer for throttle"
+Comment4 "Flashlight"
 $EndDescr
 $Comp
 L wfred_rev6-rescue:POT-RESCUE-wfred_rev2-wfred_rev2-rescue RV201

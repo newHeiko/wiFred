@@ -4,9 +4,9 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 3 3
-Title "Wireless FREDI (and clock interface)"
-Date "2017-11-19"
-Rev "0.2"
+Title "Wireless FREDI"
+Date "2021-06-28"
+Rev "0.62"
 Comp "Heiko Rosemann (heiko.rosemann@web.de) CC-BY-SA"
 Comment1 ""
 Comment2 ""
