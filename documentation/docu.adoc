@@ -400,7 +400,7 @@ To place the ESP32-S2 into firmware flashing mode, a jumper has to be installed 
 .Display of boot jumper
 image::wfred-controller_rev2-Controller.png[alt="Schematic sheet 3 for rev0.6]
 
-All files in the *software/esp-firmware*-subdirectory of the <<github>> need to be placed in a folder, then the main sketch *arduino_main_sketch.ino.ino* needs to be opened with the Arduino IDE. Settings for the Arduino IDE can be found inside the main file, programming the device should work using the *Upload*-button in the *Sketch*-menu. An alternate solution using a pre-compiled firmware and esptool.py may be documented in the future.
+All files in the *software/esp-firmware*-subdirectory of the <<github>> need to be placed in a folder, then the main sketch *esp-firmware.ino* needs to be opened with the Arduino IDE. Settings for the Arduino IDE can be found inside the main file, programming the device should work using the *Upload*-button in the *Sketch*-menu. An alternate solution using a pre-compiled firmware and esptool.py may be documented in the future.
 
 === Hints for building revision 0.6
 
