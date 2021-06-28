@@ -397,8 +397,8 @@ image::User_interface_rev6-User_Interface.png[alt="Schematic sheet 3 for rev0.6]
 To place the ESP32-S2 into firmware flashing mode, a jumper has to be installed on the BOOT pins as shown in <<bootJumper06>> when the device is powered up. After entering boot mode, the ESP32-S2 will register as a USB CDC device when connected to a PC and can be programmed through it. Alternately, the serial port at the TXD/RXD pins can be used. The serial port needs to be at 3.3 V-levels like from an FTDI232-device run at 3.3 V.
 
 [#bootJumper06]
-.Display of boot jumper
-image::wfred-controller_rev2-Controller.png[alt="Schematic sheet 3 for rev0.6]
+.Display of boot jumper - left from 0.6 prototype, right from 0.62 rendering
+image::wfred_rev62BootJumper.png[alt="Boot jumper for 0.6 wiFred"]
 
 All files in the *software/esp-firmware*-subdirectory of the <<github>> need to be placed in a folder, then the main sketch *esp-firmware.ino* needs to be opened with the Arduino IDE. Settings for the Arduino IDE can be found inside the main file, programming the device should work using the *Upload*-button in the *Sketch*-menu. An alternate solution using a pre-compiled firmware and esptool.py may be documented in the future.
 
