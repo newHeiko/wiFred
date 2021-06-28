@@ -1311,31 +1311,31 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <p>The ESP32-S2 also monitors the battery voltage, going into sleep mode when the battery voltage drops too low. This should drop power consumption to a reasonably safe value, even though not as low as it can go when all the loco selection switches are off. Charging the battery can be done through the integrated USB port with two LEDs showing the charging status.</p>
 </div>
 <div class="paragraph">
-<p>The schematic is split into several pages and can be found in <a href="#schematic06page1">Master schematic sheet with battery connector, charging circuit and power supply</a> to <a href="#schematic06page3">Schematic sheet for user interface</a>. It has been created with kicad and is available on the <a href="#github">[Github repository for wiFred]</a> along with the PCB design.</p>
+<p>The schematic is split into several pages and can be found in <a href="#schematic06page1">Master schematic sheet with battery connector, charging circuit and power supply</a> to <a href="#schematic06page3">Schematic sheet for user interface (Keys, switches, LEDs, poti and flashlight)</a>. It has been created with kicad and is available on the <a href="#github">[Github repository for wiFred]</a> along with the PCB design.</p>
 </div>
 <div id="schematic06page1" class="imageblock">
 <div class="content">
-<img src="images/wfred_rev2.png" alt="&quot;Schematic sheet 1 for rev0.6">
+<img src="images/wfred_rev6.png" alt="&quot;Schematic sheet 1 for rev0.6">
 </div>
 <div class="title">Figure 11. Master schematic sheet with battery connector, charging circuit and power supply</div>
 </div>
 <div id="schematic06page2" class="imageblock">
 <div class="content">
-<img src="images/wfred-wifi-Wifi_connection.png" alt="&quot;Schematic sheet 2 for rev0.6">
+<img src="images/wfred-wifi_rev6-Wifi_connection.png" alt="&quot;Schematic sheet 2 for rev0.6">
 </div>
 <div class="title">Figure 12. Schematic sheet including ESP32-S2-WROOM for WiFi connection with bootloader enabling jumper and connection to programming cable</div>
 </div>
 <div id="schematic06page3" class="imageblock">
 <div class="content">
-<img src="images/wfred-controller_rev2-Controller.png" alt="&quot;Schematic sheet 3 for rev0.6">
+<img src="images/User_interface_rev6-User_Interface.png" alt="&quot;Schematic sheet 3 for rev0.6">
 </div>
-<div class="title">Figure 13. Schematic sheet for user interface</div>
+<div class="title">Figure 13. Schematic sheet for user interface (Keys, switches, LEDs, poti and flashlight)</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_writing_the_firmware_to_the_esp32_s2_wroom">Writing the firmware to the ESP32-S2-WROOM</h3>
 <div class="paragraph">
-<p>To place the ESP32-S2 into firmware flashing mode, a jumper has to be installed on the BOOT pins as shown in_<a href="#bootJumper06">Display of boot jumper</a> when the device is powered up. After entering boot mode, the ESP32-S2 will register as a USB CDC device when connected to a PC and can be programmed through it. Alternately, the serial port at the TXD/RXD pins can be used. The serial port needs to be at 3.3 V-levels like from an FTDI232-device run at 3.3 V.</p>
+<p>To place the ESP32-S2 into firmware flashing mode, a jumper has to be installed on the BOOT pins as shown in <a href="#bootJumper06">Display of boot jumper</a> when the device is powered up. After entering boot mode, the ESP32-S2 will register as a USB CDC device when connected to a PC and can be programmed through it. Alternately, the serial port at the TXD/RXD pins can be used. The serial port needs to be at 3.3 V-levels like from an FTDI232-device run at 3.3 V.</p>
 </div>
 <div id="bootJumper06" class="imageblock">
 <div class="content">
@@ -2339,7 +2339,7 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <div id="footer">
 <div id="footer-text">
 Version 0.3<br>
-Last updated 2021-06-27 18:40:43 +0200
+Last updated 2021-06-28 20:48:40 +0200
 </div>
 </div>
 </body>

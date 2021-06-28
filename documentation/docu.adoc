@@ -382,15 +382,15 @@ The schematic is split into several pages and can be found in <<schematic06page1
 
 [#schematic06page1]
 .Master schematic sheet with battery connector, charging circuit and power supply
-image::wfred_rev2.png[alt="Schematic sheet 1 for rev0.6]
+image::wfred_rev6.png[alt="Schematic sheet 1 for rev0.6]
 
 [#schematic06page2]
 .Schematic sheet including ESP32-S2-WROOM for WiFi connection with bootloader enabling jumper and connection to programming cable
-image::wfred-wifi-Wifi_connection.png[alt="Schematic sheet 2 for rev0.6]
+image::wfred-wifi_rev6-Wifi_connection.png[alt="Schematic sheet 2 for rev0.6]
 
 [#schematic06page3]
-.Schematic sheet for user interface
-image::wfred-controller_rev2-Controller.png[alt="Schematic sheet 3 for rev0.6]
+.Schematic sheet for user interface (Keys, switches, LEDs, poti and flashlight)
+image::User_interface_rev6-User_Interface.png[alt="Schematic sheet 3 for rev0.6]
 
 === Writing the firmware to the ESP32-S2-WROOM
 
