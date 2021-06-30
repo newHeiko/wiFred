@@ -21,11 +21,13 @@
 
 #include <stdbool.h>
 #include <FS.h>
+#include <SPIFFS.h>
 #include <ArduinoJson.h>
 
 #include "config.h"
 #include "wifi.h"
 #include "locoHandling.h"
+#include "throttleHandling.h"
 
 char * throttleName;
 
@@ -178,6 +180,18 @@ void initConfig(void)
       f.close();
     }
   }
+
+  // read battery reference voltage factor and potentiometer voltage min/max from SPIFFS if available
+  if(File f = SPIFFS.open(FN_ANALOG))
+  {
+    if(!deserializeJson(doc, f))
+    {
+      potiMin = doc[FIELD_POTI_MIN] | 1100;
+      potiMax = doc[FIELD_POTI_MAX] | 1100;
+      battFactor = doc[FIELD_BATT_FACTOR] | 1.0f;
+    }
+    f.close();
+  }
 }
 
 void saveLocoServer()
@@ -300,6 +314,29 @@ void saveWiFiConfig()
     }
     doc.clear();
   }
+
+  SPIFFS.end();
+}
+
+void saveAnalogConfig()
+{
+  if(!SPIFFS.begin())
+  {
+    return;
+  }
+
+  DynamicJsonDocument doc(256);
+
+  doc[FIELD_POTI_MIN] = potiMin;
+  doc[FIELD_POTI_MAX] = potiMax;
+  doc[FIELD_BATT_FACTOR] = battFactor;
+
+  if(File f = SPIFFS.open(FN_ANALOG, "w"))
+  {
+    serializeJson(doc, f);
+    f.close();
+  }
+  doc.clear();
 
   SPIFFS.end();
 }

@@ -19,12 +19,12 @@
  * as providing a webserver for configuration of the device and status readout.
  */
 
-#include <ESP8266WiFi.h>
-#include <ESP8266WiFiMulti.h>
+#include <WiFi.h>
+#include <WiFiMulti.h>
 #include <WiFiClient.h>
-#include <ESP8266WebServer.h>
-#include <ESP8266HTTPUpdateServer.h>
-#include <ESP8266mDNS.h>
+#include <WebServer.h>
+#include <HTTPUpdateServer.h>
+#include <ESPmDNS.h>
 #include <DNSServer.h>
 
 #include "wifi.h"
@@ -39,11 +39,11 @@
 
 std::vector<wifiAPEntry> apList;
 
-ESP8266WiFiMulti wifiMulti;
+WiFiMulti wifiMulti;
 
-ESP8266WebServer server(80);
+WebServer server(80);
 DNSServer dnsServer;
-ESP8266HTTPUpdateServer updater;
+HTTPUpdateServer updater;
 
 void readString(char * dest, size_t maxLength, String input)
 {
@@ -67,7 +67,7 @@ void handleWiFi(void)
     case STATE_LOCOS_OFF:
     case STATE_CONFIG_STATION:
     case STATE_CONFIG_STATION_WAITING:
-      MDNS.update();
+//      MDNS.update();
       break;
 
     case STATE_CONNECTING:
@@ -86,8 +86,10 @@ void handleWiFi(void)
  */
 void initWiFiConfigSTA(void)
 {
-  MDNS.removeService(NULL, "http", "tcp");
-  MDNS.setHostname("config");
+//  MDNS.removeService(NULL, "http", "tcp");
+  MDNS.end();
+//  MDNS.setHostname("config");
+  MDNS.begin("config");
   MDNS.addService("http", "tcp", 80);
 }
 
@@ -115,8 +117,10 @@ void shutdownWiFiConfigSTA(void)
   Serial.println(String("Add MDNS ") + hostName + " on throttle name " + throttleName);
 #endif
 
-  MDNS.removeService(NULL, "http", "tcp");
-  MDNS.setHostname(hostName);
+//  MDNS.removeService(NULL, "http", "tcp");
+  MDNS.end();
+//  MDNS.setHostname(hostName);
+  MDNS.begin(hostName);
   MDNS.addService("http", "tcp", 80);
 }
 
@@ -298,6 +302,21 @@ void writeMainPage()
     saveWiFiConfig();
   }
 
+  // check if this is a "recalibrate speed" request
+  if (server.hasArg("resetPoti"))
+  {
+    potiMin = potiMax / 2;
+    potiMax = potiMin;
+    saveAnalogConfig();
+  }
+
+  // check if this is a "recalibrate battery" request
+  if (server.hasArg("newVoltage"))
+  {
+    battFactor = battFactor * server.arg("newVoltage").toInt() / batteryVoltage;
+    saveAnalogConfig();
+  }
+
   String resp = String("<!DOCTYPE HTML>\r\n")
               + "<html><head><title>wiFred configuration page</title></head>\r\n"
               + "<body><h1>wiFred configuration page</h1>\r\n"
@@ -349,8 +368,10 @@ void writeMainPage()
   resp        += String("<hr>wiFred status<hr>\r\n")
               + "<table border=0>"
               + "<tr><td>Battery voltage: </td><td>" + batteryVoltage + " mV" + (lowBattery ? " Battery LOW" : "" ) + "</td></tr>"
-              + "<tr><td>ESP firmware revision: </td><td>" + REV + "</td></tr>"
-              + "<tr><td>AVR firmware revision: </td><td>" + avrRevision + "</td></tr></table>\r\n"
+              + "<tr><td>Firmware revision: </td><td>" + REV + "</td></tr></table>\r\n"
+              + "<hr>wiFred calibration<hr>\r\n"
+              + "<form action=\"index.html\" method=\"get\"><input type=\"hidden\" name=\"resetPoti\" value=\"true\"><input type=\"submit\" value=\"Reset speed calibration\"></form>"
+              + "<form action=\"index.html\" method=\"get\">Actual battery voltage: <input type=\"text\" name=\"newVoltage\" value=\"" + batteryVoltage + "\"><input type=\"submit\" value=\"Correct battery voltage calibration\"></form>"
               + "<hr>wiFred system<hr>\r\n"
               + "<a href=resetConfig.html>Reset wiFred to factory defaults</a>\r\n"
               + "<a href=update>Update wiFred firmware</a>\r\n"

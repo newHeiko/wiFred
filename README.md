@@ -8,12 +8,13 @@ This repo contains schematics, PCB and documentation for the wiFred, a wiThrottl
 ### Branch information
 Several versions are contained in different branches:
 
-- master branch: Designed to fit into Strapubox 2090 housing, powered by a lithium battery, hardware: AVR ATMega328P plus ESP12F, SMD pushbuttons
+- master branch: Designed to fit into Strapubox 2090 housing, powered by a lithium battery, hardware: ESP32-S2-WROOM, THT pushbuttons
+  - rev0.6 (initial)
+  - rev0.62 (switched USB connector to USB-C 
+- esp12 branch: Designed to fit into Strapubox 2090 housing, powered by a lithium battery, hardware: AVR ATMega328P plus ESP12F, SMD pushbuttons
   - rev0.4
   - rev0.5 (Added flashlight)
   - rev0.51 (Fixed silkscreen on PCB)
-- esp32 branch: Designed to fit into Strapubox 2090 housing, powered by a lithium battery, hardware: ESP32-S2-WROOM, THT pushbuttons
-  - will become rev0.6
 - newAgeEnclosures branch: No longer developed, designed for New Age Enclosures Compact AA housing, powered by 2x AA cells, hardware: AVR ATMega328P plus ESP12F, SMD pushbuttons
 - AABatteryPrototype branch: No longer developed, designed for Strapubox 6090 housing, powered by 2x AA cells, hardware: AVR ATMega328P plus ESP12F, SMD pushbuttons, very tight fit requires multiple modifications to Strapubox housing
 

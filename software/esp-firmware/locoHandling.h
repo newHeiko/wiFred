@@ -25,7 +25,12 @@
 
 #define MAX_FUNCTION 16
 
-#include <ESP8266WiFi.h>
+/** 
+ * Don't send speed commands more often than this (milliseconds)
+ */
+#define SPEED_HOLDOFF_PERIOD 150
+
+#include <WiFi.h>
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -33,9 +38,7 @@
 #include "config.h"
 
 enum functionInfo { THROTTLE, THROTTLE_MOMENTARY, THROTTLE_LOCKING, THROTTLE_SINGLE, ALWAYS_ON, ALWAYS_OFF, IGNORE, UNKNOWN = THROTTLE };
-
 enum eDirection { DIR_NORMAL, DIR_REVERSE, DIR_DONTCHANGE };
-
 enum eLocoState { LOCO_ACTIVATE, LOCO_FUNCTIONS, LOCO_LEAVE_FUNCTIONS, LOCO_ACTIVE, LOCO_DEACTIVATE, LOCO_INACTIVE };
 
 extern eLocoState locoState[4];

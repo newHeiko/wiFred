@@ -20,8 +20,10 @@
  * them.
  */
 
-#include <ESP8266WiFi.h>
-#include <ESP8266mDNS.h>
+#define DEBUG
+
+#include <WiFi.h>
+#include <ESPmDNS.h>
 
 #include "locoHandling.h"
 #include "lowbat.h"
@@ -92,6 +94,11 @@ IPAddress automaticServerIP;
 eLocoState locoState[4] = { LOCO_INACTIVE, LOCO_INACTIVE, LOCO_INACTIVE, LOCO_INACTIVE };
 
 /**
+ * locoState timeouts
+ */
+uint32_t locoTimeout[4] = { UINT32_MAX, UINT32_MAX, UINT32_MAX, UINT32_MAX };
+
+/**
  * Remember status of functions
  */
 functionInfo globalFunctionStatus[MAX_FUNCTION + 1] = { UNKNOWN,
@@ -141,7 +148,7 @@ void locoHandler(void)
   if(eSTOP && millis() > eStopTimeout)
   {
     client.print("MTA*<;>X\n");
-    eStopTimeout += 5000;
+    eStopTimeout += keepAliveTimeout;
   }
   
   // remove ESTOP setting if speed is zero
@@ -149,12 +156,16 @@ void locoHandler(void)
   {
     eSTOP = false;
   }
-      
-  // if not in emergency stop, send speed value to all locos
-  if(!eSTOP && millis() > speedTimeout)
+
   {
-    client.print(String("MTA*<;>V") + speed + "\n");
-    speedTimeout += keepAliveTimeout;
+    static uint32_t speedHoldoff = 0;
+    // if not in emergency stop, send speed value to all locos
+    if(!eSTOP && millis() > speedTimeout && millis() > speedHoldoff)
+    {
+      client.print(String("MTA*<;>V") + speed + "\n");
+      speedTimeout += keepAliveTimeout;
+      speedHoldoff = millis() + SPEED_HOLDOFF_PERIOD;
+    }
   }
       
   // check if any of the loco selectors have been changed
@@ -236,20 +247,27 @@ void locoConnect(void)
 {
   if(locoServer.automatic && automaticServer != nullptr)
     {
-#ifdef DEBUG
-      Serial.println("Trying to connect to automatic server...");
-#endif
+      log_d("Trying to connect to automatic server %s...", automaticServer);
       if(client.connect(automaticServerIP, locoServer.port))
 	    {
+        log_d("...succeeded.");
 	      client.setNoDelay(true);
 	      client.setTimeout(10);
 	      switchState(STATE_LOCO_CONNECTING, 10 * 1000);
 	    }
+      else
+      {
+        log_d("...failed. Resetting server info.");
+        free(automaticServer);
+        automaticServer = nullptr;
+      }
     }
   else if(!locoServer.automatic)
     {
+      log_d("Trying to connect to server %s...", locoServer.name);
       if(client.connect(locoServer.name, locoServer.port))
 	    {
+        log_d("...succeeded.");
 	      client.setNoDelay(true);
 	      client.setTimeout(10);
 	      switchState(STATE_LOCO_CONNECTING, 10 * 1000);
@@ -259,25 +277,25 @@ void locoConnect(void)
   if(locoServer.automatic && automaticServer == nullptr
      && (wiFredState == STATE_CONNECTED || wiFredState == STATE_CONFIG_AP) )
     {
-#ifdef DEBUG
-      Serial.println("Looking for automatic server");
-      Serial.println("Installing service query");
-#endif
+      log_d("Looking for automatic server.");
       uint32_t n = MDNS.queryService("withrottle", "tcp");
       for(uint32_t i = 0; i < n; i++)
       {
-#ifdef DEBUG
-        Serial.print(String("Hostname: ") + MDNS.hostname(i) + " IP ");
-        Serial.print(MDNS.IP(i));
-        Serial.println(String(" port ") + MDNS.port(i));
-#endif
+        log_d("Hostname: %s IP: %s Port: %u", MDNS.hostname(i).c_str(), MDNS.IP(i).toString().c_str(), MDNS.port(i));
         if(MDNS.port(i) == locoServer.port)
 	      {
 	        automaticServer = strdup(MDNS.hostname(i).c_str());
 	        automaticServerIP = MDNS.IP(i);
-	        MDNS.removeQuery();
+//	        MDNS.removeQuery();
 	        break;          
 	      }
+      }
+      if(n == 0)
+      {
+        automaticServerIP = WiFi.localIP();
+        automaticServerIP[3] = 1;
+        automaticServer = strdup(automaticServerIP.toString().c_str());
+        log_d("No MDNS-announced wiThrottle server found. Trying LNWI/DCCEX at %s.", automaticServer);
       }
     }
 }
@@ -311,14 +329,17 @@ void locoRegister(void)
       uint8_t mac[6];
       WiFi.macAddress(mac);
       String id = String(mac[0], 16) + String(mac[1], 16) + String(mac[2], 16) + String(mac[3], 16) + String(mac[4], 16) + String(mac[5], 16);
-      client.print(String("N") + throttleName + "\n");
       client.print("HU" + id + "\n");
       switchState(STATE_LOCO_WAITFORTIMEOUT, 1000);
       Serial.println("ON");
       // flush all input data
       client.flush();
     }
-  }  
+  }
+  else if(client.connected())
+  {
+      client.print(String("N") + throttleName + "\n");
+  }
   else if(!client.connected())
   {
     switchState(STATE_CONNECTED, 60 * 1000);
@@ -538,6 +559,7 @@ void requestLoco(uint8_t loco)
   client.print(String("MTA") + locoThrottleID[loco] + "<;>X\n");
   setESTOP();
   locoState[loco] = LOCO_FUNCTIONS;
+  locoTimeout[loco] = millis() + 500;
 }
 
 /**
@@ -633,71 +655,120 @@ void setLocoFunctions(uint8_t loco)
  */
 void getLocoFunctions(uint8_t loco)
 {
-  String line = client.readStringUntil('\n');
-#ifdef DEBUG
-  Serial.println();
-  Serial.println(line);
-#endif
-  if(line.startsWith(String("MTA") + locoThrottleID[loco]))
+  if(!client.available())
   {
-#ifdef DEBUG
-  Serial.println(line);
-  Serial.println(locoThrottleID[loco]);
-  Serial.println(String("") + loco + " " + line.charAt(6 + locoThrottleID[loco].length()));
-#endif
-
-    bool set = false;
-    uint8_t f = 0;
-    
-    switch(line.charAt(6 + locoThrottleID[loco].length()))
+    if(locoTimeout[loco] < millis())
     {
-      // responding with function status
-      case 'F':
-        f = line.substring(8 + locoThrottleID[loco].length()).toInt();
-        // only work on functions up to our maximum
-        if(f > MAX_FUNCTION)
-        {
-          break;
-        }
-        if(line.charAt(7 + locoThrottleID[loco].length()) == '1')
-        {
-          set = true;
-        }
-        if(locos[loco].functions[f] == THROTTLE || locos[loco].functions[f] == THROTTLE_LOCKING)
-        {
-          // if this is the first loco that has this function controlled by our function keys, copy state
-          if(globalFunctionStatus[f] == UNKNOWN)
-          {
-            if(set)
-            {
-              globalFunctionStatus[f] = ALWAYS_ON;
-            }
-            else
-            {
-              globalFunctionStatus[f] = ALWAYS_OFF;
-            }
-          }
-        }
-        break;
-
-      // responding with direction status - if this loco should keep its direction, set its reverse parameter accordingly
-      case 'R':
-        if(locos[loco].direction == DIR_DONTCHANGE)
-        {
-          locos[loco].reverse = (line.charAt(7 + locoThrottleID[loco].length()) == '0') ^ myReverse;
-        }
-        break;
-
-      // last line of regular response, everything should be done by now, so switch to online state and flush client buffer
-      case 's':
-        locoState[loco] = LOCO_LEAVE_FUNCTIONS;
-        // flush all input data
-        client.flush();
-        while (client.read() > -1)
-          ;
-        break;
+      locoTimeout[loco] = UINT32_MAX;
+      locoState[loco] = LOCO_LEAVE_FUNCTIONS;
     }
   }
+  else
+  {
+    String line = client.readStringUntil('\n');
+#ifdef DEBUG
+    Serial.println();
+    Serial.println(line);
+#endif
+    if(line.startsWith(String("MTA") + locoThrottleID[loco]))
+    {
+#ifdef DEBUG
+      Serial.println(line);
+      Serial.println(locoThrottleID[loco]);
+      Serial.println(String("") + loco + " " + line.charAt(6 + locoThrottleID[loco].length()));
+#endif
+
+      bool set = false;
+      uint8_t f = 0;
+      
+      switch(line.charAt(6 + locoThrottleID[loco].length()))
+      {
+        // responding with function status
+        case 'F':
+          f = line.substring(8 + locoThrottleID[loco].length()).toInt();
+          // only work on functions up to our maximum
+          if(f > MAX_FUNCTION)
+          {
+            break;
+          }
+          if(line.charAt(7 + locoThrottleID[loco].length()) == '1')
+          {
+            set = true;
+          }
+          if(locos[loco].functions[f] == THROTTLE || locos[loco].functions[f] == THROTTLE_LOCKING)
+          {
+            // if this is the first loco that has this function controlled by our function keys, copy state
+            if(globalFunctionStatus[f] == UNKNOWN)
+            {
+              if(set)
+              {
+                globalFunctionStatus[f] = ALWAYS_ON;
+              }
+              else
+              {
+                globalFunctionStatus[f] = ALWAYS_OFF;
+              }
+            }
+          }
+          break;
+  
+        // responding with direction status - if this loco should keep its direction, set its reverse parameter accordingly
+        case 'R':
+          if(locos[loco].direction == DIR_DONTCHANGE)
+          {
+            locos[loco].reverse = (line.charAt(7 + locoThrottleID[loco].length()) == '0') ^ myReverse;
+          }
+          break;
+  
+        // last line of regular response, everything should be done by now, so switch to online state and flush client buffer
+        case 's':
+          locoState[loco] = LOCO_LEAVE_FUNCTIONS;
+          locoTimeout[loco] = UINT32_MAX;
+          // flush all input data
+          while (client.read() > -1)
+            ;
+          break;
+      }
+    }
+  }
+}
+
+/**
+ * Are there any active locos left?
+ * 
+ * @returns true if all locos have been deactivated
+ */
+bool allLocosInactive(void)
+{
+  for(uint8_t l = 0; l < 4; l++)
+  {
+    if(locoState[l] != LOCO_INACTIVE)
+    {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * Is this the only active loco?
+ * 
+ * @returns true if all other locos are inactive
+ */
+bool isOnlyLoco(uint8_t loco)
+{
+  for(uint8_t l = 0; l < 4; l++)
+  {
+    if(l == loco)
+    {
+      continue;
+    }
+    if(locoState[l] != LOCO_INACTIVE)
+    {
+      return false;
+    }
+  }
+  return true;
 }
 
 /**

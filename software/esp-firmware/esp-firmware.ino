@@ -18,11 +18,11 @@
  * This file ties everything together to initialize the hardware and
  * form the main loop.
  * 
- * This project was made for ESP12E/ESP12F with Arduino ESP version 2.7.4
- * Board settings: Generic ESP8266 Module, 2, 115200, 80MHz, 26MHz,
- * 4MB (FS:1MB, OTA:~1019kB), DOUT (compatible), 40MHz, no dtr (aka ck), 
- * Disabled, None, v1.4 Higher Bandwidth, Flash, Legacy, Only Sketch, 
- * nonos-sdk 2.2.1+119 (191122), Basic SSL, /dev/ttyUSB0
+ * This project was made for ESP32-S2
+ * with Arduino ESP32 from the 2.0 series
+ * Board settings: ESP32S2 Dev Module, UART0, Disabled,
+ * Default 4MB with spiffs (1.2MB APP/1.5MB SPIFFS), 160MHz (WiFi),
+ * QIO, 40MHz, 4MB (32Mb), 921600, None on /dev/ttyUSB0
  */
 
 #include "wifi.h"
@@ -40,15 +40,20 @@ uint32_t stateTimeout = UINT32_MAX;
 void setup() {
 // put your setup code here, to run once:
 
+  delay(100);
+
   Serial.begin(115200);
   Serial.setTimeout(10);
   initConfig();
+
+  initThrottle();
   
   #ifdef DEBUG
   Serial.setDebugOutput(true);
   #else
   Serial.setDebugOutput(false);
   #endif
+  
   delay(100);
 
   initWiFi();
@@ -70,15 +75,13 @@ void loop() {
     switchState(STATE_LOWPOWER_WAITING, 100);
   }
   
-#ifdef DEBUG
-  static uint32_t test = 0;
+  static uint32_t nextOutput = 0;
 
-  if(test < millis())
+  if(nextOutput < millis())
   {
-    test = millis() + 5000;
-    Serial.println(ESP.getFreeHeap());
+    nextOutput = millis() + 5000;
+    log_d("Heap: %d", ESP.getFreeHeap());
   }
-#endif
 
   switch(wiFredState)
   {
@@ -93,7 +96,7 @@ void loop() {
       if(WiFi.status() == WL_CONNECTED)
       {
         initMDNS();
-        switchState(STATE_CONNECTED, 60 * 1000);
+        switchState(STATE_CONNECTED, TOTAL_NETWORK_TIMEOUT_MS);
       }
       else if(millis() > stateTimeout)
       {
@@ -205,6 +208,7 @@ void loop() {
 
 void switchState(state newState, uint32_t timeout)
 {
+  log_d("Old state: %d, New state: %d", wiFredState, newState);
   wiFredState = newState;
   if(timeout == UINT32_MAX)
   {
