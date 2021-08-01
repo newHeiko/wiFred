@@ -148,7 +148,7 @@ void locoHandler(void)
   if(eSTOP && millis() > eStopTimeout)
   {
     client.print("MTA*<;>X\n");
-    eStopTimeout += keepAliveTimeout;
+    eStopTimeout = millis() + keepAliveTimeout;
   }
   
   // remove ESTOP setting if speed is zero
@@ -163,7 +163,7 @@ void locoHandler(void)
     if(!eSTOP && millis() > speedTimeout && millis() > speedHoldoff)
     {
       client.print(String("MTA*<;>V") + speed + "\n");
-      speedTimeout += keepAliveTimeout;
+      speedTimeout = millis() + keepAliveTimeout;
       speedHoldoff = millis() + SPEED_HOLDOFF_PERIOD;
     }
   }
