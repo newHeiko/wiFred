@@ -196,7 +196,7 @@ void initConfig(void)
 
 void saveLocoServer()
 {
-  if(!SPIFFS.begin())
+  if(!SPIFFS.begin(true))
   {
     return;
   }
@@ -218,7 +218,7 @@ void saveLocoServer()
 
 void saveGeneralConfig(void)
 {
-  if(!SPIFFS.begin())
+  if(!SPIFFS.begin(true))
   {
     return;
   }
@@ -238,7 +238,7 @@ void saveGeneralConfig(void)
 
 void saveLocoConfig(uint8_t loco)
 {
-  if(loco >= 4 || !SPIFFS.begin())
+  if(loco >= 4 || !SPIFFS.begin(true))
   {
     return;
   }
@@ -277,7 +277,7 @@ void saveLocoConfig(uint8_t loco)
 
 void saveWiFiConfig()
 {
-  if(!SPIFFS.begin())
+  if(!SPIFFS.begin(true))
   {
     return;
   }
@@ -320,7 +320,7 @@ void saveWiFiConfig()
 
 void saveAnalogConfig()
 {
-  if(!SPIFFS.begin())
+  if(!SPIFFS.begin(true))
   {
     return;
   }
