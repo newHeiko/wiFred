@@ -148,7 +148,7 @@ void locoHandler(void)
   if(eSTOP && millis() > eStopTimeout)
   {
     client.print("MTA*<;>X\n");
-    eStopTimeout = millis() + keepAliveTimeout;
+    eStopTimeout = millis() + 5000;
   }
   
   // remove ESTOP setting if speed is zero
@@ -521,7 +521,10 @@ void setSpeed(uint8_t newSpeed)
  */
 void setESTOP(void)
 {
-  eStopTimeout = millis();
+  if(!eSTOP)
+  {
+    eStopTimeout = millis();
+  }
   if(wiFredState == STATE_LOCO_ONLINE && !eSTOP)
   {
     client.print("MTA*<;>X\n");
