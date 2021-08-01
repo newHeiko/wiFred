@@ -191,12 +191,23 @@ void loop() {
         shutdownWiFiSTA();
         switchState(STATE_LOWPOWER);
       }
+      if(!allLocosInactive() && !lowBattery && !emptyBattery)
+      {
+        switchState(STATE_LOCO_ONLINE);
+      }
       break;
     
     case STATE_LOWPOWER:
       setLEDvalues("0/0", "0/0", "1/250");
-      // shut down ESP
-      ESP.deepSleep(0);
+      // shut down ESP if low on battery
+      if(lowBattery || emptyBattery)
+      {
+        ESP.deepSleep(0);
+      }
+      else if(!allLocosInactive())
+      {
+        ESP.restart();
+      }
       break;
       
     case STATE_CONFIG_AP:
