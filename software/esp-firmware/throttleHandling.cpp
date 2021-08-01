@@ -421,6 +421,7 @@ void adcCallback(void)
   static unsigned int counter = 0;
   static uint32_t speedBuffer;
   static uint32_t batteryBuffer;
+  static uint8_t oldSpeed = 0;
 
   if(counter % 2)
   {
@@ -445,7 +446,26 @@ void adcCallback(void)
       potiMax = speedBuffer;
       saveAnalog = true;
     }
-    setSpeed(map(speedBuffer, potiMin, potiMax, 127, 0) - 1);
+    uint8_t tempSpeed;
+    if(speedBuffer > potiMax)
+    {
+      tempSpeed = 0;
+    }
+    else if(speedBuffer < potiMin)
+    {
+      tempSpeed = 253;
+    }
+    else
+    {
+      tempSpeed = map(speedBuffer, potiMin, potiMax, 253, 0);
+    }
+    int8_t delta = tempSpeed - oldSpeed;
+    if(delta < -1 || delta > 1) 
+    {
+      log_d("Old speed: %u, new speed: %u", oldSpeed, tempSpeed);
+      setSpeed(tempSpeed / 2);
+      oldSpeed = tempSpeed;
+    }
 
     batteryBuffer /= NUM_SAMPLES;
     batteryBuffer *= battFactor * 2;
