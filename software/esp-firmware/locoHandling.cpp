@@ -475,12 +475,12 @@ void setReverse(bool newReverse)
 {
   if(newReverse != myReverse)
   {
+    myReverse = newReverse;
     if(speed != 0)
     {
       setESTOP();
       return;
     }
-    myReverse = newReverse;
     if(wiFredState != STATE_LOCO_ONLINE)
     {
       return;
