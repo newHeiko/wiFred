@@ -289,15 +289,17 @@ void debounceInputCallback(void)
  */
 void handleThrottle(void)
 {
+  setReverse(reverseOut);
+  
   // handle direction switch
   if(getInputPressed(KEY_REV))
   {
-    setReverse(true);
+    reverseOut = true;
     log_v("Setting direction to reverse");
   }
   if(getInputPressed(KEY_FWD))
   {
-    setReverse(false);
+    reverseOut = false;
     log_v("Setting direction to forward");
   }
 
