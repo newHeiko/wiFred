@@ -21,7 +21,7 @@
  * This project was made for ESP12E/ESP12F with Arduino ESP version 2.7.4
  * Board settings: Generic ESP8266 Module, 2, 115200, 80MHz, 26MHz,
  * 4MB (FS:1MB, OTA:~1019kB), DOUT (compatible), 40MHz, no dtr (aka ck), 
- * Disabled, None, v1.4 Higher Bandwidth, Flash, Legacy, Only Sketch, 
+ * Disabled, None, v2 Higher Bandwidth, Flash, Legacy, Only Sketch, 
  * nonos-sdk 2.2.1+119 (191122), Basic SSL, /dev/ttyUSB0
  */
 

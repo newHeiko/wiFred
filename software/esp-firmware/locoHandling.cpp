@@ -245,27 +245,37 @@ void locoConnect(void)
 {
   if(locoServer.automatic && automaticServer != nullptr)
     {
-      log_d("Trying to connect to automatic server %s...", automaticServer);
+#ifdef DEBUG
+      Serial.println(String("Trying to connect to automatic server ") + automaticServer + "...");
+#endif
       if(client.connect(automaticServerIP, locoServer.port))
 	    {
-        log_d("...succeeded.");
+#ifdef DEBUG
+        Serial.println("...succeeded.");
+#endif
 	      client.setNoDelay(true);
 	      client.setTimeout(10);
 	      switchState(STATE_LOCO_CONNECTING, 10 * 1000);
 	    }
       else
       {
-        log_d("...failed. Resetting server info.");
+#ifdef DEBUG
+        Serial.println("...failed. Resetting server info.");
+#endif
         free(automaticServer);
         automaticServer = nullptr;
       }
     }
   else if(!locoServer.automatic)
     {
-      log_d("Trying to connect to server %s...", locoServer.name);
+#ifdef DEBUG
+      Serial.println(String("Trying to connect to server ") + locoServer.name + "...");
+#endif
       if(client.connect(locoServer.name, locoServer.port))
 	    {
-        log_d("...succeeded.");
+#ifdef DEBUG
+        Serial.println("...succeeded.");
+#endif
 	      client.setNoDelay(true);
 	      client.setTimeout(10);
 	      switchState(STATE_LOCO_CONNECTING, 10 * 1000);
@@ -300,7 +310,9 @@ void locoConnect(void)
         automaticServerIP = WiFi.localIP();
         automaticServerIP[3] = 1;
         automaticServer = strdup(automaticServerIP.toString().c_str());
-        log_d("No MDNS-announced wiThrottle server found. Trying LNWI/DCCEX at %s.", automaticServer);
+#ifdef DEBUG        
+        Serial.println(String("No MDNS-announced wiThrottle server found. Trying LNWI/DCCEX at ") + automaticServer + ".");
+#endif
       }
     }
 }
@@ -732,12 +744,13 @@ void getLocoFunctions(uint8_t loco)
       // last line of regular response, everything should be done by now, so switch to online state and flush client buffer
       case 's':
         locoState[loco] = LOCO_LEAVE_FUNCTIONS;
-	locoTimeout[loco] = UINT32_MAX;
+	      locoTimeout[loco] = UINT32_MAX;
         // flush all input data
         client.flush();
         while (client.read() > -1)
           ;
         break;
+      }
     }
   }
 }
