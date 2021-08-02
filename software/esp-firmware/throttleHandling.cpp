@@ -82,6 +82,9 @@ void handleThrottle(void)
   {
     avrRevision = strdup("unknown");
   }
+
+  // try to set direction
+  setReverse(reverseOut);
   
   // if there is input on the serial port
   while(Serial.available() > 0)
@@ -129,12 +132,12 @@ void handleThrottle(void)
             {
               if(direction == 'F')
               {
-                setReverse(false);
+                reverseOut = false;
                 setSpeed((uint8_t) speedIn);
               }
               else if(direction == 'R')
               {
-                setReverse(true);
+                reverseOut = true;
                 setSpeed((uint8_t) speedIn);
               }
               else
