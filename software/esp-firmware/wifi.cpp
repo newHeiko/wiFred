@@ -418,7 +418,7 @@ void writeFuncMapPage()
 
 void scanWifi()
 {
-  uint32_t n = WiFi.scanNetworks(false, false, true, 100);
+  uint32_t n = WiFi.scanNetworks();
   
   String resp = String("<!DOCTYPE HTML>\r\n")
                 + "<html><head><title>Scan for WiFi networks</title></head>"
