@@ -56,6 +56,10 @@ void initConfig(void)
 	      locos[i].functions[j] = THROTTLE;
       }
   }
+
+  potiMin = 1100;
+  potiMax = 1100;
+  battFactor = 1.0f;
   
   if(!SPIFFS.begin())
   {
@@ -186,9 +190,9 @@ void initConfig(void)
   {
     if(!deserializeJson(doc, f))
     {
-      potiMin = doc[FIELD_POTI_MIN] | 1100;
-      potiMax = doc[FIELD_POTI_MAX] | 1100;
-      battFactor = doc[FIELD_BATT_FACTOR] | 1.0f;
+      potiMin = doc[FIELD_POTI_MIN];
+      potiMax = doc[FIELD_POTI_MAX];
+      battFactor = doc[FIELD_BATT_FACTOR];
     }
     f.close();
   }
