@@ -438,12 +438,15 @@ void adcCallback(void)
   if(counter >= NUM_SAMPLES * 2)
   {
     speedBuffer /= NUM_SAMPLES;
-    if(speedBuffer < potiMin - potiMin / 100)
+    if(potiMin >= potiMin / 50)
     {
-      potiMin = speedBuffer;
-      saveAnalog = true;
+      if(speedBuffer < potiMin - potiMin / 50)
+      {
+        potiMin = speedBuffer;
+        saveAnalog = true;
+      }
     }
-    if(speedBuffer > potiMax + potiMax / 100)
+    if(speedBuffer > potiMax + potiMax / 50)
     {
       potiMax = speedBuffer;
       saveAnalog = true;
