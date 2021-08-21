@@ -192,7 +192,7 @@ void initConfig(void)
     {
       potiMin = doc[FIELD_POTI_MIN];
       potiMax = doc[FIELD_POTI_MAX];
-//      battFactor = doc[FIELD_BATT_FACTOR];
+      battFactor = doc[FIELD_BATT_FACTOR];
     }
     f.close();
   }
