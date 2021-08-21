@@ -525,4 +525,8 @@ void initThrottle(void)
 
   // Run timer to read analog inputs
   analogInput.attach_ms(2, adcCallback);
+
+  // Set ADC attenuation for the two pins used
+  analogSetPinAttenuation(ANALOG_PIN_POTI, ADC_11db);
+  analogSetPinAttenuation(ANALOG_PIN_VBATT, ADC_11db);
 }
