@@ -421,8 +421,8 @@ void handleThrottle(void)
 void adcCallback(void)
 {
   static unsigned int counter = 0;
-  static uint32_t speedBuffer;
-  static uint32_t batteryBuffer;
+  static uint32_t speedBuffer = 0;
+  static uint32_t batteryBuffer = 0;
   static uint8_t oldSpeed = 0;
 
   if(counter % 2)
@@ -473,7 +473,7 @@ void adcCallback(void)
     }
 
     batteryBuffer /= NUM_SAMPLES;
-    batteryBuffer *= battFactor * 2;
+    batteryBuffer *= battFactor * 2.0;
     if(batteryBuffer > 4200)
     {
       battFactor = battFactor * 4200.0f / batteryBuffer;
