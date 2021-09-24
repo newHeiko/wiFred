@@ -44,19 +44,20 @@ String locoThrottleID[4];
 bool eSTOP = true;
 
 /**
- * Timeout to re-send ESTOP command
+ * Timeout to send heart-beat
  */
-uint32_t eStopTimeout = 0;
+uint32_t lastHeartBeat = 0;
 
 /**
- * Timeout to re-send SPEED command if unchanged
- */
-uint32_t speedTimeout = 0;
-
-/**
- * Timeout for keep alive (used to reload speedTimeout)
+ * Timeout for keep alive
  */
 uint32_t keepAliveTimeout = 5000;
+
+/**
+ * Speed command holdoff-timer
+ */
+uint32_t lastSpeedUpdate = 0;
+
 
 /**
  * Client used to connect to wiThrottle server
@@ -67,6 +68,11 @@ WiFiClient client;
  * Speed of all currently attached locos
  */
 uint8_t speed = 0;
+
+/**
+ * New Speed of all currently attached locos
+ */
+uint8_t newSpeed = 0;
 
 /**
  * Current "reverse setting" sent out to all locos
@@ -109,6 +115,8 @@ functionInfo globalFunctionStatus[MAX_FUNCTION + 1] = { UNKNOWN,
 
 void locoHandler(void)
 {
+  uint32_t now = millis();
+
   if(emptyBattery)
   {
     setESTOP();
@@ -144,28 +152,25 @@ void locoHandler(void)
     return;
   }
 
-  // send ESTOP command if requested
-  if(eSTOP && millis() > eStopTimeout)
-  {
-    client.print("MTA*<;>X\n");
-    eStopTimeout = millis() + 5000;
-  }
-  
   // remove ESTOP setting if speed is zero
   if(speed == 0)
   {
     eSTOP = false;
   }
 
+  // send new speed, if changed, and past holdoff-period
+  if(!eSTOP && speed != newSpeed && now - lastSpeedUpdate >= SPEED_HOLDOFF_PERIOD)
   {
-    static uint32_t speedHoldoff = 0;
-    // if not in emergency stop, send speed value to all locos
-    if(!eSTOP && millis() > speedTimeout && millis() > speedHoldoff)
-    {
-      client.print(String("MTA*<;>V") + speed + "\n");
-      speedTimeout = millis() + keepAliveTimeout;
-      speedHoldoff = millis() + SPEED_HOLDOFF_PERIOD;
-    }
+    speed = newSpeed;
+    client.print(String("MTA*<;>V") + speed + "\n");
+    lastSpeedUpdate = lastHeartBeat = now;
+  }
+
+  // sending heart-beat regurarly
+  if(now - lastHeartBeat >= keepAliveTimeout)
+  {
+    client.print("*\n");
+    lastHeartBeat = now;
   }
       
   // check if any of the loco selectors have been changed
@@ -504,13 +509,9 @@ void setReverse(bool newReverse)
 /**
  * Set current speed - if it is new, remove timeout
  */
-void setSpeed(uint8_t newSpeed)
+void setSpeed(uint8_t _newSpeed)
 {
-  if(speed != newSpeed)
-  {
-    speed = newSpeed;
-    speedTimeout = millis();
-  }
+  newSpeed = _newSpeed;
 }
 
 /**
@@ -518,14 +519,9 @@ void setSpeed(uint8_t newSpeed)
  */
 void setESTOP(void)
 {
-  if(!eSTOP)
-  {
-    eStopTimeout = millis();
-  }
   if(wiFredState == STATE_LOCO_ONLINE && !eSTOP)
   {
     client.print("MTA*<;>X\n");
-    eStopTimeout += 5000;
   }
   eSTOP = true;
 }
