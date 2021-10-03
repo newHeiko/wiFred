@@ -175,6 +175,7 @@ void loop() {
     case STATE_LOCOS_OFF:
       if(millis() > stateTimeout)
       {
+        locoDisconnect();
         switchState(STATE_LOWPOWER_WAITING, 100);
       }
       if(!allLocosInactive())
@@ -187,7 +188,6 @@ void loop() {
       setLEDvalues("0/0", "0/0", "1/250");
       if(millis() > stateTimeout)
       {
-        locoDisconnect();
         shutdownWiFiSTA();
         switchState(STATE_LOWPOWER);
       }
