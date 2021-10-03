@@ -202,6 +202,7 @@ void loop() {
       // shut down ESP if low on battery
       if(lowBattery || emptyBattery)
       {
+        delay(100);
         ESP.deepSleep(0);
       }
       else if(!allLocosInactive())
