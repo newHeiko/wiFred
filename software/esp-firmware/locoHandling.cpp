@@ -335,8 +335,6 @@ void locoRegister(void)
         client.print("HU" + id + "\n");
         switchState(STATE_LOCO_WAITFORTIMEOUT, 1000);
         Serial.println("ON");
-        // flush all input data
-        client.flush();
       }
     }
   }
