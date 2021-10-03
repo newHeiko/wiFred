@@ -191,8 +191,7 @@ void locoHandler(void)
       if(locos[currentLoco].address != -1)
       {
         setESTOP();
-        client.print(String("MTA") + locoThrottleID[currentLoco] + "<;>r\n");
-        client.print(String("MT-") + locoThrottleID[currentLoco] + "<;>" + locoThrottleID[currentLoco] + "\n");
+        client.print(String("MT-") + locoThrottleID[currentLoco] + "<;>r\n");
       }
 
       locoState[currentLoco] = LOCO_INACTIVE;
