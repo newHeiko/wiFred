@@ -152,8 +152,8 @@ void locoHandler(void)
     return;
   }
 
-  // remove ESTOP setting if speed is zero
-  if(speed == 0)
+  // remove ESTOP setting if poti turned to zero
+  if(eSTOP && newSpeed == 0)
   {
     eSTOP = false;
   }
