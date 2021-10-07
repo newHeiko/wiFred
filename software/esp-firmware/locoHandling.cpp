@@ -72,7 +72,7 @@ uint8_t speed = 0;
 /**
  * New Speed of all currently attached locos
  */
-uint8_t newSpeed = 0;
+volatile uint8_t newSpeed = 0;
 
 /**
  * Current "reverse setting" sent out to all locos
