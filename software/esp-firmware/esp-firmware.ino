@@ -66,11 +66,11 @@ void loop() {
   handleThrottle();
 
   // check for empty battery
-  // only if not online
+  // only if not online and not in startup timeout
   // if online, check will be done in locoHandler
   // (to disconnect before power down)
   if(emptyBattery &&
-      wiFredState != STATE_LOCO_ONLINE)
+      wiFredState != STATE_LOCO_ONLINE && millis() > WAIT_ON_KEY_TIMEOUT)
   {
     switchState(STATE_LOWPOWER_WAITING, 100);
   }
@@ -87,8 +87,19 @@ void loop() {
   {
     case STATE_STARTUP:
       setLEDvalues("0/0", "0/0", "100/200");
-      initWiFiSTA();
-      switchState(STATE_CONNECTING, TOTAL_NETWORK_TIMEOUT_MS);
+      if(getInputState(KEY_ESTOP))
+      {
+        switchState(STATE_WAIT_ON_RED_KEY, WAIT_ON_KEY_TIMEOUT);
+      }
+      else if(getInputState(KEY_SHIFT))
+      {
+        switchState(STATE_WAIT_ON_YELLOW_KEY, WAIT_ON_KEY_TIMEOUT);
+      }
+      else
+      {
+        initWiFiSTA();
+        switchState(STATE_CONNECTING, TOTAL_NETWORK_TIMEOUT_MS);
+      }
       break;
       
     case STATE_CONNECTING:
@@ -168,6 +179,7 @@ void loop() {
       setLEDvalues("200/200", "200/200", "200/200");
       if(WiFi.status() != WL_CONNECTED)
       {
+        initWiFiAP();
         switchState(STATE_STARTUP);
       }
       break;
@@ -214,6 +226,40 @@ void loop() {
     case STATE_CONFIG_AP:
     // no way to get out of here except for restart
       setLEDvalues("0/0", "0/0", "200/200");
+      break;
+
+    case STATE_WAIT_ON_RED_KEY:
+      setLEDvalues("0/0", "25/50", "25/50");
+      if(!getInputState(KEY_ESTOP))
+      {
+        initWiFiSTA();
+        switchState(STATE_CONNECTING, TOTAL_NETWORK_TIMEOUT_MS);
+      }
+      else if(millis() > stateTimeout)
+      {
+        // delete all configuration info
+        deleteAllConfig();
+        // wait for key release, then restart
+        while(getInputState(KEY_ESTOP))
+        {
+          setLEDvalues("0/0", "0/0", "0/0");
+        }
+        ESP.restart();
+      }
+      break;
+
+    case STATE_WAIT_ON_YELLOW_KEY:
+      setLEDvalues("25/50", "0/0", "25/50");
+      if(!getInputState(KEY_SHIFT))
+      {
+        initWiFiSTA();
+        switchState(STATE_CONNECTING, TOTAL_NETWORK_TIMEOUT_MS);
+      }
+      else if(millis() > stateTimeout)
+      {
+        initWiFiAP();
+        switchState(STATE_CONFIG_AP);
+      }
       break;
   }
 }
