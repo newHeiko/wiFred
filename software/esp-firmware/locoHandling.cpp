@@ -58,6 +58,11 @@ uint32_t keepAliveTimeout = 5000;
  */
 uint32_t lastSpeedUpdate = 0;
 
+/**
+ * Auto Sleep activity timer
+ */
+uint32_t lastActivity = 0;
+
 
 /**
  * Client used to connect to wiThrottle server
@@ -72,7 +77,7 @@ uint8_t speed = 0;
 /**
  * New Speed of all currently attached locos
  */
-uint8_t newSpeed = 0;
+volatile uint8_t newSpeed = 0;
 
 /**
  * Current "reverse setting" sent out to all locos
@@ -117,7 +122,7 @@ void locoHandler(void)
 {
   uint32_t now = millis();
 
-  if(emptyBattery)
+  if(emptyBattery || now - lastActivity > NO_ACTIVITY_TIMEOUT)
   {
     setESTOP();
     bool allInactive = true;
@@ -163,7 +168,7 @@ void locoHandler(void)
   {
     speed = newSpeed;
     client.print(String("MTA*<;>V") + speed + "\n");
-    lastSpeedUpdate = lastHeartBeat = now;
+    lastSpeedUpdate = lastHeartBeat = lastActivity = now;
   }
 
   // sending heart-beat regurarly
@@ -302,6 +307,7 @@ void locoConnect(void)
         log_d("No MDNS-announced wiThrottle server found. Trying LNWI/DCCEX at %s.", automaticServer);
       }
     }
+  lastActivity = millis();
 }
 
 /**
@@ -428,6 +434,7 @@ void setFunction(uint8_t f)
         break;
     }
   }
+  lastActivity = lastHeartBeat = millis();
 }
 
 /**
@@ -469,6 +476,7 @@ void clearFunction(uint8_t f)
         break;
     }
   }
+  lastActivity = lastHeartBeat = millis();
 }
 
 /**
