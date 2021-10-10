@@ -204,7 +204,7 @@ void loop() {
       if(millis() > stateTimeout)
       {
         shutdownWiFiSTA();
-        switchState(STATE_LOWPOWER, 500);
+        switchState(STATE_LOWPOWER, 5000);
       }
       if(!allLocosInactive() && !lowBattery && !emptyBattery)
       {
