@@ -195,14 +195,23 @@ void loop() {
       {
         locoDisconnect();
         shutdownWiFiSTA();
-        switchState(STATE_LOWPOWER);
+        switchState(STATE_LOWPOWER, 500);
       }
       break;
     
     case STATE_LOWPOWER:
-      setLEDvalues("0/0", "0/0", "1/250");
-      // shut down ESP
-      ESP.deepSleep(0);
+      //no need to set LED state, it's already done
+      //setLEDvalues("0/0", "0/0", "1/250");
+      // shut down ESP if low on battery
+      if(lowBattery || emptyBattery || millis() > stateTimeout)
+      {
+        delay(1000);
+        ESP.deepSleep(0);
+      }
+      else if(!allLocosInactive())
+      {
+        ESP.restart();
+      }
       break;
       
     case STATE_CONFIG_AP:
