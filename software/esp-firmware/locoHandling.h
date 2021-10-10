@@ -31,6 +31,10 @@
 #define SPEED_HOLDOFF_PERIOD 150
 
 #include <ESP8266WiFi.h>
+/**
+ * Put wiFred to sleep if not in use for this long time
+ */
+#define NO_ACTIVITY_TIMEOUT (1000L * 60 * 60 * 3) // 3 hours
 
 #include <stdint.h>
 #include <stdbool.h>
