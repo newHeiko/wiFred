@@ -204,7 +204,7 @@ void loop() {
       if(millis() > stateTimeout)
       {
         shutdownWiFiSTA();
-        switchState(STATE_LOWPOWER);
+        switchState(STATE_LOWPOWER, 60000);
       }
       if(!allLocosInactive() && !lowBattery && !emptyBattery)
       {
@@ -215,9 +215,9 @@ void loop() {
     case STATE_LOWPOWER:
       setLEDvalues("0/0", "0/0", "1/250");
       // shut down ESP if low on battery
-      if(lowBattery || emptyBattery)
+      if(lowBattery || emptyBattery || millis() > stateTimeout)
       {
-        delay(100);
+        delay(1000);
         ESP.deepSleep(0);
       }
       else if(!allLocosInactive())
