@@ -62,6 +62,11 @@ bool inputToggled[17] = { false };
 Ticker analogInput;
 
 /**
+ * A/D calibration reset ticker
+ */
+Ticker reduceCalibValues;
+
+/**
  * Flag to show we want to save new config data
  */
 volatile boolean saveAnalog = false;
@@ -529,6 +534,18 @@ void adcCallback(void)
 }
 
 /**
+ * Periodically reduce potiMax to make sure wiFred always goes to 0
+ */
+void adcReduce(void)
+{
+  if(potiMax > 0)
+  {
+    potiMax--;
+  }
+  saveAnalog = true;
+}
+
+/**
  * Initialize key settings, analog inputs and LED timer settings
  */
 void initThrottle(void)
@@ -555,6 +572,9 @@ void initThrottle(void)
 
   // Run timer to read analog inputs
   analogInput.attach_ms(2, adcCallback);
+
+  // Run timer to recalibrate zero speed
+  reduceCalibValues.attach(10, adcReduce);
 
   // Set ADC attenuation for the two pins used
   analogSetPinAttenuation(ANALOG_PIN_POTI, ADC_11db);
