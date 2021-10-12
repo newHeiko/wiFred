@@ -204,7 +204,7 @@ void loop() {
       if(millis() > stateTimeout)
       {
         shutdownWiFiSTA();
-        switchState(STATE_LOWPOWER, 5000);
+        switchState(STATE_LOWPOWER, 60000);
       }
       if(!allLocosInactive() && !lowBattery && !emptyBattery)
       {
@@ -213,8 +213,7 @@ void loop() {
       break;
     
     case STATE_LOWPOWER:
-      //no need to set LED state, it's already done
-      //setLEDvalues("0/0", "0/0", "1/250");
+      setLEDvalues("0/0", "0/0", "1/250");
       // shut down ESP if low on battery
       if(lowBattery || emptyBattery || millis() > stateTimeout)
       {
