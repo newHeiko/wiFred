@@ -137,11 +137,13 @@ void setLEDvalues(String ledFwd, String ledRev, String ledStop)
 
   if(oldLedFwd != ledFwd || oldLedRev != ledRev || oldLedStop != ledStop)
   {
+    log_d("Changing Led settings: %s, %s, %s", ledFwd, ledRev, ledStop);
     alignas(4) unsigned int onTime;
     alignas(4) unsigned int cycleTime;
 
     if(sscanf(ledStop.c_str(), "%u/%u", &onTime, &cycleTime) == 2)
     {
+      log_d("Change stop: %u out of %u", onTime, cycleTime);
       ledStopTickerOn.attach_ms(10 * cycleTime, ledOn, LED_STOP);
       ledStopOnTime = onTime;
       if(ledStopOnTime > 0)
@@ -156,6 +158,7 @@ void setLEDvalues(String ledFwd, String ledRev, String ledStop)
 
     if(sscanf(ledFwd.c_str(), "%u/%u", &onTime, &cycleTime) == 2)
     {
+      log_d("Change fwd: %u out of %u", onTime, cycleTime);
       ledFwdTickerOn.attach_ms(10 * cycleTime, ledOn, LED_FWD);
       ledFwdOnTime = onTime;
       if(ledFwdOnTime > 0)
@@ -170,6 +173,7 @@ void setLEDvalues(String ledFwd, String ledRev, String ledStop)
 
     if(sscanf(ledRev.c_str(), "%u/%u", &onTime, &cycleTime) == 2)
     {
+      log_d("Change rev: %u out of %u", onTime, cycleTime);
       ledRevTickerOn.attach_ms(10 * cycleTime, ledOn, LED_REV);
       ledRevOnTime = onTime;
       if(ledRevOnTime > 0)
