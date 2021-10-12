@@ -20,7 +20,7 @@
  * them.
  */
 
-#define DEBUG
+// #define DEBUG
 
 #include <WiFi.h>
 #include <ESPmDNS.h>
