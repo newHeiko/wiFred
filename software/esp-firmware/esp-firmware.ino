@@ -235,6 +235,7 @@ void loop() {
       setLEDvalues("0/0", "25/50", "25/50");
       if(!getInputState(KEY_ESTOP))
       {
+        setLEDvalues("0/0", "0/0", "100/200");
         initWiFiSTA();
         switchState(STATE_CONNECTING, TOTAL_NETWORK_TIMEOUT_MS);
       }
@@ -255,6 +256,7 @@ void loop() {
       setLEDvalues("25/50", "0/0", "25/50");
       if(!getInputState(KEY_SHIFT))
       {
+        setLEDvalues("0/0", "0/0", "100/200");
         initWiFiSTA();
         switchState(STATE_CONNECTING, TOTAL_NETWORK_TIMEOUT_MS);
       }
