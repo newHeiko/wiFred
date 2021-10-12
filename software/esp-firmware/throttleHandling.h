@@ -43,6 +43,8 @@ const int KEY_PIN[] = { 3, 11, 4, 37, 12, 5, 38, 13, 6,
 
 #define NUM_SAMPLES 16
 
+#define NUM_OVERSHOOT 16
+
 /**
  * Potentiometer value for zero speed (counterclockwise limit)
  */

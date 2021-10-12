@@ -305,7 +305,7 @@ void writeMainPage()
   // check if this is a "recalibrate speed" request
   if (server.hasArg("resetPoti"))
   {
-    potiMin = potiMax / 2;
+    potiMin = (potiMin + potiMax) / 2;
     potiMax = potiMin;
     saveAnalogConfig();
   }

@@ -441,19 +441,45 @@ void adcCallback(void)
 
   if(counter >= NUM_SAMPLES * 2)
   {
+    static uint32_t newMin = 0;
+    static uint32_t newMax = 0;
+    static uint8_t newMinCounter = 0;
+    static uint8_t newMaxCounter = 0;
+    
     speedBuffer /= NUM_SAMPLES;
+    
     if(potiMin >= potiMin / 50)
     {
       if(speedBuffer < potiMin - potiMin / 50)
       {
-        potiMin = speedBuffer;
-        saveAnalog = true;
+        newMin += speedBuffer;
+        newMinCounter++;
+        if(newMinCounter >= NUM_OVERSHOOT)
+        {
+          potiMin = newMin / NUM_OVERSHOOT;
+          saveAnalog = true;
+          newMin = newMinCounter = 0;
+        }
+      }
+      else
+      {
+        newMin = newMinCounter = 0;
       }
     }
     if(speedBuffer > potiMax + potiMax / 50)
     {
-      potiMax = speedBuffer;
-      saveAnalog = true;
+      newMax += speedBuffer;
+      newMaxCounter++;
+      if(newMaxCounter >= NUM_OVERSHOOT)
+      {
+        potiMax = newMax / NUM_OVERSHOOT;
+        saveAnalog = true;
+        newMax = newMaxCounter = 0;
+      }
+    }
+    else
+    {
+      newMax = newMaxCounter = 0;
     }
     uint8_t tempSpeed;
     if(speedBuffer > potiMax)
