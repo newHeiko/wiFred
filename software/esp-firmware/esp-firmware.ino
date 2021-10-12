@@ -214,16 +214,18 @@ void loop() {
     
     case STATE_LOWPOWER:
       setLEDvalues("0/0", "0/0", "1/250");
-      // shut down ESP if low on battery
+      // shut down ESP if low on battery or inactivity timeout plus delay reached
       if(lowBattery || emptyBattery || millis() > stateTimeout)
       {
         delay(1000);
         ESP.deepSleep(0);
       }
+      // restart when user reenables a loco switch
       else if(!allLocosInactive())
       {
         ESP.restart();
       }
+      // else wait for RC delay to switch off power
       break;
       
     case STATE_CONFIG_AP:
