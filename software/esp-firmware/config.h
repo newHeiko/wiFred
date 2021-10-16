@@ -39,6 +39,7 @@
 #define FN_WIFI_STUB "/wifi"
 #define FIELD_WIFI_SSID "ssid"
 #define FIELD_WIFI_PSK "key"
+#define FIELD_WIFI_DISABLED "disabled"
 
 #define FN_LOCO_STUB "/loco"
 #define FIELD_LOCO_ADDRESS "address"
