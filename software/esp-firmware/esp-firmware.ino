@@ -18,7 +18,7 @@
  * This file ties everything together to initialize the hardware and
  * form the main loop.
  * 
- * This project was made for ESP12E/ESP12F with Arduino ESP version 2.7.4
+ * This project was made for ESP12E/ESP12F with Arduino ESP version 3.0.2
  * Board settings: Generic ESP8266 Module, 2, 115200, 80MHz, 26MHz,
  * 4MB (FS:1MB, OTA:~1019kB), DOUT (compatible), 40MHz, no dtr (aka ck), 
  * Disabled, None, v2 Higher Bandwidth, Flash, Legacy, Only Sketch, 
