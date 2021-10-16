@@ -235,7 +235,7 @@ Force function always on:: The function will be forced on when the loco is activ
 
 Force function always off:: The function will be forced off when the loco is activated and kept off regardless of key presses.
 
-Ingore function key:: No function commands will be sent to this loco.
+Ignore function key:: No function commands will be sent to this loco.
 
 IMPORTANT: Reminder: Changes are saved using the "Save function configuration" button which may look different in different web browsers (firefox shown).
 
