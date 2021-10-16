@@ -122,14 +122,27 @@ void shutdownWiFiConfigSTA(void)
 
 void initWiFiSTA(void)
 {
+  // count the number of available networks
+  uint32_t numNetworks = 0;
   WiFi.mode(WIFI_STA);
   for(std::vector<wifiAPEntry>::iterator it = apList.begin() ; it != apList.end(); it++)
   {
-    wifiMulti.addAP(it->ssid, it->key);
+    if(!it->disabled)
+    {
+      wifiMulti.addAP(it->ssid, it->key);
+      numNetworks++;
+    }
   }
 
   // start configuration webserver
   server.begin();
+
+  // no network found, quickly open config AP mode
+  if(numNetworks == 0)
+  {
+    initWiFiAP();
+    switchState(STATE_CONFIG_AP);
+  }
 }
 
 void shutdownWiFiSTA(void)
@@ -305,6 +318,34 @@ void writeMainPage()
     saveWiFiConfig();
   }
 
+  // check if this is a "disable WiFi network" request
+  // will disable all networks with this SSID
+  if (server.hasArg("disable"))
+  {
+    for(std::vector<wifiAPEntry>::iterator it = apList.begin() ; it != apList.end(); ++it)
+    {
+      if(strcmp(it->ssid, server.arg("disable").c_str()) == 0)
+      {
+        it->disabled = true;
+      }
+    }
+    saveWiFiConfig();
+  }
+
+  // check if this is an "enable WiFi network" request
+  // will enable all networks with this SSID
+  if (server.hasArg("enable"))
+  {
+    for(std::vector<wifiAPEntry>::iterator it = apList.begin() ; it != apList.end(); ++it)
+    {
+      if(strcmp(it->ssid, server.arg("enable").c_str()) == 0)
+      {
+        it->disabled = false;
+      }
+    }
+    saveWiFiConfig();
+  }
+
   String resp = String("<!DOCTYPE HTML>\r\n")
               + "<html><head><title>wiFred configuration page</title></head>\r\n"
               + "<body><h1>wiFred configuration page</h1>\r\n"
@@ -334,14 +375,46 @@ void writeMainPage()
               + "<input type=\"hidden\" name=\"loco\" value=\"" + (i+1) + "\"><input type=\"submit\" value=\"Save loco config\"></form>";
   }
 
+  uint32_t numNetworks = 0;
+
   resp        += String("<hr>WiFi configuration<hr>\r\n")
               + "<table border=0><tr><td colspan=3><a href=scanWifi.html>Scan for networks</a></td></tr>"
-              + "<tr><td colspan=3>Known WiFi networks:</td></tr>";
+              + "<tr><td colspan=3>Known and enabled WiFi networks:</td></tr>";
   for(std::vector<wifiAPEntry>::iterator it = apList.begin() ; it != apList.end(); ++it)
   {
-    resp += String("<tr><td>SSID: ") + it->ssid + "</td><td>PSK: " + it->key + "</td>"
-          + "<td><form action=\"index.html\" method=\"get\"><input type=\"hidden\" name=\"remove\" value=\"" + it->ssid + "\"><input type=\"submit\" value=\"Remove SSID\"></form></td></tr>\r\n";
+    if(!it->disabled)
+    {
+      resp += String("<tr><td>Network name: ") + it->ssid + "</td>"
+          + "<td><form action=\"index.html\" method=\"get\"><input type=\"hidden\" name=\"remove\" value=\"" + it->ssid + "\"><input type=\"submit\" value=\"Remove Network\"></form></td>"
+          + "<td><form action=\"index.html\" method=\"get\"><input type=\"hidden\" name=\"disable\" value=\"" + it->ssid + "\"><input type=\"submit\" value=\"Disable Network\"></form></td></tr>\r\n";
+      numNetworks++;
+    }
   }
+
+  if(numNetworks == 0)
+  {
+    resp += String("<tr><td colspan=3>None.</td></tr>");
+  }
+  numNetworks = 0;
+
+  resp += String("<tr><td colspan=3>Known but disabled WiFi networks:</td></tr>");
+
+  for(std::vector<wifiAPEntry>::iterator it = apList.begin() ; it != apList.end(); ++it)
+  {
+    if(it->disabled)
+    {
+      resp += String("<tr><td>Network: ") + it->ssid + "</td>"
+          + "<td><form action=\"index.html\" method=\"get\"><input type=\"hidden\" name=\"remove\" value=\"" + it->ssid + "\"><input type=\"submit\" value=\"Remove Network\"></form></td>"
+          + "<td><form action=\"index.html\" method=\"get\"><input type=\"hidden\" name=\"enable\" value=\"" + it->ssid + "\"><input type=\"submit\" value=\"Enable Network\"></form></td></tr>\r\n";
+      numNetworks++;          
+    }
+  }
+
+  if(numNetworks == 0)
+  {
+    resp += String("<tr><td colspan=3>None.</td></tr>");
+  }
+  
   resp        += String("<form action=\"index.html\" method=\"get\"><tr>")
                  + "<td>New SSID: <input type=\"text\" name=\"wifiSSID\"></td>"
                  + "<td>New PSK: <input type=\"text\" name=\"wifiKEY\"></td>"
