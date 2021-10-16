@@ -320,11 +320,29 @@ void writeMainPage()
   String resp = String("<!DOCTYPE HTML>\r\n")
               + "<html><head><title>wiFred configuration page</title></head>\r\n"
               + "<body><h1>wiFred configuration page</h1>\r\n"
-              + "<hr>General configuration<hr>\r\n"
+              + "<hr>General configuration and status<hr>\r\n"
               + "<form action=\"index.html\" method=\"get\"><table border=0>"
               + "<tr><td>Throttle name:</td><td><input type=\"text\" name=\"throttleName\" value=\"" + throttleName + "\"></td></tr>"
-              + "<tr><td colspan=2><input type=\"submit\" value=\"Save name\"></td></tr></table></form>\r\n";
+              + "<tr><td colspan=2><input type=\"submit\" value=\"Save name\"></td></tr></table></form>\r\n"
+              + "<table border=0>"
+              + "<tr><td>Battery voltage: </td><td>" + batteryVoltage + " mV" + (lowBattery ? " Battery LOW" : "" ) + "</td></tr>"
+              + "<tr><td>Firmware revision: </td><td>" + REV + "</td></tr></table>\r\n";              
   
+  for(uint8_t i=0; i<4; i++)
+  {
+    resp      += String("<hr>Loco configuration for loco: ") + (i+1) + "\r\n" 
+              + "<form action=\"index.html\" method=\"get\"><table border=0>"
+              + "<tr><td>DCC address: (-1 to disable)</td> <td><input type=\"text\" name=\"loco.address\" value=\"" + locos[i].address + "\"></td></tr>"
+              + "<tr><td>Direction:</td><td>"
+              + "<input type=\"radio\" name=\"loco.direction\" value=\"" + DIR_NORMAL + "\"" + (locos[i].direction == DIR_NORMAL ? " checked" : "" ) + ">Forward"
+              + "<input type=\"radio\" name=\"loco.direction\" value=\"" + DIR_REVERSE + "\"" + (locos[i].direction == DIR_REVERSE ? " checked" : "" ) + ">Reverse"
+              + "<input type=\"radio\" name=\"loco.direction\" value=\"" + DIR_DONTCHANGE + "\"" + (locos[i].direction == DIR_DONTCHANGE ? " checked" : "" ) + ">Don't change"
+              + "</td></tr>"
+              + "<tr><td>Long Address?</td> <td><input type=\"checkbox\" name=\"loco.longAddress\"" + (locos[i].longAddress ? " checked" : "" ) + "></td></tr>"
+              + "<tr><td colspan=2><a href=\"funcmap.html?loco=" + (i+1) + "\">Function mapping</a></td></tr></table>"
+              + "<input type=\"hidden\" name=\"loco\" value=\"" + (i+1) + "\"><input type=\"submit\" value=\"Save loco config\"></form>";
+  }
+
   resp        += String("<hr>WiFi configuration<hr>\r\n")
               + "<table border=0><tr><td>Active WiFi network SSID:</td><td>" + (WiFi.isConnected() ? WiFi.SSID() : "not connected") + "</td><td><a href=scanWifi.html>Scan for networks</a></td></tr>"
               + "<tr><td colspan=3>Known WiFi networks:</td></tr>";
@@ -350,29 +368,9 @@ void writeMainPage()
               + "<tr><td colspan=2>Using " + (locoServer.automatic && automaticServer != nullptr ? automaticServer : locoServer.name) + ":" + locoServer.port + "</td></tr>"
               + "<tr><td colspan=2><input type=\"submit\" value=\"Save loco server settings\"</td></tr></form></table>";
 
-  for(uint8_t i=0; i<4; i++)
-  {
-    resp      += String("<hr>Loco configuration for loco: ") + (i+1) + "\r\n" 
-              + "<form action=\"index.html\" method=\"get\"><table border=0>"
-              + "<tr><td>DCC address: (-1 to disable)</td> <td><input type=\"text\" name=\"loco.address\" value=\"" + locos[i].address + "\"></td></tr>"
-              + "<tr><td>Direction:</td><td>"
-              + "<input type=\"radio\" name=\"loco.direction\" value=\"" + DIR_NORMAL + "\"" + (locos[i].direction == DIR_NORMAL ? " checked" : "" ) + ">Forward"
-              + "<input type=\"radio\" name=\"loco.direction\" value=\"" + DIR_REVERSE + "\"" + (locos[i].direction == DIR_REVERSE ? " checked" : "" ) + ">Reverse"
-              + "<input type=\"radio\" name=\"loco.direction\" value=\"" + DIR_DONTCHANGE + "\"" + (locos[i].direction == DIR_DONTCHANGE ? " checked" : "" ) + ">Don't change"
-              + "</td></tr>"
-              + "<tr><td>Long Address?</td> <td><input type=\"checkbox\" name=\"loco.longAddress\"" + (locos[i].longAddress ? " checked" : "" ) + "></td></tr>"
-              + "<tr><td colspan=2><a href=\"funcmap.html?loco=" + (i+1) + "\">Function mapping</a></td></tr></table>"
-              + "<input type=\"hidden\" name=\"loco\" value=\"" + (i+1) + "\"><input type=\"submit\" value=\"Save loco config\"></form>";
-  }
-
-  resp        += String("<hr>wiFred status<hr>\r\n")
-              + "<table border=0>"
-              + "<tr><td>Battery voltage: </td><td>" + batteryVoltage + " mV" + (lowBattery ? " Battery LOW" : "" ) + "</td></tr>"
-              + "<tr><td>Firmware revision: </td><td>" + REV + "</td></tr></table>\r\n"
-              + "<hr>wiFred calibration<hr>\r\n"
+  resp        += String("<hr>wiFred system<hr>\r\n")
               + "<form action=\"index.html\" method=\"get\"><input type=\"hidden\" name=\"resetPoti\" value=\"true\"><input type=\"submit\" value=\"Reset speed calibration\"></form>"
               + "<form action=\"index.html\" method=\"get\">Actual battery voltage: <input type=\"text\" name=\"newVoltage\" value=\"" + batteryVoltage + "\"><input type=\"submit\" value=\"Correct battery voltage calibration\"></form>"
-              + "<hr>wiFred system<hr>\r\n"
               + "<a href=resetConfig.html>Reset wiFred to factory defaults</a>\r\n"
               + "<a href=update>Update wiFred firmware</a>\r\n"
               + "</body></html>";
