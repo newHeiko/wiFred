@@ -662,6 +662,24 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-top"><p class="tableblock">No connection to existing WiFi network. Created internal configuration WiFi network</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flashing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flashing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Off</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">At startup: ESTOP pressed, will reset to factory defaults after five seconds. Release key for normal startup<sup class="footnote" id="_footnote_ESP32">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flashing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Off</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flashing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">At startup: SHIFT pressed, will open internal configuration WiFi network after five seconds. Release key for normal startup<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Off</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flashing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flashing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">At startup: F0 pressed when connected to WiFi, will not connect to server but enable configuration mode after five seconds. Release key for normal startup<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">On</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">On</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">On</p></td>
@@ -778,7 +796,7 @@ After entering any kind of text (names, numbers&#8230;&#8203;) into text fields,
 <div class="sect2">
 <h3 id="_entering_configuration_mode">Entering configuration mode</h3>
 <div class="paragraph">
-<p>There are two ways to enter configuration mode:</p>
+<p>There are four ways to enter configuration mode:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -786,12 +804,18 @@ After entering any kind of text (names, numbers&#8230;&#8203;) into text fields,
 <p>Power up the throttle/select a loco when the configured WiFi network is not in range (or when there is no valid configuration - the first startup of a new throttle will fall into this category)</p>
 </li>
 <li>
+<p>Power up the throttle/select a loco while holding down SHIFT for five seconds<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></p>
+</li>
+<li>
 <p>Press SHIFT and ESTOP together when the throttle is connected</p>
+</li>
+<li>
+<p>Press F0 for five seconds while / after the device has connected to a WiFi network<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>In the first case, the throttle will create a wireless network named <strong>wiFred-config</strong> plus four hex digits taken from the MAC address of the throttle WiFi interface, for example <strong>wiFred-config0CAC</strong> and announce its presence under the name <strong>config.local</strong> as well as creating a captive portal. Any WiFi device with a web browser can connect to that network and open a web browser to point to <strong><a href="http://192.168.4.1" class="bare">http://192.168.4.1</a></strong> or <strong><a href="http://config.local" class="bare">http://config.local</a></strong>.</p>
+<p>In the first two cases, the throttle will create a wireless network named <strong>wiFred-config</strong> plus four hex digits taken from the MAC address of the throttle WiFi interface, for example <strong>wiFred-config0CAC</strong> and announce its presence under the name <strong>config.local</strong> as well as creating a captive portal. Any WiFi device with a web browser can connect to that network and open a web browser to point to <strong><a href="http://192.168.4.1" class="bare">http://192.168.4.1</a></strong> or <strong><a href="http://config.local" class="bare">http://config.local</a></strong>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -806,7 +830,7 @@ This has been tested with Mozilla Firefox and Opera on Linux with Avahi (a Zeroc
 </table>
 </div>
 <div class="paragraph">
-<p>In the second case, the throttle will only announce its presence under the name <strong>config.local</strong> using the Bonjour/Zeroconf-protocol. Any device on the same WiFi network with Bonjour/Zeroconf can use a web browser to access the configuration at <strong><a href="http://config.local" class="bare">http://config.local</a></strong>. See <a href="#configurationComputer">Computer or smartphone to configure wiFred</a> for an explanation what is required to have your device read Bonjour/Zeroconf announcements.</p>
+<p>In the third and fourth case, the throttle will only announce its presence under the name <strong>config.local</strong> using the Bonjour/Zeroconf-protocol. Any device on the same WiFi network with Bonjour/Zeroconf can use a web browser to access the configuration at <strong><a href="http://config.local" class="bare">http://config.local</a></strong>. See <a href="#configurationComputer">Computer or smartphone to configure wiFred</a> for an explanation what is required to have your device read Bonjour/Zeroconf announcements.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -869,7 +893,7 @@ The wiFred also announces its presence on the WiFi network through Bonjour/Zeroc
 <p>Existing entries can be removed by clicking on the "Remove SSID" button in the line of the network that shall be removed.</p>
 </div>
 <div class="paragraph">
-<p>New entries can be added either by manually entering the SSID and PSK<sup class="footnote" id="_footnote_PSK">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> if required and clicking the "Manually add network" button or by clicking on the "Scan for networks" link which takes the user to the page shown in <a href="#throttleConfWiFiPage">Screenshot of wiFred "Scan for WiFi"-page</a>.</p>
+<p>New entries can be added either by manually entering the SSID and PSK<sup class="footnote" id="_footnote_PSK">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> if required and clicking the "Manually add network" button or by clicking on the "Scan for networks" link which takes the user to the page shown in <a href="#throttleConfWiFiPage">Screenshot of wiFred "Scan for WiFi"-page</a>.</p>
 </div>
 <div id="throttleConfWiFiPage" class="imageblock">
 <div class="content">
@@ -878,7 +902,7 @@ The wiFred also announces its presence on the WiFi network through Bonjour/Zeroc
 <div class="title">Figure 3. Screenshot of wiFred "Scan for WiFi"-page</div>
 </div>
 <div class="paragraph">
-<p>This page will take a few seconds to load, since the scan for networks has to be completed first. It shows all the networks found during the scan. Networks can be added to the list by clicking the "Add network" button, after entering the PSK<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> in the field next to it.</p>
+<p>This page will take a few seconds to load, since the scan for networks has to be completed first. It shows all the networks found during the scan. Networks can be added to the list by clicking the "Add network" button, after entering the PSK<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> in the field next to it.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -988,15 +1012,15 @@ may look different in different web browsers (firefox shown).
 <dl>
 <dt class="hdlist1">Throttle controlled</dt>
 <dd>
-<p>When the first loco is enabled by moving the selection switch to the "selected" position, the current status of the function is queried and saved. When selecting the next loco, the function status is set to be the same. Afterwards, key presses are handed through to the loco. Whether the function will be momentary<sup class="footnote" id="_footnote_MOM">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> or locking<sup class="footnote" id="_footnote_TOG">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> will be determined by the server, in the case of JMRI by the roster entry.</p>
+<p>When the first loco is enabled by moving the selection switch to the "selected" position, the current status of the function is queried and saved. When selecting the next loco, the function status is set to be the same. Afterwards, key presses are handed through to the loco. Whether the function will be momentary<sup class="footnote" id="_footnote_MOM">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> or locking<sup class="footnote" id="_footnote_TOG">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup> will be determined by the server, in the case of JMRI by the roster entry.</p>
 </dd>
 <dt class="hdlist1">Throttle controlled, force momentary</dt>
 <dd>
-<p>Function key will be handed through to the loco as a momentary<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> function.</p>
+<p>Function key will be handed through to the loco as a momentary<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> function.</p>
 </dd>
 <dt class="hdlist1">Throttle controlled, force locking</dt>
 <dd>
-<p>As described for <strong>Throttle controlled</strong> but the function will be forced to be locking<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> regardless of the server settings<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup>.</p>
+<p>As described for <strong>Throttle controlled</strong> but the function will be forced to be locking<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup> regardless of the server settings<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup>.</p>
 </dd>
 <dt class="hdlist1">Throttle controlled if this is the only loco</dt>
 <dd>
@@ -1004,7 +1028,7 @@ may look different in different web browsers (firefox shown).
 </dd>
 <dt class="hdlist1">Force function always on</dt>
 <dd>
-<p>The function will be forced on when the loco is activated and kept on regardless of key presses<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup>.</p>
+<p>The function will be forced on when the loco is activated and kept on regardless of key presses<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup>.</p>
 </dd>
 <dt class="hdlist1">Force function always off</dt>
 <dd>
@@ -1063,6 +1087,18 @@ continuosly.</p>
 </td>
 <td class="content">
 It may be necessary to power down the wiFred entirely for a firmware update to restart properly.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="images/icons/note.png" alt="Note">
+</td>
+<td class="content">
+On a wiFred version from 0.6 onwards with an ESP32-S2 MCU, resetting to factory defaults can also be done by holding down the ESTOP key for five seconds at startup.
 </td>
 </tr>
 </table>
@@ -2430,7 +2466,7 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <h2 id="background">Background for wiFred development</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>As of the writing of this document, <a href="#JMRI">[JMRI]</a> has a long track record of offering a server for using smartphones as wireless model railroad throttles, along with apps like <a href="#wiThrottleApp">[wiThrottle]</a><sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup> and <a href="#EngineDriver">[EngineDriver]</a>. This server will enable WiFi throttles to control locos any model railroading layout to which JMRI can build a connection <a href="#jmrihardwaresupport">[Supported Hardware]</a>. In addition, <a href="#Digitrax">[Digitrax LNWI]</a> and <a href="#MRC">[MRC Prodigy WiFi]</a> offer specific hardware solutions to enable the connection of the abovementioned smartphone apps to their DCC systems through a WiFi network.</p>
+<p>As of the writing of this document, <a href="#JMRI">[JMRI]</a> has a long track record of offering a server for using smartphones as wireless model railroad throttles, along with apps like <a href="#wiThrottleApp">[wiThrottle]</a><sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup> and <a href="#EngineDriver">[EngineDriver]</a>. This server will enable WiFi throttles to control locos any model railroading layout to which JMRI can build a connection <a href="#jmrihardwaresupport">[Supported Hardware]</a>. In addition, <a href="#Digitrax">[Digitrax LNWI]</a> and <a href="#MRC">[MRC Prodigy WiFi]</a> offer specific hardware solutions to enable the connection of the abovementioned smartphone apps to their DCC systems through a WiFi network.</p>
 </div>
 <div class="paragraph">
 <p>The <a href="#Fremo">[Fremo]</a> is a European modular model railroading club whose unique requirements on its DCC throttles led to the creation of the throttles <a href="#FRED">[FRED]</a> and <a href="#FREDI">[FREDI]</a> - a series of LocoNet-throttles which started their life as hobbyist projects with large numbers in circulation but were also commercially available from <a href="#Uhlenbrock">[Uhlenbrock]</a>.</p>
@@ -2538,28 +2574,31 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <div id="footnotes">
 <hr>
 <div class="footnote" id="_footnotedef_1">
-<a href="#_footnoteref_1">1</a>. Pre-Shared Key, often just called password
+<a href="#_footnoteref_1">1</a>. Only available on versions from 0.6 onwards with an ESP32-S2 MCU
 </div>
 <div class="footnote" id="_footnotedef_2">
-<a href="#_footnoteref_2">2</a>. Momentary functions are only activated for as long as the function key is pressed - like a whistle or horn that sounds just as long as the key is pressed.
+<a href="#_footnoteref_2">2</a>. Pre-Shared Key, often just called password
 </div>
 <div class="footnote" id="_footnotedef_3">
-<a href="#_footnoteref_3">3</a>. Locking functions are toggled with every press of the function key - like pressing F0 once typically turns the headlight on, pressing F0 again turns it off.
+<a href="#_footnoteref_3">3</a>. Momentary functions are only activated for as long as the function key is pressed - like a whistle or horn that sounds just as long as the key is pressed.
 </div>
 <div class="footnote" id="_footnotedef_4">
-<a href="#_footnoteref_4">4</a>. The JMRI setting "F2 always momentary" will override this.
+<a href="#_footnoteref_4">4</a>. Locking functions are toggled with every press of the function key - like pressing F0 once typically turns the headlight on, pressing F0 again turns it off.
 </div>
 <div class="footnote" id="_footnotedef_5">
-<a href="#_footnoteref_5">5</a>. This will also turn momentary functions permanently on.
+<a href="#_footnoteref_5">5</a>. The JMRI setting "F2 always momentary" will override this.
 </div>
 <div class="footnote" id="_footnotedef_6">
-<a href="#_footnoteref_6">6</a>. wiThrottle is also the name JMRI uses for the protocol and the server.
+<a href="#_footnoteref_6">6</a>. This will also turn momentary functions permanently on.
+</div>
+<div class="footnote" id="_footnotedef_7">
+<a href="#_footnoteref_7">7</a>. wiThrottle is also the name JMRI uses for the protocol and the server.
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.3<br>
-Last updated 2021-06-30 19:35:53 +0200
+Last updated 2021-10-16 16:59:44 +0200
 </div>
 </div>
 </body>
