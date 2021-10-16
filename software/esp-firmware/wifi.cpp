@@ -455,7 +455,7 @@ void scanWifi()
   {
     resp += String("<form action=\"index.html\" method = \"get\">")
             + "<tr><td>" + WiFi.SSID(i) + "<input type=\"hidden\" name=\"wifiSSID\" value=\"" + WiFi.SSID(i) + "\"></td>" 
-            + "<td>" + (WiFi.encryptionType(i) == WIFI_AUTH_OPEN ? "Unencrypted WiFi" : "PSK: <input type=\"text\" name=\"wifiKEY\">") + "</td>"
+            + "<td>" + (WiFi.encryptionType(i) == WIFI_AUTH_OPEN ? "Unencrypted network" : "PSK: <input type=\"text\" name=\"wifiKEY\">") + "</td>"
             + "<td><input type=\"submit\" value=\"Add network\"></td>"
             + "<td>Signal strength: " + WiFi.RSSI(i) + "dB</td></tr></form>";
   }
