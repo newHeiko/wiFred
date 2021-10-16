@@ -454,9 +454,10 @@ void scanWifi()
   for(uint32_t i = 0; i < n; i++)
   {
     resp += String("<form action=\"index.html\" method = \"get\">")
-            + "<tr><td>" + WiFi.SSID(i) + "<input type=\"hidden\" name=\"wifiSSID\" value=\"" + WiFi.SSID(i) + "\"></td>"
-            + "<td>Enter PSK here if required: <input type=\"text\" name=\"wifiKEY\"></td>"
-            + "<td><input type=\"submit\" value=\"Add network\"></td></tr></form>";
+            + "<tr><td>" + WiFi.SSID(i) + "<input type=\"hidden\" name=\"wifiSSID\" value=\"" + WiFi.SSID(i) + "\"></td>" 
+            + "<td>" + (WiFi.encryptionType(i) == WIFI_AUTH_OPEN ? "Unencrypted WiFi" : "PSK: <input type=\"text\" name=\"wifiKEY\">") + "</td>"
+            + "<td><input type=\"submit\" value=\"Add network\"></td>"
+            + "<td>Signal strength: " + WiFi.RSSI(i) + "dB</td></tr></form>";
   }
 
   resp += String("</table>")
