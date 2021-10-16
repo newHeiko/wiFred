@@ -99,8 +99,8 @@ void loop() {
       }
       else
       {
-        initWiFiSTA();
         switchState(STATE_CONNECTING, TOTAL_NETWORK_TIMEOUT_MS);
+        initWiFiSTA();
       }
       break;
       
