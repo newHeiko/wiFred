@@ -30,6 +30,7 @@ typedef struct
 {
   char * ssid;
   char * key;
+  bool disabled = false;
 } wifiAPEntry;
 
 extern std::vector<wifiAPEntry> apList;
