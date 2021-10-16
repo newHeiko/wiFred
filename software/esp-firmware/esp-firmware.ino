@@ -111,8 +111,15 @@ void loop() {
       if(WiFi.status() == WL_CONNECTED)
       {
         initMDNS();
-        broadcastUDP();
-        switchState(STATE_CONNECTED, 60 * 1000);
+        if(getInputState(KEY_F0))
+        {
+          switchState(STATE_WAIT_ON_F0_KEY, WAIT_ON_KEY_TIMEOUT);
+        }
+        else
+        {
+          broadcastUDP();
+          switchState(STATE_CONNECTED, TOTAL_NETWORK_TIMEOUT_MS);
+        }
       }
       else if(millis() > stateTimeout)
       {
@@ -264,6 +271,19 @@ void loop() {
       {
         initWiFiAP();
         switchState(STATE_CONFIG_AP);
+      }
+      break;
+
+    case STATE_WAIT_ON_F0_KEY:
+      setLEDvalues("25/50", "25/50", "0/0");
+      if(!getInputState(KEY_F0))
+      {
+        switchState(STATE_CONNECTED, TOTAL_NETWORK_TIMEOUT_MS);
+      }
+      else if(millis() > stateTimeout)
+      {
+        initWiFiConfigSTA();
+        switchState(STATE_CONFIG_STATION);
       }
       break;
   }
