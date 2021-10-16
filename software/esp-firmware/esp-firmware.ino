@@ -197,7 +197,14 @@ void loop() {
       if(millis() > stateTimeout)
       {
         locoDisconnect();
-        switchState(STATE_LOWPOWER_WAITING, 100);
+        if(batteryVoltage > 3600)
+        {
+          switchState(STATE_LOWPOWER_WAITING, (batteryVoltage - 3500) / 100 * 500 - 100);
+        }
+        else
+        {
+          switchState(STATE_LOWPOWER_WAITING, 100);
+        }
       }
       if(!allLocosInactive())
       {
@@ -206,7 +213,7 @@ void loop() {
       break;
 
     case STATE_LOWPOWER_WAITING:
-      setLEDvalues("0/0", "0/0", "1/250");
+      setLEDvalues("30/50", "30/50", "30/50");
       if(millis() > stateTimeout)
       {
         shutdownWiFiSTA();
