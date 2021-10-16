@@ -271,7 +271,14 @@ void writeMainPage()
     }
     else
     {
-      newAP.key = strdup(server.arg("wifiKEY").c_str());
+      if(server.hasArg("wifiKEY"))
+      {
+        newAP.key = strdup(server.arg("wifiKEY").c_str());
+      }
+      else
+      {
+        newAP.key = strdup("");
+      }
       apList.push_back(newAP);
 
       saveWiFiConfig();
