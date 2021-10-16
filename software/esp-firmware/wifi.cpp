@@ -322,11 +322,13 @@ void writeMainPage()
               + "<body><h1>wiFred configuration page</h1>\r\n"
               + "<hr>General configuration and status<hr>\r\n"
               + "<form action=\"index.html\" method=\"get\"><table border=0>"
-              + "<tr><td>Throttle name:</td><td><input type=\"text\" name=\"throttleName\" value=\"" + throttleName + "\"></td></tr>"
-              + "<tr><td colspan=2><input type=\"submit\" value=\"Save name\"></td></tr></table></form>\r\n"
+              + "<tr><td>Throttle name:</td><td><input type=\"text\" name=\"throttleName\" value=\"" + throttleName + "\"></td>"
+              + "<td><input type=\"submit\" value=\"Save name\"></td></tr></table></form>\r\n"
               + "<table border=0>"
               + "<tr><td>Battery voltage: </td><td>" + batteryVoltage + " mV" + (lowBattery ? " Battery LOW" : "" ) + "</td></tr>"
-              + "<tr><td>Firmware revision: </td><td>" + REV + "</td></tr></table>\r\n";              
+              + "<tr><td>Firmware revision: </td><td>" + REV + "</td></tr></table>\r\n"
+              + "<table><tr><td>Active WiFi network SSID:</td><td>" + (WiFi.isConnected() ? WiFi.SSID() : "not connected") + "</td></tr>"
+              + "<tr><td>Signal strength:</td><td>" + (WiFi.isConnected() ? (String) WiFi.RSSI() + "dB" : "not connected") + "</td></tr></table>";
   
   for(uint8_t i=0; i<4; i++)
   {
@@ -344,7 +346,7 @@ void writeMainPage()
   }
 
   resp        += String("<hr>WiFi configuration<hr>\r\n")
-              + "<table border=0><tr><td>Active WiFi network SSID:</td><td>" + (WiFi.isConnected() ? WiFi.SSID() : "not connected") + "</td><td><a href=scanWifi.html>Scan for networks</a></td></tr>"
+              + "<table border=0><tr><td colspan=3><a href=scanWifi.html>Scan for networks</a></td></tr>"
               + "<tr><td colspan=3>Known WiFi networks:</td></tr>";
   for(std::vector<wifiAPEntry>::iterator it = apList.begin() ; it != apList.end(); ++it)
   {
