@@ -84,8 +84,8 @@ void loop() {
   {
     case STATE_STARTUP:
       setLEDvalues("0/0", "0/0", "100/200");
-      initWiFiSTA();
       switchState(STATE_CONNECTING, TOTAL_NETWORK_TIMEOUT_MS);
+      initWiFiSTA();
       break;
       
     case STATE_CONNECTING:
