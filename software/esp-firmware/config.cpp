@@ -119,6 +119,10 @@ void initConfig(void)
         wifiAPEntry newAP;
         newAP.ssid = strdup(doc[FIELD_WIFI_SSID] | "");
         newAP.key = strdup(doc[FIELD_WIFI_PSK] | "");
+        if(doc.containsKey(FIELD_WIFI_DISABLED))
+        {
+          newAP.disabled = doc[FIELD_WIFI_DISABLED];
+        }
   
         if(strcmp(newAP.ssid, ""))
         {
@@ -292,6 +296,7 @@ void saveWiFiConfig()
 
     doc[FIELD_WIFI_SSID] = it->ssid;
     doc[FIELD_WIFI_PSK] = it->key;
+    doc[FIELD_WIFI_DISABLED] = it->disabled;
 
     if(File f = SPIFFS.open(filename, "w"))
     {
