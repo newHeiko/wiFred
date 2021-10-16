@@ -66,13 +66,12 @@ void loop() {
   handleThrottle();
 
   // check for empty battery
-  // only if not online and not in startup key handling options
+  // only if not online and not on the path for wiFred reset
   // if online, check will be done in locoHandler
   // (to disconnect before power down)
   if(emptyBattery &&
       wiFredState != STATE_LOCO_ONLINE &&
       wiFredState != STATE_WAIT_ON_RED_KEY &&
-      wiFredState != STATE_WAIT_ON_YELLOW_KEY &&
       wiFredState != STATE_STARTUP)
   {
     switchState(STATE_LOWPOWER_WAITING, 100);
