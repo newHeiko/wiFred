@@ -327,8 +327,8 @@ void writeMainPage()
               + "<table border=0><form action=\"index.html\" method=\"get\">"
               + "<tr><td>Loco server and port: </td>"
               + "<td>http://<input type=\"text\" name=\"loco.serverName\" value=\"" + locoServer.name + "\">:<input type=\"text\" name=\"loco.serverPort\" value=\"" + locoServer.port + "\"></td></tr>"
-              + "<tr><td>Find server automatically through Zeroconf/Bonjour?</td><td><input type=\"checkbox\" name=\"loco.automatic\"" + (locoServer.automatic ? " checked" : "") + ">"
-              + "Using " + (locoServer.automatic && automaticServer != nullptr ? automaticServer : locoServer.name) + ":" + locoServer.port + "</td></tr>"
+              + "<tr><td style=\"text-align: right\"><input type=\"checkbox\" name=\"loco.automatic\"" + (locoServer.automatic ? " checked" : "") + "></td><td>Find server automatically through Zeroconf/Bonjour instead.</td></tr>"
+              + "<tr><td colspan=2>Using " + (locoServer.automatic && automaticServer != nullptr ? automaticServer : locoServer.name) + ":" + locoServer.port + "</td></tr>"
               + "<tr><td colspan=2><input type=\"submit\" value=\"Save loco server settings\"</td></tr></form></table>";
 
   for(uint8_t i=0; i<4; i++)
