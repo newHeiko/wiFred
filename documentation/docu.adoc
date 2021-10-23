@@ -71,6 +71,25 @@ include::quickStartup.adoc[leveloffset=+1]
 |On|On|On|Configuration mode enabled while connected to existing WiFi network. All locos emergency stop to avoid runaways. Push SHIFT + ESTOP again to exit configuration mode
 
 4+|To recover from an emergency stop, turn speed potentiometer to zero to re-gain control.
+
+4+|Also see <<ledTableVoltage>> for interpreting the LED patterns when turning off all locos.
+|===
+
+[#ledTableVoltage]
+[cols="1,1,1,3"]
+.LED patterns and how they show battery voltage when turning off the wiFred
+|===
+|Red LED|Green LED (Left)|Green LED (Right)|Battery voltage
+
+|Flashing|Off|Off|Below 3.7V
+
+|On|Off|Off|Between 3.7V and 3.8V
+
+|On|Flashing|Off|Between 3.8V and 3.9V
+
+|On|On|Off|Between 3.9V and 4.0V
+
+|On|On|Flashing|Above 4.0V
 |===
 
 [#throttleControls]
@@ -97,7 +116,7 @@ image::DSC0690.jpg[alt="Throttle"]
 
 - Red charging indicator LED at lower end of device - lit while charging
 
--   Green fully charged indicator LED at lower end of device - lit when fully charged as long as charger still connected
+- Green fully charged indicator LED at lower end of device - lit when fully charged as long as charger still connected
 
 As soon as any of the loco selection switches is moved into the "enabled" position, the throttle will boot up and try to connect to a wireless network. When all four loco selection switches are "disabled", the throttle will disconnect from the wireless network after a grace period of five seconds. The device will then go into low power mode, in which the battery will last for more than a year.
 
@@ -113,7 +132,7 @@ Any change in the loco selection switches will cause the throttle to send an eme
 
 When the battery is low, the device will not re-activate before charging the batteries, but continue operating for approximately an hour if active. When the battery is empty, it will disconnect and enter low power mode. Expected runtime is around 20 hours of full time operations, more if the throttle is placed in low power mode when the locos are not running.
 
-During startup and operation, the LEDs will show the patterns explained in <<ledTable>>.
+During startup and operation, the LEDs will show the patterns explained in <<ledTable>>. After turning off the wiFred, the LEDs will show the current battery voltage for a few seconds, as described in <<ledTableVoltage>>.
 
 === Charging the wiFred
 

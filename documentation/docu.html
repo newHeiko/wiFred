@@ -688,6 +688,58 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock">To recover from an emergency stop, turn speed potentiometer to zero to re-gain control.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock">Also see <a href="#ledTableVoltage">LED patterns and how they show battery voltage when turning off the wiFred</a> for interpreting the LED patterns when turning off all locos.</p></td>
+</tr>
+</tbody>
+</table>
+<table id="ledTableVoltage" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. LED patterns and how they show battery voltage when turning off the wiFred</caption>
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 50.0002%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Red LED</th>
+<th class="tableblock halign-left valign-top">Green LED (Left)</th>
+<th class="tableblock halign-left valign-top">Green LED (Right)</th>
+<th class="tableblock halign-left valign-top">Battery voltage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flashing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Off</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Off</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Below 3.7V</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">On</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Off</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Off</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Between 3.7V and 3.8V</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">On</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flashing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Off</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Between 3.8V and 3.9V</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">On</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">On</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Off</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Between 3.9V and 4.0V</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">On</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">On</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flashing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Above 4.0V</p></td>
+</tr>
 </tbody>
 </table>
 <div id="throttleControls" class="imageblock">
@@ -755,7 +807,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>When the battery is low, the device will not re-activate before charging the batteries, but continue operating for approximately an hour if active. When the battery is empty, it will disconnect and enter low power mode. Expected runtime is around 20 hours of full time operations, more if the throttle is placed in low power mode when the locos are not running.</p>
 </div>
 <div class="paragraph">
-<p>During startup and operation, the LEDs will show the patterns explained in <a href="#ledTable">LED patterns and their meaning on the wiFred</a>.</p>
+<p>During startup and operation, the LEDs will show the patterns explained in <a href="#ledTable">LED patterns and their meaning on the wiFred</a>. After turning off the wiFred, the LEDs will show the current battery voltage for a few seconds, as described in <a href="#ledTableVoltage">LED patterns and how they show battery voltage when turning off the wiFred</a>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1389,7 +1441,7 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <p>All the SMD parts and connectors in <a href="#BOM06SMD">List of bottom side components - SMDs and pin headers - for the wiFred PCB from revision 0.6</a> are located on the bottom side, so they can easily be installed by an automated PCB assembly service. Gerber files and location files will be made available on the <a href="#github">[Github repository for wiFred]</a>. They are no smaller than 0805, though, so it should be possible for experienced electronics hobbyists to hand-solder them as well, although the USB-C-connector has a very small pitch.</p>
 </div>
 <table id="BOM06SMD" class="tableblock frame-all grid-all fit-content">
-<caption class="title">Table 2. List of bottom side components - SMDs and pin headers - for the wiFred PCB from revision 0.6</caption>
+<caption class="title">Table 3. List of bottom side components - SMDs and pin headers - for the wiFred PCB from revision 0.6</caption>
 <colgroup>
 <col>
 <col>
@@ -1497,7 +1549,7 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <p>For all other switches, push buttons and LEDs, it is recommended to drill the holes in the housing first, then place the parts on the PCB and screw the PCB into the housing before soldering the parts. Holes for the pushbutton switches should be drilled at 3.5 mm diameter. Holes for the LEDs should be drilled at 3 mm diameter and holes for the speed potentiometer at 8 mm, for the direction switch at 6.5 mm diameter. The cutouts for the loco selection switches are best drilled at 1.5 mm and extended to fit with a jigsaw or a sharp hobby knife and a file. The easiest approach is a laser engraved housing - PDF and DXF files of the markings are available on the <a href="#github">[Github repository for wiFred]</a> as well.</p>
 </div>
 <table id="BOM06TOP" class="tableblock frame-all grid-all fit-content">
-<caption class="title">Table 3. List of top side components - ESP32-S2-WROOM and user interface - for the wiFred PCB from revision 0.6</caption>
+<caption class="title">Table 4. List of top side components - ESP32-S2-WROOM and user interface - for the wiFred PCB from revision 0.6</caption>
 <colgroup>
 <col>
 <col>
@@ -1642,7 +1694,7 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <p>To form a complete BOM, also include the parts listed in <a href="#BOM06extra">List of components for the wiFred from revision 0.6 excluding electronic parts to solder to PCB</a> which are not soldered to the PCB but used in assembly later on.</p>
 </div>
 <table id="BOM06extra" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. List of components for the wiFred from revision 0.6 excluding electronic parts to solder to PCB</caption>
+<caption class="title">Table 5. List of components for the wiFred from revision 0.6 excluding electronic parts to solder to PCB</caption>
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 50%;">
@@ -1765,7 +1817,7 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <p>The PCB has holes in the center of the LED footprints to enable transferring their positions to a StrapuBox housing with a sharp needle or to drill pilot holes with a 1 mm drill. For all other holes, there is a drill jig available which also allows the drilling of pilot holes for the pushbutton switches, the direction control switch and the speed potentiometer. <a href="#drilljigPicture">Using the original PCB and drilling jig to transfer the positions of the holes to the housing - better results will be achieved when the PCBs are screwed in position</a> shows the process and its results. Holes for the pushbutton switches should be drilled at 3.5 mm diameter. Holes for the LEDs should be drilled at 3 mm diameter and holes for the speed potentiometer at 8 mm, for the direction switch at 6.5 mm diameter. The cutouts for the loco selection switches are best drilled at 1.5 mm and extended to fit when the PCB is assembled with a jigsaw or a sharp hobby knife and a file.</p>
 </div>
 <table id="BOM05" class="tableblock frame-all grid-all fit-content">
-<caption class="title">Table 5. List of components for the wiFred PCB up to revision 0.5</caption>
+<caption class="title">Table 6. List of components for the wiFred PCB up to revision 0.5</caption>
 <colgroup>
 <col>
 <col>
@@ -2086,7 +2138,7 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <p>To form a complete BOM, also include the parts listed in <a href="#BOM05extra">List of components for the wiFred up to revision 0.5 excluding electronic parts to solder to PCB</a> which are not soldered to the PCB but used in assembly later on.</p>
 </div>
 <table id="BOM05extra" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. List of components for the wiFred up to revision 0.5 excluding electronic parts to solder to PCB</caption>
+<caption class="title">Table 7. List of components for the wiFred up to revision 0.5 excluding electronic parts to solder to PCB</caption>
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 50%;">
@@ -2233,7 +2285,7 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <p>The remaining assembly is a basic exercise in installing all the components to the PCB, listed in <a href="#oldWiFredBOM">List of components for the AA battery prototype wiFred</a>.</p>
 </div>
 <table id="oldWiFredBOM" class="tableblock frame-all grid-all fit-content">
-<caption class="title">Table 7. List of components for the AA battery prototype wiFred</caption>
+<caption class="title">Table 8. List of components for the AA battery prototype wiFred</caption>
 <colgroup>
 <col>
 <col>
@@ -2598,7 +2650,7 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <div id="footer">
 <div id="footer-text">
 Version 0.3<br>
-Last updated 2021-10-16 16:59:44 +0200
+Last updated 2021-10-23 14:33:27 +0200
 </div>
 </div>
 </body>
