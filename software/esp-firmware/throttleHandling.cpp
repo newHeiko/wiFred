@@ -41,33 +41,44 @@ char * avrRevision = NULL;
  */
 void setLEDvalues(String led1, String led2, String led3)
 {
-  static uint32_t timeout = 0;
   static String oldLed1 = "";
   static String oldLed2 = "";
   static String oldLed3 = "";
+  static uint8_t led1countdown = 0;
+  static uint8_t led2countdown = 0;
+  static uint8_t led3countdown = 0;
 
   if(oldLed1 != led1)
   {
-    Serial.println("L1:" + led1);
+    led1countdown = 2;
     oldLed1 = led1;
   }
-  else if(oldLed2 != led2)
+  if(oldLed2 != led2)
   {
-    Serial.println("L2:" + led2);
+    led2countdown = 2;
     oldLed2 = led2;
   }
-  else if(oldLed3 != led3)
+  if(oldLed3 != led3)
   {
-    Serial.println("L3:" + led3);
+    led3countdown = 2;
     oldLed3 = led3;
   }
-  else if(millis() > timeout)
+
+
+  if(led1countdown > 0)
   {
     Serial.println("L1:" + led1);
+    led1countdown--;
+  }
+  if(led2countdown > 0)
+  {
     Serial.println("L2:" + led2);
+    led2countdown--;
+  }
+  if(led3countdown > 0)
+  {
     Serial.println("L3:" + led3);
-
-    timeout = millis() + 5000;
+    led3countdown--;
   }
   Serial.flush();  
 }
