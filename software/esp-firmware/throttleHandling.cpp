@@ -229,7 +229,7 @@ void handleThrottle(void)
         {
           setESTOP();
           locoDisconnect();
-          switchState(STATE_LOWPOWER_WAITING, 1000);
+          switchState(STATE_LOWPOWER_WAITING, 500);
         }
         break;
       

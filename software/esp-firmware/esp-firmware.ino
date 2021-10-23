@@ -170,6 +170,32 @@ void loop() {
       break;
 
     case STATE_LOCOS_OFF:
+      switch((batteryVoltage - 3500) / 100)
+      {
+        case -2:
+        case -1:
+        case 0:
+        case 1:
+          setLEDvalues("0/0", "0/0", "30/50");
+          break;
+        case 2:
+          setLEDvalues("0/0", "0/0", "50/50");
+          break;
+        case 3:
+          setLEDvalues("0/0", "30/50", "50/50");
+          break;
+        case 4:
+          setLEDvalues("0/0", "50/50", "50/50");
+          break;
+        case 5:
+        case 6:
+        case 7:
+          setLEDvalues("30/50", "50/50", "50/50");
+          break;
+        default:
+          setLEDvalues("50/50", "50/50", "30/50");
+          break;
+      }
       if(millis() > stateTimeout)
       {
         switchState(STATE_LOWPOWER_WAITING, 100);
