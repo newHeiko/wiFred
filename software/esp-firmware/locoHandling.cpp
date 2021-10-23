@@ -209,7 +209,7 @@ void locoHandler(void)
       locoState[currentLoco] = LOCO_INACTIVE;
       if(allLocosInactive())
       {
-        switchState(STATE_LOCOS_OFF, 5000);
+        switchState(STATE_LOCOS_OFF, 6000);
       }
     }
     else if(currentLoco == 3)
