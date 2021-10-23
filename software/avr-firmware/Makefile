@@ -183,7 +183,7 @@ LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 AVRDUDE_PROGRAMMER = avrisp2
 
 # com1 = serial port. Use lpt1 to connect to parallel port.
-AVRDUDE_PORT = usb    # programmer connected to serial device
+AVRDUDE_PORT=/dev/ttyACM3    # programmer connected to serial device
 
 # Keep EEPROM contents when writing flash
 AVRDUDE_READ_EEPROM = -U eeprom:r:$(TARGET).eep.tmp:i
