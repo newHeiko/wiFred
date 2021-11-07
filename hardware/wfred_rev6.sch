@@ -80,7 +80,7 @@ F 1 "BATT" V 1000 1550 40  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Horizontal" H 950 1550 60  0001 C CNN
 F 3 "" H 950 1550 60  0001 C CNN
 F 4 "SL 1X36W 2,54" V 950 1550 50  0001 C CNN "Reichelt"
-F 5 "C706865" V 950 1550 50  0001 C CNN "LCSC"
+F 5 "C492410" V 950 1550 50  0001 C CNN "LCSC"
 	1    950  1550
 	-1   0    0    1   
 $EndComp
@@ -687,7 +687,7 @@ F 0 "J101" H 1457 6117 50  0000 C CNN
 F 1 "USB_C_Receptacle_USB2.0" H 1457 6026 50  0000 C CNN
 F 2 "Connector_USB:USB_C_Receptacle_HRO_TYPE-C-31-M-12" H 1500 5250 50  0001 C CNN
 F 3 "https://www.usb.org/sites/default/files/documents/usb_type-c.zip" H 1500 5250 50  0001 C CNN
-F 4 "C393939" H 1350 5250 50  0001 C CNN "LCSC"
+F 4 "C165948" H 1350 5250 50  0001 C CNN "LCSC"
 	1    1350 5250
 	1    0    0    -1  
 $EndComp
