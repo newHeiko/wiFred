@@ -11,6 +11,7 @@ Several versions are contained in different branches:
 - master branch: Designed to fit into Strapubox 2090 housing, powered by a lithium battery, hardware: ESP32-S2-WROOM, THT pushbuttons
   - rev0.6 (initial)
   - rev0.62 (switched USB connector to USB-C)
+  - rev0.63 (replaced constant current source for flashlight with charge pump, replaced a few out-of-stock parts)
 - esp12 branch: Designed to fit into Strapubox 2090 housing, powered by a lithium battery, hardware: AVR ATMega328P plus ESP12F, SMD pushbuttons
   - rev0.4
   - rev0.5 (Added flashlight)
