@@ -945,19 +945,19 @@ The <<Fremo>> is a European modular model railroading club whose unique requirem
 
 In modular railroading events, particularly of the Fremo-americaN-group, multiple people have evaluated the smartphone throttle solutions and found them lacking a nice, haptical feedback. But the idea of wireless control without locking into a specific vendor and their necessarily expensive equipment found great approval. So a wishlist was compiled to define the requirements for a wireless throttle:
 
--   Same form factor as the <<FRED>> with similar controls
+- Same form factor as the <<FRED>> with similar controls
 
--   Option to control at least two, better four locomotives for double/triple traction (similar to the double FRED)
+- Option to control at least two, better four locomotives for double/triple traction (similar to the double FRED)
 
--   Battery runtime of at least six hours
+- Battery runtime of at least six hours
 
--   Exchangeable batteries, so when the battery runs down, they can be quickly exchanged for a charged set or cheap primary cells
+- Exchangeable batteries, so when the battery runs down, they can be quickly exchanged for a charged set or cheap primary cells
 
--   Easy configuration, but not too easy to prevent operators from accidentally selecting other locomotives
+- Easy configuration, but not too easy to prevent operators from accidentally selecting other locomotives
 
--   As little change to the existing Fremo Loconet network as possible
+- As little change to the existing Fremo Loconet network as possible
 
--   Use of wiThrottle protocol, so the server side of the communication can be assumed to work and does not have to be developed as well
+- Use of wiThrottle protocol, so the server side of the communication can be assumed to work and does not have to be developed as well
 
 === Development history
 
