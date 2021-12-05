@@ -272,6 +272,16 @@ void writeMainPage()
     saveGeneralConfig();
   }
 
+  if (server.hasArg("centerSwitch"))
+  {
+    int temp = server.arg(String("centerSwitch")).toInt();
+    if(CENTER_FUNCTION_IGNORE <= temp && temp <= MAX_FUNCTION)
+    {
+      centerFunction = temp;
+      saveGeneralConfig();
+    }
+  }
+
   // check if this is a "manually add WiFi network" request
   if (server.hasArg("wifiSSID"))
   {
