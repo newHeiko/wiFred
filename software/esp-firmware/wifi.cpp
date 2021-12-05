@@ -433,6 +433,17 @@ void writeMainPage()
               + "<tr><td colspan=2><input type=\"submit\" value=\"Save loco server settings\"</td></tr></form></table>";
 
   resp        += String("<hr>wiFred system<hr>\r\n")
+              + "<table border=0><form action=\"index.html\" method=\"get\">"
+              + "<tr><td>Center position of direction switch:</td><td><select id=\"centerSwitch\" name=\"centerSwitch\">"
+              + "<option value=\"-2\"" + (centerFunction == -2 ? " selected" : "") + ">No action</option>"
+              + "<option value=\"-1\"" + (centerFunction == -1 ? " selected" : "") + ">Zero speed</option>";
+  
+  for(int f=0; f <= MAX_FUNCTION; f++)
+  {
+    resp += String("<option value=\"") + f + "\"" + (centerFunction == f ? " selected" : "") + ">Set F" + f + "</option>";
+  }
+              
+  resp        += String("</select><input type=\"submit\" value=\"Save setting\"></td></tr></form></table>")
               + "<a href=resetConfig.html>Reset wiFred to factory defaults</a>\r\n"
               + "<a href=update>Update wiFred firmware</a>\r\n"
               + "</body></html>";
