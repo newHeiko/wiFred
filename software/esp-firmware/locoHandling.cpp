@@ -486,7 +486,7 @@ void setReverse(bool newReverse)
 {
   if(newReverse != myReverse)
   {
-    if(speed != 0)
+    if(speed != 0 && !allowDirectionChange())
     {
       setESTOP();
       return;

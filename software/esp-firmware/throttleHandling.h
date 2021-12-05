@@ -91,6 +91,11 @@ void handleThrottle(void);
 void initThrottle(void);
 
 /**
+ * Allow direction change even if speed > 0
+ */
+bool allowDirectionChange();
+
+/**
  * Get state of input buttons
  * 
  * @param the key to query

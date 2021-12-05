@@ -98,6 +98,11 @@ int centerFunction;
 bool centerPosition;
 
 /**
+ * Unlock direction change when in center position
+ */
+bool directionChangeUnlock = false;
+
+/**
  * Timestamp when direction switch was moved into center position
  */
 uint32_t enterCenterPositionTime;
@@ -315,6 +320,23 @@ void debounceInputCallback(void)
 }
 
 /**
+ * Allow direction change even if speed > 0
+ */
+bool allowDirectionChange()
+{
+  if(directionChangeUnlock && ( (millis() - enterCenterPositionTime) > CENTER_FUNCTION_ESTOP_TIMEOUT) && centerFunction != CENTER_FUNCTION_IGNORE)
+  {
+    directionChangeUnlock = false;
+    return true;
+  }
+  else
+  {
+    directionChangeUnlock = false;
+    return false;
+  }
+}
+
+/**
  * Periodically check keys for new user input and react accordingly
  */
 void handleThrottle(void)
@@ -327,30 +349,26 @@ void handleThrottle(void)
     reverseOut = true;
     log_v("Setting direction to reverse");
 
-    if(millis() - enterCenterPositionTime < CENTER_FUNCTION_ESTOP_TIMEOUT)
-    {
-      setESTOP();
-    }
-
     if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
     {
+      setFunction(centerFunction);
       clearFunction(centerFunction);
     }
+
+    centerPosition = false;
   }
   if(getInputPressed(KEY_FWD))
   {
     reverseOut = false;
     log_v("Setting direction to forward");
 
-    if(millis() - enterCenterPositionTime < CENTER_FUNCTION_ESTOP_TIMEOUT)
-    {
-      setESTOP();
-    }
-
     if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
     {
+      setFunction(centerFunction);
       clearFunction(centerFunction);
     }
+
+    centerPosition = false;
   }
   if(!getInputState(KEY_REV) && !getInputState(KEY_FWD))
   {
@@ -371,10 +389,11 @@ void handleThrottle(void)
           if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
           {
             setFunction(centerFunction);
+            clearFunction(centerFunction);
           }
         break;
       }
-
+      directionChangeUnlock = true;
       centerPosition = true;
     }
   }
@@ -566,15 +585,16 @@ void adcCallback(void)
     {
       tempSpeed = map(speedBuffer, potiMin, potiMax, 253, 0);
     }
+    if(centerFunction == CENTER_FUNCTION_ZEROSPEED && centerPosition)
+    {
+      tempSpeed = 0;
+    }
     int8_t delta = tempSpeed - oldSpeed;
     if(delta < -1 || delta > 1)
     {
-      if(centerFunction != CENTER_FUNCTION_ZEROSPEED)
-      {
-        log_d("Old speed: %u, new speed: %u", oldSpeed, tempSpeed);
-        setSpeed(tempSpeed / 2);
-        oldSpeed = tempSpeed;
-      }
+      log_d("Old speed: %u, new speed: %u", oldSpeed, tempSpeed);
+      setSpeed(tempSpeed / 2);
+      oldSpeed = tempSpeed;
     }
 
     batteryBuffer /= NUM_SAMPLES;
