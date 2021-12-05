@@ -62,7 +62,7 @@ void initConfig(void)
   
   DynamicJsonDocument doc(512);
 
-// read device name from SPIFFS
+// read device name from SPIFFS (deprecated)
   if(File f = SPIFFS.open(FN_NAME, "r"))
   {
     if(!deserializeJson(doc, f))
@@ -73,6 +73,22 @@ void initConfig(void)
         free(throttleName);
         throttleName = strdup(s);
       }
+    }
+    f.close();
+  }
+
+// read general configuration from SPIFFS
+  if(File f = SPIFFS.open(FN_CONFIG, "r"))
+  {
+    if(!deserializeJson(doc, f))
+    {
+      const char * s = doc[FIELD_NAME_NAME];
+      if(s != nullptr)
+      {
+        free(throttleName);
+        throttleName = strdup(s);
+      }
+      centerFunction = doc[FIELD_CONFIG_CENTERSWITCH] | -2;
     }
     f.close();
   }
@@ -216,8 +232,9 @@ void saveGeneralConfig(void)
   DynamicJsonDocument doc(256);
 
   doc[FIELD_NAME_NAME] = throttleName;
+  doc[FIELD_CONFIG_CENTERSWITCH] = centerFunction;
 
-  if(File f = SPIFFS.open(FN_NAME, "w"))
+  if(File f = SPIFFS.open(FN_CONFIG, "w"))
   {
     serializeJson(doc, f);
     f.close();

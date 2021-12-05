@@ -29,6 +29,15 @@
 void setLEDvalues(String led1, String led2, String led3);
 
 /**
+ * Define behavior of center-off-switch
+ * 
+ * 0 or higher: Function to set when switch at center position
+ * -1: Set speed to zero
+ * -2: Ignore
+ */
+extern int centerFunction;
+
+/**
  * Periodically check serial port for new information from the AVR
  */
 void handleThrottle(void);

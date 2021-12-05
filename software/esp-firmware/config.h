@@ -49,6 +49,14 @@
 #define FIELD_LOCO_DIRECTION "direction"
 #define FIELD_LOCO_FUNCTIONS "functions"
 
+#define FN_ANALOG "/calibration.txt"
+#define FIELD_POTI_MAX "potiMax"
+#define FIELD_POTI_MIN "potiMin"
+#define FIELD_BATT_FACTOR "battFactor"
+
+#define FN_CONFIG "/config.txt"
+#define FIELD_CONFIG_CENTERSWITCH "centerSwitch"
+
 /**
  * A user-given name for this device
  */
