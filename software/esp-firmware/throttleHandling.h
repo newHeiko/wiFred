@@ -23,6 +23,11 @@
 #ifndef _THROTTLE_HANDLING_H_
 #define _THROTTLE_HANDLING_H_
 
+#define CENTER_FUNCTION_ZEROSPEED -1
+#define CENTER_FUNCTION_IGNORE -2
+
+#define CENTER_FUNCTION_ESTOP_TIMEOUT 500
+
 /**
  * Send LED settings to AVR - Strings are of the shape "20/100" meaning 20*10ms on time and 100*10ms total cycle time
  */

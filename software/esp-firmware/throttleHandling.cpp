@@ -25,6 +25,28 @@
 #include "locoHandling.h"
 #include "stateMachine.h"
 #include "lowbat.h"
+#include "throttleHandling.h"
+
+/**
+ * Define behavior of center-off-switch
+ * 
+ * 0 or higher: Function to set when switch at center position
+ * -1: Set speed to zero
+ * -2: Ignore
+ */
+int centerFunction;
+
+/**
+ * Status of direction switch
+ * 
+ * true if in center position
+ */
+bool centerPosition;
+
+/**
+ * Timestamp when direction switch was moved into center position
+ */
+uint32_t enterCenterPositionTime;
 
 /**
  * Remember current direction setting
@@ -144,13 +166,70 @@ void handleThrottle(void)
               if(direction == 'F')
               {
                 reverseOut = false;
-                setSpeed((uint8_t) speedIn);
+
+		if(centerPosition)
+		{
+		  if(millis() - enterCenterPositionTime < CENTER_FUNCTION_ESTOP_TIMEOUT)
+		  {
+		    setESTOP();
+		  }
+
+		  if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
+		  {
+		    clearFunction(centerFunction);
+		  }
+
+		  centerPositio = false;
+		}
+
+		setSpeed((uint8_t) speedIn);
               }
               else if(direction == 'R')
               {
                 reverseOut = true;
-                setSpeed((uint8_t) speedIn);
+
+		if(centerPosition)
+		{
+		  if(millis() - enterCenterPositionTime < CENTER_FUNCTION_ESTOP_TIMEOUT)
+		  {
+		    setESTOP();
+	          }
+
+		  if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
+		  {
+		    clearFunction(centerFunction);
+		  }
+
+		  centerPosition = false;
+		}
+
+		setSpeed((uint8_t) speedIn);
               }
+	      else if(direction == 'E')
+	      {
+		if(!centerPosition)
+		{
+		  enterCenterPositionTime = millis();
+
+		  switch(centerFunction)
+		  {
+		  case CENTER_FUNCTION_ZEROSPEED:
+		    setSpeed(0);
+		    break;
+
+		  case CENTER_FUNCTION_IGNORE:
+		    break;
+
+		  default:
+		    if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
+		    {
+		      setFunction(centerFunction);
+		    }
+		    break;
+		  }
+		  centerPosition = true;
+		}
+	      }     	
               else
               {
                 setESTOP();
