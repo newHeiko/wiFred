@@ -82,6 +82,27 @@ unsigned int potiMin;
 unsigned int potiMax;
 
 /**
+ * Define behavior of center-off-switch
+ * 
+ * 0 or higher: Function to set when switch at center position
+ * -1: Set speed to zero
+ * -2: Ignore
+ */
+int centerFunction;
+
+/**
+ * Status of direction switch
+ * 
+ * true if in center position
+ */
+bool centerPosition;
+
+/**
+ * Timestamp when direction switch was moved into center position
+ */
+uint32_t enterCenterPositionTime;
+
+/**
  * Battery voltage readout factor
  * Multiply readout by this value to correct it
  */
@@ -305,11 +326,57 @@ void handleThrottle(void)
   {
     reverseOut = true;
     log_v("Setting direction to reverse");
+
+    if(millis() - enterCenterPositionTime < CENTER_FUNCTION_ESTOP_TIMEOUT)
+    {
+      setESTOP();
+    }
+
+    if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
+    {
+      clearFunction(centerFunction);
+    }
   }
   if(getInputPressed(KEY_FWD))
   {
     reverseOut = false;
     log_v("Setting direction to forward");
+
+    if(millis() - enterCenterPositionTime < CENTER_FUNCTION_ESTOP_TIMEOUT)
+    {
+      setESTOP();
+    }
+
+    if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
+    {
+      clearFunction(centerFunction);
+    }
+  }
+  if(!getInputState(KEY_REV) && !getInputState(KEY_FWD))
+  {
+    if(!centerPosition)
+    {
+      enterCenterPositionTime = millis();
+
+      switch(centerFunction)
+      {
+        case CENTER_FUNCTION_ZEROSPEED:
+          setSpeed(0);
+          break;
+
+        case CENTER_FUNCTION_IGNORE:
+          break;
+
+        default:
+          if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
+          {
+            setFunction(centerFunction);
+          }
+        break;
+      }
+
+      centerPosition = true;
+    }
   }
 
   // handle f0 key
@@ -500,11 +567,14 @@ void adcCallback(void)
       tempSpeed = map(speedBuffer, potiMin, potiMax, 253, 0);
     }
     int8_t delta = tempSpeed - oldSpeed;
-    if(delta < -1 || delta > 1) 
+    if(delta < -1 || delta > 1)
     {
-      log_d("Old speed: %u, new speed: %u", oldSpeed, tempSpeed);
-      setSpeed(tempSpeed / 2);
-      oldSpeed = tempSpeed;
+      if(centerFunction != CENTER_FUNCTION_ZEROSPEED)
+      {
+        log_d("Old speed: %u, new speed: %u", oldSpeed, tempSpeed);
+        setSpeed(tempSpeed / 2);
+        oldSpeed = tempSpeed;
+      }
     }
 
     batteryBuffer /= NUM_SAMPLES;

@@ -45,6 +45,11 @@ const int KEY_PIN[] = { 3, 11, 4, 37, 12, 5, 38, 13, 6,
 
 #define NUM_OVERSHOOT 16
 
+#define CENTER_FUNCTION_ZEROSPEED -1
+#define CENTER_FUNCTION_IGNORE -2
+
+#define CENTER_FUNCTION_ESTOP_TIMEOUT 500
+
 /**
  * Potentiometer value for zero speed (counterclockwise limit)
  */

@@ -94,7 +94,7 @@ void initConfig(void)
         free(throttleName);
         throttleName = strdup(s);
       }
-      centerFunction = doc[FIELD_CONFIG_CENTERSWITCH] | -2;
+      centerFunction = doc[FIELD_CONFIG_CENTERSWITCH] | CENTER_FUNCTION_IGNORE;
     }
     f.close();
   }
