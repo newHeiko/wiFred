@@ -56,6 +56,15 @@ extern unsigned int potiMin;
 extern unsigned int potiMax;
 
 /**
+ * Define behavior of center-off-switch
+ * 
+ * 0 or higher: Function to set when switch at center position
+ * -1: Set speed to zero
+ * -2: Ignore
+ */
+extern int centerFunction;
+
+/**
  * Battery voltage readout factor
  * Multiply readout by this value to correct it
  */
