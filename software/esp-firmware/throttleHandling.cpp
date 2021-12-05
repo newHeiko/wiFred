@@ -44,6 +44,11 @@ int centerFunction;
 bool centerPosition;
 
 /**
+ * Unlock direction change when in center position
+ */
+bool directionChangeUnlock = false;
+
+/**
  * Timestamp when direction switch was moved into center position
  */
 uint32_t enterCenterPositionTime;
@@ -103,6 +108,23 @@ void setLEDvalues(String led1, String led2, String led3)
     led3countdown--;
   }
   Serial.flush();  
+}
+
+/**
+ * Allow direction change even if speed > 0
+ */
+bool allowDirectionChange()
+{
+  if(directionChangeUnlock && ( (millis() - enterCenterPositionTime) > CENTER_FUNCTION_ESTOP_TIMEOUT) && centerFunction != CENTER_FUNCTION_IGNORE)
+  {
+    directionChangeUnlock = false;
+    return true;
+  }
+  else
+  {
+    directionChangeUnlock = false;
+    return false;
+  }
 }
 
 /**
@@ -176,6 +198,7 @@ void handleThrottle(void)
 
 		  if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
 		  {
+		    setFunction(centerFunction);
 		    clearFunction(centerFunction);
 		  }
 
@@ -197,6 +220,7 @@ void handleThrottle(void)
 
 		  if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
 		  {
+		    setFunction(centerFunction);
 		    clearFunction(centerFunction);
 		  }
 
@@ -214,7 +238,6 @@ void handleThrottle(void)
 		  switch(centerFunction)
 		  {
 		  case CENTER_FUNCTION_ZEROSPEED:
-		    setSpeed(0);
 		    break;
 
 		  case CENTER_FUNCTION_IGNORE:
@@ -224,16 +247,27 @@ void handleThrottle(void)
 		    if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
 		    {
 		      setFunction(centerFunction);
+		      clearFunction(centerFunction);
 		    }
 		    break;
 		  }
+		  directionChangeUnlock = true;
 		  centerPosition = true;
+		}
+
+		if(centerFunction == CENTER_FUNCTION_ZEROSPEED)
+		{
+		  setSpeed(0);
+		}
+		else
+		{		  
+		  setSpeed((uint8_t) speedIn);
 		}
 	      }     	
               else
               {
                 setESTOP();
-              }
+              }	      
             }
             else
             {
