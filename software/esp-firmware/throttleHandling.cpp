@@ -49,6 +49,11 @@ bool centerPosition;
 bool directionChangeUnlock = false;
 
 /**
+ * Block direction change even at zero speed
+ */
+bool directionChangeBlocked = false;
+
+/**
  * Timestamp when direction switch was moved into center position
  */
 uint32_t enterCenterPositionTime;
@@ -128,6 +133,14 @@ bool allowDirectionChange()
 }
 
 /**
+ * Block direction change even if speed == 0
+ */
+bool blockDirectionChange()
+{
+  return directionChangeBlocked;
+}
+
+/**
  * Periodically check serial port for new information from the AVR and react accordingly
  */
 void handleThrottle(void)
@@ -202,7 +215,12 @@ void handleThrottle(void)
 		    clearFunction(centerFunction);
 		  }
 
-		  centerPositio = false;
+		  centerPosition = false;
+		}
+
+		if(speedIn < 1)
+		{
+		  directionChangeBlocked = false;
 		}
 
 		setSpeed((uint8_t) speedIn);
@@ -227,6 +245,11 @@ void handleThrottle(void)
 		  centerPosition = false;
 		}
 
+		if(speedIn < 1)
+		{
+		  directionChangeBlocked = false;
+		}
+
 		setSpeed((uint8_t) speedIn);
               }
 	      else if(direction == 'E')
@@ -237,22 +260,28 @@ void handleThrottle(void)
 
 		  switch(centerFunction)
 		  {
-		  case CENTER_FUNCTION_ZEROSPEED:
-		    break;
+		    case CENTER_FUNCTION_ZEROSPEED:
+		      directionChangeBlocked = true;
+		      break;
 
-		  case CENTER_FUNCTION_IGNORE:
-		    break;
+		    case CENTER_FUNCTION_IGNORE:
+		      break;
 
-		  default:
-		    if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
-		    {
-		      setFunction(centerFunction);
-		      clearFunction(centerFunction);
-		    }
-		    break;
+		    default:
+		      if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
+		      {
+			setFunction(centerFunction);
+			clearFunction(centerFunction);
+		      }
+		      break;
 		  }
 		  directionChangeUnlock = true;
 		  centerPosition = true;
+		}
+
+		if((millis() - enterCenterPositionTime) > CENTER_FUNCTION_ESTOP_TIMEOUT)
+		{
+		  directionChangeBlocked = false;
 		}
 
 		if(centerFunction == CENTER_FUNCTION_ZEROSPEED)
@@ -262,6 +291,10 @@ void handleThrottle(void)
 		else
 		{		  
 		  setSpeed((uint8_t) speedIn);
+		  if(speedIn < 1)
+		  {
+		      directionChangeBlocked = false;
+		  }
 		}
 	      }     	
               else

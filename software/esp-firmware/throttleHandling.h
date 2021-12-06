@@ -52,4 +52,14 @@ void handleThrottle(void);
  */
 extern char * avrRevision;
 
+/**
+ * Allow direction change even if speed > 0
+ */
+bool allowDirectionChange();
+
+/**
+ * Block direction change even if speed == 0
+ */
+bool blockDirectionChange();
+
 #endif
