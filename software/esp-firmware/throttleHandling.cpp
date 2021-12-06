@@ -103,6 +103,11 @@ bool centerPosition;
 bool directionChangeUnlock = false;
 
 /**
+ * Block direction change even at zero speed
+ */
+bool directionChangeBlocked = false;
+
+/**
  * Timestamp when direction switch was moved into center position
  */
 uint32_t enterCenterPositionTime;
@@ -337,6 +342,14 @@ bool allowDirectionChange()
 }
 
 /**
+ * Block direction change even if speed == 0
+ */
+bool blockDirectionChange()
+{
+  return directionChangeBlocked;
+}
+
+/**
  * Periodically check keys for new user input and react accordingly
  */
 void handleThrottle(void)
@@ -380,6 +393,7 @@ void handleThrottle(void)
       {
         case CENTER_FUNCTION_ZEROSPEED:
           setSpeed(0);
+          directionChangeBlocked = true;
           break;
 
         case CENTER_FUNCTION_IGNORE:
@@ -395,6 +409,10 @@ void handleThrottle(void)
       }
       directionChangeUnlock = true;
       centerPosition = true;
+    }
+    if((millis() - enterCenterPositionTime) > CENTER_FUNCTION_ESTOP_TIMEOUT)
+    {
+      directionChangeBlocked = false;
     }
   }
 
@@ -588,6 +606,10 @@ void adcCallback(void)
     if(centerFunction == CENTER_FUNCTION_ZEROSPEED && centerPosition)
     {
       tempSpeed = 0;
+    }
+    else if(tempSpeed < 2)
+    {
+      directionChangeBlocked = false;
     }
     int8_t delta = tempSpeed - oldSpeed;
     if(delta < -1 || delta > 1)

@@ -158,7 +158,7 @@ void locoHandler(void)
   }
 
   // remove ESTOP setting if poti turned to zero
-  if(eSTOP && newSpeed == 0)
+  if(eSTOP && newSpeed == 0 && !blockDirectionChange())
   {
     eSTOP = false;
   }
@@ -486,7 +486,7 @@ void setReverse(bool newReverse)
 {
   if(newReverse != myReverse)
   {
-    if(speed != 0 && !allowDirectionChange())
+    if( (speed != 0 && !allowDirectionChange()) || blockDirectionChange() )
     {
       setESTOP();
       return;
