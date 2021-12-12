@@ -268,7 +268,17 @@ It also shows the current firmware version(s).
 
 === wiFred system
 
-The "wiFred system" section consists of two links:
+In the wiFred system section of the configuration page, various settings related to the hardware can be changed.
+
+The first setting concerns wiFreds with an On-Off-On direction switch and determines what the center position will do. The options are:
+
+Ignore:: Don't do anything special when the switch is in the center position - just continue as before, same direction, speed controlled by speed potentiometer. Reversing entirely will trigger an emergency stop.
+
+Zero speed:: Keep the direction but send out zero speed to all locos. This setting is intended for locos with high momentum settings. Reversing quicker than within half a second will trigger an emergency stop, otherwise the locos will resume their old speed setting in the opposite direction.footnote:[This is compatible to the Fredi's "coasting" function]
+
+Set F<n>:: Simulates a function key press and release when switching from forward to center position and again when switching from center position to reverse (and vice versa). This is intended for locos with either a brake function or ESU's Drive Hold on a function key. The speed commands sent to the loco will still be controlled by the speed potentiometer while the direction switch is in the center position. Reversing quicker than within half a second will trigger an emergency stop, otherwise the throttle will continue to send speed commands according to the speed potentiometer position.
+
+The section concludes with two links:
 
 - Reset wiFred to factory defaults - which leads to a confirmation page shown in <<throttleConfResetPage>> to reset all configuration data to factory defaults as on a new wiFred.
 

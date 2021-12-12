@@ -1115,10 +1115,31 @@ Erinnerung: Änderungen werden über die Schaltfläche "Save function configurat
 </div>
 <div class="sect2">
 <h3 id="_wifred_system">wiFred-System</h3>
+<div class="paragraph">
+<p>Im Abschnitt wiFred system können diverse Einstellungen zur Hardware des wiFred angepasst werden.</p>
+</div>
+<div class="paragraph">
+<p>Die erste Einstellung betrifft wiFreds, die einen Fahrtrichtungsumschalter mit Mittelstellung haben, und bestimmt, welche Befehle der wiFred bei Mittelstellung sendet. Die Optionen sind:</p>
+</div>
 <div class="dlist">
 <dl>
-<dt class="hdlist1">Der Abschnitt "wiFred system" besteht aus zwei Links</dt>
+<dt class="hdlist1">Ignore</dt>
 <dd>
+<p>Behält die Fahrtrichtung bei, die der wiFred vor dem Umschalten in Mittelstellung hatte. Die Geschwindigkeit wird weiterhin durch das Potentiometer bestimmt. Eine vollständige Fahrtrichtungsumkehr löst einen Not-Halt aus.</p>
+</dd>
+<dt class="hdlist1">Zero Speed</dt>
+<dd>
+<p>Behält die Fahrtrichtung bei, sendet aber Fahrstufe Null an alle Loks. Diese Einstellung ist für Loks gedacht, die auf hohe Anfahr- und Bremsverzögerung eingestellt sind. Wenn die Fahrtrichtung in weniger als einer halben Sekunde vollständig umgeschaltet wird, löst der wiFred einen Not-Halt aus, sonst beschleunigen die Loks in der neuen Fahrtrichtung wieder auf die eingestellte Geschwindigkeit.<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup></p>
+</dd>
+<dt class="hdlist1">Set F&lt;n&gt;</dt>
+<dd>
+<p>Simuliert die Betätigung der eingestellten Funktionstaste beim Umschalten von Vorwärts auf Mittelstellung und erneut beim Umschalten von Mittelstellung auf Rückwärts (und umgekehrt). Diese Einstellung ist für Loks gedacht, die auf einer Funktionstaste eine Bremsfunktion oder ESUs Drive Hold haben. Die an die Loks gesendete Geschwindigkeit wird weiterhin durch das Potentiometer bestimmt, solange der Fahrtrichtungsumschalter in Mittelstellung liegt. Wenn die Fahrtrichtung in weniger als einer halben Sekunde vollständig umgeschaltet wird, löst der wiFred einen Not-Halt aus, sonst sendet der wiFred weiterhin die am Potentiometer eingestellte Geschwindigkeit an die Loks.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Der Abschnitt schließt mit zwei Links:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
@@ -1128,9 +1149,6 @@ Erinnerung: Änderungen werden über die Schaltfläche "Save function configurat
 <p>Update wiFred firmware - der zu einer Firmware-Update-Seite führt, die in <a href="#throttleConfUpdatePage">Screenshot der wiFred-Firmware-Update-Seite</a>  angezeigt wird, um die wiFred-Firmware des ESP8266 / ESP32-S2 zu aktualisieren. Suchen Sie die .bin-Datei aus dem arduino-Build-Ordner oder aus dem [Github-Repository für wiFred], klicken Sie auf "Durchsuchen", navigieren Sie zur .bin-Datei und starten Sie schließlich das Update mit einem Klick auf "Update Firmware" - was eine Weile dauern wird.</p>
 </li>
 </ul>
-</div>
-</dd>
-</dl>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2522,7 +2540,7 @@ Die Konfiguration eines wiFred, ohne ihn zuerst in den Konfigurationsmodus zu ve
 <h2 id="background">Hintergrund für die wiFred-Entwicklung</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Zum Zeitpunkt des Schreibens dieses Dokuments hat <a href="#JMRI">[JMRI]</a> bereits eine lange Erfolgsbilanz bei der Bereitstellung eines Servers für die Verwendung von Smartphones als drahtlose Modelleisenbahn-Handregler, zusammen mit Apps wie <a href="#wiThrottleApp">[wiThrottle]</a><sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup> und <a href="#EngineDriver">[EngineDriver]</a>. Dieser Server ermöglicht WLAN-Handregler, um Loks jedes Modelleisenbahnlayout zu steuern, zu dem JMRI eine Verbindung aufbauen kann <a href="#jmrihardwaresupport">[Supported Hardware]</a>. Darüber hinaus bieten <a href="#Digitrax">[Digitrax LNWI]</a> und <a href="#MRC">[MRC Prodigy WiFi]</a> spezifische Hardwarelösungen an, um die Verbindung der oben genannten Smartphone-Apps mit ihren DCC-Systemen über ein WLAN-Netzwerk zu ermöglichen.</p>
+<p>Zum Zeitpunkt des Schreibens dieses Dokuments hat <a href="#JMRI">[JMRI]</a> bereits eine lange Erfolgsbilanz bei der Bereitstellung eines Servers für die Verwendung von Smartphones als drahtlose Modelleisenbahn-Handregler, zusammen mit Apps wie <a href="#wiThrottleApp">[wiThrottle]</a><sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup> und <a href="#EngineDriver">[EngineDriver]</a>. Dieser Server ermöglicht WLAN-Handregler, um Loks jedes Modelleisenbahnlayout zu steuern, zu dem JMRI eine Verbindung aufbauen kann <a href="#jmrihardwaresupport">[Supported Hardware]</a>. Darüber hinaus bieten <a href="#Digitrax">[Digitrax LNWI]</a> und <a href="#MRC">[MRC Prodigy WiFi]</a> spezifische Hardwarelösungen an, um die Verbindung der oben genannten Smartphone-Apps mit ihren DCC-Systemen über ein WLAN-Netzwerk zu ermöglichen.</p>
 </div>
 <div class="paragraph">
 <p>Der <a href="#Fremo">[Fremo]</a> ist ein europäischer modularer Modelleisenbahnclub, dessen einzigartige Anforderungen an seine DCC-Handregler zur Schaffung der Handregler <a href="#FRED">[FRED]</a> und <a href="#FREDI">[FREDI]</a> führten - eine Reihe von LocoNet-Handregler, die als Hobbyprojekte mit großen Stückzahlen im Umlauf begannen, später von <a href="#Uhlenbrock">[Uhlenbrock]</a> kommerziell erhältlich waren.</p>
@@ -2645,13 +2663,16 @@ Die Konfiguration eines wiFred, ohne ihn zuerst in den Konfigurationsmodus zu ve
 <a href="#_footnoteref_5">5</a>. Dadurch werden auch momentane Funktionen dauerhaft eingeschaltet.
 </div>
 <div class="footnote" id="_footnotedef_6">
-<a href="#_footnoteref_6">6</a>. wiThrottle ist auch der Name, den JMRI für das Protokoll und den Server verwendet.
+<a href="#_footnoteref_6">6</a>. Diese Einstellung ist kompatibel mit der "Segeln"-Funktion des Fredi
+</div>
+<div class="footnote" id="_footnotedef_7">
+<a href="#_footnoteref_7">7</a>. wiThrottle ist auch der Name, den JMRI für das Protokoll und den Server verwendet.
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.3<br>
-Last updated 2021-11-15 20:49:41 +0100
+Last updated 2021-12-12 20:44:10 +0100
 </div>
 </div>
 </body>

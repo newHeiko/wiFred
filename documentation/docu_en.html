@@ -1119,7 +1119,29 @@ continuosly.</p>
 <div class="sect2">
 <h3 id="_wifred_system">wiFred system</h3>
 <div class="paragraph">
-<p>The "wiFred system" section consists of two links:</p>
+<p>In the wiFred system section of the configuration page, various settings related to the hardware can be changed.</p>
+</div>
+<div class="paragraph">
+<p>The first setting concerns wiFreds with an On-Off-On direction switch and determines what the center position will do. The options are:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Ignore</dt>
+<dd>
+<p>Don&#8217;t do anything when the switch is in the center position - just continue as before, same direction, speed controlled by speed potentiometer. Reversing entirely will trigger an emergency stop.</p>
+</dd>
+<dt class="hdlist1">Zero speed</dt>
+<dd>
+<p>Keep the direction but send out zero speed to all locos. This setting is intended for locos with high momentum settings. Reversing quicker than within half a second will trigger an emergency stop, otherwise the locos will resume their old speed setting in the opposite direction.<sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup></p>
+</dd>
+<dt class="hdlist1">Set F&lt;n&gt;</dt>
+<dd>
+<p>Simulates a function key press and release when switching from forward to center position and again when switching from center position to reverse (and vice versa). This is intended for locos with either a brake function or ESU&#8217;s Drive Hold on a function key. The speed commands sent to the loco will still be controlled by the speed potentiometer while the direction switch is in the center position. Reversing quicker than within half a second will trigger an emergency stop, otherwise the throttle will continue to send speed commands according to the speed potentiometer position.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>The section concludes with two links:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2518,7 +2540,7 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <h2 id="background">Background for wiFred development</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>As of the writing of this document, <a href="#JMRI">[JMRI]</a> has a long track record of offering a server for using smartphones as wireless model railroad throttles, along with apps like <a href="#wiThrottleApp">[wiThrottle]</a><sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup> and <a href="#EngineDriver">[EngineDriver]</a>. This server will enable WiFi throttles to control locos any model railroading layout to which JMRI can build a connection <a href="#jmrihardwaresupport">[Supported Hardware]</a>. In addition, <a href="#Digitrax">[Digitrax LNWI]</a> and <a href="#MRC">[MRC Prodigy WiFi]</a> offer specific hardware solutions to enable the connection of the abovementioned smartphone apps to their DCC systems through a WiFi network.</p>
+<p>As of the writing of this document, <a href="#JMRI">[JMRI]</a> has a long track record of offering a server for using smartphones as wireless model railroad throttles, along with apps like <a href="#wiThrottleApp">[wiThrottle]</a><sup class="footnote">[<a id="_footnoteref_8" class="footnote" href="#_footnotedef_8" title="View footnote.">8</a>]</sup> and <a href="#EngineDriver">[EngineDriver]</a>. This server will enable WiFi throttles to control locos any model railroading layout to which JMRI can build a connection <a href="#jmrihardwaresupport">[Supported Hardware]</a>. In addition, <a href="#Digitrax">[Digitrax LNWI]</a> and <a href="#MRC">[MRC Prodigy WiFi]</a> offer specific hardware solutions to enable the connection of the abovementioned smartphone apps to their DCC systems through a WiFi network.</p>
 </div>
 <div class="paragraph">
 <p>The <a href="#Fremo">[Fremo]</a> is a European modular model railroading club whose unique requirements on its DCC throttles led to the creation of the throttles <a href="#FRED">[FRED]</a> and <a href="#FREDI">[FREDI]</a> - a series of LocoNet-throttles which started their life as hobbyist projects with large numbers in circulation but were also commercially available from <a href="#Uhlenbrock">[Uhlenbrock]</a>.</p>
@@ -2644,13 +2666,16 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <a href="#_footnoteref_6">6</a>. This will also turn momentary functions permanently on.
 </div>
 <div class="footnote" id="_footnotedef_7">
-<a href="#_footnoteref_7">7</a>. wiThrottle is also the name JMRI uses for the protocol and the server.
+<a href="#_footnoteref_7">7</a>. This is compatible to the Fredi&#8217;s "coasting" function
+</div>
+<div class="footnote" id="_footnotedef_8">
+<a href="#_footnoteref_8">8</a>. wiThrottle is also the name JMRI uses for the protocol and the server.
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.3<br>
-Last updated 2021-11-15 20:39:09 +0100
+Last updated 2021-12-12 20:31:43 +0100
 </div>
 </div>
 </body>
