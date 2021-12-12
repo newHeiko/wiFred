@@ -1063,7 +1063,7 @@ Erinnerung: Änderungen werden über die Schaltfläche "Save loco config" gespei
 <dl>
 <dt class="hdlist1">Throttle controlled</dt>
 <dd>
-<p>Wenn die erste Lok durch Bewegen des Auswahlschalters an die "ausgewählte" Position aktiviert wird, wird der aktuelle Status der Funktion abgefragt und gespeichert. Bei der Auswahl der nächsten Lok wird der Funktionsstatus auf den gleichen stellen. Anschließend werden Tastendrücke an die Lok durchgereicht. Ob die Funktion tastend<sup class="footnote" id="_footnote_MOM">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> oder rastend[Rastende Funktionen werden mit jedem Druck auf die Funktionstaste umgeschaltet - wie das erste Drücken von F0 normalerweise das Spitzenlicht einschaltet, das nächste Drücken von F0 schaltet es wieder aus.] sein wird, wird vom Server bestimmt, im Falle von JMRI durch den Roster-Eintrag.</p>
+<p>Wenn die erste Lok durch Bewegen des Auswahlschalters an die "ausgewählte" Position aktiviert wird, wird der aktuelle Status der Funktion abgefragt und gespeichert. Bei der Auswahl der nächsten Lok wird der Funktionsstatus auf den gleichen stellen. Anschließend werden Tastendrücke an die Lok durchgereicht. Ob die Funktion tastend<sup class="footnote" id="_footnote_MOM">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> oder rastend<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup> sein wird, wird vom Server bestimmt, im Falle von JMRI durch den Roster-Eintrag.</p>
 </dd>
 <dt class="hdlist1">Throttle controlled, force momentary</dt>
 <dd>
@@ -1071,7 +1071,7 @@ Erinnerung: Änderungen werden über die Schaltfläche "Save loco config" gespei
 </dd>
 <dt class="hdlist1">Throttle controlled, force locking</dt>
 <dd>
-<p>Wie für <strong>Throttle controlled</strong> beschrieben, wird die Funktion jedoch unabhängig von den Servereinstellungen als rastend festgelegt<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup></p>
+<p>Wie für <strong>Throttle controlled</strong> beschrieben, wird die Funktion jedoch unabhängig von den Servereinstellungen als rastend festgelegt<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup></p>
 </dd>
 <dt class="hdlist1">Throttle controlled if this is the only loco</dt>
 <dd>
@@ -1079,7 +1079,7 @@ Erinnerung: Änderungen werden über die Schaltfläche "Save loco config" gespei
 </dd>
 <dt class="hdlist1">Force function always on</dt>
 <dd>
-<p>Die Funktion wird bei Aktivierung der Lok eingeschaltet und bleibt unabhängig von Tastendrücken eingeschaltet<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup>.</p>
+<p>Die Funktion wird bei Aktivierung der Lok eingeschaltet und bleibt unabhängig von Tastendrücken eingeschaltet<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup>.</p>
 </dd>
 <dt class="hdlist1">Force function always off</dt>
 <dd>
@@ -1129,7 +1129,7 @@ Erinnerung: Änderungen werden über die Schaltfläche "Save function configurat
 </dd>
 <dt class="hdlist1">Zero Speed</dt>
 <dd>
-<p>Behält die Fahrtrichtung bei, sendet aber Fahrstufe Null an alle Loks. Diese Einstellung ist für Loks gedacht, die auf hohe Anfahr- und Bremsverzögerung eingestellt sind. Wenn die Fahrtrichtung in weniger als einer halben Sekunde vollständig umgeschaltet wird, löst der wiFred einen Not-Halt aus, sonst beschleunigen die Loks in der neuen Fahrtrichtung wieder auf die eingestellte Geschwindigkeit.<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup></p>
+<p>Behält die Fahrtrichtung bei, sendet aber Fahrstufe Null an alle Loks. Diese Einstellung ist für Loks gedacht, die auf hohe Anfahr- und Bremsverzögerung eingestellt sind. Wenn die Fahrtrichtung in weniger als einer halben Sekunde vollständig umgeschaltet wird, löst der wiFred einen Not-Halt aus, sonst beschleunigen die Loks in der neuen Fahrtrichtung wieder auf die eingestellte Geschwindigkeit.<sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup></p>
 </dd>
 <dt class="hdlist1">Set F&lt;n&gt;</dt>
 <dd>
@@ -2540,7 +2540,7 @@ Die Konfiguration eines wiFred, ohne ihn zuerst in den Konfigurationsmodus zu ve
 <h2 id="background">Hintergrund für die wiFred-Entwicklung</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Zum Zeitpunkt des Schreibens dieses Dokuments hat <a href="#JMRI">[JMRI]</a> bereits eine lange Erfolgsbilanz bei der Bereitstellung eines Servers für die Verwendung von Smartphones als drahtlose Modelleisenbahn-Handregler, zusammen mit Apps wie <a href="#wiThrottleApp">[wiThrottle]</a><sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup> und <a href="#EngineDriver">[EngineDriver]</a>. Dieser Server ermöglicht WLAN-Handregler, um Loks jedes Modelleisenbahnlayout zu steuern, zu dem JMRI eine Verbindung aufbauen kann <a href="#jmrihardwaresupport">[Supported Hardware]</a>. Darüber hinaus bieten <a href="#Digitrax">[Digitrax LNWI]</a> und <a href="#MRC">[MRC Prodigy WiFi]</a> spezifische Hardwarelösungen an, um die Verbindung der oben genannten Smartphone-Apps mit ihren DCC-Systemen über ein WLAN-Netzwerk zu ermöglichen.</p>
+<p>Zum Zeitpunkt des Schreibens dieses Dokuments hat <a href="#JMRI">[JMRI]</a> bereits eine lange Erfolgsbilanz bei der Bereitstellung eines Servers für die Verwendung von Smartphones als drahtlose Modelleisenbahn-Handregler, zusammen mit Apps wie <a href="#wiThrottleApp">[wiThrottle]</a><sup class="footnote">[<a id="_footnoteref_8" class="footnote" href="#_footnotedef_8" title="View footnote.">8</a>]</sup> und <a href="#EngineDriver">[EngineDriver]</a>. Dieser Server ermöglicht WLAN-Handregler, um Loks jedes Modelleisenbahnlayout zu steuern, zu dem JMRI eine Verbindung aufbauen kann <a href="#jmrihardwaresupport">[Supported Hardware]</a>. Darüber hinaus bieten <a href="#Digitrax">[Digitrax LNWI]</a> und <a href="#MRC">[MRC Prodigy WiFi]</a> spezifische Hardwarelösungen an, um die Verbindung der oben genannten Smartphone-Apps mit ihren DCC-Systemen über ein WLAN-Netzwerk zu ermöglichen.</p>
 </div>
 <div class="paragraph">
 <p>Der <a href="#Fremo">[Fremo]</a> ist ein europäischer modularer Modelleisenbahnclub, dessen einzigartige Anforderungen an seine DCC-Handregler zur Schaffung der Handregler <a href="#FRED">[FRED]</a> und <a href="#FREDI">[FREDI]</a> führten - eine Reihe von LocoNet-Handregler, die als Hobbyprojekte mit großen Stückzahlen im Umlauf begannen, später von <a href="#Uhlenbrock">[Uhlenbrock]</a> kommerziell erhältlich waren.</p>
@@ -2657,22 +2657,25 @@ Die Konfiguration eines wiFred, ohne ihn zuerst in den Konfigurationsmodus zu ve
 <a href="#_footnoteref_3">3</a>. Tastende Funktionen werden nur aktiviert, solange die Funktionstaste gedrückt wird - wie eine Pfeife oder eine Hupe, die genauso lange ertönt, wie die Taste gedrückt wird.
 </div>
 <div class="footnote" id="_footnotedef_4">
-<a href="#_footnoteref_4">4</a>. Die JMRI-Einstellung "F2 always momentary" überschreibt dies.
+<a href="#_footnoteref_4">4</a>. Rastende Funktionen werden mit jedem Druck auf die Funktionstaste umgeschaltet - wie das erste Drücken von F0 normalerweise das Spitzenlicht einschaltet, das nächste Drücken von F0 schaltet es wieder aus.
 </div>
 <div class="footnote" id="_footnotedef_5">
-<a href="#_footnoteref_5">5</a>. Dadurch werden auch momentane Funktionen dauerhaft eingeschaltet.
+<a href="#_footnoteref_5">5</a>. Die JMRI-Einstellung "F2 always momentary" überschreibt dies.
 </div>
 <div class="footnote" id="_footnotedef_6">
-<a href="#_footnoteref_6">6</a>. Diese Einstellung ist kompatibel mit der "Segeln"-Funktion des Fredi
+<a href="#_footnoteref_6">6</a>. Dadurch werden auch momentane Funktionen dauerhaft eingeschaltet.
 </div>
 <div class="footnote" id="_footnotedef_7">
-<a href="#_footnoteref_7">7</a>. wiThrottle ist auch der Name, den JMRI für das Protokoll und den Server verwendet.
+<a href="#_footnoteref_7">7</a>. Diese Einstellung ist kompatibel mit der "Segeln"-Funktion des Fredi
+</div>
+<div class="footnote" id="_footnotedef_8">
+<a href="#_footnoteref_8">8</a>. wiThrottle ist auch der Name, den JMRI für das Protokoll und den Server verwendet.
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.3<br>
-Last updated 2021-12-12 20:44:10 +0100
+Last updated 2021-12-12 20:52:42 +0100
 </div>
 </div>
 </body>
