@@ -26,6 +26,7 @@
 #include "config.h"
 #include "wifi.h"
 #include "locoHandling.h"
+#include "throttleHandling.h"
 
 char * throttleName;
 
