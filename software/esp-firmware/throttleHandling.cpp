@@ -202,101 +202,101 @@ void handleThrottle(void)
               {
                 reverseOut = false;
 
-		if(centerPosition)
-		{
-		  if(millis() - enterCenterPositionTime < CENTER_FUNCTION_ESTOP_TIMEOUT)
-		  {
-		    setESTOP();
-		  }
+		            if(centerPosition)
+		            {
+		              if(millis() - enterCenterPositionTime < CENTER_FUNCTION_ESTOP_TIMEOUT)
+		              {
+		                setESTOP();
+		              }
 
-		  if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
-		  {
-		    setFunction(centerFunction);
-		    clearFunction(centerFunction);
-		  }
+		              if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
+		              {
+		                setFunction(centerFunction);
+		                clearFunction(centerFunction);
+		              }
 
-		  centerPosition = false;
-		}
+		              centerPosition = false;
+		            }
 
-		if(speedIn < 1)
-		{
-		  directionChangeBlocked = false;
-		}
+		            if(speedIn < 1)
+		            {
+		              directionChangeBlocked = false;
+		            }
 
-		setSpeed((uint8_t) speedIn);
+		            setSpeed((uint8_t) speedIn);
               }
               else if(direction == 'R')
               {
                 reverseOut = true;
 
-		if(centerPosition)
-		{
-		  if(millis() - enterCenterPositionTime < CENTER_FUNCTION_ESTOP_TIMEOUT)
-		  {
-		    setESTOP();
-	          }
-
-		  if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
-		  {
-		    setFunction(centerFunction);
-		    clearFunction(centerFunction);
-		  }
-
-		  centerPosition = false;
-		}
-
-		if(speedIn < 1)
-		{
-		  directionChangeBlocked = false;
-		}
-
-		setSpeed((uint8_t) speedIn);
+            		if(centerPosition)
+            		{
+            		  if(millis() - enterCenterPositionTime < CENTER_FUNCTION_ESTOP_TIMEOUT)
+            		  {
+            		    setESTOP();
+            	    }
+            
+            		  if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
+            		  {
+            		    setFunction(centerFunction);
+            		    clearFunction(centerFunction);
+            		  }
+            
+            		  centerPosition = false;
+            		}
+            
+            		if(speedIn < 1)
+            		{
+            		  directionChangeBlocked = false;
+            		}
+            
+            		setSpeed((uint8_t) speedIn);
               }
-	      else if(direction == 'E')
-	      {
-		if(!centerPosition)
-		{
-		  enterCenterPositionTime = millis();
+	            else if(direction == 'E')
+	            {
+		            if(!centerPosition)
+		            {
+		              enterCenterPositionTime = millis();
 
-		  switch(centerFunction)
-		  {
-		    case CENTER_FUNCTION_ZEROSPEED:
-		      directionChangeBlocked = true;
-		      break;
+		              switch(centerFunction)
+		              {
+		                case CENTER_FUNCTION_ZEROSPEED:
+		                  directionChangeBlocked = true;
+		                  break;
 
-		    case CENTER_FUNCTION_IGNORE:
-		      break;
+		                case CENTER_FUNCTION_IGNORE:
+		                  break;
 
-		    default:
-		      if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
-		      {
-			setFunction(centerFunction);
-			clearFunction(centerFunction);
-		      }
-		      break;
-		  }
-		  directionChangeUnlock = true;
-		  centerPosition = true;
-		}
+		                default:
+		                  if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
+		                  {
+			                  setFunction(centerFunction);
+			                  clearFunction(centerFunction);
+		                  }
+		                  break;
+		              }
+		              directionChangeUnlock = true;
+		              centerPosition = true;
+		            }
 
-		if((millis() - enterCenterPositionTime) > CENTER_FUNCTION_ESTOP_TIMEOUT)
-		{
-		  directionChangeBlocked = false;
-		}
+		            if((millis() - enterCenterPositionTime) > CENTER_FUNCTION_ESTOP_TIMEOUT)
+		            {
+		              directionChangeBlocked = false;
+		            }
 
-		if(centerFunction == CENTER_FUNCTION_ZEROSPEED)
-		{
-		  setSpeed(0);
-		}
-		else
-		{		  
-		  setSpeed((uint8_t) speedIn);
-		  if(speedIn < 1)
-		  {
-		      directionChangeBlocked = false;
-		  }
-		}
-	      }     	
+		            if(centerFunction == CENTER_FUNCTION_ZEROSPEED)
+		            {
+		              setSpeed(0);
+		            }
+		            else
+		            {		  
+		              setSpeed((uint8_t) speedIn);
+		              if(speedIn < 1)
+		              {
+		                directionChangeBlocked = false;
+		              }
+		            }
+	            }     	
               else
               {
                 setESTOP();
