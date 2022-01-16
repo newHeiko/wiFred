@@ -70,11 +70,11 @@ void handleWiFi(void)
       MDNS.update();
       break;
 
+    case STATE_STARTUP:
     case STATE_CONNECTING:
-      wifiMulti.run(SINGLE_NETWORK_TIMEOUT_MS);
+      wifiMulti.run();
       break;
 
-    case STATE_STARTUP:
     case STATE_LOWPOWER_WAITING:
     case STATE_LOWPOWER:
       break;
