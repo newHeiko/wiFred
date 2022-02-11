@@ -1,6 +1,6 @@
 /**
  * This file is part of the wiFred wireless model railroading throttle project
- * Copyright (C) 2018-2021 Heiko Rosemann
+ * Copyright (C) 2018-2022 Heiko Rosemann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -593,6 +593,94 @@ void resetESP()
   }
 }
 
+/* db211109 begin
+   return wiFred Config as XML-Data for using with Application as api */
+void getConfigXML()
+{
+   /* get macadress */
+   uint8_t mac[6];
+   String macAdress = "";
+   
+  
+     WiFi.macAddress(mac);
+     macAdress = String(mac[0], 16) + String(mac[1], 16) + String(mac[2], 16) + String(mac[3], 16) + String(mac[4], 16) + String(mac[5], 16);
+     
+//     char * hostName = strdup(throttleName);
+
+   /* collect response */      
+   String resp = String("<?XML version=\"1.0\" encoding=\"UTF?8\"?>\r\n")
+               
+          + "<wiFred>\r\n"
+                  + "<structurVersion value=\"1\"/>\r\n"
+          
+          + "<throttleName value=\"" + throttleName + "\"/>\r\n"
+        //  + "<ownWifiName value=\"" + "? todo"+  "\"/>\r\n"  // name of the WiFi when device create one
+        //  + "<computerName value=\"" + hostName + "\"/>\r\n" // name of the device shown in the network
+          + "<localIP value=\"" + WiFi.localIP().toString() + "\"/>\r\n"
+                  + "<firmwareRevision value=\"" + REV + "\"/>\r\n"
+
+                  + "<batteryVoltage value=\""+ batteryVoltage+ "\"/>\r\n" 
+          + "<batteryLow value=\"" + (lowBattery ? "1" : "0" )+ "\"/>\r\n"
+
+          +"<WiFi>\r\n"
+            + "  <Connected value=\"" + (WiFi.isConnected() ? "1" : "0" )+ "\"/>\r\n"
+                    + "  <SSID value=\"" + (WiFi.isConnected() ? WiFi.SSID() : " " )+ "\"/>\r\n"
+                    + "  <signalStrength value=\"" + (WiFi.isConnected() ?  (String) WiFi.RSSI() : " " )+ "\"/>\r\n"
+                    + "  <macAdress value=\"" + macAdress + "\"/>\r\n"
+                    
+              +"</WiFi>\r\n";
+
+          resp +="<LOCOS>\r\n";
+
+          for(uint8_t i=0; i<4; i++)
+          {
+           resp      += " <LOCO ID=\"" + String(i+1) + "\">\r\n" 
+              + "  <DCCadress value=\""+ locos[i].address + "\"/>\r\n"
+              + "  <Direction value=\""+ locos[i].direction + "\" />\r\n"
+              + "  <LongAdress value=\""+ locos[i].longAddress + "\" />\r\n"
+              + "  <FUNCTIONS>\r\n" ; 
+
+              for(uint8_t j=0; j<= MAX_FUNCTION; j++)
+              {
+                resp +=  "     <Function ID=\""+String(j)+"\" value=\""+ locos[i].functions[j] +"\" />\r\n" ;
+              }
+
+              resp +=  "  </FUNCTIONS>\r\n </LOCO>\r\n"; 
+           }
+           resp +="</LOCOS>\r\n";
+
+           resp +="<NETWORKS>\r\n";
+           for(std::vector<wifiAPEntry>::iterator it = apList.begin() ; it != apList.end(); ++it)
+           {
+                resp += String(" <NETWORK>\r\n  <SSID value=\"") + it->ssid + "\"/>\r\n";
+                resp += String("  <Key value=\"") + it->key + "\"/>\r\n";
+                if(!it->disabled)
+                {
+                  resp += "  <Enabled value=\"1\" />\r\n";     
+                }
+                else
+                {
+                  resp += "  <Enabled value=\"0\" />\r\n"; 
+                }
+                resp += " </NETWORK>\r\n";
+                
+           }
+           resp +="</NETWORKS>\r\n";
+
+           resp += "<LOCOSERVER>\r\n";
+            resp += "   <ServerName value=\""  + String(locoServer.name) + "\" />\r\n";
+            resp += "   <Port value=\"" + String(locoServer.port) + "\" />\r\n";
+            resp += "   <Automatic value=\"" + String(locoServer.automatic) +"\" />\r\n";
+           resp +="</LOCOSERVER>\r\n";
+
+           resp += "<centerSwitch value=\"" + String(centerFunction) + "\" />\r\n";
+           
+    resp      +=   "</wiFred>\r\n";
+        
+   server.send(200, "text/html", resp);      
+}
+/* end db211109*/
+
 void initWiFi(void)
 {
   server.on("/", writeMainPage);
@@ -600,6 +688,7 @@ void initWiFi(void)
   server.on("/scanWifi.html", scanWifi);
   server.on("/restart.html", restartESP);
   server.on("/resetConfig.html", resetESP);
+  server.on("/getConfigXML.html", getConfigXML); // db211109 return config as xml
   server.onNotFound(writeMainPage);
 
   updater.setup(&server);
