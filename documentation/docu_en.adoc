@@ -15,7 +15,7 @@ image::2021-01-23-preview0001.jpg[wiFred with laser engraved housing]
 
 This document describes the usage and configuration of the wiFred - a very simple wireless throttle for model railroads to connect to wiThrottle servers like JMRI. It also contains schematics and BOMs for the device - for both LiPo battery versions in active development - as well as programming instructions and assembly tips, and also an overview of options for the server side of things.
 
-The most recent version of this document can be found at https://newheiko.github.io/wiFred, https://github.com/newHeiko/wiFred/raw/master/documentation/docu.pdf and https://github.com/newHeiko/wiFred/blob/master/documentation/docu.adoc.
+The most recent version of this document can be found at https://newheiko.github.io/wiFred, https://github.com/newHeiko/wiFred/raw/master/documentation/docu_en.pdf and https://github.com/newHeiko/wiFred/blob/master/documentation/docu_en.adoc.
 
 If you want to know more about the development history of the wiFred, skip ahead to <<background>> - otherwise read on with <<throttle>>.
 
