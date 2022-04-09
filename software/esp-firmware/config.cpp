@@ -60,6 +60,8 @@ void initConfig(void)
   potiMin = 1100;
   potiMax = 1100;
   battFactor = 1.0f;
+
+  centerFunction = CENTER_FUNCTION_IGNORE;
   
   if(!SPIFFS.begin())
   {
