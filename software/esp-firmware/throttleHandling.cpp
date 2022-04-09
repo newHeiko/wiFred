@@ -364,7 +364,6 @@ void handleThrottle(void)
 
     if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
     {
-      setFunction(centerFunction);
       clearFunction(centerFunction);
     }
 
@@ -377,7 +376,6 @@ void handleThrottle(void)
 
     if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
     {
-      setFunction(centerFunction);
       clearFunction(centerFunction);
     }
 
@@ -403,7 +401,6 @@ void handleThrottle(void)
           if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
           {
             setFunction(centerFunction);
-            clearFunction(centerFunction);
           }
         break;
       }
