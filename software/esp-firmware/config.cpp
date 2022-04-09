@@ -55,6 +55,8 @@ void initConfig(void)
 	      locos[i].functions[j] = THROTTLE;
       }
   }
+
+  centerFunction = CENTER_FUNCTION_IGNORE;
   
   if(!SPIFFS.begin())
   {
