@@ -688,7 +688,7 @@ void initWiFi(void)
   server.on("/scanWifi.html", scanWifi);
   server.on("/restart.html", restartESP);
   server.on("/resetConfig.html", resetESP);
-  server.on("/getConfigXML.html", getConfigXML); // db211109 return config as xml
+  server.on("/api/getConfigXML", getConfigXML); // db211109 return config as xml
   server.onNotFound(writeMainPage);
 
   updater.setup(&server);
