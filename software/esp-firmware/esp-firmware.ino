@@ -31,11 +31,14 @@
 #include "lowbat.h"
 #include "stateMachine.h"
 #include "throttleHandling.h"
+#include "USB.h"
 
 #define DEBUG
 
 state wiFredState = STATE_STARTUP;
 uint32_t stateTimeout = UINT32_MAX;
+
+USBCDC USBSerial;
 
 void setup() {
 // put your setup code here, to run once:
@@ -44,6 +47,11 @@ void setup() {
 
   Serial.begin(115200);
   Serial.setTimeout(10);
+
+  USBSerial.begin(115200);
+  USB.begin();
+  USBSerial.setTimeout(10);
+  
   initConfig();
 
   initThrottle();
@@ -81,8 +89,9 @@ void loop() {
 
   if(nextOutput < millis())
   {
-    nextOutput = millis() + 5000;
+    nextOutput = millis() + 2000;
     log_d("Heap: %d", ESP.getFreeHeap());
+    USBSerial.println(String("wiFred detected: ") + throttleName);
   }
 
   switch(wiFredState)
@@ -168,7 +177,7 @@ void loop() {
       {
         switchState(STATE_STARTUP);
       }
-      locoHandler();
+      locoHandler();      
       break;
     
     case STATE_CONFIG_STATION_WAITING:
