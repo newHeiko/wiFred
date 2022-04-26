@@ -153,7 +153,6 @@ void locoHandler(void)
       }
     }
     switchState(STATE_CONNECTED, 60 * 1000);
-    Serial.println("OF");
     return;
   }
 
@@ -323,7 +322,6 @@ void locoDisconnect(void)
     }
   }
   client.print("Q\n");
-  Serial.println("OF");
 }
 
 /**
@@ -345,14 +343,12 @@ void locoRegister(void)
         String id = String(mac[0], 16) + String(mac[1], 16) + String(mac[2], 16) + String(mac[3], 16) + String(mac[4], 16) + String(mac[5], 16);
         client.print("HU" + id + "\n");
         switchState(STATE_LOCO_WAITFORTIMEOUT, 1000);
-        Serial.println("ON");
       }
     }
   }
   else
   {
     switchState(STATE_CONNECTED, 60 * 1000);
-    Serial.println("OF");
   }
 }
 
