@@ -223,7 +223,7 @@ Long address?:: Kontrollkästchen, um das Verhalten des oben beschriebenen DCC-A
 
 Direction:: Dies hat drei Möglichkeiten:
 
-* Normal: Lok fährt vorwärts, wenn wiFred auf vorwärts eingestellt ist und umgekehrt
+* Forward: Lok fährt vorwärts, wenn wiFred auf vorwärts eingestellt ist und umgekehrt
 
 * Reverse: Lok fährt rückwärts, wenn wiFred auf vorwärts eingestellt ist und umgekehrt
 

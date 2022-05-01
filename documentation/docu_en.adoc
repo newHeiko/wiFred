@@ -222,7 +222,7 @@ Long address?:: Checkbox to change the behaviour of the DCC address input field 
 
 Direction:: This has three options:
 
-* Normal: Loco will travel forwards if wiFred is set to forwards and vice versa
+* Forward: Loco will travel forwards if wiFred is set to forwards and vice versa
 
 * Reverse: Loco will travel backwards if wiFred is set to forwards and vice versa
 
