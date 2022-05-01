@@ -49,7 +49,7 @@ void initConfig(void)
   for(int i=0; i<4; i++)
   {
     locos[i].address = -1;
-    locos[i].direction = DIR_DONTCHANGE;
+    locos[i].direction = DIR_NORMAL;
     locos[i].longAddress = true;
     for(int j=0; j<MAX_FUNCTION + 1; j++)
       {
