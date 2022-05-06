@@ -407,6 +407,12 @@ NOTE: Die Konfiguration eines wiFred, ohne ihn zuerst in den Konfigurationsmodus
 .Benutzeroberfläche von BonjourBrowser, die zwei im Netzwerk aktive wiFreds anzeigt.
 image::bonjourBrowser.png[alt="BonjourBrowser mit zwei wiFreds",width=50%,scaledwidth=50%]
 
+=== Schnittstelle zu Konfigurationssoftware
+
+Zur Verwendung mit einer Konfigurationssoftware sendet der wiFred unmittelbar nach der Verbindung ins WLAN einen UDP-Broadcast und stellt unter /api/getConfigXML die Konfiguration zur Verfügung.
+
+Mehr Information dazu bei mailto:wiFred@bornwnd.de[Detlef Born].
+
 == Hardware-Beschreibung
 
 === Ab Revision 0.6

@@ -409,6 +409,12 @@ NOTE: Configuring a wiFred without putting it into configuration mode first is l
 .User interface of BonjourBrowser, showing two wiFreds active on the network.
 image::bonjourBrowser.png[alt="BonjourBrowser with two wiFreds",width=50%,scaledwidth=50%]
 
+=== Support for configuration software
+
+To support a specialized configuration software, the wiFred will send a UDP broadcast upon successfully connecting to a WiFi network and present its configuration at /api/getConfigXML.
+
+For more information, contact mailto:wiFred@bornwnd.de[Detlef Born].
+
 == Hardware description
 
 === From revision 0.6 onwards

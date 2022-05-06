@@ -482,6 +482,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#serverJMRI">JMRI-Serveranforderungen</a></li>
 <li><a href="#serverLayoutConn">Layout-Verbindungsoptionen</a></li>
 <li><a href="#configurationComputer">Computer oder Smartphone zur Konfiguration von wiFred</a></li>
+<li><a href="#_schnittstelle_zu_konfigurationssoftware">Schnittstelle zu Konfigurationssoftware</a></li>
 </ul>
 </li>
 <li><a href="#_hardware_beschreibung">Hardware-Beschreibung</a>
@@ -1399,6 +1400,15 @@ Die Konfiguration eines wiFred, ohne ihn zuerst in den Konfigurationsmodus zu ve
 <img src="images/bonjourBrowser.png" alt="BonjourBrowser mit zwei wiFreds" width="50%">
 </div>
 <div class="title">Figure 10. Benutzeroberfläche von BonjourBrowser, die zwei im Netzwerk aktive wiFreds anzeigt.</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_schnittstelle_zu_konfigurationssoftware">Schnittstelle zu Konfigurationssoftware</h3>
+<div class="paragraph">
+<p>Zur Verwendung mit einer Konfigurationssoftware sendet der wiFred unmittelbar nach der Verbindung ins WLAN einen UDP-Broadcast und stellt unter /api/getConfigXML die Konfiguration zur Verfügung.</p>
+</div>
+<div class="paragraph">
+<p>Mehr Information dazu bei <a href="mailto:wiFred@bornwnd.de">Detlef Born</a>.</p>
 </div>
 </div>
 </div>
@@ -2678,7 +2688,7 @@ Die Konfiguration eines wiFred, ohne ihn zuerst in den Konfigurationsmodus zu ve
 <div id="footer">
 <div id="footer-text">
 Version 0.3<br>
-Last updated 2022-05-01 19:57:14 +0200
+Last updated 2022-05-06 22:09:35 +0200
 </div>
 </div>
 </body>
