@@ -154,6 +154,8 @@ IMPORTANT: Nach Eingabe jeglicher Art von Text (Namen, Zahlen...) in Textfelder 
 
 === Wechseln in den Konfigurationsmodus
 
+NOTE:  Der wiFred sollte zur Konfiguration in den Konfigurationsmodus versetzt werden. Wenn die IP-Adresse oder der Hostname des wiFred bekannt ist, ist auch ein Zugriff auf die Konfigurationsseiten möglich, indem man zu einem beliebigen Zeitpunkt (während der wiFred mit dem WLAN verbunden ist) mit einem Webbrowser darauf zugreift. Dies ist größtenteils ungetestet und kann zu zwischenzeitlich inkonsistenter Konfiguration führen. Mindestens die Deaktivierung und anschließende Re-Aktivierung der Lok mit dem Schiebeschalter dürfte immer nötig sein, um Konfigurationsänderungen zu übernehmen.
+
 Es gibt vier Möglichkeiten, in den Konfigurationsmodus zu wechseln:
 
 . Schalten Sie die Drehregler ein / wählen Sie eine Lok, wenn das konfigurierte WLAN-Netzwerk nicht in Reichweite ist (oder wenn keine gültige Konfiguration vorhanden ist - der erste Start einer neuen Drehregler fällt in diese Kategorie)
@@ -169,8 +171,6 @@ In den ersten beiden Fällen erstellt die Drosselung ein drahtloses Netzwerk mit
 NOTE: Dies wurde mit Mozilla Firefox und Opera unter Linux mit Avahi (einer Zeroconf-Implementierung), FOSS Browser auf Android 9/10 und Safari auf iOS 13/14 getestet.
 
 Im dritten und vierten Fall kündigt der Handregler seine Anwesenheit nur unter dem Namen config.local unter Verwendung des Bonjour/Zeroconf-Protokolls. Jedes Gerät im selben WLAN-Netzwerk mit Bonjour/Zeroconf kann über einen Webbrowser auf die Konfiguration unter http://config.local zugreifen. Unter <<configurationComputer>> finden Sie eine Erläuterung, was erforderlich ist, damit Ihr Gerät Bonjour/Zeroconf-Ankündigungen liest.
-
-NOTE: Ist die IP-Adresse oder der Name der Drehregler im Normalbetrieb bekannt, können die Konfigurationsseiten auch jederzeit während der Verbindung durch Verweisen eines Webbrowsers aufgerufen werden. Dies ist meist ungetestet und daher nicht zu empfehlen, während die Drehregler Loks läuft.
 
 NOTE:  Dies wurde mit Mozilla Firefox und Opera unter Linux mit Avahi (einer Zeroconf-Implementierung) und BonjourBrowser auf Android 10 getestet.
 
@@ -401,7 +401,7 @@ Getestet mit iOS 13 und iOS 14, Android 9 und 10 sowie Firefox unter Linux wird 
 
 Für die reguläre Konfiguration ist Bonjour/Zeroconf/mDNS-Unterstützung erforderlich, sobald der wiFred erfolgreich eine Verbindung zu einem WLAN-Netzwerk hergestellt und in den Konfigurationsmodus versetzt wurde, um das Gerät zu finden, das sich selbst als http://config.local ankündigt. Dieser Dienst wird unter Linux von einem Softwarepaket namens avahi bereitgestellt, sollte auf iOS und MacOS sofort funktionieren und kann unter Windows mit iTunes installiert werden. Für mobile Betriebssysteme gibt es Apps namens Discovery für iOS und BonjourBrowser für Android, die nicht nur http://config.local übersetzen, um auf die Konfigurationswebsite des im Netzwerk zu verweisen, der sich im Konfigurationsmodus befindet, sondern auch alle wiFreds durchsuchen, die derzeit ihre Anwesenheit ankündigen. <<bonjourBrowser>> zeigt einen Screenshot der Android-Version. Wenn Sie auf ein Gerät klicken, wird ein Browser zu seiner Konfigurationswebsite geöffnet.
 
-NOTE: Die Konfiguration eines wiFred, ohne ihn zuerst in den Konfigurationsmodus zu versetzen, ist weitgehend ungetestet und kann zu unerwünschten Ergebnissen führen, insbesondere wenn Sie gleichzeitig einen Zug damit betreiben.
+NOTE:  Der wiFred sollte zur Konfiguration in den Konfigurationsmodus versetzt werden. Wenn die IP-Adresse oder der Hostname des wiFred bekannt ist, ist auch ein Zugriff auf die Konfigurationsseiten möglich, indem man zu einem beliebigen Zeitpunkt (während der wiFred mit dem WLAN verbunden ist) mit einem Webbrowser darauf zugreift. Dies ist größtenteils ungetestet und kann zu zwischenzeitlich inkonsistenter Konfiguration führen. Mindestens die Deaktivierung und anschließende Re-Aktivierung der Lok mit dem Schiebeschalter dürfte immer nötig sein, um Konfigurationsänderungen zu übernehmen.
 
 [#bonjourBrowser]
 .Benutzeroberfläche von BonjourBrowser, die zwei im Netzwerk aktive wiFreds anzeigt.

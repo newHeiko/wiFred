@@ -848,6 +848,18 @@ Nach Eingabe jeglicher Art von Text (Namen, Zahlen&#8230;&#8203;) in Textfelder 
 </div>
 <div class="sect2">
 <h3 id="_wechseln_in_den_konfigurationsmodus">Wechseln in den Konfigurationsmodus</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="images/icons/note.png" alt="Note">
+</td>
+<td class="content">
+Der wiFred sollte zur Konfiguration in den Konfigurationsmodus versetzt werden. Wenn die IP-Adresse oder der Hostname des wiFred bekannt ist, ist auch ein Zugriff auf die Konfigurationsseiten möglich, indem man zu einem beliebigen Zeitpunkt (während der wiFred mit dem WLAN verbunden ist) mit einem Webbrowser darauf zugreift. Dies ist größtenteils ungetestet und kann zu zwischenzeitlich inkonsistenter Konfiguration führen. Mindestens die Deaktivierung und anschließende Re-Aktivierung der Lok mit dem Schiebeschalter dürfte immer nötig sein, um Konfigurationsänderungen zu übernehmen.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>Es gibt vier Möglichkeiten, in den Konfigurationsmodus zu wechseln:</p>
 </div>
@@ -884,18 +896,6 @@ Dies wurde mit Mozilla Firefox und Opera unter Linux mit Avahi (einer Zeroconf-I
 </div>
 <div class="paragraph">
 <p>Im dritten und vierten Fall kündigt der Handregler seine Anwesenheit nur unter dem Namen config.local unter Verwendung des Bonjour/Zeroconf-Protokolls. Jedes Gerät im selben WLAN-Netzwerk mit Bonjour/Zeroconf kann über einen Webbrowser auf die Konfiguration unter <a href="http://config.local" class="bare">http://config.local</a> zugreifen. Unter <a href="#configurationComputer">Computer oder Smartphone zur Konfiguration von wiFred</a> finden Sie eine Erläuterung, was erforderlich ist, damit Ihr Gerät Bonjour/Zeroconf-Ankündigungen liest.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<img src="images/icons/note.png" alt="Note">
-</td>
-<td class="content">
-Ist die IP-Adresse oder der Name der Drehregler im Normalbetrieb bekannt, können die Konfigurationsseiten auch jederzeit während der Verbindung durch Verweisen eines Webbrowsers aufgerufen werden. Dies ist meist ungetestet und daher nicht zu empfehlen, während die Drehregler Loks läuft.
-</td>
-</tr>
-</table>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1390,7 +1390,7 @@ iOS? Android?</p>
 <img src="images/icons/note.png" alt="Note">
 </td>
 <td class="content">
-Die Konfiguration eines wiFred, ohne ihn zuerst in den Konfigurationsmodus zu versetzen, ist weitgehend ungetestet und kann zu unerwünschten Ergebnissen führen, insbesondere wenn Sie gleichzeitig einen Zug damit betreiben.
+Der wiFred sollte zur Konfiguration in den Konfigurationsmodus versetzt werden. Wenn die IP-Adresse oder der Hostname des wiFred bekannt ist, ist auch ein Zugriff auf die Konfigurationsseiten möglich, indem man zu einem beliebigen Zeitpunkt (während der wiFred mit dem WLAN verbunden ist) mit einem Webbrowser darauf zugreift. Dies ist größtenteils ungetestet und kann zu zwischenzeitlich inkonsistenter Konfiguration führen. Mindestens die Deaktivierung und anschließende Re-Aktivierung der Lok mit dem Schiebeschalter dürfte immer nötig sein, um Konfigurationsänderungen zu übernehmen.
 </td>
 </tr>
 </table>
@@ -2688,7 +2688,7 @@ Die Konfiguration eines wiFred, ohne ihn zuerst in den Konfigurationsmodus zu ve
 <div id="footer">
 <div id="footer-text">
 Version 0.3<br>
-Last updated 2022-05-06 22:09:35 +0200
+Last updated 2022-05-06 22:32:52 +0200
 </div>
 </div>
 </body>

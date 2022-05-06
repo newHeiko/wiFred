@@ -848,6 +848,18 @@ After entering any kind of text (names, numbers&#8230;&#8203;) into text fields,
 </div>
 <div class="sect2">
 <h3 id="_entering_configuration_mode">Entering configuration mode</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="images/icons/note.png" alt="Note">
+</td>
+<td class="content">
+The wiFred is designed to be configured in configuration mode. If the IP address or the name of the throttle during normal operation is known, the configuration pages can also be accessed by pointing a web browser to it at any time while it is connected. This is mostly untested and therefore not recommended while the throttle is running locos, as it may lead to a temporarily inconsistent configuration. At the very least, deactivating and re-activating a loco with the respective loco selection switch will be required for changed settings to take effect.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>There are four ways to enter configuration mode:</p>
 </div>
@@ -884,18 +896,6 @@ This has been tested with Mozilla Firefox and Opera on Linux with Avahi (a Zeroc
 </div>
 <div class="paragraph">
 <p>In the third and fourth case, the throttle will only announce its presence under the name <strong>config.local</strong> using the Bonjour/Zeroconf-protocol. Any device on the same WiFi network with Bonjour/Zeroconf can use a web browser to access the configuration at <strong><a href="http://config.local" class="bare">http://config.local</a></strong>. See <a href="#configurationComputer">Computer or smartphone to configure wiFred</a> for an explanation what is required to have your device read Bonjour/Zeroconf announcements.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<img src="images/icons/note.png" alt="Note">
-</td>
-<td class="content">
-If the IP address or the name of the throttle during normal operation is known, the configuration pages can also be accessed by pointing a web browser to it at any time while it is connected. This is mostly untested and therefore not recommended while the throttle is running locos.
-</td>
-</tr>
-</table>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1393,7 +1393,7 @@ iOS? Android?</p>
 <img src="images/icons/note.png" alt="Note">
 </td>
 <td class="content">
-Configuring a wiFred without putting it into configuration mode first is largely untested and may produce undesired results, particularly if you are running a train with it at the same time.
+The wiFred is designed to be configured in configuration mode. If the IP address or the name of the throttle during normal operation is known, the configuration pages can also be accessed by pointing a web browser to it at any time while it is connected. This is mostly untested and therefore not recommended while the throttle is running locos, as it may lead to a temporarily inconsistent configuration. At the very least, deactivating and re-activating a loco with the respective loco selection switch will be required for changed settings to take effect.
 </td>
 </tr>
 </table>
@@ -2688,7 +2688,7 @@ Configuring a wiFred without putting it into configuration mode first is largely
 <div id="footer">
 <div id="footer-text">
 Version 0.3<br>
-Last updated 2022-05-06 22:10:56 +0200
+Last updated 2022-05-06 22:33:23 +0200
 </div>
 </div>
 </body>
