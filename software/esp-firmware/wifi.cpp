@@ -26,6 +26,7 @@
 #include <ESP8266HTTPUpdateServer.h>
 #include <ESP8266mDNS.h>
 #include <DNSServer.h>
+#include <ESPAsyncUDP.h>
 
 #include "wifi.h"
 #include "locoHandling.h"
@@ -660,6 +661,12 @@ void getConfigXML()
    server.send(200, "text/html", resp);      
 }
 /* end db211109*/
+
+void broadcastUDP(void)
+{
+  AsyncUDP udp;
+  udp.broadcastTo("wiFred",UDP_BROADCAST_PORT);
+}
 
 void initWiFi(void)
 {

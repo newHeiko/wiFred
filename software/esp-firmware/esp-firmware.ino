@@ -23,6 +23,10 @@
  * 4MB (FS:1MB, OTA:~1019kB), DOUT (compatible), 40MHz, no dtr (aka ck), 
  * Disabled, None, v2 Higher Bandwidth, Flash, Legacy, Only Sketch, 
  * nonos-sdk 2.2.1+119 (191122), Basic SSL, /dev/ttyUSB0
+ * 
+ * Additionally, it requires the ESPAsyncUDP library from 
+ * https://github.com/me-no-dev/ESPAsyncUDP to be installed in the Arduino
+ * IDE, i.e. clone the github repo above to your sketchbook/libraries folder.
  */
 
 #include "wifi.h"
@@ -31,8 +35,6 @@
 #include "lowbat.h"
 #include "stateMachine.h"
 #include "throttleHandling.h"
-
-// #define DEBUG
 
 state wiFredState = STATE_STARTUP;
 uint32_t stateTimeout = UINT32_MAX;
@@ -93,6 +95,7 @@ void loop() {
       if(WiFi.status() == WL_CONNECTED)
       {
         initMDNS();
+        broadcastUDP();
         switchState(STATE_CONNECTED, 60 * 1000);
       }
       else if(millis() > stateTimeout)
