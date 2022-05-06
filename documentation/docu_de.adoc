@@ -213,9 +213,9 @@ Im Anschluss an die WLAN-Konfiguration ermöglicht der Abschnitt "Loco server co
 
 Nach der "Lokserverkonfiguration" sind den vier verschiedenen Lokomotiven vier identische Abschnitte zugeordnet, die mit diesem Handregler gesteuert werden können. Jeder Abschnitt besteht aus den folgenden Einstellungen:
 
-DCC address:: Kann eine kurze Adresse zwischen 1 und 127 (auch für besteht verwendet) oder eine lange Adresse zwischen 0 und 10239 sein.
+DCC address:: Kann eine kurze Adresse zwischen 1 und 127 (auch für Mehrfachtraktionen verwendet) oder eine lange Adresse zwischen 0 und 10239 sein.
 
-NOTE: Kurze Adressen zwischen 1 und 127 sind nicht dasselbe wie lange Adressen zwischen 1 und 127, und viele DCC-Systeme unterstützen nicht alle diese Adressen.
+NOTE: Kurze Adressen zwischen 1 und 127 sind nicht dasselbe wie lange Adressen zwischen 1 und 127, und viele DCC-Systeme unterstützen nicht alle diese Adressen.footnote:[Insbesondere die langen Adressen 0-127 werden häufig nicht unterstützt, z.B. auf Loconet-Systemen.] Nicht unterstützte Adressen werden stillschweigend ignoriert.
 
 Ist diese auf -1 gesetzt, ist die entsprechende Lok deaktiviert.
 
@@ -236,7 +236,7 @@ IMPORTANT: Erinnerung: Änderungen werden über die Schaltfläche "Save loco con
 [#throttle_FunctionConf]
 === Konfiguration der DCC-Funktion
 
-Wenn eine Funktionstaste gedrückt wird, sendet die Drehregler standardmäßig die entsprechenden Befehle an jede unter Kontrolle befindliche Lok. Unter Umständen ist dies nicht erwünscht - das naheliegende Beispiel ist eine Lok in der Mitte einer Multieinheit, die kein Spitzenicht haben sollte. So bietet diese Seite - gezeigt in <<throttleConfigFunctionPage>> - die Möglichkeit, zwischen verschiedenen Einstellungen für jede Funktion an jeder der vier Lokomotiven (eine Seite pro Lokomotive) zu wählen:
+Wenn eine Funktionstaste gedrückt wird, sendet die Drehregler standardmäßig die entsprechenden Befehle an jede unter Kontrolle befindliche Lok. Unter Umständen ist dies nicht erwünscht - das naheliegende Beispiel ist eine Lok in der Mitte einer Mehrfachtraktion, die kein Spitzenlicht haben sollte. So bietet diese Seite - gezeigt in <<throttleConfigFunctionPage>> - die Möglichkeit, zwischen verschiedenen Einstellungen für jede Funktion an jeder der vier Lokomotiven (eine Seite pro Lokomotive) zu wählen:
 
 [#throttleConfigFunctionPage]
 .Screenshot der Konfigurationsseite für die WiFred-Funktionszuordnung

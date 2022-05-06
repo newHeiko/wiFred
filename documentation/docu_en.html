@@ -999,7 +999,7 @@ The wiFred does not support WPS and it won&#8217;t accept multiple networks with
 <img src="images/icons/note.png" alt="Note">
 </td>
 <td class="content">
-Short addresses between 1 and 127 are not the same as long addresses between 1 and 127, and many DCC systems do not support all those addresses.
+Short addresses between 1 and 127 are not the same as long addresses between 1 and 127, and many DCC systems do not support all those addresses.<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> A DCC address that the DCC system does not support is silently ignored.
 </td>
 </tr>
 </table>
@@ -1065,15 +1065,15 @@ may look different in different web browsers (firefox shown).
 <dl>
 <dt class="hdlist1">Throttle controlled</dt>
 <dd>
-<p>When the first loco is enabled by moving the selection switch to the "selected" position, the current status of the function is queried and saved. When selecting the next loco, the function status is set to be the same. Afterwards, key presses are handed through to the loco. Whether the function will be momentary<sup class="footnote" id="_footnote_MOM">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> or locking<sup class="footnote" id="_footnote_TOG">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup> will be determined by the server, in the case of JMRI by the roster entry.</p>
+<p>When the first loco is enabled by moving the selection switch to the "selected" position, the current status of the function is queried and saved. When selecting the next loco, the function status is set to be the same. Afterwards, key presses are handed through to the loco. Whether the function will be momentary<sup class="footnote" id="_footnote_MOM">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup> or locking<sup class="footnote" id="_footnote_TOG">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup> will be determined by the server, in the case of JMRI by the roster entry.</p>
 </dd>
 <dt class="hdlist1">Throttle controlled, force momentary</dt>
 <dd>
-<p>Function key will be handed through to the loco as a momentary<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> function.</p>
+<p>Function key will be handed through to the loco as a momentary<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup> function.</p>
 </dd>
 <dt class="hdlist1">Throttle controlled, force locking</dt>
 <dd>
-<p>As described for <strong>Throttle controlled</strong> but the function will be forced to be locking<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup> regardless of the server settings<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup>.</p>
+<p>As described for <strong>Throttle controlled</strong> but the function will be forced to be locking<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup> regardless of the server settings<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup>.</p>
 </dd>
 <dt class="hdlist1">Throttle controlled if this is the only loco</dt>
 <dd>
@@ -1081,7 +1081,7 @@ may look different in different web browsers (firefox shown).
 </dd>
 <dt class="hdlist1">Force function always on</dt>
 <dd>
-<p>The function will be forced on when the loco is activated and kept on regardless of key presses<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup>.</p>
+<p>The function will be forced on when the loco is activated and kept on regardless of key presses<sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup>.</p>
 </dd>
 <dt class="hdlist1">Force function always off</dt>
 <dd>
@@ -1133,11 +1133,11 @@ continuosly.</p>
 </dd>
 <dt class="hdlist1">Zero speed</dt>
 <dd>
-<p>Keep the direction but send out zero speed to all locos. This setting is intended for locos with high momentum settings. Reversing quicker than within half a second will trigger an emergency stop, otherwise the locos will resume their old speed setting in the opposite direction.<sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup></p>
+<p>Keep the direction but send out zero speed to all locos. This setting is intended for locos with high momentum settings. Reversing quicker than within half a second will trigger an emergency stop, otherwise the locos will resume their old speed setting in the opposite direction.<sup class="footnote">[<a id="_footnoteref_8" class="footnote" href="#_footnotedef_8" title="View footnote.">8</a>]</sup></p>
 </dd>
 <dt class="hdlist1">Set F&lt;n&gt;</dt>
 <dd>
-<p>Simulates a function key press when switching from forward to center position and a key release when switching from center position to reverse (and vice versa).<sup class="footnote">[<a id="_footnoteref_8" class="footnote" href="#_footnotedef_8" title="View footnote.">8</a>]</sup> This is intended for locos with either a brake function or ESU&#8217;s Drive Hold on a function key. The speed commands sent to the loco will still be controlled by the speed potentiometer while the direction switch is in the center position. Reversing quicker than within half a second will trigger an emergency stop, otherwise the throttle will continue to send speed commands according to the speed potentiometer position.</p>
+<p>Simulates a function key press when switching from forward to center position and a key release when switching from center position to reverse (and vice versa).<sup class="footnote">[<a id="_footnoteref_9" class="footnote" href="#_footnotedef_9" title="View footnote.">9</a>]</sup> This is intended for locos with either a brake function or ESU&#8217;s Drive Hold on a function key. The speed commands sent to the loco will still be controlled by the speed potentiometer while the direction switch is in the center position. Reversing quicker than within half a second will trigger an emergency stop, otherwise the throttle will continue to send speed commands according to the speed potentiometer position.</p>
 </dd>
 </dl>
 </div>
@@ -2550,7 +2550,7 @@ The wiFred is designed to be configured in configuration mode. If the IP address
 <h2 id="background">Background for wiFred development</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>As of the writing of this document, <a href="#JMRI">[JMRI]</a> has a long track record of offering a server for using smartphones as wireless model railroad throttles, along with apps like <a href="#wiThrottleApp">[wiThrottle]</a><sup class="footnote">[<a id="_footnoteref_9" class="footnote" href="#_footnotedef_9" title="View footnote.">9</a>]</sup> and <a href="#EngineDriver">[EngineDriver]</a>. This server will enable WiFi throttles to control locos any model railroading layout to which JMRI can build a connection <a href="#jmrihardwaresupport">[Supported Hardware]</a>. In addition, <a href="#Digitrax">[Digitrax LNWI]</a> and <a href="#MRC">[MRC Prodigy WiFi]</a> offer specific hardware solutions to enable the connection of the abovementioned smartphone apps to their DCC systems through a WiFi network.</p>
+<p>As of the writing of this document, <a href="#JMRI">[JMRI]</a> has a long track record of offering a server for using smartphones as wireless model railroad throttles, along with apps like <a href="#wiThrottleApp">[wiThrottle]</a><sup class="footnote">[<a id="_footnoteref_10" class="footnote" href="#_footnotedef_10" title="View footnote.">10</a>]</sup> and <a href="#EngineDriver">[EngineDriver]</a>. This server will enable WiFi throttles to control locos any model railroading layout to which JMRI can build a connection <a href="#jmrihardwaresupport">[Supported Hardware]</a>. In addition, <a href="#Digitrax">[Digitrax LNWI]</a> and <a href="#MRC">[MRC Prodigy WiFi]</a> offer specific hardware solutions to enable the connection of the abovementioned smartphone apps to their DCC systems through a WiFi network.</p>
 </div>
 <div class="paragraph">
 <p>The <a href="#Fremo">[Fremo]</a> is a European modular model railroading club whose unique requirements on its DCC throttles led to the creation of the throttles <a href="#FRED">[FRED]</a> and <a href="#FREDI">[FREDI]</a> - a series of LocoNet-throttles which started their life as hobbyist projects with large numbers in circulation but were also commercially available from <a href="#Uhlenbrock">[Uhlenbrock]</a>.</p>
@@ -2664,31 +2664,34 @@ The wiFred is designed to be configured in configuration mode. If the IP address
 <a href="#_footnoteref_2">2</a>. Pre-Shared Key, often just called password
 </div>
 <div class="footnote" id="_footnotedef_3">
-<a href="#_footnoteref_3">3</a>. Momentary functions are only activated for as long as the function key is pressed - like a whistle or horn that sounds just as long as the key is pressed.
+<a href="#_footnoteref_3">3</a>. In particular, long addresses 0-127 are not supported on many systems, for example those based on loconet.
 </div>
 <div class="footnote" id="_footnotedef_4">
-<a href="#_footnoteref_4">4</a>. Locking functions are toggled with every press of the function key - like pressing F0 once typically turns the headlight on, pressing F0 again turns it off.
+<a href="#_footnoteref_4">4</a>. Momentary functions are only activated for as long as the function key is pressed - like a whistle or horn that sounds just as long as the key is pressed.
 </div>
 <div class="footnote" id="_footnotedef_5">
-<a href="#_footnoteref_5">5</a>. The JMRI setting "F2 always momentary" will override this.
+<a href="#_footnoteref_5">5</a>. Locking functions are toggled with every press of the function key - like pressing F0 once typically turns the headlight on, pressing F0 again turns it off.
 </div>
 <div class="footnote" id="_footnotedef_6">
-<a href="#_footnoteref_6">6</a>. This will also turn momentary functions permanently on.
+<a href="#_footnoteref_6">6</a>. The JMRI setting "F2 always momentary" will override this.
 </div>
 <div class="footnote" id="_footnotedef_7">
-<a href="#_footnoteref_7">7</a>. This is compatible to the Fredi&#8217;s "coasting" function
+<a href="#_footnoteref_7">7</a>. This will also turn momentary functions permanently on.
 </div>
 <div class="footnote" id="_footnotedef_8">
-<a href="#_footnoteref_8">8</a>. It is suggested to configure the function to momentary as described in <a href="#throttle_FunctionConf">DCC function configuration</a> for this to work as intended
+<a href="#_footnoteref_8">8</a>. This is compatible to the Fredi&#8217;s "coasting" function
 </div>
 <div class="footnote" id="_footnotedef_9">
-<a href="#_footnoteref_9">9</a>. wiThrottle is also the name JMRI uses for the protocol and the server.
+<a href="#_footnoteref_9">9</a>. It is suggested to configure the function to momentary as described in <a href="#throttle_FunctionConf">DCC function configuration</a> for this to work as intended
+</div>
+<div class="footnote" id="_footnotedef_10">
+<a href="#_footnoteref_10">10</a>. wiThrottle is also the name JMRI uses for the protocol and the server.
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.3<br>
-Last updated 2022-05-06 22:33:23 +0200
+Last updated 2022-05-06 22:45:35 +0200
 </div>
 </div>
 </body>

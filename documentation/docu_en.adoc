@@ -214,7 +214,7 @@ Following the "Loco server configuration", there are four identical sections ass
 
 DCC address:: Can be a short address between 1 and 127 (also used for consists) or a long address between 0 and 10239.
 
-NOTE: Short addresses between 1 and 127 are not the same as long addresses between 1 and 127, and many DCC systems do not support all those addresses.
+NOTE: Short addresses between 1 and 127 are not the same as long addresses between 1 and 127, and many DCC systems do not support all those addresses.footnote:[In particular, long addresses 0-127 are not supported on many systems, for example those based on loconet.] A DCC address that the DCC system does not support is silently ignored.
 
 If this is set to -1, the corresponding loco is disabled.
 

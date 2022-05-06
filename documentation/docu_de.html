@@ -750,7 +750,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="title">Figure 1. Bedienelemente und Funktionen des wiFred-Handreglers</div>
 </div>
 <div class="paragraph">
-<p><a href="#throttleControls">Bedienelemente und Funktionen des wiFred-Handreglers</a> zeigt die Bedienelemente der drahtlosen Drosselklappe. Sie bestehen aus:</p>
+<p><a href="#throttleControls">Bedienelemente und Funktionen des wiFred-Handreglers</a> zeigt die Bedienelemente des WLAN-Handreglers. Sie bestehen aus:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -790,7 +790,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Sobald einer der Lokauswahlschalter in die Position "aktiviert" bewegt wird, wird der Handregler hochgefahren und versucht, eine Verbindung zu einem drahtlosen Netzwerk herzustellen. Wenn alle vier Lokauswahlschalter "deaktiviert" sind, trennt sich die Drehregler nach einer Kulanzzeit von fünf Sekunden vom drahtlosen Netzwerk. Das Gerät wechselt dann in den Energiesparmodus, in dem der Akku länger als ein Jahr hält.</p>
 </div>
 <div class="paragraph">
-<p>Wenn innerhalb von 60 Sekunden keine Verbindung zu dem im Gerät konfigurierten Netzwerk hergestellt werden kann, erstellt die Drehregler ein eigenes drahtloses Netzwerk namens wiFred-config sowie vier Hex-Ziffern, die von der MAC-Adresse der Drossel-WLAN-Schnittstelle, z. B. wiFred-config0CAC, entnommen wurden, um die Konfiguration wie unter <a href="#config">Konfigurieren des wiFred</a> beschrieben zu aktivieren.</p>
+<p>Wenn innerhalb von 60 Sekunden keine Verbindung zu dem im Gerät konfigurierten Netzwerk hergestellt werden kann, erstellt die Drehregler ein eigenes drahtloses Netzwerk namens wiFred-config sowie vier Hex-Ziffern, die von der MAC-Adresse der wiFred-WLAN-Schnittstelle, z. B. wiFred-config0CAC, entnommen wurden, um die Konfiguration wie unter <a href="#config">Konfigurieren des wiFred</a> beschrieben zu aktivieren.</p>
 </div>
 <div class="paragraph">
 <p>Den vier Lokauswahlschaltern können vier verschiedene Loks zugeordnet werden. Befehle, die vom Geschwindigkeitspotentiometer, dem Richtungsschalter und den Funktionstasten abgeleitet werden, werden (quasi) gleichzeitig an alle ausgewählten Loks übertragen, wobei eine bestimmte Übersetzungstabelle es ermöglicht, dass einige Loks rückwärts fahren, wenn andere vorwärts fahre, und auch Funktionstasten nur auf einige der vier Loks beschränkt - dies wird in <a href="#throttle_LocoConf">Loco configuration</a> und <a href="#throttle_FunctionConf">Konfiguration der DCC-Funktion</a> ausführlicher beschrieben.</p>
@@ -880,7 +880,7 @@ Der wiFred sollte zur Konfiguration in den Konfigurationsmodus versetzt werden. 
 </ol>
 </div>
 <div class="paragraph">
-<p>In den ersten beiden Fällen erstellt die Drosselung ein drahtloses Netzwerk mit dem Namen wiFred-config plus vier Hex-Ziffern, die von der MAC-Adresse der Drosselklappen-WLAN-Schnittstelle stammen, z. B. wiFred-config0CAC, und kündigt seine Anwesenheit unter dem Namen config.local an sowie die Erstellung eines Captive-Portals an. Jedes WIFi-Gerät mit einem Webbrowser kann eine Verbindung zu diesem Netzwerk herstellen und einen Webbrowser öffnen und <a href="http://192.168.4.1" class="bare">http://192.168.4.1</a> oder <a href="http://config.local" class="bare">http://config.local</a> zu öffnen.</p>
+<p>In den ersten beiden Fällen erstellt der Handregler ein drahtloses Netzwerk mit dem Namen wiFred-config plus vier Hex-Ziffern, die von der MAC-Adresse der wiFred-WLAN-Schnittstelle stammen, z. B. wiFred-config0CAC, und kündigt seine Anwesenheit unter dem Namen config.local an sowie die Erstellung eines Captive-Portals an. Jedes WIFi-Gerät mit einem Webbrowser kann eine Verbindung zu diesem Netzwerk herstellen und einen Webbrowser öffnen und <a href="http://192.168.4.1" class="bare">http://192.168.4.1</a> oder <a href="http://config.local" class="bare">http://config.local</a> zu öffnen.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -922,7 +922,7 @@ Dies wurde mit Mozilla Firefox und Opera unter Linux mit Avahi (einer Zeroconf-I
 <div class="sect2">
 <h3 id="_allgemeine_konfiguration">Allgemeine Konfiguration</h3>
 <div class="paragraph">
-<p>Im Abschnitt "General Configuration" gibt es nur eine Konfigurationsoption: Den Drosselklappennamen. Dies ist eine Freiform-Identifikationszeichenfolge der Drosselklappe. Es wird im wiThrottle-Fenster von JMRI angezeigt, wie in  <a href="#withrottleScreenshot">Screenshot des wiThrottle-Bildschirms mit einem angeschlossenen Handregler</a> gezeigt, der eine angeschlossene Drehregler zeigt, und kann verwendet werden, um die Drehregler während der Konfiguration zu identifizieren.</p>
+<p>Im Abschnitt "General Configuration" gibt es nur eine Konfigurationsoption: Den Handregler-Namen. Dies ist eine Freiform-Identifikationszeichenfolge des Handreglers. Es wird im wiThrottle-Fenster von JMRI angezeigt, wie in  <a href="#withrottleScreenshot">Screenshot des wiThrottle-Bildschirms mit einem angeschlossenen Handregler</a> gezeigt, der eine angeschlossene Drehregler zeigt, und kann verwendet werden, um die Drehregler während der Konfiguration zu identifizieren.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -988,7 +988,7 @@ Der wiFred unterstützt WPS nicht und akzeptiert nicht mehrere Netzwerke mit der
 <dl>
 <dt class="hdlist1">DCC address</dt>
 <dd>
-<p>Kann eine kurze Adresse zwischen 1 und 127 (auch für besteht verwendet) oder eine lange Adresse zwischen 0 und 10239 sein.</p>
+<p>Kann eine kurze Adresse zwischen 1 und 127 (auch für Mehrfachtraktionen verwendet) oder eine lange Adresse zwischen 0 und 10239 sein.</p>
 </dd>
 </dl>
 </div>
@@ -999,7 +999,7 @@ Der wiFred unterstützt WPS nicht und akzeptiert nicht mehrere Netzwerke mit der
 <img src="images/icons/note.png" alt="Note">
 </td>
 <td class="content">
-Kurze Adressen zwischen 1 und 127 sind nicht dasselbe wie lange Adressen zwischen 1 und 127, und viele DCC-Systeme unterstützen nicht alle diese Adressen.
+Kurze Adressen zwischen 1 und 127 sind nicht dasselbe wie lange Adressen zwischen 1 und 127, und viele DCC-Systeme unterstützen nicht alle diese Adressen.<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> Nicht unterstützte Adressen werden stillschweigend ignoriert.
 </td>
 </tr>
 </table>
@@ -1052,7 +1052,7 @@ Erinnerung: Änderungen werden über die Schaltfläche "Save loco config" gespei
 <div class="sect2">
 <h3 id="throttle_FunctionConf">Konfiguration der DCC-Funktion</h3>
 <div class="paragraph">
-<p>Wenn eine Funktionstaste gedrückt wird, sendet die Drehregler standardmäßig die entsprechenden Befehle an jede unter Kontrolle befindliche Lok. Unter Umständen ist dies nicht erwünscht - das naheliegende Beispiel ist eine Lok in der Mitte einer Multieinheit, die kein Spitzenicht haben sollte. So bietet diese Seite - gezeigt in <a href="#throttleConfigFunctionPage">Screenshot der Konfigurationsseite für die WiFred-Funktionszuordnung</a> - die Möglichkeit, zwischen verschiedenen Einstellungen für jede Funktion an jeder der vier Lokomotiven (eine Seite pro Lokomotive) zu wählen:</p>
+<p>Wenn eine Funktionstaste gedrückt wird, sendet die Drehregler standardmäßig die entsprechenden Befehle an jede unter Kontrolle befindliche Lok. Unter Umständen ist dies nicht erwünscht - das naheliegende Beispiel ist eine Lok in der Mitte einer Mehrfachtraktion, die kein Spitzenlicht haben sollte. So bietet diese Seite - gezeigt in <a href="#throttleConfigFunctionPage">Screenshot der Konfigurationsseite für die WiFred-Funktionszuordnung</a> - die Möglichkeit, zwischen verschiedenen Einstellungen für jede Funktion an jeder der vier Lokomotiven (eine Seite pro Lokomotive) zu wählen:</p>
 </div>
 <div id="throttleConfigFunctionPage" class="imageblock">
 <div class="content">
@@ -1064,15 +1064,15 @@ Erinnerung: Änderungen werden über die Schaltfläche "Save loco config" gespei
 <dl>
 <dt class="hdlist1">Throttle controlled</dt>
 <dd>
-<p>Wenn die erste Lok durch Bewegen des Auswahlschalters an die "ausgewählte" Position aktiviert wird, wird der aktuelle Status der Funktion abgefragt und gespeichert. Bei der Auswahl der nächsten Lok wird der Funktionsstatus auf den gleichen stellen. Anschließend werden Tastendrücke an die Lok durchgereicht. Ob die Funktion tastend<sup class="footnote" id="_footnote_MOM">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> oder rastend<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup> sein wird, wird vom Server bestimmt, im Falle von JMRI durch den Roster-Eintrag.</p>
+<p>Wenn die erste Lok durch Bewegen des Auswahlschalters an die "ausgewählte" Position aktiviert wird, wird der aktuelle Status der Funktion abgefragt und gespeichert. Bei der Auswahl der nächsten Lok wird der Funktionsstatus auf den gleichen stellen. Anschließend werden Tastendrücke an die Lok durchgereicht. Ob die Funktion tastend<sup class="footnote" id="_footnote_MOM">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup> oder rastend<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup> sein wird, wird vom Server bestimmt, im Falle von JMRI durch den Roster-Eintrag.</p>
 </dd>
 <dt class="hdlist1">Throttle controlled, force momentary</dt>
 <dd>
-<p>Die Funktionstaste wird als tastende Funktion<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> an die Lok durchgereicht.</p>
+<p>Die Funktionstaste wird als tastende Funktion<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup> an die Lok durchgereicht.</p>
 </dd>
 <dt class="hdlist1">Throttle controlled, force locking</dt>
 <dd>
-<p>Wie für <strong>Throttle controlled</strong> beschrieben, wird die Funktion jedoch unabhängig von den Servereinstellungen als rastend festgelegt<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup></p>
+<p>Wie für <strong>Throttle controlled</strong> beschrieben, wird die Funktion jedoch unabhängig von den Servereinstellungen als rastend festgelegt<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup></p>
 </dd>
 <dt class="hdlist1">Throttle controlled if this is the only loco</dt>
 <dd>
@@ -1080,7 +1080,7 @@ Erinnerung: Änderungen werden über die Schaltfläche "Save loco config" gespei
 </dd>
 <dt class="hdlist1">Force function always on</dt>
 <dd>
-<p>Die Funktion wird bei Aktivierung der Lok eingeschaltet und bleibt unabhängig von Tastendrücken eingeschaltet<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup>.</p>
+<p>Die Funktion wird bei Aktivierung der Lok eingeschaltet und bleibt unabhängig von Tastendrücken eingeschaltet<sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup>.</p>
 </dd>
 <dt class="hdlist1">Force function always off</dt>
 <dd>
@@ -1130,11 +1130,11 @@ Erinnerung: Änderungen werden über die Schaltfläche "Save function configurat
 </dd>
 <dt class="hdlist1">Zero Speed</dt>
 <dd>
-<p>Behält die Fahrtrichtung bei, sendet aber Fahrstufe Null an alle Loks. Diese Einstellung ist für Loks gedacht, die auf hohe Anfahr- und Bremsverzögerung eingestellt sind. Wenn die Fahrtrichtung in weniger als einer halben Sekunde vollständig umgeschaltet wird, löst der wiFred einen Not-Halt aus, sonst beschleunigen die Loks in der neuen Fahrtrichtung wieder auf die eingestellte Geschwindigkeit.<sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup></p>
+<p>Behält die Fahrtrichtung bei, sendet aber Fahrstufe Null an alle Loks. Diese Einstellung ist für Loks gedacht, die auf hohe Anfahr- und Bremsverzögerung eingestellt sind. Wenn die Fahrtrichtung in weniger als einer halben Sekunde vollständig umgeschaltet wird, löst der wiFred einen Not-Halt aus, sonst beschleunigen die Loks in der neuen Fahrtrichtung wieder auf die eingestellte Geschwindigkeit.<sup class="footnote">[<a id="_footnoteref_8" class="footnote" href="#_footnotedef_8" title="View footnote.">8</a>]</sup></p>
 </dd>
 <dt class="hdlist1">Set F&lt;n&gt;</dt>
 <dd>
-<p>Simuliert die Betätigung der eingestellten Funktionstaste beim Umschalten von Vorwärts auf Mittelstellung und das Loslassen beim Umschalten von Mittelstellung auf Rückwärts (und umgekehrt).<sup class="footnote">[<a id="_footnoteref_8" class="footnote" href="#_footnotedef_8" title="View footnote.">8</a>]</sup> Diese Einstellung ist für Loks gedacht, die auf einer Funktionstaste eine Bremsfunktion oder ESUs Drive Hold haben. Die an die Loks gesendete Geschwindigkeit wird weiterhin durch das Potentiometer bestimmt, solange der Fahrtrichtungsumschalter in Mittelstellung liegt. Wenn die Fahrtrichtung in weniger als einer halben Sekunde vollständig umgeschaltet wird, löst der wiFred einen Not-Halt aus, sonst sendet der wiFred weiterhin die am Potentiometer eingestellte Geschwindigkeit an die Loks.</p>
+<p>Simuliert die Betätigung der eingestellten Funktionstaste beim Umschalten von Vorwärts auf Mittelstellung und das Loslassen beim Umschalten von Mittelstellung auf Rückwärts (und umgekehrt).<sup class="footnote">[<a id="_footnoteref_9" class="footnote" href="#_footnotedef_9" title="View footnote.">9</a>]</sup> Diese Einstellung ist für Loks gedacht, die auf einer Funktionstaste eine Bremsfunktion oder ESUs Drive Hold haben. Die an die Loks gesendete Geschwindigkeit wird weiterhin durch das Potentiometer bestimmt, solange der Fahrtrichtungsumschalter in Mittelstellung liegt. Wenn die Fahrtrichtung in weniger als einer halben Sekunde vollständig umgeschaltet wird, löst der wiFred einen Not-Halt aus, sonst sendet der wiFred weiterhin die am Potentiometer eingestellte Geschwindigkeit an die Loks.</p>
 </dd>
 </dl>
 </div>
@@ -2550,7 +2550,7 @@ Der wiFred sollte zur Konfiguration in den Konfigurationsmodus versetzt werden. 
 <h2 id="background">Hintergrund für die wiFred-Entwicklung</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Zum Zeitpunkt des Schreibens dieses Dokuments hat <a href="#JMRI">[JMRI]</a> bereits eine lange Erfolgsbilanz bei der Bereitstellung eines Servers für die Verwendung von Smartphones als drahtlose Modelleisenbahn-Handregler, zusammen mit Apps wie <a href="#wiThrottleApp">[wiThrottle]</a><sup class="footnote">[<a id="_footnoteref_9" class="footnote" href="#_footnotedef_9" title="View footnote.">9</a>]</sup> und <a href="#EngineDriver">[EngineDriver]</a>. Dieser Server ermöglicht WLAN-Handregler, um Loks jedes Modelleisenbahnlayout zu steuern, zu dem JMRI eine Verbindung aufbauen kann <a href="#jmrihardwaresupport">[Supported Hardware]</a>. Darüber hinaus bieten <a href="#Digitrax">[Digitrax LNWI]</a> und <a href="#MRC">[MRC Prodigy WiFi]</a> spezifische Hardwarelösungen an, um die Verbindung der oben genannten Smartphone-Apps mit ihren DCC-Systemen über ein WLAN-Netzwerk zu ermöglichen.</p>
+<p>Zum Zeitpunkt des Schreibens dieses Dokuments hat <a href="#JMRI">[JMRI]</a> bereits eine lange Erfolgsbilanz bei der Bereitstellung eines Servers für die Verwendung von Smartphones als drahtlose Modelleisenbahn-Handregler, zusammen mit Apps wie <a href="#wiThrottleApp">[wiThrottle]</a><sup class="footnote">[<a id="_footnoteref_10" class="footnote" href="#_footnotedef_10" title="View footnote.">10</a>]</sup> und <a href="#EngineDriver">[EngineDriver]</a>. Dieser Server ermöglicht WLAN-Handregler, um Loks jedes Modelleisenbahnlayout zu steuern, zu dem JMRI eine Verbindung aufbauen kann <a href="#jmrihardwaresupport">[Supported Hardware]</a>. Darüber hinaus bieten <a href="#Digitrax">[Digitrax LNWI]</a> und <a href="#MRC">[MRC Prodigy WiFi]</a> spezifische Hardwarelösungen an, um die Verbindung der oben genannten Smartphone-Apps mit ihren DCC-Systemen über ein WLAN-Netzwerk zu ermöglichen.</p>
 </div>
 <div class="paragraph">
 <p>Der <a href="#Fremo">[Fremo]</a> ist ein europäischer modularer Modelleisenbahnclub, dessen einzigartige Anforderungen an seine DCC-Handregler zur Schaffung der Handregler <a href="#FRED">[FRED]</a> und <a href="#FREDI">[FREDI]</a> führten - eine Reihe von LocoNet-Handregler, die als Hobbyprojekte mit großen Stückzahlen im Umlauf begannen, später von <a href="#Uhlenbrock">[Uhlenbrock]</a> kommerziell erhältlich waren.</p>
@@ -2664,31 +2664,34 @@ Der wiFred sollte zur Konfiguration in den Konfigurationsmodus versetzt werden. 
 <a href="#_footnoteref_2">2</a>. Pre-Shared Key, oft nur Passwort genannt
 </div>
 <div class="footnote" id="_footnotedef_3">
-<a href="#_footnoteref_3">3</a>. Tastende Funktionen werden nur aktiviert, solange die Funktionstaste gedrückt wird - wie eine Pfeife oder eine Hupe, die genauso lange ertönt, wie die Taste gedrückt wird.
+<a href="#_footnoteref_3">3</a>. Insbesondere die langen Adressen 0-127 werden häufig nicht unterstützt, z.B. auf Loconet-Systemen.
 </div>
 <div class="footnote" id="_footnotedef_4">
-<a href="#_footnoteref_4">4</a>. Rastende Funktionen werden mit jedem Druck auf die Funktionstaste umgeschaltet - wie das erste Drücken von F0 normalerweise das Spitzenlicht einschaltet, das nächste Drücken von F0 schaltet es wieder aus.
+<a href="#_footnoteref_4">4</a>. Tastende Funktionen werden nur aktiviert, solange die Funktionstaste gedrückt wird - wie eine Pfeife oder eine Hupe, die genauso lange ertönt, wie die Taste gedrückt wird.
 </div>
 <div class="footnote" id="_footnotedef_5">
-<a href="#_footnoteref_5">5</a>. Die JMRI-Einstellung "F2 always momentary" überschreibt dies.
+<a href="#_footnoteref_5">5</a>. Rastende Funktionen werden mit jedem Druck auf die Funktionstaste umgeschaltet - wie das erste Drücken von F0 normalerweise das Spitzenlicht einschaltet, das nächste Drücken von F0 schaltet es wieder aus.
 </div>
 <div class="footnote" id="_footnotedef_6">
-<a href="#_footnoteref_6">6</a>. Dadurch werden auch momentane Funktionen dauerhaft eingeschaltet.
+<a href="#_footnoteref_6">6</a>. Die JMRI-Einstellung "F2 always momentary" überschreibt dies.
 </div>
 <div class="footnote" id="_footnotedef_7">
-<a href="#_footnoteref_7">7</a>. Diese Einstellung ist kompatibel mit der "Segeln"-Funktion des Fredi
+<a href="#_footnoteref_7">7</a>. Dadurch werden auch momentane Funktionen dauerhaft eingeschaltet.
 </div>
 <div class="footnote" id="_footnotedef_8">
-<a href="#_footnoteref_8">8</a>. Die entsprechende Funktion sollte, wie in <a href="#throttle_FunctionConf">Konfiguration der DCC-Funktion</a> beschrieben, als tastend festgelegt sein damit dies wie gedacht funktioniert
+<a href="#_footnoteref_8">8</a>. Diese Einstellung ist kompatibel mit der "Segeln"-Funktion des Fredi
 </div>
 <div class="footnote" id="_footnotedef_9">
-<a href="#_footnoteref_9">9</a>. wiThrottle ist auch der Name, den JMRI für das Protokoll und den Server verwendet.
+<a href="#_footnoteref_9">9</a>. Die entsprechende Funktion sollte, wie in <a href="#throttle_FunctionConf">Konfiguration der DCC-Funktion</a> beschrieben, als tastend festgelegt sein damit dies wie gedacht funktioniert
+</div>
+<div class="footnote" id="_footnotedef_10">
+<a href="#_footnoteref_10">10</a>. wiThrottle ist auch der Name, den JMRI für das Protokoll und den Server verwendet.
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.3<br>
-Last updated 2022-05-06 22:32:52 +0200
+Last updated 2022-05-06 22:46:09 +0200
 </div>
 </div>
 </body>
