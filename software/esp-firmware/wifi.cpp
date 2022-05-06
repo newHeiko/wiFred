@@ -26,6 +26,7 @@
 #include <HTTPUpdateServer.h>
 #include <ESPmDNS.h>
 #include <DNSServer.h>
+#include <AsyncUDP.h>
 
 #include "wifi.h"
 #include "locoHandling.h"
@@ -681,6 +682,12 @@ void getConfigXML()
    server.send(200, "text/html", resp);      
 }
 /* end db211109*/
+
+void broadcastUDP(void)
+{
+  AsyncUDP udp;
+  udp.broadcastTo("wiFred",UDP_BROADCAST_PORT);
+}
 
 void initWiFi(void)
 {

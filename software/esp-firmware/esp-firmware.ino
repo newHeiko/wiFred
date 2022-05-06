@@ -116,6 +116,7 @@ void loop() {
         else
         {
           switchState(STATE_CONNECTED, TOTAL_NETWORK_TIMEOUT_MS);
+          broadcastUDP();
         }
       }
       else if(millis() > stateTimeout)
