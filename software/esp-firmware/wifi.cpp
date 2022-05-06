@@ -184,7 +184,7 @@ void initWiFiAP(void)
   WiFi.mode(WIFI_AP_STA);
   uint8_t mac[6];
   WiFi.macAddress(mac);
-  String ssid = "wiFred-config" + String(mac[0], 16) + String(mac[5], 16);
+  String ssid = "wiFred-config" + String(mac[3], 16) + String(mac[4], 16) + String(mac[5], 16);
   #ifdef DEBUG
   Serial.println();
   Serial.print("Not connected, setting up AP at ");
@@ -367,9 +367,10 @@ void writeMainPage()
               + "<table border=0>"
               + "<tr><td>Battery voltage: </td><td>" + batteryVoltage + " mV" + (lowBattery ? " Battery LOW" : "" ) + "</td></tr>"
               + "<tr><td>ESP Firmware revision: </td><td>" + REV + "</td></tr>"
-	      + "<tr><td>AVR firmware revision: </td><td>" + avrRevision + "</td></tr></table>\r\n"
+	            + "<tr><td>AVR firmware revision: </td><td>" + avrRevision + "</td></tr></table>\r\n"
               + "<table><tr><td>Active WiFi network SSID:</td><td>" + (WiFi.isConnected() ? WiFi.SSID() : "not connected") + "</td></tr>"
-              + "<tr><td>Signal strength:</td><td>" + (WiFi.isConnected() ? (String) WiFi.RSSI() + "dB" : "not connected") + "</td></tr></table>";
+              + "<tr><td>Signal strength:</td><td>" + (WiFi.isConnected() ? (String) WiFi.RSSI() + "dB" : "not connected") + "</td></tr>"
+              + "<tr><td>WiFi STA MAC address:</td><td>" + WiFi.macAddress() + "</td></tr></table>";
   
   for(uint8_t i=0; i<4; i++)
   {

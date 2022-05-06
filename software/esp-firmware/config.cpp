@@ -38,7 +38,7 @@ void initConfig(void)
 // initialize to default values
   uint8_t mac[6];
   WiFi.macAddress(mac);
-  String tN = "wiFred-" + String(mac[0], 16) + String(mac[5], 16);
+  String tN = "wiFred-" + String(mac[3], 16) + String(mac[4], 16) + String(mac[5], 16);
   throttleName = strdup(tN.c_str());
 
   locoServer.automatic = true;
