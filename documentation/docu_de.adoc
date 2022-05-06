@@ -121,7 +121,7 @@ image::DSC0690.jpg[alt="Handregler"]
 
 Sobald einer der Lokauswahlschalter in die Position "aktiviert" bewegt wird, wird der Handregler hochgefahren und versucht, eine Verbindung zu einem drahtlosen Netzwerk herzustellen. Wenn alle vier Lokauswahlschalter "deaktiviert" sind, trennt sich die Drehregler nach einer Kulanzzeit von fünf Sekunden vom drahtlosen Netzwerk. Das Gerät wechselt dann in den Energiesparmodus, in dem der Akku länger als ein Jahr hält.
 
-Wenn innerhalb von 60 Sekunden keine Verbindung zu dem im Gerät konfigurierten Netzwerk hergestellt werden kann, erstellt die Drehregler ein eigenes drahtloses Netzwerk namens wiFred-config sowie vier Hex-Ziffern, die von der MAC-Adresse der wiFred-WLAN-Schnittstelle, z. B. wiFred-config0CAC, entnommen wurden, um die Konfiguration wie unter <<config>> beschrieben zu aktivieren.
+Wenn innerhalb von 60 Sekunden keine Verbindung zu dem im Gerät konfigurierten Netzwerk hergestellt werden kann, erstellt die Drehregler ein eigenes drahtloses Netzwerk namens wiFred-config sowie sechs Hex-Ziffern, die von der MAC-Adresse der wiFred-WLAN-Schnittstelle, z. B. wiFred-config61FB7B, entnommen wurden, um die Konfiguration wie unter <<config>> beschrieben zu aktivieren.
 
 Den vier Lokauswahlschaltern können vier verschiedene Loks zugeordnet werden. Befehle, die vom Geschwindigkeitspotentiometer, dem Richtungsschalter und den Funktionstasten abgeleitet werden, werden (quasi) gleichzeitig an alle ausgewählten Loks übertragen, wobei eine bestimmte Übersetzungstabelle es ermöglicht, dass einige Loks rückwärts fahren, wenn andere vorwärts fahre, und auch Funktionstasten nur auf einige der vier Loks beschränkt - dies wird in <<throttle_LocoConf>> und <<throttle_FunctionConf>> ausführlicher beschrieben.
 
@@ -166,7 +166,7 @@ Es gibt vier Möglichkeiten, in den Konfigurationsmodus zu wechseln:
 
 . Drücken Sie F0 für fünf Sekunden, während / nachdem das Gerät mit einem WLAN-Netzwerk verbunden istfootnote:ESP32[]
 
-In den ersten beiden Fällen erstellt der Handregler ein drahtloses Netzwerk mit dem Namen wiFred-config plus vier Hex-Ziffern, die von der MAC-Adresse der wiFred-WLAN-Schnittstelle stammen, z. B. wiFred-config0CAC, und kündigt seine Anwesenheit unter dem Namen config.local an sowie die Erstellung eines Captive-Portals an. Jedes WIFi-Gerät mit einem Webbrowser kann eine Verbindung zu diesem Netzwerk herstellen und einen Webbrowser öffnen und http://192.168.4.1 oder http://config.local zu öffnen.
+In den ersten beiden Fällen erstellt der Handregler ein drahtloses Netzwerk mit dem Namen wiFred-config plus sechs Hex-Ziffern, die von der MAC-Adresse der wiFred-WLAN-Schnittstelle stammen, z. B. wiFred-config61FB7B, und kündigt seine Anwesenheit unter dem Namen config.local an sowie die Erstellung eines Captive-Portals an. Jedes WIFi-Gerät mit einem Webbrowser kann eine Verbindung zu diesem Netzwerk herstellen und einen Webbrowser öffnen und http://192.168.4.1 oder http://config.local zu öffnen.
 
 NOTE: Dies wurde mit Mozilla Firefox und Opera unter Linux mit Avahi (einer Zeroconf-Implementierung), FOSS Browser auf Android 9/10 und Safari auf iOS 13/14 getestet.
 

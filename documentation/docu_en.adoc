@@ -120,7 +120,7 @@ image::DSC0690.jpg[alt="Throttle"]
 
 As soon as any of the loco selection switches is moved into the "enabled" position, the throttle will boot up and try to connect to a wireless network. When all four loco selection switches are "disabled", the throttle will disconnect from the wireless network after a grace period of five seconds. The device will then go into low power mode, in which the battery will last for more than a year.
 
-If no connection to the network configured into the device can be established within 60 seconds, the throttle will create it's own wireless network named *wiFred-config* plus four hex digits taken from the MAC address of the throttle WiFi interface, for example *wiFred-config0CAC*, to enable configuration as described in <<config>>.
+If no connection to the network configured into the device can be established within 60 seconds, the throttle will create it's own wireless network named *wiFred-config* plus six hex digits taken from the MAC address of the throttle WiFi interface, for example *wiFred-config61FB7B*, to enable configuration as described in <<config>>.
 
 Four different locos with long DCC addresses can be assigned to the four loco selection switches. Commands derived from the speed potentiometer, the direction switch and the function keys will be transmitted to all selected locos (near) simultaneously, with a certain translation table enabling some locos to go backwards when others go forwards and also limiting function keys to some of the four locos only - this is described in more detail in <<throttle_LocoConf>> and <<throttle_FunctionConf>>.
 
@@ -165,7 +165,7 @@ There are four ways to enter configuration mode:
 
 . Press F0 for five seconds while / after the device has connected to a WiFi networkfootnote:ESP32[]
 
-In the first two cases, the throttle will create a wireless network named *wiFred-config* plus four hex digits taken from the MAC address of the throttle WiFi interface, for example *wiFred-config0CAC* and announce its presence under the name *config.local* as well as creating a captive portal. Any WiFi device with a web browser can connect to that network and open a web browser to point to *http://192.168.4.1* or *http://config.local*.
+In the first two cases, the throttle will create a wireless network named *wiFred-config* plus six hex digits taken from the MAC address of the throttle WiFi interface, for example *wiFred-config61FB7B* and announce its presence under the name *config.local* as well as creating a captive portal. Any WiFi device with a web browser can connect to that network and open a web browser to point to *http://192.168.4.1* or *http://config.local*.
 
 NOTE: This has been tested with Mozilla Firefox and Opera on Linux with Avahi (a Zeroconf implementation), FOSS Browser on Android 9/10 and Safari on iOS 13/14.
 

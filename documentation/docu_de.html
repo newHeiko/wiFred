@@ -790,7 +790,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Sobald einer der Lokauswahlschalter in die Position "aktiviert" bewegt wird, wird der Handregler hochgefahren und versucht, eine Verbindung zu einem drahtlosen Netzwerk herzustellen. Wenn alle vier Lokauswahlschalter "deaktiviert" sind, trennt sich die Drehregler nach einer Kulanzzeit von fünf Sekunden vom drahtlosen Netzwerk. Das Gerät wechselt dann in den Energiesparmodus, in dem der Akku länger als ein Jahr hält.</p>
 </div>
 <div class="paragraph">
-<p>Wenn innerhalb von 60 Sekunden keine Verbindung zu dem im Gerät konfigurierten Netzwerk hergestellt werden kann, erstellt die Drehregler ein eigenes drahtloses Netzwerk namens wiFred-config sowie vier Hex-Ziffern, die von der MAC-Adresse der wiFred-WLAN-Schnittstelle, z. B. wiFred-config0CAC, entnommen wurden, um die Konfiguration wie unter <a href="#config">Konfigurieren des wiFred</a> beschrieben zu aktivieren.</p>
+<p>Wenn innerhalb von 60 Sekunden keine Verbindung zu dem im Gerät konfigurierten Netzwerk hergestellt werden kann, erstellt die Drehregler ein eigenes drahtloses Netzwerk namens wiFred-config sowie sechs Hex-Ziffern, die von der MAC-Adresse der wiFred-WLAN-Schnittstelle, z. B. wiFred-config61FB7B, entnommen wurden, um die Konfiguration wie unter <a href="#config">Konfigurieren des wiFred</a> beschrieben zu aktivieren.</p>
 </div>
 <div class="paragraph">
 <p>Den vier Lokauswahlschaltern können vier verschiedene Loks zugeordnet werden. Befehle, die vom Geschwindigkeitspotentiometer, dem Richtungsschalter und den Funktionstasten abgeleitet werden, werden (quasi) gleichzeitig an alle ausgewählten Loks übertragen, wobei eine bestimmte Übersetzungstabelle es ermöglicht, dass einige Loks rückwärts fahren, wenn andere vorwärts fahre, und auch Funktionstasten nur auf einige der vier Loks beschränkt - dies wird in <a href="#throttle_LocoConf">Loco configuration</a> und <a href="#throttle_FunctionConf">Konfiguration der DCC-Funktion</a> ausführlicher beschrieben.</p>
@@ -880,7 +880,7 @@ Der wiFred sollte zur Konfiguration in den Konfigurationsmodus versetzt werden. 
 </ol>
 </div>
 <div class="paragraph">
-<p>In den ersten beiden Fällen erstellt der Handregler ein drahtloses Netzwerk mit dem Namen wiFred-config plus vier Hex-Ziffern, die von der MAC-Adresse der wiFred-WLAN-Schnittstelle stammen, z. B. wiFred-config0CAC, und kündigt seine Anwesenheit unter dem Namen config.local an sowie die Erstellung eines Captive-Portals an. Jedes WIFi-Gerät mit einem Webbrowser kann eine Verbindung zu diesem Netzwerk herstellen und einen Webbrowser öffnen und <a href="http://192.168.4.1" class="bare">http://192.168.4.1</a> oder <a href="http://config.local" class="bare">http://config.local</a> zu öffnen.</p>
+<p>In den ersten beiden Fällen erstellt der Handregler ein drahtloses Netzwerk mit dem Namen wiFred-config plus sechs Hex-Ziffern, die von der MAC-Adresse der wiFred-WLAN-Schnittstelle stammen, z. B. wiFred-config61FB7B, und kündigt seine Anwesenheit unter dem Namen config.local an sowie die Erstellung eines Captive-Portals an. Jedes WIFi-Gerät mit einem Webbrowser kann eine Verbindung zu diesem Netzwerk herstellen und einen Webbrowser öffnen und <a href="http://192.168.4.1" class="bare">http://192.168.4.1</a> oder <a href="http://config.local" class="bare">http://config.local</a> zu öffnen.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2691,7 +2691,7 @@ Der wiFred sollte zur Konfiguration in den Konfigurationsmodus versetzt werden. 
 <div id="footer">
 <div id="footer-text">
 Version 0.3<br>
-Last updated 2022-05-06 22:46:09 +0200
+Last updated 2022-05-06 23:12:52 +0200
 </div>
 </div>
 </body>
