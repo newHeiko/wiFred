@@ -457,7 +457,7 @@ void writeMainPage()
   resp        += String("<hr>Loco server configuration<hr>\r\n")
               + "<form action=\"index.html\" method=\"get\"><table border=0>"
               + "<tr><td>Loco server and port: </td>"
-              + "<td>http://<input type=\"text\" name=\"loco.serverName\" value=\"" + locoServer.name + "\">:<input type=\"text\" name=\"loco.serverPort\" value=\"" + locoServer.port + "\"></td></tr>"
+              + "<td><input type=\"text\" name=\"loco.serverName\" value=\"" + locoServer.name + "\">:<input type=\"text\" name=\"loco.serverPort\" value=\"" + locoServer.port + "\"></td></tr>"
               + "<tr><td style=\"text-align: right\"><input type=\"checkbox\" name=\"loco.automatic\"" + (locoServer.automatic ? " checked" : "") + "></td><td>Find server automatically through Zeroconf/Bonjour instead.</td></tr>"
               + "<tr><td colspan=2>Using " + (locoServer.automatic && automaticServer != nullptr ? automaticServer : locoServer.name) + ":" + locoServer.port + "</td></tr>"
               + "<tr><td colspan=2><input type=\"submit\" value=\"Save loco server settings\"></td></tr></table></form>";
