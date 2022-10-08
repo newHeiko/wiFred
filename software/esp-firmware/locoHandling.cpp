@@ -345,16 +345,16 @@ void locoRegister(void)
   if(client.connected())
   {
     client.print(String("N") + throttleName + "\n");
+    uint8_t mac[6];
+    WiFi.macAddress(mac);
+    String id = String(mac[0], 16) + String(mac[1], 16) + String(mac[2], 16) + String(mac[3], 16) + String(mac[4], 16) + String(mac[5], 16);
+    client.print("HU" + id + "\n");
   
     if(client.available())
     {
       String line = client.readStringUntil('\n');
       if (line.startsWith("VN2.0"))
       {
-        uint8_t mac[6];
-        WiFi.macAddress(mac);
-        String id = String(mac[0], 16) + String(mac[1], 16) + String(mac[2], 16) + String(mac[3], 16) + String(mac[4], 16) + String(mac[5], 16);
-        client.print("HU" + id + "\n");
         switchState(STATE_LOCO_WAITFORTIMEOUT, 1000);
         Serial.println("ON");
         // flush all input data
