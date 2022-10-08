@@ -75,9 +75,7 @@ void handleWiFi(void)
       wifiMulti.run(SINGLE_NETWORK_TIMEOUT_MS);
       break;
 
-    case STATE_STARTUP:
-    case STATE_LOWPOWER_WAITING:
-    case STATE_LOWPOWER:
+    default:
       break;
   }
 }
