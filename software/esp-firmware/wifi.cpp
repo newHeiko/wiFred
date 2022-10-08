@@ -76,8 +76,7 @@ void handleWiFi(void)
       wifiMulti.run();
       break;
 
-    case STATE_LOWPOWER_WAITING:
-    case STATE_LOWPOWER:
+    default:
       break;
   }
 }
