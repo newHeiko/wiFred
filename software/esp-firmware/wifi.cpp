@@ -26,6 +26,7 @@
 #include <HTTPUpdateServer.h>
 #include <ESPmDNS.h>
 #include <DNSServer.h>
+#include <AsyncUDP.h>
 
 #include "wifi.h"
 #include "locoHandling.h"
@@ -74,9 +75,7 @@ void handleWiFi(void)
       wifiMulti.run(SINGLE_NETWORK_TIMEOUT_MS);
       break;
 
-    case STATE_STARTUP:
-    case STATE_LOWPOWER_WAITING:
-    case STATE_LOWPOWER:
+    default:
       break;
   }
 }
@@ -187,7 +186,7 @@ void initWiFiAP(void)
   WiFi.mode(WIFI_AP_STA);
   uint8_t mac[6];
   WiFi.macAddress(mac);
-  String ssid = "wiFred-config" + String(mac[0], 16) + String(mac[5], 16);
+  String ssid = "wiFred-config" + String(mac[3], 16) + String(mac[4], 16) + String(mac[5], 16);
   #ifdef DEBUG
   Serial.println();
   Serial.print("Not connected, setting up AP at ");
@@ -386,7 +385,8 @@ void writeMainPage()
               + "<tr><td>Battery voltage: </td><td>" + batteryVoltage + " mV" + (lowBattery ? " Battery LOW" : "" ) + "</td></tr>"
               + "<tr><td>Firmware revision: </td><td>" + REV + "</td></tr></table>\r\n"
               + "<table><tr><td>Active WiFi network SSID:</td><td>" + (WiFi.isConnected() ? WiFi.SSID() : "not connected") + "</td></tr>"
-              + "<tr><td>Signal strength:</td><td>" + (WiFi.isConnected() ? (String) WiFi.RSSI() + "dB" : "not connected") + "</td></tr></table>";
+              + "<tr><td>Signal strength:</td><td>" + (WiFi.isConnected() ? (String) WiFi.RSSI() + "dB" : "not connected") + "</td></tr>"
+              + "<tr><td>WiFi STA MAC address:</td><td>" + WiFi.macAddress() + "</td></tr></table>";
   
   for(uint8_t i=0; i<4; i++)
   {
@@ -455,7 +455,7 @@ void writeMainPage()
   resp        += String("<hr>Loco server configuration<hr>\r\n")
               + "<form action=\"index.html\" method=\"get\"><table border=0>"
               + "<tr><td>Loco server and port: </td>"
-              + "<td>http://<input type=\"text\" name=\"loco.serverName\" value=\"" + locoServer.name + "\">:<input type=\"text\" name=\"loco.serverPort\" value=\"" + locoServer.port + "\"></td></tr>"
+              + "<td><input type=\"text\" name=\"loco.serverName\" value=\"" + locoServer.name + "\">:<input type=\"text\" name=\"loco.serverPort\" value=\"" + locoServer.port + "\"></td></tr>"
               + "<tr><td style=\"text-align: right\"><input type=\"checkbox\" name=\"loco.automatic\"" + (locoServer.automatic ? " checked" : "") + "></td><td>Find server automatically through Zeroconf/Bonjour instead.</td></tr>"
               + "<tr><td colspan=2>Using " + (locoServer.automatic && automaticServer != nullptr ? automaticServer : locoServer.name) + ":" + locoServer.port + "</td></tr>"
               + "<tr><td colspan=2><input type=\"submit\" value=\"Save loco server settings\"></td></tr></table></form>";
@@ -680,6 +680,12 @@ void getConfigXML()
    server.send(200, "text/html", resp);      
 }
 /* end db211109*/
+
+void broadcastUDP(void)
+{
+  AsyncUDP udp;
+  udp.broadcastTo("wiFred",UDP_BROADCAST_PORT);
+}
 
 void initWiFi(void)
 {

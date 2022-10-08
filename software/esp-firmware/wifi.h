@@ -26,6 +26,8 @@
 #define SINGLE_NETWORK_TIMEOUT_MS 20000
 #define TOTAL_NETWORK_TIMEOUT_MS 60000
 
+#define UDP_BROADCAST_PORT 51289
+
 typedef struct
 {
   char * ssid;
@@ -52,5 +54,7 @@ void shutdownWiFiConfigSTA(void);
 void handleWiFi(void);
 
 void scanWifi(void);
+
+void broadcastUDP(void);
 
 #endif

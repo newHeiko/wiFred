@@ -120,7 +120,7 @@ image::DSC0690.jpg[alt="Throttle"]
 
 As soon as any of the loco selection switches is moved into the "enabled" position, the throttle will boot up and try to connect to a wireless network. When all four loco selection switches are "disabled", the throttle will disconnect from the wireless network after a grace period of five seconds. The device will then go into low power mode, in which the battery will last for more than a year.
 
-If no connection to the network configured into the device can be established within 60 seconds, the throttle will create it's own wireless network named *wiFred-config* plus four hex digits taken from the MAC address of the throttle WiFi interface, for example *wiFred-config0CAC*, to enable configuration as described in <<config>>.
+If no connection to the network configured into the device can be established within 60 seconds, the throttle will create it's own wireless network named *wiFred-config* plus six hex digits taken from the MAC address of the throttle WiFi interface, for example *wiFred-config61FB7B*, to enable configuration as described in <<config>>.
 
 Four different locos with long DCC addresses can be assigned to the four loco selection switches. Commands derived from the speed potentiometer, the direction switch and the function keys will be transmitted to all selected locos (near) simultaneously, with a certain translation table enabling some locos to go backwards when others go forwards and also limiting function keys to some of the four locos only - this is described in more detail in <<throttle_LocoConf>> and <<throttle_FunctionConf>>.
 
@@ -153,6 +153,8 @@ IMPORTANT: After entering any kind of text (names, numbers...) into text fields,
 
 === Entering configuration mode
 
+NOTE:  The wiFred is designed to be configured in configuration mode. If the IP address or the name of the throttle during normal operation is known, the configuration pages can also be accessed by pointing a web browser to it at any time while it is connected. This is mostly untested and therefore not recommended while the throttle is running locos, as it may lead to a temporarily inconsistent configuration. At the very least, deactivating and re-activating a loco with the respective loco selection switch will be required for changed settings to take effect.
+
 There are four ways to enter configuration mode:
 
 . Power up the throttle/select a loco when the configured WiFi network is not in range (or when there is no valid configuration - the first startup of a new throttle will fall into this category)
@@ -163,13 +165,11 @@ There are four ways to enter configuration mode:
 
 . Press F0 for five seconds while / after the device has connected to a WiFi networkfootnote:ESP32[]
 
-In the first two cases, the throttle will create a wireless network named *wiFred-config* plus four hex digits taken from the MAC address of the throttle WiFi interface, for example *wiFred-config0CAC* and announce its presence under the name *config.local* as well as creating a captive portal. Any WiFi device with a web browser can connect to that network and open a web browser to point to *http://192.168.4.1* or *http://config.local*.
+In the first two cases, the throttle will create a wireless network named *wiFred-config* plus six hex digits taken from the MAC address of the throttle WiFi interface, for example *wiFred-config61FB7B* and announce its presence under the name *config.local* as well as creating a captive portal. Any WiFi device with a web browser can connect to that network and open a web browser to point to *http://192.168.4.1* or *http://config.local*.
 
 NOTE: This has been tested with Mozilla Firefox and Opera on Linux with Avahi (a Zeroconf implementation), FOSS Browser on Android 9/10 and Safari on iOS 13/14.
 
 In the third and fourth case, the throttle will only announce its presence under the name *config.local* using the Bonjour/Zeroconf-protocol. Any device on the same WiFi network with Bonjour/Zeroconf can use a web browser to access the configuration at *http://config.local*. See <<configurationComputer>> for an explanation what is required to have your device read Bonjour/Zeroconf announcements.
-
-NOTE: If the IP address or the name of the throttle during normal operation is known, the configuration pages can also be accessed by pointing a web browser to it at any time while it is connected. This is mostly untested and therefore not recommended while the throttle is running locos.
 
 NOTE: This has been tested with Mozilla Firefox and Opera on Linux with Avahi (a Zeroconf implementation) and BonjourBrowser on Android 10.
 
@@ -214,7 +214,7 @@ Following the "Loco server configuration", there are four identical sections ass
 
 DCC address:: Can be a short address between 1 and 127 (also used for consists) or a long address between 0 and 10239.
 
-NOTE: Short addresses between 1 and 127 are not the same as long addresses between 1 and 127, and many DCC systems do not support all those addresses.
+NOTE: Short addresses between 1 and 127 are not the same as long addresses between 1 and 127, and many DCC systems do not support all those addresses.footnote:[In particular, long addresses 0-127 are not supported on many systems, for example those based on loconet.] A DCC address that the DCC system does not support is silently ignored.
 
 If this is set to -1, the corresponding loco is disabled.
 
@@ -222,7 +222,7 @@ Long address?:: Checkbox to change the behaviour of the DCC address input field 
 
 Direction:: This has three options:
 
-* Normal: Loco will travel forwards if wiFred is set to forwards and vice versa
+* Forward: Loco will travel forwards if wiFred is set to forwards and vice versa
 
 * Reverse: Loco will travel backwards if wiFred is set to forwards and vice versa
 
@@ -403,11 +403,17 @@ Tested with iOS 13 and iOS 14, Android 9 and 10 as well as Firefox on Linux, the
 
 For regular configuration, once the wiFred has successfully connected to a WiFi network and put into configuration mode, Bonjour/Zeroconf/mDNS support is required to find the device announcing itself as http://config.local. This service is provided on Linux by a software package called avahi, should work out of the box on iOS and MacOS and can be installed on Windows with iTunes. For mobile operating systems, there are apps called Discovery for iOS and BonjourBrowser for Android which not only translate http://config.local to point to the configuration website of the one wiFred on the network that is in configuration mode but also browse all wiFreds currently announcing their presence. <<bonjourBrowser>> shows a screenshot of the Android version. Clicking on a device will open a browser to its configuration website.
 
-NOTE: Configuring a wiFred without putting it into configuration mode first is largely untested and may produce undesired results, particularly if you are running a train with it at the same time.
+NOTE:  The wiFred is designed to be configured in configuration mode. If the IP address or the name of the throttle during normal operation is known, the configuration pages can also be accessed by pointing a web browser to it at any time while it is connected. This is mostly untested and therefore not recommended while the throttle is running locos, as it may lead to a temporarily inconsistent configuration. At the very least, deactivating and re-activating a loco with the respective loco selection switch will be required for changed settings to take effect.
 
 [#bonjourBrowser]
 .User interface of BonjourBrowser, showing two wiFreds active on the network.
 image::bonjourBrowser.png[alt="BonjourBrowser with two wiFreds",width=50%,scaledwidth=50%]
+
+=== Support for configuration software
+
+To support a specialized configuration software, the wiFred will send a UDP broadcast upon successfully connecting to a WiFi network and present its configuration at /api/getConfigXML.
+
+For more information, contact mailto:wiFred@bornwnd.de[Detlef Born].
 
 == Hardware description
 
