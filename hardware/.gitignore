@@ -1,0 +1,5 @@
+*.sch-bak
+*.kicad_pcb-bak
+fp-info-cache
+*~
+wfred_rev6.xml
