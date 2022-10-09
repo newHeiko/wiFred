@@ -178,7 +178,7 @@ void loop() {
       {
         switchState(STATE_STARTUP);
       }
-      locoHandler();      
+      locoHandler();
       break;
     
     case STATE_CONFIG_STATION_WAITING:
