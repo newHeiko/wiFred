@@ -5,8 +5,8 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 2 3
 Title "Wireless FREDI"
-Date "2021-06-28"
-Rev "0.62"
+Date "2022-10-09"
+Rev "0.64"
 Comp "Heiko Rosemann (heiko.rosemann@web.de) CC-BY-SA"
 Comment1 ""
 Comment2 ""
@@ -1036,7 +1036,7 @@ F 1 "22u" H 9356 4365 40  0000 L CNN
 F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 9388 4300 30  0001 C CNN
 F 3 "" H 9350 4450 60  0000 C CNN
 F 4 "KEM X5R0805 22U" H 9350 4450 60  0001 C CNN "Reichelt"
-F 5 "C45783" H 9350 4450 50  0001 C CNN "LCSC"
+F 5 "C129303" H 9350 4450 50  0001 C CNN "LCSC"
 	1    9350 4450
 	0    -1   -1   0   
 $EndComp
@@ -1060,7 +1060,7 @@ F 1 "22u" H 10056 5265 40  0000 L CNN
 F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 10088 5200 30  0001 C CNN
 F 3 "" H 10050 5350 60  0000 C CNN
 F 4 "KEM X5R0805 22U" H 10050 5350 60  0001 C CNN "Reichelt"
-F 5 "C45783" H 10050 5350 50  0001 C CNN "LCSC"
+F 5 "C129303" H 10050 5350 50  0001 C CNN "LCSC"
 	1    10050 5350
 	1    0    0    -1  
 $EndComp
@@ -1161,7 +1161,7 @@ F 1 "22u" H 8256 5165 40  0000 L CNN
 F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8288 5100 30  0001 C CNN
 F 3 "" H 8250 5250 60  0000 C CNN
 F 4 "KEM X5R0805 22U" H 8250 5250 60  0001 C CNN "Reichelt"
-F 5 "C45783" H 8250 5250 50  0001 C CNN "LCSC"
+F 5 "C129303" H 8250 5250 50  0001 C CNN "LCSC"
 	1    8250 5250
 	1    0    0    -1  
 $EndComp

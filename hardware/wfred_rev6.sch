@@ -5,8 +5,8 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 3
 Title "Wireless FREDI"
-Date "2021-06-28"
-Rev "0.62"
+Date "2022-10-09"
+Rev "0.64"
 Comp "Heiko Rosemann (heiko.rosemann@web.de) CC-BY-SA"
 Comment1 ""
 Comment2 "External connections (Battery, USB)"
@@ -320,7 +320,7 @@ F 1 "22u" H 7506 2415 40  0000 L CNN
 F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 7538 2350 30  0001 C CNN
 F 3 "" H 7500 2500 60  0000 C CNN
 F 4 "KEM X5R0805 22U" H 7500 2500 60  0001 C CNN "Reichelt"
-F 5 "C45783" H 7500 2500 50  0001 C CNN "LCSC"
+F 5 "C129303" H 7500 2500 50  0001 C CNN "LCSC"
 F 6 "187-CL21A226MAYNNNE" H 7500 2500 50  0001 C CNN "Mouser"
 F 7 "Mouser 25V, LCSC/Reichelt 6V3" H 7500 2500 50  0001 C CNN "Remark"
 	1    7500 2500
