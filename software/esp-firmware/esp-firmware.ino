@@ -88,7 +88,7 @@ void loop() {
   switch(wiFredState)
   {
     case STATE_STARTUP:
-      setLEDvalues("0/0", "0/0", "100/200");
+      showVoltageIfOff("0/0", "0/0", "100/200");
       if(getInputState(KEY_ESTOP))
       {
         switchState(STATE_WAIT_ON_RED_KEY, WAIT_ON_KEY_TIMEOUT);
@@ -105,7 +105,7 @@ void loop() {
       break;
       
     case STATE_CONNECTING:
-      setLEDvalues("0/0", "0/0", "100/200");
+      showVoltageIfOff("0/0", "0/0", "100/200");
       if(WiFi.status() == WL_CONNECTED)
       {
         initMDNS();
@@ -127,7 +127,7 @@ void loop() {
       break;
 
     case STATE_CONNECTED:
-      setLEDvalues("0/0", "0/0", "25/50");
+      showVoltageIfOff("0/0", "0/0", "25/50");
       if(WiFi.status() != WL_CONNECTED)
       {
         switchState(STATE_STARTUP);
@@ -173,7 +173,7 @@ void loop() {
       break;
     
     case STATE_CONFIG_STATION_WAITING:
-      setLEDvalues("200/200", "200/200", "200/200");
+      showVoltageIfOff("200/200", "200/200", "200/200");
       if(WiFi.status() != WL_CONNECTED)
       {
         switchState(STATE_STARTUP);
@@ -186,7 +186,7 @@ void loop() {
       break;
 
     case STATE_CONFIG_STATION:
-      setLEDvalues("200/200", "200/200", "200/200");
+      showVoltageIfOff("200/200", "200/200", "200/200");
       if(WiFi.status() != WL_CONNECTED)
       {
         initWiFiAP();
@@ -195,32 +195,7 @@ void loop() {
       break;
 
     case STATE_LOCOS_OFF:
-      switch((batteryVoltage - 3500) / 100)
-      {
-        case -2:
-        case -1:
-        case 0:
-        case 1:
-          setLEDvalues("0/0", "0/0", "30/50");
-          break;
-        case 2:
-          setLEDvalues("0/0", "0/0", "50/50");
-          break;
-        case 3:
-          setLEDvalues("0/0", "30/50", "50/50");
-          break;
-        case 4:
-          setLEDvalues("0/0", "50/50", "50/50");
-          break;
-        case 5:
-        case 6:
-        case 7:
-          setLEDvalues("30/50", "50/50", "50/50");
-          break;
-        default:
-          setLEDvalues("50/50", "50/50", "30/50");
-          break;
-      }
+      showVoltage();
       if(millis() > stateTimeout)
       {
         locoDisconnect();
@@ -263,14 +238,14 @@ void loop() {
       
     case STATE_CONFIG_AP:
     // no way to get out of here except for restart
-      setLEDvalues("0/0", "0/0", "200/200");
+      showVoltageIfOff("0/0", "0/0", "200/200");
       break;
 
     case STATE_WAIT_ON_RED_KEY:
       setLEDvalues("0/0", "25/50", "25/50");
       if(!getInputState(KEY_ESTOP))
       {
-        setLEDvalues("0/0", "0/0", "100/200");
+        showVoltageIfOff("0/0", "0/0", "100/200");
         initWiFiSTA();
         switchState(STATE_CONNECTING, TOTAL_NETWORK_TIMEOUT_MS);
       }
@@ -291,7 +266,7 @@ void loop() {
       setLEDvalues("25/50", "0/0", "25/50");
       if(!getInputState(KEY_SHIFT))
       {
-        setLEDvalues("0/0", "0/0", "100/200");
+        showVoltageIfOff("0/0", "0/0", "100/200");
         initWiFiSTA();
         switchState(STATE_CONNECTING, TOTAL_NETWORK_TIMEOUT_MS);
       }
