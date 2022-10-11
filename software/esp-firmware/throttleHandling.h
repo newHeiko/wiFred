@@ -71,4 +71,6 @@ void showVoltage(void);
  * Show battery voltage through LEDs only if no loco switch is active
  * Show LED values otherwise
  */
+void showVoltageIfOff(String ledFwd, String ledRev, String ledStop);
+
 #endif
