@@ -59,7 +59,7 @@ void initConfig(void)
 
   potiMin = 1100;
   potiMax = 1100;
-  battFactor = 1.0f;
+  battFactor = 1.05f;
 
   centerFunction = CENTER_FUNCTION_IGNORE;
   
@@ -217,6 +217,14 @@ void initConfig(void)
       battFactor = doc[FIELD_BATT_FACTOR];
     }
     f.close();
+  }
+
+  // correct battery factor for the changed analog voltage reading after 
+  // https://github.com/espressif/arduino-esp32/pull/6799
+  if(battFactor < 0.75)
+  {
+    battFactor *= 1.6;
+    saveAnalogConfig();
   }
 }
 
