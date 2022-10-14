@@ -369,7 +369,8 @@ void writeMainPage()
 	            + "<tr><td>AVR firmware revision: </td><td>" + avrRevision + "</td></tr></table>\r\n"
               + "<table><tr><td>Active WiFi network SSID:</td><td>" + (WiFi.isConnected() ? WiFi.SSID() : "not connected") + "</td></tr>"
               + "<tr><td>Signal strength:</td><td>" + (WiFi.isConnected() ? (String) WiFi.RSSI() + "dB" : "not connected") + "</td></tr>"
-              + "<tr><td>WiFi STA MAC address:</td><td>" + WiFi.macAddress() + "</td></tr></table>";
+              + "<tr><td>WiFi STA MAC address:</td><td>" + WiFi.macAddress() + "</td></tr>"
+              + "<tr><td colspan = 2><a href=\"./flashred.html\">Flash red LED to identify wiFred</a></td></tr></table>";
   
   for(uint8_t i=0; i<4; i++)
   {
@@ -676,6 +677,25 @@ void getConfigXML()
 }
 /* end db211109*/
 
+void doFlashRED(void)
+{
+  if(server.hasArg("count"))
+  {
+    setLEDblink(server.arg("count").toInt());
+  }
+  else  
+  {
+    setLEDblink(10);
+  }
+  String resp = String("<!DOCTYPE HTML>\r\n")
+              + "<html><head><title>Blinking red LED</title></head>\r\n"
+              + "<body><h1>Blinking red LED</h1>\r\n"
+              + "Red LED will blink " + (server.hasArg("count") ? server.arg("count").toInt() : 10) + " times.\r\n"
+              + "<a href=\"/index.html\">Return to main page</a> (will not stop blinking)\r\n"
+              + "</body></html>";
+  server.send(200, "text/html", resp);    
+}
+
 void broadcastUDP(void)
 {
   AsyncUDP udp;
@@ -690,6 +710,7 @@ void initWiFi(void)
   server.on("/restart.html", restartESP);
   server.on("/resetConfig.html", resetESP);
   server.on("/api/getConfigXML", getConfigXML); // db211109 return config as xml
+  server.on("/flashred.html", doFlashRED);  //db 220828 let red LED flash from extern x times
   server.onNotFound(writeMainPage);
 
   updater.setup(&server);

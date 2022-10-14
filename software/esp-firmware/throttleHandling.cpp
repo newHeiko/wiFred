@@ -20,6 +20,8 @@
  * sent to the server via the functions in locoHandling.*
  */
 
+#include <Ticker.h>
+
 #include <stdbool.h>
 
 #include "locoHandling.h"
@@ -44,6 +46,11 @@ int centerFunction;
 bool centerPosition;
 
 /**
+ * Ticker for red LED blink function
+ */
+Ticker blinkTicker;
+
+/**
  * Unlock direction change when in center position
  */
 bool directionChangeUnlock = false;
@@ -57,6 +64,42 @@ bool directionChangeBlocked = false;
  * Timestamp when direction switch was moved into center position
  */
 uint32_t enterCenterPositionTime;
+
+/**
+ * Blink red LED this many times before resuming normal LED patterns
+ * (down counter)
+ */
+unsigned int blinkLED;
+
+/**
+ * Count down blink times
+ */
+void ledBlinkHandler(void)
+{
+  if(blinkLED > 0)
+  {
+    blinkLED--;
+  }
+  else
+  {
+    blinkTicker.detach();
+    // turn off LED - will hopefully be turned on again soon
+    setLEDvalues("", "", "0/10");
+  }
+}
+
+/**
+ * Set red LED blinking numbers
+ * 
+ * @param number Blink red LED this many times before resuming normal LED patterns
+ */
+void setLEDblink(unsigned int number)
+{
+  blinkLED = number;
+  Serial.println("L3:10/30");
+  Serial.flush();
+  blinkTicker.attach_ms(300, ledBlinkHandler);
+}
 
 /**
  * Remember current direction setting
@@ -80,22 +123,21 @@ void setLEDvalues(String led1, String led2, String led3)
   static uint8_t led2countdown = 0;
   static uint8_t led3countdown = 0;
 
-  if(oldLed1 != led1)
+  if(oldLed1 != led1 && led1 != "")
   {
     led1countdown = 2;
     oldLed1 = led1;
   }
-  if(oldLed2 != led2)
+  if(oldLed2 != led2 && led2 != "")
   {
     led2countdown = 2;
     oldLed2 = led2;
   }
-  if(oldLed3 != led3)
+  if(oldLed3 != led3 && led3 != "" && blinkLED == 0)
   {
     led3countdown = 2;
     oldLed3 = led3;
   }
-
 
   if(led1countdown > 0)
   {
