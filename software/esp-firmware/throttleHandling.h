@@ -70,6 +70,13 @@ extern unsigned int potiMax;
 extern int centerFunction;
 
 /**
+ * Status of direction switch
+ * 
+ * true if in center position
+ */
+extern bool centerPosition;
+
+/**
  * Battery voltage readout factor
  * Multiply readout by this value to correct it
  */

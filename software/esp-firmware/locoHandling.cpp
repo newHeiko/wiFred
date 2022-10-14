@@ -202,6 +202,31 @@ void locoHandler(void)
       if(locos[currentLoco].address != -1)
       {
         setESTOP();
+        // deactivate function if it has been activated due to center function setting
+        if(centerPosition && centerFunction >= 0)
+        {
+          switch(locos[currentLoco].functions[centerFunction])
+          {
+            case THROTTLE_SINGLE:
+              if(!isOnlyLoco(currentLoco))
+              {
+                break;
+              }
+
+            // intentionally fall through
+
+            case THROTTLE_MOMENTARY:
+            case THROTTLE_LOCKING:
+            case THROTTLE:
+              client.print(String("MTA") + locoThrottleID[currentLoco] + "<;>F0" + centerFunction + "\n");
+              break;
+
+            case ALWAYS_ON:
+            case ALWAYS_OFF:
+            case IGNORE:
+              break;
+          }
+        }
         client.print(String("MT-") + locoThrottleID[currentLoco] + "<;>r\n");
       }
 
@@ -619,9 +644,22 @@ void setLocoFunctions(uint8_t loco)
       case ALWAYS_OFF:
         client.print(String("MTA") + locoThrottleID[loco] + "<;>f0" + f + "\n");
         break;
-            
-      case THROTTLE_MOMENTARY:
+
       case THROTTLE_SINGLE:
+        if(!isOnlyLoco(loco))
+        {
+          break;
+        }
+      
+      // intentionally fall through
+      
+      case THROTTLE_MOMENTARY:
+        if(centerPosition && centerFunction == f)
+        {
+          client.print(String("MTA") + locoThrottleID[loco] + "<;>F1" + f + "\n");
+        }
+        break;
+        
       case IGNORE:
         break;
     }
