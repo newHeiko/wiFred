@@ -263,7 +263,11 @@ void locoHandler(void)
   {
     ledReverse = "0/100";
   }
-  if(myReverse)
+  if(centerPosition)
+  {
+    setLEDvalues(ledForward, ledForward, "0/100");
+  }
+  else if(myReverse)
   {
     setLEDvalues(ledReverse, ledForward, "0/100");
   }
