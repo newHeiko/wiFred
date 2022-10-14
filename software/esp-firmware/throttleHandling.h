@@ -43,6 +43,18 @@ void setLEDvalues(String led1, String led2, String led3);
 extern int centerFunction;
 
 /**
+ * Status of direction switch
+ * 
+ * true if in center position
+ */
+extern bool centerPosition;
+
+/**
+ * Change LED settings
+ */
+void setLEDvalues(String ledFwd, String ledRev, String ledStop);
+
+/**
  * Periodically check serial port for new information from the AVR
  */
 void handleThrottle(void);
