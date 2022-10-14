@@ -543,13 +543,20 @@ void scanWifi()
   }
 
   resp += String("</table>")
-          + "<a href=index.html>Return to main page</a></body></html>";
+          + "<a href=\"/index.html\">Return to main page</a></body></html>";
 
   server.send(200, "text/html", resp);
 }
 
 void restartESP()
 {
+  String resp = String("<!DOCTYPE HTML>\r\n")
+                + "<html><head><title>Restarting wiFred</title></head>\r\n"
+                + "<body><h1>Restarting wiFred</h1>\r\n"
+                + "<a href=\"/index.html\">Return to main page</a> (Might require reconnecting to wiFred WiFi)\r\n"
+                + "</body></html>";
+  server.send(200, "text/html", resp);
+  delay(500);
   ESP.restart();
 }
 
@@ -557,7 +564,14 @@ void resetESP()
 {
   if(server.hasArg("reallyReset"))
   {
+    String resp = String("<!DOCTYPE HTML>\r\n")
+                  + "<html><head><title>Resetting wiFred to factory defaults</title></head>\r\n"
+                  + "<body><h1>This wiFred is being reset to factory defaults</h1>\r\n"
+                  + "<a href=\"/index.html\">Return to main page</a> (Might require reconnecting to wiFred WiFi)\r\n"
+                  + "</body></html>";
+    server.send(200, "text/html", resp);    
     deleteAllConfig();
+    delay(500);
     restartESP();
   }
   else
