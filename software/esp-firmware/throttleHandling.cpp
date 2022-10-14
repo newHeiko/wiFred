@@ -276,7 +276,7 @@ void handleThrottle(void)
 		              centerPosition = true;
 		            }
 
-		            if((millis() - enterCenterPositionTime) > CENTER_FUNCTION_ESTOP_TIMEOUT)
+		            if((millis() - enterCenterPositionTime) > CENTER_FUNCTION_ESTOP_TIMEOUT || speedIn < 1)
 		            {
 		              directionChangeBlocked = false;
 		            }
@@ -288,11 +288,7 @@ void handleThrottle(void)
 		            else
 		            {		  
 		              setSpeed((uint8_t) speedIn);
-		              if(speedIn < 1)
-		              {
-		                directionChangeBlocked = false;
-		              }
-		            }
+                }
 	            }     	
               else
               {
