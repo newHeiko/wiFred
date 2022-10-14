@@ -111,6 +111,11 @@ void locoHandler(void);
 void setSpeed(uint8_t newSpeed);
 
 /**
+ * Retrieve current speed
+ */
+uint8_t getSpeed(void);
+
+/**
  * Send new direction value to wiThrottle handling code
  * 
  * Will be sent out to all locos if it is new

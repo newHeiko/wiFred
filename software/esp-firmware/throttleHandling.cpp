@@ -390,8 +390,11 @@ void handleThrottle(void)
       switch(centerFunction)
       {
         case CENTER_FUNCTION_ZEROSPEED:
-          setSpeed(0);
-          directionChangeBlocked = true;
+          if(getSpeed() != 0)
+          {
+            setSpeed(0);
+            directionChangeBlocked = true;
+          }
           break;
 
         case CENTER_FUNCTION_IGNORE:

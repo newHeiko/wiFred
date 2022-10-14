@@ -519,6 +519,14 @@ void setSpeed(uint8_t _newSpeed)
 }
 
 /**
+ * Retrieve current speed
+ */
+uint8_t getSpeed(void)
+{
+  return speed;
+}
+
+/**
  * Set current throttle status to ESTOP
  */
 void setESTOP(void)
