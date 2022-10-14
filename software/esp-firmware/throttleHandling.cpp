@@ -233,7 +233,7 @@ void handleThrottle(void)
             		  if(millis() - enterCenterPositionTime < CENTER_FUNCTION_ESTOP_TIMEOUT)
             		  {
             		    setESTOP();
-                          }
+                  }
             
             		  if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
             		  {
