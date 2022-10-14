@@ -83,6 +83,13 @@ extern bool centerPosition;
 extern float battFactor;
 
 /**
+ * Set red LED blinking numbers
+ * 
+ * @param number Blink red LED this many times before resuming normal LED patterns
+ */
+void setLEDblink(unsigned int number);
+
+/**
  * Change LED settings
  */
 void setLEDvalues(String ledFwd, String ledRev, String ledStop);

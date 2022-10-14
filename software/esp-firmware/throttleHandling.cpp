@@ -119,6 +119,12 @@ uint32_t enterCenterPositionTime;
 float battFactor = 1.0f;
 
 /**
+ * Blink red LED this many times before resuming normal LED patterns
+ * (down counter)
+ */
+unsigned int blinkLED;
+
+/**
  * turn LED off
  */
 void ledOff(int ledPin)
@@ -158,6 +164,37 @@ void ledOn(int ledPin)
 }
 
 /**
+ * Count down blink times
+ */
+void ledBlinkHandler(void)
+{
+  if(blinkLED > 0)
+  {
+    blinkLED--;
+    ledOn(LED_STOP);
+    ledStopTickerOff.once_ms(100, ledOff, LED_STOP);
+  }
+  else
+  {
+    // turn off LED - will hopefully be turned on again soon
+    setLEDvalues("", "", "0/100");
+  }
+}
+
+/**
+ * Set red LED blinking numbers
+ * 
+ * @param number Blink red LED this many times before resuming normal LED patterns
+ */
+void setLEDblink(unsigned int number)
+{
+  blinkLED = number;
+  ledOn(LED_STOP);
+  ledStopTickerOff.once_ms(100, ledOff, LED_STOP);
+  ledStopTickerOn.attach_ms(300, ledBlinkHandler);
+}
+
+/**
  * Remember current direction setting
  */
 bool reverseOut = false;
@@ -177,7 +214,7 @@ void setLEDvalues(String ledFwd, String ledRev, String ledStop)
     alignas(4) unsigned int onTime;
     alignas(4) unsigned int cycleTime;
 
-    if(sscanf(ledStop.c_str(), "%u/%u", &onTime, &cycleTime) == 2)
+    if(sscanf(ledStop.c_str(), "%u/%u", &onTime, &cycleTime) == 2 && blinkLED == 0)
     {
       log_d("Change stop: %u out of %u", onTime, cycleTime);
       ledStopTickerOn.attach_ms(10 * cycleTime, ledOn, LED_STOP);
@@ -190,6 +227,7 @@ void setLEDvalues(String ledFwd, String ledRev, String ledStop)
       {
         ledOff(LED_STOP);
       }
+      oldLedStop = ledStop;
     }
 
     if(sscanf(ledFwd.c_str(), "%u/%u", &onTime, &cycleTime) == 2)
@@ -205,6 +243,7 @@ void setLEDvalues(String ledFwd, String ledRev, String ledStop)
       {
         ledOff(LED_FWD);
       }
+      oldLedFwd = ledFwd;
     }
 
     if(sscanf(ledRev.c_str(), "%u/%u", &onTime, &cycleTime) == 2)
@@ -220,11 +259,9 @@ void setLEDvalues(String ledFwd, String ledRev, String ledStop)
       {
         ledOff(LED_REV);
       }
+      oldLedRev = ledRev;
     }
 
-    oldLedStop = ledStop;
-    oldLedFwd = ledFwd;
-    oldLedRev = ledRev;
   }
 }
 
