@@ -146,7 +146,6 @@ void locoHandler(void)
       }
     }
     switchState(STATE_CONNECTED, 60 * 1000);
-    Serial.println("OF");
     return;
   }
 
@@ -363,7 +362,6 @@ void locoDisconnect(void)
     }
   }
   client.print("Q\n");
-  Serial.println("OF");
 }
 
 /**
@@ -385,7 +383,6 @@ void locoRegister(void)
       if (line.startsWith("VN2.0"))
       {
         switchState(STATE_LOCO_WAITFORTIMEOUT, 1000);
-        Serial.println("ON");
         // flush all input data
         client.flush();
       }
@@ -394,7 +391,6 @@ void locoRegister(void)
   else
   {
     switchState(STATE_CONNECTED, 60 * 1000);
-    Serial.println("OF");
   }
 }
 

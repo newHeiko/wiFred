@@ -30,6 +30,20 @@
 #include "throttleHandling.h"
 
 /**
+ * Array containing all valid key masks
+ */
+const uint32_t keys[] = { KEY_F0, KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6, KEY_F7, KEY_F8, KEY_SHIFT, KEY_ESTOP, KEY_REVERSE, KEY_FORWARD, KEY_LOCO1, KEY_LOCO2, KEY_LOCO3, KEY_LOCO4 };
+
+#define FIRST_LOCO_KEY_MASK 13
+
+/**
+ * Current state of inputs
+ */
+uint32_t inputState = 0;
+uint32_t inputPressed = 0;
+uint32_t inputToggled = 0;
+
+/**
  * Define behavior of center-off-switch
  * 
  * 0 or higher: Function to set when switch at center position
@@ -104,7 +118,7 @@ void setLEDblink(unsigned int number)
   }
   else
   {
-    blinkTicker.detach()
+    blinkTicker.detach();
     // turn off LED - will hopefully be turned o again soon
     setLEDvalues("", "", "0/10");
   }
@@ -163,7 +177,7 @@ void setLEDvalues(String led1, String led2, String led3)
     Serial.println("L3:" + led3);
     led3countdown--;
   }
-  Serial.flush();  
+  Serial.flush();
 }
 
 /**
@@ -171,7 +185,7 @@ void setLEDvalues(String led1, String led2, String led3)
  */
 bool allowDirectionChange()
 {
-  if(directionChangeUnlock && ( (millis() - enterCenterPositionTime) > CENTER_FUNCTION_ESTOP_TIMEOUT) && centerFunction != CENTER_FUNCTION_IGNORE)
+  if (directionChangeUnlock && ( (millis() - enterCenterPositionTime) > CENTER_FUNCTION_ESTOP_TIMEOUT) && centerFunction != CENTER_FUNCTION_IGNORE)
   {
     directionChangeUnlock = false;
     return true;
@@ -192,6 +206,62 @@ bool blockDirectionChange()
 }
 
 /**
+ * Get state of input buttons
+ * 
+ * @param the keymask to query
+ * @return true if input button is pressed (pin value is low)
+ */
+bool getInputState(uint32_t key)
+{
+  if(inputState & key)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+/**
+ * Get input state changes from input button
+ * 
+ * @param the keymask to query
+ * @returns true if button has been pressed since last call
+ */
+bool getInputPressed(uint32_t key)
+{
+  if(inputPressed & key)
+  {
+    inputPressed &= ~key;
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+/**
+ * Get input state changes from input button
+ *
+ * @param the keymask to query
+ * @returns true if button has been toggled since last call
+*/
+bool getInputToggled(uint32_t key)
+{
+  if(inputToggled & key)
+  {
+    inputToggled &= ~key;
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+/**
  * Periodically check serial port for new information from the AVR and react accordingly
  */
 void handleThrottle(void)
@@ -204,7 +274,151 @@ void handleThrottle(void)
 
   // try to set direction
   setReverse(reverseOut);
-  
+
+  // handle direction switch
+  if(getInputPressed(KEY_REVERSE))
+  {
+    reverseOut = true;
+
+    if (0 <= centerFunction && centerFunction <= MAX_FUNCTION)
+    {
+      clearFunction(centerFunction);
+    }
+
+    centerPosition = false;
+  }
+  if(getInputPressed(KEY_FORWARD))
+  {
+    reverseOut = false;
+
+    if (0 <= centerFunction && centerFunction <= MAX_FUNCTION)
+    {
+      clearFunction(centerFunction);
+    }
+
+    centerPosition = false;
+  }
+  if(!getInputState(KEY_REVERSE) && !getInputState(KEY_FORWARD))
+  {
+    if(!centerPosition)
+    {
+      enterCenterPositionTime = millis();
+
+      switch(centerFunction)
+      {
+        case CENTER_FUNCTION_ZEROSPEED:
+          if (getSpeed() != 0)
+          {
+            setSpeed(0);
+            directionChangeBlocked = true;
+          }
+          break;
+
+        case CENTER_FUNCTION_IGNORE:
+          break;
+
+        default:
+          if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
+          {
+            setFunction(centerFunction);
+          }
+          break;
+      }
+      directionChangeUnlock = true;
+      centerPosition = true;
+    }
+    if((millis() - enterCenterPositionTime) > CENTER_FUNCTION_ESTOP_TIMEOUT)
+    {
+      directionChangeBlocked = false;
+    }
+  }
+
+  // handle f0 key
+  if(getInputToggled(KEY_F0))
+  {
+    if(getInputState(KEY_F0))
+    {
+      setFunction(0);
+    }
+    else
+    {
+      clearFunction(0);
+    }
+  }
+  // handle keys f1 to f8
+  {
+    // check for shift on press, remember shift for release
+    static boolean shift[8] = { false };
+    for(int f = 1; f <= 8; f++)
+    {
+      if(getInputToggled(keys[f]))
+      {
+        if(getInputState(keys[f]))
+        {
+          if(getInputState(KEY_SHIFT))
+          {
+            shift[f - 1] = true;
+            setFunction(f + 8);
+          }
+          else
+          {
+            shift[f - 1] = false;
+            setFunction(f);
+          }
+        }
+        else
+        {
+          if(shift[f - 1])
+          {
+            clearFunction(f + 8);
+          }
+          else
+          {
+            clearFunction(f);
+          }
+        }
+      }
+    }
+  }
+
+  // check for new loco switch activity
+  for(int l = 0; l < 4; l++)
+  {
+    if(getInputToggled(keys[FIRST_LOCO_KEY_MASK + l]))
+    {
+      if(!getInputState(keys[FIRST_LOCO_KEY_MASK + l]) && locoState[l] != LOCO_INACTIVE)
+      {
+        locoState[l] = LOCO_DEACTIVATE;
+      }
+      if(getInputState(keys[FIRST_LOCO_KEY_MASK + l]) && locoState[l] != LOCO_ACTIVE)
+      {
+        locoState[l] = LOCO_ACTIVATE;
+      }
+    }
+  }
+
+  // handle emergency stop key
+  if(getInputPressed(KEY_ESTOP))
+  {
+    setESTOP();
+    if(getInputState(KEY_SHIFT))
+    {
+      if(wiFredState == STATE_LOCO_ONLINE || wiFredState == STATE_CONNECTED || wiFredState == STATE_LOCO_CONNECTING)
+      {
+        // disconnect and start config mode
+        setESTOP();
+        locoDisconnect();
+        initWiFiConfigSTA();
+        switchState(STATE_CONFIG_STATION_WAITING, 120 * 1000);
+      }
+      else if(wiFredState == STATE_CONFIG_STATION || wiFredState == STATE_CONFIG_STATION_WAITING)
+      {
+        shutdownWiFiConfigSTA();
+        switchState(STATE_STARTUP, TOTAL_NETWORK_TIMEOUT_MS);
+      }
+    }
+  }
+
   // if there is input on the serial port
   while(Serial.available() > 0)
   {
@@ -212,202 +426,60 @@ void handleThrottle(void)
     String inputLine = Serial.readStringUntil('\n');
     switch(inputLine.charAt(0))
     {
-      // ESTOP command received
-      case 'E':
-        if(inputLine.charAt(6) == 'D')
-        {
-          setESTOP();
-        }
-        break;
-  
-      // CONF command received
-      case 'C':
-        if(inputLine.charAt(5) == 'D')
-        {
-          if(wiFredState == STATE_LOCO_ONLINE || wiFredState == STATE_CONNECTED || wiFredState == STATE_LOCO_CONNECTING)
-          {
-            // disconnect and start config mode
-            setESTOP();
-            locoDisconnect();
-            initWiFiConfigSTA();
-            switchState(STATE_CONFIG_STATION_WAITING, 120 * 1000);
-          }
-          else if(wiFredState == STATE_CONFIG_STATION || wiFredState == STATE_CONFIG_STATION_WAITING)
-          {
-            shutdownWiFiConfigSTA();
-            switchState(STATE_STARTUP, 60 * 1000);
-          }
-        }
-        break;
-  
       // Speed and direction command received
       case 'S':
         {
-          alignas(4) char direction;
           alignas(4) unsigned int speedIn;
-          if(sscanf(inputLine.c_str(), "S:%u:%c", &speedIn, &direction) == 2)
+          if(sscanf(inputLine.c_str(), "S:%u", &speedIn) == 1)
           {
             if(speedIn <= 126)
             {
-              if(direction == 'F')
+              if(centerFunction == CENTER_FUNCTION_ZEROSPEED && centerPosition)
               {
-                reverseOut = false;
-
-		            if(centerPosition)
-		            {
-		              if(millis() - enterCenterPositionTime < CENTER_FUNCTION_ESTOP_TIMEOUT)
-		              {
-		                setESTOP();
-		              }
-
-		              if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
-		              {
-		                clearFunction(centerFunction);
-		              }
-
-		              centerPosition = false;
-		            }
-
-		            if(speedIn < 1)
-		            {
-		              directionChangeBlocked = false;
-		            }
-
-		            setSpeed((uint8_t) speedIn);
+                speedIn = 0;
               }
-              else if(direction == 'R')
+              else if(speedIn < 1)
               {
-                reverseOut = true;
-
-            		if(centerPosition)
-            		{
-            		  if(millis() - enterCenterPositionTime < CENTER_FUNCTION_ESTOP_TIMEOUT)
-            		  {
-            		    setESTOP();
-                  }
-            
-            		  if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
-            		  {
-            		    clearFunction(centerFunction);
-            		  }
-            
-            		  centerPosition = false;
-            		}
-            
-            		if(speedIn < 1)
-            		{
-            		  directionChangeBlocked = false;
-            		}
-            
-            		setSpeed((uint8_t) speedIn);
+                directionChangeBlocked = false;
               }
-	            else if(direction == 'E')
-	            {
-		            if(!centerPosition)
-		            {
-		              enterCenterPositionTime = millis();
+              setSpeed(speedIn);
+            }
+          }
+        }
+        break;
 
-		              switch(centerFunction)
-		              {
-		                case CENTER_FUNCTION_ZEROSPEED:
-		                  directionChangeBlocked = true;
-		                  break;
-
-		                case CENTER_FUNCTION_IGNORE:
-		                  break;
-
-		                default:
-		                  if(0 <= centerFunction && centerFunction <= MAX_FUNCTION)
-		                  {
-			                  setFunction(centerFunction);
-		                  }
-		                  break;
-		              }
-		              directionChangeUnlock = true;
-		              centerPosition = true;
-		            }
-
-		            if((millis() - enterCenterPositionTime) > CENTER_FUNCTION_ESTOP_TIMEOUT || speedIn < 1)
-		            {
-		              directionChangeBlocked = false;
-		            }
-
-		            if(centerFunction == CENTER_FUNCTION_ZEROSPEED)
-		            {
-		              setSpeed(0);
-		            }
-		            else
-		            {		  
-		              setSpeed((uint8_t) speedIn);
-                }
-	            }     	
-              else
-              {
-                setESTOP();
-              }	      
+      // Key state received
+      case 'K':
+        {
+          if(inputLine.length() < 34)
+          {
+            break;
+          }
+          uint32_t newKeys = 0;
+          for(int bit = 0; bit < 32; bit++)
+          {
+            if(inputLine.charAt(2 + bit) == '1')
+            {
+              bitWrite(newKeys, 31 - bit, 1);
             }
             else
             {
-              setESTOP();
+              bitWrite(newKeys, 31 - bit, 0);
             }
           }
+          inputToggled = newKeys ^ inputState;
+          inputPressed = newKeys & inputToggled;
+          inputState = newKeys;
         }
         break;
-  
-      // Function command received
-      case 'F':
-        {
-          alignas(4) unsigned int f;
-          alignas(4) char upDown;
-          if(sscanf(inputLine.c_str(), "F%u_%c", &f, &upDown) == 2)
-          {
-            if(upDown == 'D')
-            {
-              setFunction((uint8_t) f);
-            }
-            else if(upDown == 'U')
-            {
-              clearFunction((uint8_t) f);
-            }
-          }
-        }
-        break;
-  
-      // Command to add a loco received
-      case '+':
-        {
-          uint8_t l = inputLine.substring(2).toInt();
-          if(l >= 1 && l <= 4)
-          {
-            if(locoState[l-1] != LOCO_ACTIVE)
-            {
-              locoState[l-1] = LOCO_ACTIVATE;
-            }
-          }
-        }
-        break;
-    
-      // Command to remove a loco received
-      case '-':
-        {
-          uint8_t l = inputLine.substring(2).toInt();
-          if(l >= 1 && l <= 4)
-          {
-            if(locoState[l-1] != LOCO_INACTIVE)
-            {
-              locoState[l-1] = LOCO_DEACTIVATE;
-            }
-          }
-        }
-        break;
-    
+
       // Battery voltage received
       case 'V':
         batteryVoltage = inputLine.substring(2).toInt();
         break;
-  
+
       // Battery information received
-        case 'B':
+      case 'B':
         if(inputLine.charAt(1) == 'L')
         {
           lowBattery = true;
@@ -423,7 +495,7 @@ void handleThrottle(void)
           emptyBattery = false;
         }
         break;
-  
+
       // Power Down command received
       case 'P':
         if(inputLine.startsWith("PWR_DOWN"))
@@ -433,23 +505,24 @@ void handleThrottle(void)
           switchState(STATE_LOWPOWER_WAITING, 500);
         }
         break;
-      
+
       // Firmware revision received
       case 'R':
         if(avrRevision != NULL)
         {
           free(avrRevision);
         }
-        avrRevision = strdup(inputLine.substring(1).c_str());
-        break;       
+        avrRevision = strdup(inputLine.substring(2).c_str());
+        break;
     }
   }
 }
+
 /**
  * Show battery voltage through LEDs
  */
 void showVoltage(void)
-{      
+{
   switch((batteryVoltage - 3500) / 100)
   {
     case -2:
@@ -475,7 +548,7 @@ void showVoltage(void)
     default:
       setLEDvalues("50/50", "50/50", "30/50");
       break;
-      }
+  }
 }
 
 /**
@@ -484,13 +557,13 @@ void showVoltage(void)
  */
 void showVoltageIfOff(String ledFwd, String ledRev, String ledStop)
 {
-  for(uint8_t l=0; l<4; l++)
+  if(getInputState(KEY_LOCO1 | KEY_LOCO2 | KEY_LOCO3 | KEY_LOCO4))
   {
-    if( locoState[l] != LOCO_INACTIVE && locoState[l] != LOCO_DEACTIVATE )
-    {
-      setLEDvalues(ledFwd, ledRev, ledStop);
-      return;
-    }
+    setLEDvalues(ledFwd, ledRev, ledStop);
+    return;
   }
-  showVoltage();
+  else
+  {
+    showVoltage();
+  }
 }

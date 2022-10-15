@@ -53,6 +53,9 @@ void setup() {
   #endif
   delay(100);
 
+  // request status from AVR
+  Serial.println("INIT");
+
   initWiFi();
 
 }
@@ -120,6 +123,7 @@ void loop() {
       break;
 
     case STATE_LOCO_CONNECTING:
+      showVoltageIfOff("0/0", "0/0", "25/50");
       if(WiFi.status() != WL_CONNECTED)
       {
         switchState(STATE_STARTUP);
@@ -133,6 +137,7 @@ void loop() {
       break;
 
     case STATE_LOCO_WAITFORTIMEOUT:
+      showVoltageIfOff("0/0", "0/0", "25/50");
       if(WiFi.status() != WL_CONNECTED)
       {
         switchState(STATE_STARTUP);

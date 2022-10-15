@@ -30,7 +30,7 @@
 #ifndef _KEYPAD_H_
 #define _KEYPAD_H_
 
-#include "commonKey.h"
+#include "../esp-firmware/commonKey.h"
 
 /**
  * Function to enable IRQ to wake up from power down mode

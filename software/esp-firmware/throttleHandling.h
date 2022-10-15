@@ -20,6 +20,18 @@
  * sent to the server via the functions in locoHandling.*
  */
 
+// defines to match key mask values to AVR
+#define PC0 0
+#define PC1 1
+#define PC2 2
+#define PC3 3
+#define PD4 4
+#define PD5 5
+#define PD6 6
+#define PD7 7
+
+#include "commonKey.h"
+
 #ifndef _THROTTLE_HANDLING_H_
 #define _THROTTLE_HANDLING_H_
 
@@ -32,6 +44,11 @@
  * Send LED settings to AVR - Strings are of the shape "20/100" meaning 20*10ms on time and 100*10ms total cycle time
  */
 void setLEDvalues(String led1, String led2, String led3);
+
+/**
+ * Array containing all valid key masks
+ */
+extern const uint32_t keys[];
 
 /**
  * Define behavior of center-off-switch
