@@ -59,33 +59,6 @@ volatile keyInfo keyRelease;
  * Parameters: dest: buffer to write string to (minimum sizeof("F00_DN") bytes)
  *                f: Number of function (1..8)
  */
-int8_t functionHandler(char * dest, uint8_t f)
-{
-  static uint8_t funcNum[] = {1, 2, 3, 4, 5, 6, 7, 8};
-  const uint32_t keyMask[] = {KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6, KEY_F7, KEY_F8};
-
-  f--;
-
-  if(f > 7)
-    {
-      return -1;
-    }
-  
-  if(getKeyPresses(keyMask[f]))
-    {
-      funcNum[f] = f+1;
-      if(getKeyState(KEY_SHIFT))
-	{
-	  funcNum[f] += 8;
-        }
-      return snprintf(dest, sizeof("F00_DN\r\n"), "F%u_DN\r\n", funcNum[f]);
-    }
-  if(getKeyReleases(keyMask[f]))
-    {
-      return snprintf(dest, sizeof("F00_UP\r\n"), "F%u_UP\r\n", funcNum[f]);
-    }
-  return 0;
-}	
 
 /**
  * Function to enable IRQ to wake up from power down mode
@@ -113,7 +86,9 @@ ISR(INT0_vect)
   ADCSRA |= (1<<ADSC);
 
   // enough time to measure battery voltage
-  keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT / 8;
+  keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT / 4;
+
+  initLEDs();
 }
 
 /**

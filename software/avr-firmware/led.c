@@ -35,6 +35,11 @@ void initLEDs(void)
 #ifdef WITH_FLASHLIGHT
   PORTC &= ~(1<<PC4);
 #endif
+  for(uint8_t led = 0; led < 3; led++)
+    {
+      LEDs[led].cycleTime = 250;
+      LEDs[led].onTime = 0;
+    }
 }
 
 /**

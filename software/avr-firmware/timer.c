@@ -38,9 +38,19 @@ volatile uint8_t keepaliveCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT;
 volatile uint8_t batteryEmptyCountdownSeconds = SYSTEM_KEEPALIVE_TIMEOUT / 4;
 
 /**
- * Countdown for speed and direction data timeout
+ * Countdown for speed data timeout
  */
 volatile uint8_t speedTimeout = SPEED_INTERVAL;
+
+/**
+ * Countdown for input data timeout
+ */
+volatile uint8_t keyTimeout = SPEED_INTERVAL;
+
+/**
+ * Countdown for voltage output timeout
+ */
+volatile uint8_t voltageTimeout = SPEED_INTERVAL;
 
 /**
  * If this flag is set, all LED counters start at zero again
@@ -99,7 +109,6 @@ ISR(TIMER0_COMPA_vect)
 	  PORTC &= ~(0x0f);
 	  // disable ESP8266
 	  PORTD &= ~(1<<PD3);
-	  wifiOnline = false;
 	  // disable speed potentiometer
 	  PORTC &= ~(1<<PC5);
 	  // disable ADC
@@ -114,7 +123,6 @@ ISR(TIMER0_COMPA_vect)
 	  sei();
 	  sleep_cpu();
 	  sleep_disable();
-	  /* */
 	}
 
       if(batteryEmptyCountdownSeconds > 0)
@@ -122,14 +130,24 @@ ISR(TIMER0_COMPA_vect)
 	  batteryEmptyCountdownSeconds--;
 	}
 
-      secondCountdown = 100;
+      if(speedTimeout > 0)
+        {
+          speedTimeout--;
+        }
+      
+      if(keyTimeout > 0)
+        {
+          keyTimeout--;
+        }
+
+      if(voltageTimeout > 0)
+        {
+          voltageTimeout--;
+        }
+
+      secondCountdown = 100;  
     }
 
-  if(speedTimeout > 0)
-    {
-      speedTimeout--;
-    }
-  
   static uint8_t ledOntimeCountdown[3];
   static uint8_t ledCycletimeCountdown[3];
 

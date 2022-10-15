@@ -30,14 +30,24 @@
 #define SYSTEM_KEEPALIVE_TIMEOUT 8
 
 /**
- * Timeout for sending speed and direction data (10ms units) if not changed
+ * Timeout for sending speed and direction data (seconds) if not changed
  */
-#define SPEED_INTERVAL 250
+#define SPEED_INTERVAL 5
 
 /**
- * Countdown for speed and direction data timeout
+ * Countdown for speed and direction data timeout (seconds)
  */
 extern volatile uint8_t speedTimeout;
+
+/**
+ * Countdown for input data timeout (seconds)
+ */
+extern volatile uint8_t keyTimeout;
+
+/**
+ * Countdown for battery voltage and revision timeout (seconds)
+ */
+extern volatile uint8_t voltageTimeout;
 
 /**
  * Countdown for keep alive timeout

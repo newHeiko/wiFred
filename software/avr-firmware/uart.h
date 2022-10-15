@@ -55,11 +55,4 @@ bool uartSendSpeed(uint8_t speed);
  */
 void uartHandler(void);
 
-/**
- * This will be true after receiving "online" status from ESP8266
- *             false after receiving "offline" status from ESP8266
- *             false at startup of ESP8266
- */
-extern volatile bool wifiOnline;
-
 #endif

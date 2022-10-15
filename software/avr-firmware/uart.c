@@ -81,18 +81,11 @@ volatile uint8_t rxWriteIndex = 0, rxReadIndex = 0;
  */
 bool uartSendSpeed(uint8_t speed)
 {
-  char buffer[sizeof("S:100:F\r\n")];
+  char buffer[sizeof("S:100\r\n")];
   if(! (UCSR0B & (1<<UDRIE0)) )
     {
-      if(getKeyState(KEY_FORWARD))
-	{
-	  snprintf(buffer, sizeof("S:100:F\r\n"), "S:%03u:F\r\n", speed);
-	}
-      else if(getKeyState(KEY_REVERSE))
-	{
-	  snprintf(buffer, sizeof("S:100:R\r\n"), "S:%03u:R\r\n", speed);
-	}
-      uartSendData(buffer, sizeof("S:100:F\r\n") - 1);
+      snprintf(buffer, sizeof("S:100\r\n"), "S:%03u\r\n", speed);
+      uartSendData(buffer, sizeof("S:100\r\n") - 1);
       return true;
     }
   else
@@ -207,22 +200,12 @@ void uartHandler(void)
 	  uartSendData("LERR\r\n", sizeof("LERR\r\n") - 1);
 	}
     }
-  else if(buffer[0] == 'O')
+  else if(strncmp_P(buffer, PSTR("INIT"), 4) == 0)
     {
-      switch(buffer[1])
-	{
-	case 'N':
-	  uartSendData("ONOK\r\n", sizeof("ONOK\r\n") - 1);
-	  wifiOnline = true;
-	  break;
-	case 'F':
-	  uartSendData("OFOK\r\n", sizeof("OFOK\r\n") - 1);
-	  wifiOnline = false;
-	  break;
-	default:
-	  uartSendData("OERR\r\n", sizeof("OERR\r\n") - 1);
-	  break;
-	}	  
+      uartSendData("IOK\r\n", sizeof("IOK\r\n") - 1);
+      speedTimeout = 0;
+      keyTimeout = 0;
+      voltageTimeout = 0;
     }
   else
     {
