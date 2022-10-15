@@ -1,0 +1,10 @@
+*~
+.dep/
+*lst
+*o
+main.eep
+main.elf
+main.lss
+main.lst
+main.map
+main.sym
