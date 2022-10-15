@@ -95,10 +95,19 @@ void ledBlinkHandler(void)
  */
 void setLEDblink(unsigned int number)
 {
-  blinkLED = number;
-  Serial.println("L3:10/30");
-  Serial.flush();
-  blinkTicker.attach_ms(300, ledBlinkHandler);
+  if(number > 0)
+  {
+    blinkLED = number - 1;
+    Serial.println("L3:10/30");
+    Serial.flush();
+    blinkTicker.attach_ms(300, ledBlinkHandler);
+  }
+  else
+  {
+    blinkTicker.detach()
+    // turn off LED - will hopefully be turned o again soon
+    setLEDvalues("", "", "0/10");
+  }
 }
 
 /**
