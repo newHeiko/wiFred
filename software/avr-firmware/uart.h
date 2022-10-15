@@ -29,7 +29,7 @@
 /**
  * Size of UART TX and RX buffers
  */
-#define TX_BUFFER_SIZE 64
+#define TX_BUFFER_SIZE 128
 #define RX_BUFFER_SIZE 64
 
 /**
