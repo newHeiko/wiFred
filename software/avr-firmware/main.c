@@ -155,7 +155,7 @@ int main(void)
 #ifndef REV
 #define REV "unknown"
 #endif
-	  uartSendData("R"REV"\r\n", sizeof(REV) + 2);
+	  uartSendData("R:"REV"\r\n", sizeof(REV) + 3);
           
           voltageTimeout = SPEED_INTERVAL * 10;
         }          
