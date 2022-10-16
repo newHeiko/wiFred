@@ -177,7 +177,7 @@ void ledBlinkHandler(void)
   else
   {
     // turn off LED - will hopefully be turned on again soon
-    setLEDvalues("", "", "0/100");
+    setLEDvalues("", "", "0/10");
   }
 }
 
@@ -188,11 +188,13 @@ void ledBlinkHandler(void)
  */
 void setLEDblink(unsigned int number)
 {
+  log_d("Enable blink: %u times", number);
+
   if(number > 0)
   {
     blinkLED = number - 1;
+    ledStopOnTime = 100;
     ledOn(LED_STOP);
-    ledStopTickerOff.once_ms(100, ledOff, LED_STOP);
     ledStopTickerOn.attach_ms(300, ledBlinkHandler);
   }
   else
