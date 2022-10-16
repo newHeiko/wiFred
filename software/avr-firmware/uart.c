@@ -176,6 +176,12 @@ void uartHandler(void)
       rxReadIndex = 0;
     }
 
+  // check if there was any data and not just a delimiter
+  if(index == 0)
+    {
+      return;
+    }
+
   // make sure buffer is properly terminated
   buffer[index] = 0;
 

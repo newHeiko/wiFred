@@ -71,7 +71,6 @@ void handleWiFi(void)
       MDNS.update();
       break;
 
-    case STATE_STARTUP:
     case STATE_CONNECTING:
       wifiMulti.run();
       break;

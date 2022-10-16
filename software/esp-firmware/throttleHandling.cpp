@@ -164,17 +164,17 @@ void setLEDvalues(String led1, String led2, String led3)
 
   if(led1countdown > 0)
   {
-    Serial.println("L1:" + led1);
+    Serial.println("L1: " + led1);
     led1countdown--;
   }
   if(led2countdown > 0)
   {
-    Serial.println("L2:" + led2);
+    Serial.println("L2: " + led2);
     led2countdown--;
   }
   if(led3countdown > 0)
   {
-    Serial.println("L3:" + led3);
+    Serial.println("L3: " + led3);
     led3countdown--;
   }
   Serial.flush();
@@ -467,8 +467,8 @@ void handleThrottle(void)
               bitWrite(newKeys, 31 - bit, 0);
             }
           }
-          inputToggled = newKeys ^ inputState;
-          inputPressed = newKeys & inputToggled;
+          inputToggled |= newKeys ^ inputState;
+          inputPressed |= newKeys & inputToggled;
           inputState = newKeys;
         }
         break;

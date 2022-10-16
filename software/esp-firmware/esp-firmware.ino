@@ -45,16 +45,23 @@ void setup() {
   Serial.begin(115200);
   Serial.setTimeout(10);
   initConfig();
+
+  // newline to cleanly terminate bootloader output
+  Serial.println();
   
   #ifdef DEBUG
   Serial.setDebugOutput(true);
   #else
   Serial.setDebugOutput(false);
   #endif
-  delay(100);
+  delay(10);
 
+  // newline to cleanly terminate bootloader output
+  Serial.println();
   // request status from AVR
   Serial.println("INIT");
+
+  delay(10);
 
   initWiFi();
 
@@ -62,8 +69,8 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  handleWiFi();
   handleThrottle();
+  handleWiFi();
 
   // check for empty battery
   // only if not online and not on the path for wiFred reset
@@ -218,18 +225,23 @@ void loop() {
         shutdownWiFiSTA();
         switchState(STATE_LOWPOWER, 500);
       }
+      else if(!lowBattery && !emptyBattery && !allLocosInactive())
+      {
+        switchState(STATE_LOCO_ONLINE);
+      }
       break;
     
     case STATE_LOWPOWER:
       //no need to set LED state, it's already done
       //setLEDvalues("0/0", "0/0", "1/250");
       // shut down ESP if low on battery
-      if(lowBattery || emptyBattery || millis() > stateTimeout)
-      {
-        delay(1000);
-        ESP.deepSleep(0);
-      }
-      else if(!allLocosInactive())
+//      if(lowBattery || emptyBattery || millis() > stateTimeout)
+//      {
+//        delay(1000);
+//        ESP.deepSleep(0);
+//      }
+//      else
+      if(!lowBattery && !emptyBattery && !allLocosInactive())
       {
         ESP.restart();
       }
