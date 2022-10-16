@@ -51,6 +51,14 @@ void setLEDvalues(String led1, String led2, String led3);
 extern const uint32_t keys[];
 
 /**
+ * Get state of input buttons
+ * 
+ * @param the keymask to query
+ * @return true if input button is pressed (pin value is low)
+ */
+bool getInputState(uint32_t key);
+
+/**
  * Define behavior of center-off-switch
  * 
  * 0 or higher: Function to set when switch at center position
