@@ -104,7 +104,7 @@ void setLEDblink(unsigned int number)
   }
   else
   {
-    blinkTicker.detach()
+    blinkTicker.detach();
     // turn off LED - will hopefully be turned o again soon
     setLEDvalues("", "", "0/10");
   }
