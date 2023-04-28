@@ -105,7 +105,7 @@ void loop() {
       break;
       
     case STATE_CONNECTING:
-      showVoltageIfOff("0/0", "0/0", "100/200");
+      setLEDvalues("0/0", "0/0", "100/200");
       if(WiFi.status() == WL_CONNECTED)
       {
         initMDNS();
@@ -127,7 +127,7 @@ void loop() {
       break;
 
     case STATE_CONNECTED:
-      showVoltageIfOff("0/0", "0/0", "25/50");
+      setLEDvalues("0/0", "0/0", "25/50");
       if(WiFi.status() != WL_CONNECTED)
       {
         switchState(STATE_STARTUP);
