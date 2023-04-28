@@ -1,0 +1,58 @@
+= wiFred: WiFi throttle for model railroads using the wiThrottle protocol
+Heiko Rosemann
+include::version_en.adoc[]
+:description: Usage documentation, server choices, building instructions, schematics all in one PDF ready for printing
+:url-repo: https://github.com/newHeiko/wiFred
+:icons: image
+:iconsdir: images/icons/
+:imagesdir: images/
+:toc:
+
+:leveloffset: +1
+
+include::usage_en.adoc[lines="1,10..989"]
+
+include::about_en.adoc[lines="1,10..989"]
+
+include::leds_en.adoc[lines="1,10..989"]
+
+include::assembly_en.adoc[lines="1,10..989"]
+
+include::config_en.adoc[lines="1,10..989"]
+
+include::server_en.adoc[lines="1.10..989"]
+
+include::esp32-schematic_en.adoc[lines="1,10..989"]
+
+include::esp12-schematic_en.adoc[lines="1,10..989"]
+
+:leveloffset: -1
+
+[bibliography]
+== References
+
+- [[[github,Github repository for wiFred]]] newHeiko/wiFred: wiThrottle-compatible hardware controller, https://github.com/newHeiko/wiFred
+
+- [[[JMRI]]] JMRI: A Java Model Railroad Interface, https://www.jmri.org
+
+- [[[jmrihardwaresupport,Supported Hardware]]] JMRI: Hardware Support, https://www.jmri.org/help/en/html/hardware/index.shtml
+
+- [[[wiThrottleApp,wiThrottle]]] WiThrottle, https://www.withrottle.com/html/home.html
+
+- [[[EngineDriver]]] Home | EngineDriver, https://enginedriver.mstevetodd.com/
+
+- [[[Fremo]]] Home - FREMO - Freundeskreis Europäischer Modelleisenbahner e.V., https://www.fremo-net.eu/en/home/
+
+- [[[FRED]]] FRED, http://fremodcc.sourceforge.net/diy/fred/fred_e.html
+
+- [[[FREDI]]] FREDI, http://fremodcc.sourceforge.net/diy/fred2/fredi_d.html (German only)
+
+- [[[Uhlenbrock]]] Uhlenbrock | FRED, der Handregler für die Intellibox, https://uhlenbrock.de/de_DE/produkte/prodarch/I62AD172-001.htm!ArcEntryInfo=0004.41.I62AD172
+
+- [[[Digitrax,Digitrax LNWI]]] LocoNet WiFi interface, https://www.digitrax.com/products/wireless/lnwi/
+
+- [[[MRC,MRC Prodigy WiFi]]] Prodigy WiFi, https://www.modelrectifier.com/Prodigy-WiFi-s/332.htm
+
+- [[[rpiImage,Steve Todd]]] JMRI RaspberryPi as Access Point | M Steve Todd, https://mstevetodd.com/rpi
+
+- [[[wiClock]]] wiClock, a WiFi-JMRI-Clock, found at https://github.com/newHeiko/WiFi-JMRI-Clock or its documentation at https://newHeiko.github.io/WiFi-JMRI-Clock
