@@ -1,7 +1,0 @@
-= Quick instructions for wiFred
-:icons: image
-:iconsdir: /etc/asciidoc/images/icons/
-
-include::quickBuild.adoc[tags=!laser]
-include::quickStartup.adoc[]
-

@@ -1,0 +1,1017 @@
+= wiFred: WLAN-Drehregler für Modelleisenbahnen mit dem wiThrottle-Protokoll
+Heiko Rosemann
+0.3, 6-27-2021: v0.6 Beschreibung hinzugefügt - automatisch übersetzt von Axel Thobaben unter Verwendung von Microsoft Edge
+:description: Usage documentation, server choices, building instructions, schematics, part lists...
+:url-repo: https://github.com/newHeiko/wiFred
+:icons: image
+:iconsdir: images/icons/
+:imagesdir: images/
+:lang: de
+:toc:
+
+image::2021-01-23-preview0001.jpg[wiFred mit lasergraviertem Gehäuse]
+
+[abstract]
+== Zusammenfassung
+
+Dieses Dokument beschreibt die Verwendung und Konfiguration des wiFred - eine sehr einfache drahtlose Drehregler für Modelleisenbahnen, um sich mit wiThrottle-Servern wie JMRI zu verbinden. Es enthält auch Schaltpläne und Stücklisten für das Gerät - sowohl für LiPo-Akkuversionen in der aktiven Entwicklung - als auch Programmieranleitungen und Montagetipps sowie eine Übersicht über Optionen für die Serverseite.
+
+Die neueste Version dieses Dokuments finden Sie unter https://newheiko.github.io/wiFred/documentation/docu_de.html, https://github.com/newHeiko/wiFred/raw/master/docu_de.pdf und https://github.com/newHeiko/wiFred/blob/master/docu_de.adoc.
+
+Wenn Sie mehr über die Entwicklungsgeschichte des wiFred erfahren möchten, springen Sie zu <<background>> - ansonsten lesen Sie weiter mit <<throttle>>.
+
+[#throttle]
+== Schnellstartanleitung
+
+include::quickBuild_de.adoc[leveloffset=+1,tags=!drilljig]
+include::quickBuild_de.adoc[leveloffset=+1,tags=!laser]
+include::quickStartup_de.adoc[leveloffset=+1]
+
+== Verwendung
+
+=== Betriebsloks
+
+[#ledTable]
+[cols="1,1,1,3"]
+.LED-Muster und ihre Bedeutung auf dem wiFred
+|===
+|Rote LED|Grüne LED (links)|Grüne LED (rechts)|Status
+
+|Langsames Blinken (0.5 Hz)|Aus|Aus|Versuch, eine Verbindung zum WLAN-Netzwerk herzustellen
+
+|Schnelles Blinken (2 Hz)|Aus|Aus|Erfolgreiche WLAN-Verbindung, Versuch, eine Verbindung zum wiThrottle-Server herzustellen und Loks zu erwerben
+
+|Aus|Aus|An|Regelbetrieb, Vorwärtsrichtung
+
+|Aus|An|Aus|Regelbetrieb, Rückwärtsrichtung
+
+|Aus|Blinken|An|Not-Halt, Vorwärtsrichtung. Passiert auch beim Richtungswechsel mit Drehzahlpotentiometer nicht bei Null
+
+|Aus|An|Blinken|Not-Halt, umgekehrte Richtung. Passiert auch beim Richtungswechsel mit Drehzahlpotentiometer nicht bei Null
+
+|Aus|Aus|Blinken|Batterie schwach, Regelbetrieb, Vorwärtsrichtung
+
+|Aus|Blinken|Aus|Batterie schwach, normaler Betrieb, umgekehrte Richtung
+
+|Aus|Blinken|Blinken|Batterie schwach, Not-Halt, Vorwärtsrichtung
+
+|Aus|Blinken|Blinken|Batterie schwach, Not-Halt, umgekehrte Richtung
+
+|Kurze Blitze|Aus|Aus|Handregler im Low-Power-Modus
+
+|Aus|Aus|Aus|Batterie leer oder kein Akku eingelegt
+
+|An|Aus|Aus|Keine Verbindung zum vorhandenen WLAN-Netzwerk. Interne Konfiguration WiFi-Netzwerk erstellt
+
+|Blinken|Blinken|Aus|Beim Start: ESTOP gedrückt, wird nach fünf Sekunden auf die Werkseinstellungen zurückgesetzt. Taste loslassen für normalen Startfootnote:ESP32[Nur verfügbar für Versionen ab 0.6 mit ESP32-S2 MCU]
+
+|Blinken|Aus|Blinken|Beim Start: SHIFT gedrückt, öffnet das interne Konfigurations-WLAN-Netzwerk nach fünf Sekunden. Taste loslassen für normalen Startfootnote:ESP32[]
+
+|Aus|Blinken|Blinken|Beim Start: F0 gedrückt, wenn eine Verbindung mit einem WLAN hergestellt wird. Stellt keine Verbindung zum Server her, sondern aktiviert den Konfigurationsmodus nach fünf Sekunden. Taste loslassen für normalen Startfootnote:ESP32[]
+
+|An|An|An|Konfigurationsmodus aktiviert, während eine Verbindung mit dem vorhandenen WLAN-Netzwerk besteht. Alle Loks Not-Halt, um Ausreißer zu vermeiden. Drücken Sie erneut SHIFT + ESTOP, um den Konfigurationsmodus zu beenden
+
+4+|Um sich von einem Not-Halt zu erholen, drehen Sie das Geschwindigkeitspotentiometer auf Null, um die Verstärkungssteuerung wiederherzustellen.
+
+4+|Siehe auch <<ledTableVoltage>> um die LED-Muster beim Ausschalten aller Loks zu interpretieren.
+|===
+
+[#ledTableVoltage]
+[cols="1,1,1,3"]
+.LED-Muster und wie sie die Batteriespannung beim Ausschalten des wiFred anzeigen
+|===
+|Rote LED|Grüne LED (links)|Grüne LED (rechts)|Batteriespannung
+
+|Blinken|Aus|Aus|Unter 3,7V
+
+|An|Aus|Aus|Zwischen 3,7V und 3,8V
+
+|An|Blinken|Aus|Zwischen 3,8V und 3,9V
+
+|An|An|Aus|Zwischen 3,9V und 4,0V
+
+|An|An|Blinken|Über 4,0V
+|===
+
+[#throttleControls]
+.Bedienelemente und Funktionen des wiFred-Handreglers
+image::DSC0690.jpg[alt="Handregler"]
+
+<<throttleControls>> zeigt die Bedienelemente des WLAN-Handreglers. Sie bestehen aus:
+
+- Vier Lokauswahlschalter (Lok 1 links, Lok 4 rechts, Drehzahl potentiometer aktivieren)
+
+- Geschwindigkeitspotentiometer (Gegen den Uhrzeigersinn Endstop: Stop, Endstop im Uhrzeigersinn: Full Speed)
+
+- Richtungsschalter - bewegen Sie sich nach rechts für Vorwärtsbewegung, links für Rückwärtsbewegung
+
+- Schwarze Funktionstasten F0 bis F8
+
+- Gelbe Shift-Taste zum Auslösen von F9-F16 und Einschalten der Taschenlampenfunktion
+
+- Rote Nothalt-Taste
+
+- Zwei grüne Fahrtrichtungsanzeige-LEDs neben dem Drehzahlpotentiometer
+
+- Rote Status-LED neben Drehzahlpotentiometer
+
+- Rote Ladeanzeige-LED am unteren Ende des Geräts - leuchtet während des Ladevorgangs
+
+- Grüne voll aufgeladene Anzeige-LED am unteren Ende des Geräts - leuchtet bei voller Ladung, solange das Ladegerät noch angeschlossen ist
+
+Sobald einer der Lokauswahlschalter in die Position "aktiviert" bewegt wird, wird der Handregler hochgefahren und versucht, eine Verbindung zu einem drahtlosen Netzwerk herzustellen. Wenn alle vier Lokauswahlschalter "deaktiviert" sind, trennt sich die Drehregler nach einer Kulanzzeit von fünf Sekunden vom drahtlosen Netzwerk. Das Gerät wechselt dann in den Energiesparmodus, in dem der Akku länger als ein Jahr hält.
+
+Wenn innerhalb von 60 Sekunden keine Verbindung zu dem im Gerät konfigurierten Netzwerk hergestellt werden kann, erstellt die Drehregler ein eigenes drahtloses Netzwerk namens wiFred-config sowie sechs Hex-Ziffern, die von der MAC-Adresse der wiFred-WLAN-Schnittstelle, z. B. wiFred-config61FB7B, entnommen wurden, um die Konfiguration wie unter <<config>> beschrieben zu aktivieren.
+
+Den vier Lokauswahlschaltern können vier verschiedene Loks zugeordnet werden. Befehle, die vom Geschwindigkeitspotentiometer, dem Richtungsschalter und den Funktionstasten abgeleitet werden, werden (quasi) gleichzeitig an alle ausgewählten Loks übertragen, wobei eine bestimmte Übersetzungstabelle es ermöglicht, dass einige Loks rückwärts fahren, wenn andere vorwärts fahre, und auch Funktionstasten nur auf einige der vier Loks beschränkt - dies wird in <<throttle_LocoConf>> und <<throttle_FunctionConf>> ausführlicher beschrieben.
+
+Durch Drücken der roten Nothalt-Taste sendet der Handregler einen Nothalt-Befehl an alle vier angeschlossenen Loks. Drehen Sie nach einem Not-Halt das Geschwindigkeitspotentiometer auf Null, um die Steuerung der Loks wieder zu aktivieren.
+
+Wenn Sie die rote Not-Aus-Taste drücken, während Sie die Umschalttaste gedrückt halten, wird das Gerät in den Konfigurationsmodus versetzt (und es wird ein Not-Halt für alle angeschlossenen Loks ausgelöst). Weitere Informationen zum Zugriff auf die Konfiguration des Handreglers finden Sie unter <<config>>.
+
+Jede Änderung der Lokauswahlschalter führt dazu, dass der Handregler einen Not-Halt-Befehl an alle angeschlossenen Loks sendet. Dadurch wird sichergestellt, dass jede Lok, die deaktiviert wird, auf dem Layout anhält und verhindert, dass neu ausgewählte Loks plötzlich mit Geschwindigkeit abheben. Gleiches gilt für eine Änderung des Richtungswechsels, um Schnelle Rückwärtsmanöver zu vermeiden. Drehen Sie das Geschwindigkeitspotentiometer auf Null, um die Steuerung der Loks wieder zu aktivieren.
+
+Wenn der Akku schwach ist, wird das Gerät vor dem Laden der Batterien nicht wieder aktiviert, aber wenn es schon aktiv ist, läuft es etwa eine Stunde weiter. Wenn der Akku leer ist, wird er getrennt und in den Energiesparmodus versetzt. Die erwartete Laufzeit beträgt etwa 20 Stunden Vollzeitbetrieb, mehr, wenn die Drehregler in den Energiesparmodus versetzt wird, wenn die Loks nicht laufen.
+
+Während der Inbetriebnahme und des Betriebs zeigen die LEDs die in <<ledTable>> beschriebenen Muster an. Nach dem Ausschalten des wiFred zeigen die LEDs für einige Sekunden die aktuelle Batteriespannung an, wie in <<ledTableVoltage>> beschrieben.
+
+=== Aufladen des wiFred
+
+Der wiFred kann über den Micro-USB- oder USB-C-Anschluss am unteren Ende des Gerätes aufgeladen werden. Der maximale Ladestrom beträgt ca. 400 mA und das Gerät kommuniziert nicht mit dem USB-Host, so dass technisch gesehen keine Garantie dafür besteht, dass das Aufladen über ein USB-Kabel funktioniert, aber die meisten Ladegeräte, Computeranschlüsse oder Powerbanks überprüfen den Strom vor dem Einschalten nicht.
+
+Solange der Akku geladen wird, leuchtet die rote Ladeanzeige-LED. Wenn der Akku vollständig geladen ist, leuchtet die grüne Anzeige-LED, solange das Ladegerät noch angeschlossen ist. Die erwartete Ladezeit beträgt etwa fünf bis sechs Stunden für eine vollständige Ladung.
+
+Auch während des Ladevorgangs kann das Gerät noch betrieben werden (besonders hilfreich bei einer Powerbank), aber da der Betriebsstrom aus dem Akku kommt, wird der Akku nie vollständig geladen.
+
+Wenn beide Ladezustands-LEDs aufleuchten, wenn ein Ladekabel angeschlossen wird, ist wahrscheinlich die interne Verbindung zum Akku fehlerhaft.
+
+[#config]
+== Konfigurieren des wiFred
+
+Bevor Sie das Gerät verwenden können, muss es konfiguriert werden. Zumindest muss die wiFred-Hauptkonfigurationsseite <<#throttleConfMainPage>> einmal abgeschickt werden, um im nichtflüchtigen Speicher gespeichert zu werden. Wenn beim Start keine gültige Konfiguration erkannt wird, startet das Gerät mit einer Standardkonfiguration ohne aktivierte Loks und ohne WLAN-Einstellungen, sodass es keine Verbindung zu einem WLAN-Netzwerk herstellen kann.
+
+IMPORTANT: Nach Eingabe jeglicher Art von Text (Namen, Zahlen...) in Textfelder muss der entsprechende "Speichern"-Button gedrückt werden, um die Änderungen an den wiFred zu übermitteln.
+
+=== Wechseln in den Konfigurationsmodus
+
+NOTE:  Der wiFred sollte zur Konfiguration in den Konfigurationsmodus versetzt werden. Wenn die IP-Adresse oder der Hostname des wiFred bekannt ist, ist auch ein Zugriff auf die Konfigurationsseiten möglich, indem man zu einem beliebigen Zeitpunkt (während der wiFred mit dem WLAN verbunden ist) mit einem Webbrowser darauf zugreift. Dies ist größtenteils ungetestet und kann zu zwischenzeitlich inkonsistenter Konfiguration führen. Mindestens die Deaktivierung und anschließende Re-Aktivierung der Lok mit dem Schiebeschalter dürfte immer nötig sein, um Konfigurationsänderungen zu übernehmen.
+
+Es gibt vier Möglichkeiten, in den Konfigurationsmodus zu wechseln:
+
+. Schalten Sie die Drehregler ein / wählen Sie eine Lok, wenn das konfigurierte WLAN-Netzwerk nicht in Reichweite ist (oder wenn keine gültige Konfiguration vorhanden ist - der erste Start einer neuen Drehregler fällt in diese Kategorie)
+
+. Schalten Sie die Drehregler ein / wählen Sie eine Lok aus, während Sie fünf Sekunden lang die SHIFT-Taste gedrückt haltenfootnote:ESP32[]
+
+. Drücken Sie die SHIFT-Taste und ESTOP zusammen, wenn die Drehregler angeschlossen ist
+
+. Drücken Sie F0 für fünf Sekunden, während / nachdem das Gerät mit einem WLAN-Netzwerk verbunden istfootnote:ESP32[]
+
+In den ersten beiden Fällen erstellt der Handregler ein drahtloses Netzwerk mit dem Namen wiFred-config plus sechs Hex-Ziffern, die von der MAC-Adresse der wiFred-WLAN-Schnittstelle stammen, z. B. wiFred-config61FB7B, und kündigt seine Anwesenheit unter dem Namen config.local an sowie die Erstellung eines Captive-Portals an. Jedes WIFi-Gerät mit einem Webbrowser kann eine Verbindung zu diesem Netzwerk herstellen und einen Webbrowser öffnen und http://192.168.4.1 oder http://config.local zu öffnen.
+
+NOTE: Dies wurde mit Mozilla Firefox und Opera unter Linux mit Avahi (einer Zeroconf-Implementierung), FOSS Browser auf Android 9/10 und Safari auf iOS 13/14 getestet.
+
+Im dritten und vierten Fall kündigt der Handregler seine Anwesenheit nur unter dem Namen config.local unter Verwendung des Bonjour/Zeroconf-Protokolls. Jedes Gerät im selben WLAN-Netzwerk mit Bonjour/Zeroconf kann über einen Webbrowser auf die Konfiguration unter http://config.local zugreifen. Unter <<configurationComputer>> finden Sie eine Erläuterung, was erforderlich ist, damit Ihr Gerät Bonjour/Zeroconf-Ankündigungen liest.
+
+NOTE:  Dies wurde mit Mozilla Firefox und Opera unter Linux mit Avahi (einer Zeroconf-Implementierung) und BonjourBrowser auf Android 10 getestet.
+
+<<throttleConfMainPage>> zeigt die erste Seite, die Sie sehen, wenn Sie einen Webbrowser auf Ihren wiFred-Drehregler richten. Es ist in mehrere Abschnitte unterteilt, die in den folgenden Kapiteln erläutert werden.
+
+[#throttleConfMainPage]
+.Screenshot der wiFred-Hauptkonfigurationsseite
+image::wiFred_configuration_page.png[alt="wiFred main configuration page",scaledwidth=80%]
+
+=== Allgemeine Konfiguration
+
+Im Abschnitt "General Configuration" gibt es nur eine Konfigurationsoption: Den Handregler-Namen. Dies ist eine Freiform-Identifikationszeichenfolge des Handreglers. Es wird im wiThrottle-Fenster von JMRI angezeigt, wie in  <<withrottleScreenshot>> gezeigt, der eine angeschlossene Drehregler zeigt, und kann verwendet werden, um die Drehregler während der Konfiguration zu identifizieren.
+
+NOTE: Der wiFred kündigt seine Präsenz im WiFi-Netzwerk auch über Bonjour / Zeroconf mit einer bereinigten Version des Namens an, d.h. ein Handregler namens "Heiko Prototype 2-2" wird seine Anwesenheit als heikoprototype22.local ankündigen, wenn er sich nicht im Konfigurationsmodus befindet.
+
+=== WLAN-Konfiguration
+
+Der Abschnitt "WiFi configuration" zeigt eine Liste der konfigurierten WLAN-Netzwerke. Der wiFred stellt eine Verbindung zu einem Netzwerk in dieser Liste her. Wenn mehrere konfigurierte Netzwerke in Reichweite sind, wählt er das stärkste aus.
+
+Vorhandene Einträge können durch Klicken auf die Schaltfläche "Remove SSID" in der Zeile des Netzwerks, das entfernt werden soll, entfernt werden.
+
+Neue Einträge können entweder durch manuelle Eingabe der SSID und PSKfootnote:PSK[Pre-Shared Key, oft nur Passwort genannt] bei Bedarf und Klick auf die Schaltfläche "Manually add network" oder durch Klicken auf den Link "Scan for networks" hinzugefügt werden, der den Benutzer auf die in <<throttleConfWiFiPage>> gezeigte Seite führt.
+
+[#throttleConfWiFiPage]
+.Screenshot der wiFred "Scan for networks"-Seite
+image::wiFred_wifi-scan_page.png[Scan for networks Seite]
+
+Das Laden dieser Seite dauert einige Sekunden, da der Scan nach Netzwerken zuerst abgeschlossen werden muss. Es zeigt alle Netzwerke an, die während des Scans gefunden wurden. Netzwerke können der Liste hinzugefügt werden, indem Sie auf die Schaltfläche "Add network" klicken, nachdem Sie das PSKfootnote:PSK[] in das Feld daneben eingegeben haben.
+
+NOTE: Der wiFred unterstützt WPS nicht und akzeptiert nicht mehrere Netzwerke mit derselben SSID, aber unterschiedlichen PSKs. Weitere Details zu den Netzwerkanforderungen finden Sie unter <<serverSetup>>.
+
+Die neue WLAN-Konfiguration wird erst aktiviert, wenn der wiFred neu gestartet wird, entweder durch einen Aus- und Einschaltvorgang oder durch Klicken auf den Link "Restart wiFred to enable new WiFi-settings" auf der Konfigurationsseite.
+
+=== Lok-Server-Konfiguration
+
+Im Anschluss an die WLAN-Konfiguration ermöglicht der Abschnitt "Loco server configuration" die Konfiguration des wiThrottle-Servers, mit dem sich der wiFred verbinden soll. Die Standardeinstellung - Server automatisch erkennen - funktioniert gut, wenn nur ein wiThrottle-Server im Netzwerk vorhanden ist. Es verbindet sich mit jedem Server, der seine Anwesenheit auf Port 12090 über Zeroconf / Bonjour ankündigt. Das Ergebnis der Zeroconf / Bonjour-Suche wird hier angezeigt, wenn der wiFred automatisch einen Server entdeckt hat.
+
+[#throttle_LocoConf]
+=== Loco configuration
+
+Nach der "Lokserverkonfiguration" sind den vier verschiedenen Lokomotiven vier identische Abschnitte zugeordnet, die mit diesem Handregler gesteuert werden können. Jeder Abschnitt besteht aus den folgenden Einstellungen:
+
+DCC address:: Kann eine kurze Adresse zwischen 1 und 127 (auch für Mehrfachtraktionen verwendet) oder eine lange Adresse zwischen 0 und 10239 sein.
+
+NOTE: Kurze Adressen zwischen 1 und 127 sind nicht dasselbe wie lange Adressen zwischen 1 und 127, und viele DCC-Systeme unterstützen nicht alle diese Adressen.footnote:[Insbesondere die langen Adressen 0-127 werden häufig nicht unterstützt, z.B. auf Loconet-Systemen.] Nicht unterstützte Adressen werden stillschweigend ignoriert.
+
+Ist diese auf -1 gesetzt, ist die entsprechende Lok deaktiviert.
+
+Long address?:: Kontrollkästchen, um das Verhalten des oben beschriebenen DCC-Adresseingabefeldes zu ändern.
+
+Direction:: Dies hat drei Möglichkeiten:
+
+* Forward: Lok fährt vorwärts, wenn wiFred auf vorwärts eingestellt ist und umgekehrt
+
+* Reverse: Lok fährt rückwärts, wenn wiFred auf vorwärts eingestellt ist und umgekehrt
+
+* Don't change: Die Lok fährt weiterhin in die gleiche Richtung, in die sie bei der Aktivierung eingestellt wurde, und wechselt die Richtung, wenn die wiFred die Richtung wechselt
+
+Function mapping:: Link zur Funktionsmapping-Unterseite für die entsprechende Lok, wie unter <<throttle_FunctionConf>> beschrieben. Wenn Sie auf diesen Link klicken, gehen alle auf der aktuellen Seite eingegebenen Informationen verloren und der Webbrowser gelangt auf eine andere Unterseite.
+
+IMPORTANT: Erinnerung: Änderungen werden über die Schaltfläche "Save loco config" gespeichert, die in verschiedenen Webbrowsern unterschiedlich aussehen kann (Firefox gezeigt).
+
+[#throttle_FunctionConf]
+=== Konfiguration der DCC-Funktion
+
+Wenn eine Funktionstaste gedrückt wird, sendet die Drehregler standardmäßig die entsprechenden Befehle an jede unter Kontrolle befindliche Lok. Unter Umständen ist dies nicht erwünscht - das naheliegende Beispiel ist eine Lok in der Mitte einer Mehrfachtraktion, die kein Spitzenlicht haben sollte. So bietet diese Seite - gezeigt in <<throttleConfigFunctionPage>> - die Möglichkeit, zwischen verschiedenen Einstellungen für jede Funktion an jeder der vier Lokomotiven (eine Seite pro Lokomotive) zu wählen:
+
+[#throttleConfigFunctionPage]
+.Screenshot der Konfigurationsseite für die WiFred-Funktionszuordnung
+image::wiFred_function_page.png[wiFred function page]
+
+Throttle controlled:: Wenn die erste Lok durch Bewegen des Auswahlschalters an die "ausgewählte" Position aktiviert wird, wird der aktuelle Status der Funktion abgefragt und gespeichert. Bei der Auswahl der nächsten Lok wird der Funktionsstatus auf den gleichen stellen. Anschließend werden Tastendrücke an die Lok durchgereicht. Ob die Funktion tastendfootnote:MOM[Tastende Funktionen werden nur aktiviert, solange die Funktionstaste gedrückt wird - wie eine Pfeife oder eine Hupe, die genauso lange ertönt, wie die Taste gedrückt wird.] oder rastendfootnote:[Rastende Funktionen werden mit jedem Druck auf die Funktionstaste umgeschaltet - wie das erste Drücken von F0 normalerweise das Spitzenlicht einschaltet, das nächste Drücken von F0 schaltet es wieder aus.] sein wird, wird vom Server bestimmt, im Falle von JMRI durch den Roster-Eintrag.
+
+Throttle controlled, force momentary:: Die Funktionstaste wird als tastende Funktionfootnote:MOM[] an die Lok durchgereicht.
+
+Throttle controlled, force locking:: Wie für *Throttle controlled* beschrieben, wird die Funktion jedoch unabhängig von den Servereinstellungen als rastend festgelegtfootnote:[Die JMRI-Einstellung "F2 always momentary" überschreibt dies.]
+
+Throttle controlled if this is the only loco:: Wie für *Throttle controlled, force locking* beschrieben, aber die Funktionstaste wird die Funktion nur umschalten, wenn keine andere Lok aktiviert ist. Dies ermöglicht z.B. das Ein- und Ausschalten von Spitzenlicht und Rücklicht an einzelnen Loks vor dem Zusammenkoppeln einer Mehrfachtraktion.
+
+Force function always on:: Die Funktion wird bei Aktivierung der Lok eingeschaltet und bleibt unabhängig von Tastendrücken eingeschaltetfootnote:[Dadurch werden auch momentane Funktionen dauerhaft eingeschaltet.].
+
+Force function always off:: Die Funktion wird bei Aktivierung der Lok abgeschaltet und bleibt unabhängig von Tastendrücken ausgeschaltet.
+
+Ignore function key:: Es werden keine Funktionsbefehle an diese Lok gesendet.
+
+IMPORTANT: Erinnerung: Änderungen werden über die Schaltfläche "Save function configuration" gespeichert, die in verschiedenen Webbrowsern unterschiedlich aussehen kann (Firefox gezeigt).
+
+=== wiFred-Status
+
+Der Abschnitt "wiFred status" zeigt die aktuelle Batteriespannung, gemessen am wiFred. Dies wird beim erneuten Laden der Seite aktualisiert, nicht kontinuierlich.
+
+Es zeigt auch die aktuelle Firmware-Version(en).
+
+=== wiFred-System
+
+Im Abschnitt wiFred system können diverse Einstellungen zur Hardware des wiFred angepasst werden.
+
+Die erste Einstellung betrifft wiFreds, die einen Fahrtrichtungsumschalter mit Mittelstellung haben, und bestimmt, welche Befehle der wiFred bei Mittelstellung sendet. Die Optionen sind:
+
+Ignore:: Behält die Fahrtrichtung bei, die der wiFred vor dem Umschalten in Mittelstellung hatte. Die Geschwindigkeit wird weiterhin durch das Potentiometer bestimmt. Eine vollständige Fahrtrichtungsumkehr löst einen Not-Halt aus.
+
+Zero Speed:: Behält die Fahrtrichtung bei, sendet aber Fahrstufe Null an alle Loks. Diese Einstellung ist für Loks gedacht, die auf hohe Anfahr- und Bremsverzögerung eingestellt sind. Wenn die Fahrtrichtung in weniger als einer halben Sekunde vollständig umgeschaltet wird, löst der wiFred einen Not-Halt aus, sonst beschleunigen die Loks in der neuen Fahrtrichtung wieder auf die eingestellte Geschwindigkeit.footnote:[Diese Einstellung ist kompatibel mit der "Segeln"-Funktion des Fredi]
+
+Set F<n>:: Simuliert die Betätigung der eingestellten Funktionstaste beim Umschalten von Vorwärts auf Mittelstellung und das Loslassen beim Umschalten von Mittelstellung auf Rückwärts (und umgekehrt).footnote:[Die entsprechende Funktion sollte, wie in <<throttle_FunctionConf>> beschrieben, als tastend festgelegt sein damit dies wie gedacht funktioniert] Diese Einstellung ist für Loks gedacht, die auf einer Funktionstaste eine Bremsfunktion oder ESUs Drive Hold haben. Die an die Loks gesendete Geschwindigkeit wird weiterhin durch das Potentiometer bestimmt, solange der Fahrtrichtungsumschalter in Mittelstellung liegt. Wenn die Fahrtrichtung in weniger als einer halben Sekunde vollständig umgeschaltet wird, löst der wiFred einen Not-Halt aus, sonst sendet der wiFred weiterhin die am Potentiometer eingestellte Geschwindigkeit an die Loks.
+
+Der Abschnitt schließt mit zwei Links:
+
+- Reset wiFred to factory defaults - der zu einer Bestätigungsseite führt, die in <<throttleConfResetPage>> angezeigt wird, um alle Konfigurationsdaten auf die Werkseinstellungen wie bei einem neuen wiFred zurückzusetzen.
+
+- Update wiFred firmware - der zu einer Firmware-Update-Seite führt, die in <<throttleConfUpdatePage>>  angezeigt wird, um die wiFred-Firmware des ESP8266 / ESP32-S2 zu aktualisieren. Suchen Sie die .bin-Datei aus dem arduino-Build-Ordner oder aus dem [Github-Repository für wiFred], klicken Sie auf "Durchsuchen", navigieren Sie zur .bin-Datei und starten Sie schließlich das Update mit einem Klick auf "Update Firmware" - was eine Weile dauern wird.
+
+NOTE: Es kann erforderlich sein, den wiFred vollständig auszuschalten, damit er nach einem Firmware-Update ordnungsgemäß neu gestartet werden kann.
+
+NOTE: Bei einer wiFred-Version ab 0.6 mit ESP32-S2 MCU kann das Zurücksetzen auf die Werkseinstellungen auch durch Fünf-Sekunden-Halten der ESTOP-Taste beim Start erfolgen.
+
+[#throttleConfResetPage]
+.Screenshot der wiFred-Konfigurationsrücksetzungsseite
+image::wiFred_reset_page.png[wiFred-Konfigurationsrücksetzungsseite]
+
+[#throttleConfUpdatePage]
+.Screenshot der wiFred-Firmware-Update-Seite
+image::wiFred_update_page.png[wiFred-Firmware-Update-Seite]
+
+[#serverSetup]
+== Optionen für die Servereinrichtung
+
+=== Komponenten, die zum Betrieb des wiFred erforderlich sind
+
+[#withrottleScreenshot]
+.Screenshot des wiThrottle-Bildschirms mit einem angeschlossenen Handregler
+image::withrottle_Screenshot.jpg[wiThrottle Bildschirm]
+
+<<runningTrains>> zeigt die Verbindungen zwischen den Geräten, die für den Betrieb von Zügen mit dem wiFred erforderlich sind.
+
+[#runningTrains]
+.Infrastruktur zum Betrieb von Loks mit dem wiFred
+image::runningTrains.png[Infrastruktur zum Betrieb von Loks mit dem wiFred]
+
+Die Symbole in <<runningTrains>> symbolisieren die folgenden Teile:
+
+. Ein IEEE 802.11b/g/n 2,4 GHz WiFi Access Point, der ausführlich unter <<serverWiFi>>  beschrieben wird
+
+. Ein PC oder Laptop mit Windows, Linux oder MacOS zum Ausführen des JMRI-Servers, der in den <<serverJMRI>> ausführlich beschrieben ist
+
+. Eine Möglichkeit, den JMRI-Server mit dem Modelleisenbahnlayout zu verbinden, das unter <<serverLayoutConn>> ausführlich beschrieben wird
+
+. Ein Gerät mit einem Webbrowser, das mit demselben Netzwerk wie der wiFred verbunden ist, um den wiFred zu konfigurieren - kann das gleiche physische Gerät wie dasjenige sein, auf dem der Server ausgeführt wird, wenn es die Anforderungen in <<configurationComputer>> erfüllt
+
+In den folgenden Abschnitten werden mehrere Optionen für jeden Schritt oder die Kombination dieser Schritte beschrieben.
+
+NOTE: Grundsätzlich gilt: Wenn ein Layout so eingerichtet ist, dass Züge mit einem Smartphone mit wiThrottle oder EngineDriver gesteuert werden können, sollte ein wiFred ohne Änderungen an der Layoutkonfiguration funktionieren. Wenn ein Layout so eingerichtet ist, dass Züge von einem JMRI-Fahrregler auf einem Computer gesteuert werden können, muss nur eine WLAN-Verbindung zum JMRI-Computer hinzugefügt werden.
+
+=== Sofort einsatzbereite serverseitige Optionen
+
+Eine ziemlich out-of-the-box-Lösung für einen Raspberry Pi wird von <<rpiImage>> bereitgestellt, der sein eigenes WiFi-Netzwerk erstellt, automatisch mehrere Optionen für die Schnittstelle zu einem DCC-Layout erkennt und einen wiThrottle-Server startet. Es wurde in den Versionen JMRI 4.16 und JMRI 4.20 getestet, um mit dem wiFred zu arbeiten und sowohl über einen RRCircuits LocoBuffer USB als auch über einen Digitrax PR3 über Loconet mit einem Z21 black verbunden zu werden.
+
+Obwohl bisher ungetestet, sollte das Hinzufügen eines <<Digitrax>> zu einem Digitrax-System oder eines <<MRC>> zu einem MRC-System es dem wiFred ermöglichen, auch Loks out-of-the-box zu steuern.
+
+[#windowsWiFi]
+=== Schritt-für-Schritt-Anleitung für einen Windows-Computer-Hotspot
+
+Dies wurde auf einem Windows 7 64Bit Laptop-Computer mit einer 2,4 GHz WiFi-Karte im PC getestet.
+
+==== Installation
+
+. Installieren Sie https://www.nirsoft.net/utils/wifi_hotspot_starter.html[HostedNetworkStarter]
+
+. Installieren Sie https://www.dhcpserver.de/cms/download/[DHCP server] - laden Sie alle Dateien aus der ZIP-Datei herunter und extrahieren Sie sie an einen Ort auf Ihrer Festplatte, z. B. C:\DHCPServer
+
+. Installieren Sie ein JDK, Version 8 und 11 wurden getestet. Beispiel: https://adoptopenjdk.net/releases.html[Version OpenJDK 11 (LTS), JVM HotSpot]  Wählen Sie die 64-Bit-Version für die meisten modernen Hardware, 32-Bit nur, wenn Sie ein 32-Bit-Betriebssystem verwenden. Einfachste Option: MSI-Datei, Download und Installation.
+
+. Installieren Sie https://www.jmri.org[JMRI] - Versionen, die für die Ausführung mit dem wiFred getestet wurden, umfassen 4.14, 4.16, 4.18 und 4.20. Neueste Produktionsversion empfohlen.
+
+NOTE: Windows 10 bietet eine Hotspot-Funktion, die anstelle von HostedNetworkStarter und DHCP-Server funktioniert, sodass Sie direkt in die Installation von JDK und JMRI einsteigen können.
+
+==== Konfiguration
+
+. Starten Sie HostedNetworkStarter über das Startmenü, geben Sie einen Netzwerknamen und einen Netzwerkschlüssel ein und klicken Sie dann auf die Schaltfläche Start. Notieren Sie sich den "Namen der gehosteten Netzwerkverbindung" für den nächsten Schritt
+
+. Starten Sie den DHCP-Server-Assistenten von C:\DHCPServer\dhcpwiz.exe, wählen Sie das Netzwerk mit dem Namen aus, der mit dem "Host Network Connection Name" aus dem Schritt zuvor identisch ist, klicken Sie einige Male auf "Next" (Deaktivieren Sie die Auswahl aller zusätzlichen unterstützten Protokolle), Schreiben Sie in die INI-Datei, starten Sie den Dienst und konfigurieren Sie Firewall-Ausnahmen
+
+. Starten Sie JMRI mit dem DecoderPro-Symbol auf dem Desktop, richten Sie Ihre Layoutverbindung ein, testen Sie, ob Sie eine Lok mit einer JMRI-Drehregler ausführen können
+
+. Starten Sie in JMRI den WiThrottle Server über das Menü Aktionen. Wenn ein Firewall-Popup angezeigt wird, lassen Sie alle zu.
+
+. Bearbeiten Sie in JMRI die Einstellungen aus dem Menü Bearbeiten, wählen Sie WiThrottle im linken Bereich und klicken Sie auf das Kontrollkästchen "Automatisch mit Anwendung starten". Alle zulässigen Steuerelemente können deaktiviert werden.
+
+==== Betrieb
+
+. Starten Sie HostedNetworkStarter über das Startmenü, geben Sie einen Netzwerknamen und einen Netzwerkschlüssel ein und klicken Sie dann auf die Schaltfläche Start.
+
+. Starten Sie JMRI mit dem DecoderPro-Symbol auf dem Desktop
+
+[#serverWiFi]
+=== Anforderungen an WLAN Access Points
+
+Der wiFred funktioniert im Grunde auf jedem 2,4 GHz IEEE802.11b oder -g WiFi-Netzwerk, das neue Geräte akzeptiert und ihnen eine IPv4-Adresse über einen DHCP-Server zur Verfügung stellt. Es unterstützt offene Netzwerke oder WPA2-Verschlüsselung, jedoch nicht WPS.
+
+Es wurde erfolgreich getestet mit einer FRITZ!Box, einem unbekannten Kabelrouter, mehreren öffentlichen WLAN-Netzwerken und mehreren Software-Hotspots einschließlich Linux hostapd sowohl auf einem Intel Atom Netbook der ersten Generation als auch auf einem Raspberry Pi, dem Windows 10 Hotspot und einer Windows 7 Software, wie in #serverWiFi beschrieben.
+
+NOTE: Einige WLAN-Zugangspunkte und Router bieten eine Funktion namens "Wireless Isolation" oder ähnliches, die es verbundenen Geräten verbietet, sich miteinander zu verbinden. Diese Funktion sollte deaktiviert werden, damit wiFreds ihren Server finden und konfiguriert werden können.
+
+[#serverJMRI]
+=== JMRI-Serveranforderungen
+
+Jeder PC, auf dem mindestens Java 8 ausgeführt werden kann, kann den JMRI-Server ausführen. Selbst alte 32Bit Netbook-Computer der ersten Generation wie der 2008 Eee-PC haben mehr als genug Rechenleistung für diese Aufgabe. Es gibt JMRI-Versionen für Windows, Linux oder MacOS, daher sollte jedes dieser Betriebssysteme in Ordnung sein.
+
+[#serverLayoutConn]
+=== Layout-Verbindungsoptionen
+
+<<JMRI>> unterstützt eine Vielzahl unterschiedlicher Verbindungen zum Layout, wie unter <<jmrihardwaresupport>> beschrieben. Im Allgemeinen, wenn eine JMRI-Installation eine Lok auf dem Layout ausführen kann, ist es eine einfache Angelegenheit, den JMRI-Computer mit einem WLAN-Zugangspunkt zu verbinden (falls nicht bereits verbunden) und den wiThrottle-Server über das Aktionsmenü in DecoderPro zu starten.
+
+Der wiFred wurde getestet mit einem LocoBufferUSB oder einem Digitrax PR3, die jeweils über Loconet mit einer Intellibox, einer Z21 black, einer DCS 51 Zephyr xtra oder einer Minibox 2 DIY DCC Zentrale verbunden ist. Es wurde auch verwendet, um eine Lok auf einem SPROG-Programmierer zu betreiben.
+
+[#configurationComputer]
+=== Computer oder Smartphone zur Konfiguration von wiFred
+
+Webbrowser, Zeroconf. Avahi. Bonjour (iTunes?). MacOS out of the box?
+iOS? Android?
+
+Für die Erstkonfiguration des wiFred können die meisten der oben genannten Geräte entfallen. Wie in <<confWifred>> gezeigt wird nur ein WLAN-fähiges Gerät mit einem Webbrowser benötigt.
+
+[#confWifred]
+.Für die Erstkonfiguration sind die Anforderungen sehr gering
+image::configuringWifred.png[wiFred-Erstkonfiguration]
+
+Getestet mit iOS 13 und iOS 14, Android 9 und 10 sowie Firefox unter Linux wird die Erstkonfigurationsseite automatisch geladen, wenn das Gerät mit dem wiFred-configXXXX-Netzwerk verbunden ist.
+
+Für die reguläre Konfiguration ist Bonjour/Zeroconf/mDNS-Unterstützung erforderlich, sobald der wiFred erfolgreich eine Verbindung zu einem WLAN-Netzwerk hergestellt und in den Konfigurationsmodus versetzt wurde, um das Gerät zu finden, das sich selbst als http://config.local ankündigt. Dieser Dienst wird unter Linux von einem Softwarepaket namens avahi bereitgestellt, sollte auf iOS und MacOS sofort funktionieren und kann unter Windows mit iTunes installiert werden. Für mobile Betriebssysteme gibt es Apps namens Discovery für iOS und BonjourBrowser für Android, die nicht nur http://config.local übersetzen, um auf die Konfigurationswebsite des im Netzwerk zu verweisen, der sich im Konfigurationsmodus befindet, sondern auch alle wiFreds durchsuchen, die derzeit ihre Anwesenheit ankündigen. <<bonjourBrowser>> zeigt einen Screenshot der Android-Version. Wenn Sie auf ein Gerät klicken, wird ein Browser zu seiner Konfigurationswebsite geöffnet.
+
+NOTE:  Der wiFred sollte zur Konfiguration in den Konfigurationsmodus versetzt werden. Wenn die IP-Adresse oder der Hostname des wiFred bekannt ist, ist auch ein Zugriff auf die Konfigurationsseiten möglich, indem man zu einem beliebigen Zeitpunkt (während der wiFred mit dem WLAN verbunden ist) mit einem Webbrowser darauf zugreift. Dies ist größtenteils ungetestet und kann zu zwischenzeitlich inkonsistenter Konfiguration führen. Mindestens die Deaktivierung und anschließende Re-Aktivierung der Lok mit dem Schiebeschalter dürfte immer nötig sein, um Konfigurationsänderungen zu übernehmen.
+
+[#bonjourBrowser]
+.Benutzeroberfläche von BonjourBrowser, die zwei im Netzwerk aktive wiFreds anzeigt.
+image::bonjourBrowser.png[alt="BonjourBrowser mit zwei wiFreds",width=50%,scaledwidth=50%]
+
+=== Schnittstelle zu Konfigurationssoftware
+
+Zur Verwendung mit einer Konfigurationssoftware sendet der wiFred unmittelbar nach der Verbindung ins WLAN einen UDP-Broadcast und stellt unter /api/getConfigXML die Konfiguration zur Verfügung.
+
+Mehr Information dazu bei mailto:wiFred@bornwnd.de[Detlef Born].
+
+== Hardware-Beschreibung
+
+=== Ab Revision 0.6
+
+Die wiFred-Hardware ist um ein ESP32-S2-WROOM-Modul zentriert, das die LEDs steuert und die Schalter, Drucktasten und Das Geschwindigkeitspotentiometer ausliest. Es erhält seine Energie von einer Einzelzellen-LiPo-Batterie über einen linearen 3,3-V-Spannungsregler, der direkt von den Lokwahlschaltern aktiviert wird, die durch einen Satz von Dioden logisch verbunden werden. Ein RC-Tiefpass verzögert das Ausschalten des wiFred um ein paar Sekunden.
+
+Optional können zwei weiße 5 mm-LEDs, die aus der Oberseite der Leiterplatte herausragen, als Taschenlampe installiert werden. Sie werden von einer Konstantstromquelle direkt aus dem Akku angetrieben und beim Drücken der gelben SHIFT-Taste aktiviert.
+
+Der ESP32-S2 überwacht auch die Batteriespannung und wechselt in den Ruhezustand, wenn die Batteriespannung zu niedrig abfällt. Dies sollte den Stromverbrauch auf einen einigermaßen sicheren Wert senken, auch wenn er nicht so niedrig ist, wie er sein kann, wenn alle Lokauswahlschalter ausgeschaltet sind. Das Aufladen des Akkus kann über den integrierten USB-Anschluss erfolgen, wobei zwei LEDs den Ladestatus anzeigen.
+
+Der Schaltplan ist in mehrere Seiten aufgeteilt und wird in <<schematic06page1>> bis <<schematic06page3>> gezeigt. Er wurde mit kicad erstellt und ist zusammen mit dem PCB-Design im <<github>> verfügbar.
+
+[#schematic06page1]
+.Schaltplanseite mit Batterieanschluss, Ladeschaltung und Netzteil
+image::wfred_rev6.png[alt="Schematic sheet 1 for rev0.6]
+
+[#schematic06page2]
+.Schaltplanseite mit ESP32-S2-WROOM für WLAN-Verbindung, mit Bootloader-Jumper und Verbindung zum Programmierkabel
+image::wfred-wifi_rev6-Wifi_connection.png[alt="Schematic sheet 2 for rev0.6]
+
+[#schematic06page3]
+.Schaltplanseite für Benutzeroberfläche (Taster, Schalter, LEDs, Poti und Taschenlampe)
+image::User_interface_rev6-User_Interface.png[alt="Schematic sheet 3 for rev0.6]
+
+=== Schreiben der Firmware auf den ESP32-S2-WROOM
+
+Um den ESP32-S2 in den Firmware-Flashing-Modus zu versetzen, muss vor dem Einschalten ein Jumper auf den BOOT-Pins installiert werden, wie in <<bootJumper06>> gezeigt. Nach dem Eintritt in den Bootloader registriert sich der ESP32-S2 als USB-CDC-Gerät, wenn er an einen PC angeschlossen ist, und kann über diesen programmiert werden. Alternativ kann die serielle Schnittstelle an den TXD/RXD-Pins verwendet werden. Die serielle Schnittstelle muss mit 3,3 V-Pegel arbeiten, wie von einem FTDI232-Gerät, das mit 3,3 V betrieben wird.
+
+[#bootJumper06]
+.Position des Boot-Jumpers - links vom 0.6 Prototyp, rechts von 0.62 Rendering
+image::wfred_rev62BootJumper.png[alt="Boot jumper for 0.6 wiFred"]
+
+Alle Dateien im Unterverzeichnis software/esp-firmware des <<github>> müssen in einem Ordner abgelegt werden, dann muss die Hauptskizze esp-firmware.ino mit der Arduino IDE geöffnet werden. Die Einstellungen für die Arduino IDE finden Sie in der Hauptdatei, die Programmierung des Geräts sollte über die Schaltfläche Hochladen im Sketch-Menü funktionieren. Eine alternative Lösung mit einer vorkompilierten Firmware und esptool.py kann in Zukunft dokumentiert werden.
+
+=== Tipps zum Aufbau der Revision 0.6
+
+Alle SMD-Teile und Steckverbinder in <<BOM06SMD>> befinden sich auf der Unterseite, so dass sie einfach von einem automatisierten PCB-Bestückungsservice installiert werden können. Gerber-Dateien und Speicherortdateien werden im <<github>> zur Verfügung gestellt. Sie sind jedoch nicht kleiner als 0805, so dass es auch für erfahrene Elektronik-Hobbyisten möglich sein sollte, sie von Hand zu löten, obwohl der USB-C-Stecker einen sehr kleinen Pitch hat.
+
+[#BOM06SMD]
+[cols="1,2,1",options="breakable,autowidth"]
+.Liste der Komponenten auf der Unterseite - SMDs und Stiftleisten - für den wiFred ab revision 0.6
+|===
+|Designator|Package|Designation
+
+|C106, C105|C_0805_2012Metric_Pad1.15x1.40mm_HandSolder|22p
+
+|C201, C302, C102, C203, C202, C104, C101|C_0805_2012Metric_Pad1.15x1.40mm_HandSolder|4u7
+
+|C303, C301|C_0805_2012Metric_Pad1.15x1.40mm_HandSolder|100n
+
+|C308, C307, C306, C305, C103, C304|C_0805_2012Metric_Pad1.15x1.40mm_HandSolder|22u
+
+|D103, D204, D203, D202, D201|SOT-23|BAT54C
+
+|IC101|SOT-23-5_HandSoldering|TP4054
+
+|IC102|SOT-23-5_HandSoldering|XC6220B331MR
+
+|IC201|SOT-23-6_Handsoldering|CAT4002ATD-GT3
+
+|J101|USB_C_Receptacle_HRO_TYPE-C-31-M-12|USB_C_Receptacle_USB2.0
+
+|J301|PinHeader_2x03_P2.54mm_Vertical|Conn_02x03_Odd_Even
+
+|P101|PinHeader_1x02_P2.54mm_Horizontal|BATT
+
+|R102, R101|R_0805_2012Metric_Pad1.15x1.40mm_HandSolder|22R
+
+|R103, R209, R208, R207, R104|R_0805_2012Metric_Pad1.15x1.40mm_HandSolder|680R
+
+|R105|R_0805_2012Metric_Pad1.15x1.40mm_HandSolder|2k2
+
+|R107, R106|R_0805_2012Metric_Pad1.15x1.40mm_HandSolder|5k1
+
+|R212, R302, R301|R_0805_2012Metric_Pad1.15x1.40mm_HandSolder|4M7
+
+|R303, R304, R206, R211, R205, R204, R203, R202, R201|R_0805_2012Metric_Pad1.15x1.40mm_HandSolder|4k7
+
+|===
+
+Dann - wie <<BOM06TOP>> gezeigt - gibt es nur das ESP32-S2-WROOM-Modul auf der Oberseite der Leiterplatte und alle Schalter, Drucktasten, Potentiometer und LEDs. Nach der Installation des ESP32-S2-WROOM sollte der Richtungsschalter zuerst mit einer 8-mm-Sechskantmutter in die Leiterplatte geschraubt, dann mit den Abschnitten der LEDs an den Pads befestigt und das Geschwindigkeitspotentiometer mit einer 10-mm-Sechskantmutter in die Leiterplatte geschraubt werden, bevor die Leitungen gelöt werden.
+
+Bei allen anderen Schaltern, Tastern und LEDs empfiehlt es sich, zuerst die Löcher in das Gehäuse zu bohren, dann die Teile auf die Leiterplatte zu legen und die Leiterplatte vor dem Löten der Teile in das Gehäuse zu schrauben. Löcher für die Tasterschalter sollten mit einem Durchmesser von 3,5 mm gebohrt werden. Löcher für die LEDs sollten bei 3 mm Durchmesser und Löcher für das Drehzahlpotentiometer bei 8 mm, für den Richtungsschalter bei 6,5 mm Durchmesser gebohrt werden. Die Ausschnitte für die Lokauswahlschalter werden am besten mit 1,5 mm gebohrt und mit einer Laubsäge oder einem scharfen Hobbymesser und einer Feile ausgearbeitet. Der einfachste Ansatz ist ein lasergraviertes Gehäuse - PDF- und DXF-Dateien der Markierungen sind auch im <<github>> verfügbar.
+
+[#BOM06TOP]
+[cols="1,2,1",options="breakable,autowidth"]
+.Liste der Komponenten auf der Oberseite - ESP32-S2-WROOM und Benutzerschnittstelle - für den wiFred ab revision 0.6
+|===
+|Designator|Package|Designation
+
+|D101|LED_D3.0mm|LED - red
+
+|D102|LED_D3.0mm|LED - green
+
+|D205|LED_D3.0mm|STOP - red
+
+|D206|LED_D3.0mm|FORWARD - green
+
+|D207|LED_D3.0mm|REVERSE - green
+
+|D208|LED_D5.0mm_Horicontal_FLIPPED_O1.27mm|Cree C543A-WMN-CCCKK141
+
+|D209|LED_D5.0mm_Horizontal_O1.27mm_Z3.0mm_Clear|Cree C543A-WMN-CCCKK141
+
+|RV201|P160KNPD|10k lin P160KNPD-4FC20B10K
+
+|SW201|SW_PUSH_6mm_H9.5mm|F1
+
+|SW202|SW_PUSH_6mm_H9.5mm|F4
+
+|SW203|SW_PUSH_6mm_H9.5mm|F7
+
+|SW204|SW_PUSH_6mm_H9.5mm|ESTOP
+
+|SW205|SW_PUSH_6mm_H9.5mm|F0
+
+|SW206|SW_PUSH_6mm_H9.5mm|F2
+
+|SW207|SW_PUSH_6mm_H9.5mm|F5
+
+|SW208|SW_PUSH_6mm_H9.5mm|F8
+
+|SW209|OS102011MS2Q|LOCO1
+
+|SW210|OS102011MS2Q|LOCO2
+
+|SW211|OS102011MS2Q|LOCO3
+
+|SW212|OS102011MS2Q|LOCO4
+
+|SW213|SW_PUSH_6mm_H9.5mm|F3
+
+|SW214|SW_PUSH_6mm_H9.5mm|F6
+
+|SW215|SW_PUSH_6mm_H9.5mm|SHIFT
+
+|SW216|100SP1T1B1M1QEH|DIRECTION
+
+|U301|ESP32-S2-WROVER-HandSoldering|ESP32-S2-WROOM
+
+|===
+
+Um eine vollständige Stückliste zu bilden, schließen Sie auch die <<BOM06extra>> aufgeführten Teile ein, die nicht auf die Leiterplatte gelötet, sondern später in der Montage verwendet werden.
+
+[#BOM06extra]
+[cols="1,2,1"]
+.Liste der Komponenten für die ab Revision 0.6 ohne elektronische Teile zum Löten auf Leiterplatte
+|===
+|Designator|Package|Designation
+
+|B1|Battery|Lithium battery 1700mAh
+
+|H1a|Housing black|Strapubox 2090
+
+|or H1b|Housing white|Strapubox 2090
+
+|J1|Jumper|
+
+|K1a|Potentiometer Knob silver|24mm
+
+|or K1b|Potentiometer Knob black|24mm
+
+|P1|PCB|124mm x 35mm x 1.6mm
+
+|S1, S2, S3, S4|Mounting Screws|2,9mm x 6,5mm
+
+|===
+
+Nach der Bestückung der Leiterplatte mit allen Komponenten müssen die Löcher und Ausschnitte im Gehäuse höchstwahrscheinlich überarbeitet / verlängert werden, um tatsächlich zu der Leiterplatte zu passen. Dann kann die Leiterplatte mit vier Schrauben in das Gehäuse geschraubt werden. Danach sollte die Batterie an den BATT-Stecker angeschlossen werden. Dabei ist sicherzustellen, dass die Ausrichtung korrekt ist, wie in <<battConnection06>> gezeigt und auf die Platine gedruckt. Der schwarze Draht ist GND, der rote Draht ist der positive. Dann sollte die Batterie mit doppelseitigem Klebeband auf die Unterseite des Gehäuses geklebt werden, damit sie nicht mit Teilen auf der Leiterplatte kollidiert. insbesondere den Stiftleisten und der Richtungsschalter.
+
+[#battConnection06]
+.Anschluss der Batterie an P101 ab Revision 0.6 - schwarzer Draht ist GND, roter Draht ist Plus
+image::DSC0779.jpg[alt="Battery connection"]
+
+[#drilljigPicture]
+.Verwendung der Originalplatine und der Bohrvorrichtung, um die Positionen der Löcher auf das Gehäuse zu übertragen - bessere Ergebnisse werden erzielt, wenn die Leiterplatten festgeschraubt werden
+image::DSC0126.jpg[Drilljig]
+
+[#battConnection]
+.Anschluss der Batterie an P101 auf Revision 0.4 - schwarzer Draht ist GND, roter Draht ist Plus
+image::DSC0148.jpg[Battery connection]
+
+=== Bis Revision 0.5
+
+Die wiFred-Hardware ist um einen ESP8266 für die WLAN-Verbindung zentriert. Der ESP8266 kommuniziert über seine serielle Schnittstelle mit einem ATMega 328P-Mikrocontroller, der die Stromversorgung verwaltet, die LEDs steuert, die Lokwahlschalter, das Drehzahlpotentiometer, den Richtungsschalter und die Drucktastenschalter für Funktionen und Not-Halt liest. Die Kommunikation erfolgt über einen 2x3-Pin-Header, der es dem Benutzer ermöglicht, ein Programmierkabel an dieselbe serielle Schnittstelle anzuschließen, wenn die Jumper entfernt werden.
+
+Optional können zwei weiße 5 mm-LEDs, die aus der Oberseite der Leiterplatte herausragen, als Taschenlampe installiert werden. Sie werden von einer Konstantstromquelle direkt aus dem Akku betrieben und beim Drücken der gelben SHIFT-Taste aktiviert.
+
+Der wiFred wird von einem Einzelzellen-LiPo-Akku angetrieben. Der ATMega 328P wird direkt an die LiPo-Zelle angeschlossen und wechselt in den Ruhezustand, wenn kein Lokwahlschalter aktiv ist, wodurch der Stromverbrauch auf weniger als 1 μA reduziert wird. Der ESP8266 wird von einem linearen Spannungsregler mit einer Ausgangsspannung von 3 V gespeist, der vom ATMega 328P deaktiviert wird, wenn das Gerät in den Standby-Modus wechselt.
+
+Der Schaltplan ist in mehrere Seiten aufgeteilt und findet sich in <<schematic05page1>> bis <<schematic05page4>>. Er wurde mit kicad erstellt und ist zusammen mit dem PCB-Design im <<github>> verfügbar.
+
+[#schematic05page1]
+.Schaltplanseite mit Batterieanschluss, Ladeschaltung und Netzteil
+image::wfred_rev2.png[alt="Schematic sheet 1 for rev0.5]
+
+[#schematic05page2]
+.Schaltplanseite mit ESP8266 für WLAN-Verbindung mit Bootloader-Jumper und Verbindung zum Programmierkabel
+image::wfred-wifi-Wifi_connection.png[alt="Schematic sheet 2 for rev0.5]
+
+[#schematic05page3]
+.Schaltplanseite mit ATMega 328P zusammen mit Quartz und in ISP-Anschluss
+image::wfred-controller_rev2-Controller.png[alt="Schematic sheet 3 for rev0.5]
+
+[#schematic05page4]
+.Schaltplanseite mit Tastern, Lokwahlschaltern, Richtungsschalter, Drehzahlpotentiometer und Taschenlampen-LEDs mit Controller
+image::User_interface_rev2-User_Interface.png[alt="Schematic sheet 4 for rev0.5]
+
+[#hintsFor05]
+=== Tipps zum Aufbau der Revision bis 0.5
+
+Die Leiterplatte hat Löcher in der Mitte der LED-Footprints, um ihre Positionen mit einer scharfen Nadel auf ein StrapuBox-Gehäuse zu übertragen oder Zentrierlöcher mit einem 1-mm-Bohrer zu bohren. Für alle anderen Löcher steht eine Bohrvorrichtung zur Verfügung, die auch das Bohren von Zentrierlöchern für die Taster, den Richtungsschalter und das Drehzahlpotentiometer ermöglicht. <<drilljigPicture>> zeigt den Prozess und seine Ergebnisse. Löcher für die Taster sollten mit einem Durchmesser von 3,5 mm gebohrt werden. Löcher für die LEDs sollten bei 3 mm Durchmesser und Löcher für das Drehzahlpotentiometer bei 8 mm, für den Richtungsschalter bei 6,5 mm Durchmesser gebohrt werden. Die Ausschnitte für die Lokauswahlschalter werden am besten bei 1,5 mm gebohrt und mit einer Laubsäge oder einem scharfen Hobbymesser und einer Feile auf die Leiterplatte angepasst.
+
+[#BOM05]
+[cols="1,2,1",options="breakable,autowidth"]
+.Bauteile für die wiFred-Platine bis Revision 0.5
+|===
+|Designator|Package|Designation
+
+|C102, C101|C_0805_HandSoldering|4u7
+
+|C105, C103, C302|C_0805_HandSoldering|1u
+
+|C206, C205|C_0805_HandSoldering|22p
+
+|C401, C203, C202, C201, C207|C_0805_HandSoldering|100n
+
+|C402, C301|C_0805_HandSoldering|22u
+
+|C403|C_0805_HandSoldering|100u
+
+|CON101|USB_Micro-B_Molex-105017-0001|USB-MICRO-B
+
+|D101|LED_D3.0mm|LED - red
+
+|D102|LED_D3.0mm|LED - green
+
+|D201|SOT-23_Handsoldering|BAR43
+
+|D301|LED_D3.0mm|STOP - red
+
+|D302|LED_D3.0mm|FORWARD - green
+
+|D303|LED_D3.0mm|REVERSE - green
+
+|D303, D302, D301, D101, D102|LED Spacer|3mm
+
+|D304|LED_D5.0mm_Horicontal_FLIPPED_O1.27mm|LED white
+
+|D305|LED_D5.0mm_Horicontal_O1.27mm|LED white
+
+|IC101|SOT95P270X145-5N|MCP73831T-2ACI_OT
+
+|IC102|SOT95P275X110-5N|NCV8161BSN300T1G
+
+|IC201|TQFP-32_7x7mm_Pitch0.8mm|ATMEGA328P-A
+
+|IC301|SOT-23-6_Handsoldering|MIC2860-2PYD6
+
+|K401|Pin_Header_Straight_1x03_Pitch2.54mm|UART_ESP
+
+|K402|Pin_Header_Straight_1x03_Pitch2.54mm|UART_AVR
+
+|P1|PCB|124mm x 35mm x 1.6mm
+
+|P101|Pin_Header_Angled_1x02_Pitch2.54mm|BATT
+
+|P201|Pin_Header_Straight_2x03_Pitch2.54mm_SMD|ISP
+
+|P401|Pin_Header_Straight_1x02_Pitch2.54mm|ESP_BOOTLOAD
+
+|R101, R102|C_0805_HandSoldering|680R
+
+|R103|C_0805_HandSoldering|2k2
+
+|R301|C_0805_HandSoldering|4k7
+
+|R304, R303, R302, R204|C_0805_HandSoldering|220R
+
+|R305|C_0805_HandSoldering|15k
+
+|R405, R404, R403, R201, R104|C_0805_HandSoldering|10k
+
+|RV301|P160KNPD|10k lin P160KNPD-4FC20B10K
+
+|SW301|OS102011MS2Q|LOCO1
+
+|SW302|OS102011MS2Q|LOCO2
+
+|SW303|OS102011MS2Q|LOCO3
+
+|SW304|OS102011MS2Q|LOCO4
+
+|SW305|SW_SPST_PTS645|F0
+
+|SW306|SW_SPST_PTS645|F1
+
+|SW307|SW_SPST_PTS645|F2
+
+|SW308|SW_SPST_PTS645|F3
+
+|SW309|SW_SPST_PTS645|F4
+
+|SW310|SW_SPST_PTS645|F5
+
+|SW311|SW_SPST_PTS645|SHIFT
+
+|SW312|SW_SPST_PTS645|ESTOP
+
+|SW313|100SP1T1B1M1QEH|DIRECTION
+
+|SW314|SW_SPST_PTS645|F6
+
+|SW315|SW_SPST_PTS645|F7
+
+|SW316|SW_SPST_PTS645|F8
+
+|U401|ESP-12E_SMD|ESP-12E
+
+|X201|Crystal_SMD_TXC_7M-4pin_3.2x2.5mm_HandSoldering|14.7456MHz
+
+|===
+
+Der weitere Aufbau ist die Installation aller Komponenten auf der Leiterplatte, die in <<BOM05>> aufgeführt sind. Aus Erfahrung mit der Montage der Prototypen empfiehlt sich die folgende Reihenfolge der Komponenten:
+
+. IC101, IC102, IC201 (Hinweis: PCB drehen, so dass Designator rechts nach oben ist, dann Pin 1 oben links) und IC301
+
+. X201 und D201
+
+. USB-Anschluss CON101
+
+. Kondensatoren und Widerstände in der Größe 0805 (zuerst die auf der gleichen Seite wie die Bauteile zuvor)
+
+. U401
+
+. Kondensatoren und Widerstände, die zuvor nicht installiert wurden - das sind R403, R404, R405, C401, C402 und C403
+
+. Taster SW305 bis SW312 und SW314 bis SW316 - achten Sie darauf, den roten bei SW312 und den gelben bei SW311 zu platzieren
+
+. Stiftleiste K401, K402 und P401 (korrekte Ausrichtung von K401 und K402 kann durch Hinzufügen eines Jumpers vor dem Löten sichergestellt werden)
+
+. Pin-Header P101 und P201
+
+. Lokauswahlschalter SW301 bis SW304
+
+. LEDs D101, D102 und D301 bis D303 mit 3mm Abstandshaltern zur Leiterplatte - stellen Sie sicher, dass die Anode (langer Pin) mit dem quadratischen Pad ausgerichtet ist
+
+. LEDs D304 und D305 nach Belieben oben oder unten auf der Leiterplatte installiert - stellen Sie sicher, dass die Anode (langer Pin) mit dem quadratischen Pad ausgerichtet ist
+
+. Richtungsschalter SW313 (zuerst mit einer 8 mm Sechskantmutter in die Leiterplatte geschraubt, dann mit den Abschnitten von D301, D302 und D303 an den Pads befestigt) und Geschwindigkeitspotentiometer RV301 (zuerst mit einer 10-mm-Sechskantmutter in die Leiterplatte geschraubt)
+
+Um eine vollständige Stückliste zu bilden, schließen Sie auch die <<BOM05extra>> aufgeführten Teile ein, die nicht auf die Leiterplatte gelötet, sondern später in der Montage verwendet werden.
+
+[#BOM05extra]
+[cols="1,2,1"]
+.Liste der Komponenten für wiFred bis Revision 0.5 ohne elektronische Teile zum Löten auf Leiterplatte
+|===
+|Designator|Package|Designation
+
+|B1|Battery|Lithium battery 1700mAh
+
+|H1a|Housing black|Strapubox 2090
+
+|or H1b|Housing white|Strapubox 2090
+
+|J1, J2|Jumper|
+
+|K1a|Potentiometer Knob silver|24mm
+
+|or K1b|Potentiometer Knob black|24mm
+
+|P1|PCB|124mm x 35mm x 1.6mm
+
+|S1, S2, S3, S4|Mounting Screws|2,9mm x 6,5mm
+
+|===
+
+Nach der Bestückung der Leiterplatte mit allen Komponenten müssen die Löcher und Ausschnitte im Gehäuse höchstwahrscheinlich überarbeitet / verlängert werden, um tatsächlich zur Leiterplatte zu passen, dann kann die Leiterplatte mit vier Schrauben in das Gehäuse geschraubt werden. Danach sollte die Batterie an den BATT-Stecker angeschlossen werden. Dabei ist sicherzustellen, dass die Ausrichtung korrekt ist, wie in <<battConnection>> gezeigt und auf die Platine gedruckt. Der schwarze Draht ist GND, der rote Draht ist der positive. Dann sollte die Batterie mit doppelseitigem Klebeband auf die Unterseite des Gehäuses geklebt werden, damit sie nicht mit Teilen auf der Leiterplatte kollidiert. insbesondere den Stiftleisten und der Richtungsschalter.
+
+Schließlich müssen sowohl der ATMega 328P als auch der ESP8266 mit Firmware programmiert werden, wie in <<flashing05>> beschrieben.
+
+[#flashing05]
+=== Schreiben der Firmware auf wiFreds der Revision 0.5 und älter
+
+==== AVR firmware
+
+Der ATMega 328P wird über die reguläre AVR ISP-Verbindung auf P201 programmiert. Pin 1 - GND - befindet sich in Richtung des Platinenrandes, wie in <<progAVR>> gezeigt. Ein ISP-Dongle mit automatischer Spannungswahl oder 3,3 V Versorgungsspannung sollte verwendet werden, um zu vermeiden, dass eine zu hohe Spannung auf den ESP8266 gelegt wird, der nur 3,3 V unterstützt. Die Firmware für den ATMega 328P befindet sich im Unterverzeichnis software/avr-firmware des <<github>> mit einer vorkompilierten Hexfile und dem gesamten Quellcode inklusive Makefile, das bei Bedarf neu kompiliert werden kann. Nach dem Schreiben der Firmware-Datei und der eeprom-Datei müssen auch die Fusebits richtig eingestellt werden, wie in der main.c-Datei beschrieben.
+
+[#progAVR]
+.Programmieranschluss für ATMega_328P - Pin 1 am violetten Kabel
+image::DSC0146.jpg[AVR programmieren]
+
+==== ESP8266 firmware
+
+Der ESP8266 wird mit der Arduino-IDE programmiert, die über einen seriellen Port oder einen USB-zu-seriell-Wandler mit dem K401-Header verbunden ist, wie in <<progESP8266>> gezeigt. Die serielle Schnittstelle muss auf 3,3 V-Pegel sein, wie von einem FTDI232-Gerät, das mit 3,3 V betrieben wird. Um den ESP8266 zu programmieren, muss zunächst der ATMega 328P programmiert, eine Batterie angeschlossen und vernünftig geladen werden und einer der Lokauswahlschalter muss in die "aktivierte" Position bewegt werden, um den ESP8266 einzuschalten.
+
+[#progESP8266]
+.Programmieranschluss für ESP8266 - GND auf orangefarbenem Draht, dann TXD des Programmierkabels (RXD von ESP8266), dann RXD des Programmierkabels (TXD von ESP8266) - beachten Sie auch den Jumper auf P401
+image::DSC0138.jpg[ESP8266 programmieren]
+
+Alle Dateien im unterverzeichnis software/esp-firmware des <<github>> müssen in einem Ordner abgelegt werden, dann muss die Hauptskizze esp-firmware.ino mit der Arduino-IDE geöffnet werden. Die Einstellungen für die Arduino IDE finden Sie in der Hauptdatei, die Programmierung des Geräts sollte anschließend über die Schaltfläche *Hochladen* im *Sketch*-Menü funktionieren.
+
+Um den ESP8266 in den Programmiermodus zu versetzen, muss ein Jumper über den P401-Header gelegt werden, bevor der ESP8266 eingeschaltet wird, indem einer der Lokauswahlschalter aktiviert wird, um das Gerät im Programmiermodus zu starten. Die rote STOP-LED sollte anfangen zu blinken und der Bootloader sollte einige Ergebnisse an der seriellen Schnittstelle anzeigen und während des Downloads sollte auch die LED am ESP8266-Modul blinken.
+
+Nach der Programmierung müssen zwei Jumper zwischen den Pin-Headern K401 und K402 platziert werden, um die Kommunikation zwischen dem ESP8266 und dem ATMega 328P zu aktivieren, wie in <<serialJumpers>> gezeigt.
+
+[#serialJumpers]
+.Kommunikations-Jumper zur Verbindung zwischen ESP8266 und ATMega 328P
+image::DSC0149.jpg[Jumper zur seriellen Verbindung]
+
+[#oldThrottle]
+=== Erster Prototyp mit AA-Akkus
+
+Die wiFred Prototyp Hardware ist um einen ESP8266 für die WiFi-Verbindung zentriert. Der ESP8266 liest auch die Lokwahlschalter und die Batteriespannung und kommuniziert über seine serielle Schnittstelle mit einem ATMega 328P-Mikrocontroller, der die LEDs steuert, das Drehzahlpotentiometer, den Richtungsschalter und die Drucktastenschalter für Funktionen und Not-Halt liest. Die Kommunikation erfolgt über einen 2x3-Pin-Header, der es dem Benutzer ermöglicht, ein Programmierkabel an dieselbe serielle Schnittstelle anzuschließen, wenn die Jumper entfernt werden.
+
+Der wiFred-Prototyp wird von zwei Batteriezellen der Größe AA angetrieben, die mit einem Step-up-Konverter verbunden sind, der 3,3 V für das gesamte Gerät erzeugt. Sobald ein Paar Batterien in das Batteriefach eingelegt wird, wie die Symbole im Batteriefach zeigen, wird die Drehregler hochgefahren und versucht, eine Verbindung zu einem drahtlosen Netzwerk herzustellen. Die Drehregler wird nicht beschädigt, wenn Batterien falsch eingelegt werden, aber es funktioniert auch nicht. Verwenden Sie NiMH- oder primäre AA-Zellen mit 1,2 V bis 1,5 V Nennspannung, niedrige Selbstentladung NiMH-Zellen wie Eneloop oder ähnliches werden empfohlen.
+
+Der Schaltplan ist in mehrere Seiten aufgeteilt und findet sich in <<oldSchematicPage1>> bis <<oldSchematicPage4>>. Er wurde mit kicad erstellt und ist zusammen mit dem PCB-Design im <<github>> verfügbar.
+
+[#oldSchematicPage1]
+.Schaltplanseite mit Batterien und Netzteil
+image::old_wfred_rev2.png[alt="Schematic page 1 for AA battery prototype"]
+
+[#oldSchematicPage2]
+.Schaltplanseite mit ESP8266 für WLAN-Verbindung mit Bootloader-Jumper und Verbindung zum Programmierkabel
+image::old_wfred-wifi-Wifi_connection.png["Schematic page 2 for AA battery prototype"]
+
+[#oldSchematicPage3]
+.Schaltplanseite mit ATMega 328P zusammen mit Quartz und in ISP-Anschluss
+image::old_wfred-controller_rev2-Controller.png["Schematic page 3 for AA battery prototype"]
+
+[#oldSchematicPage4]
+.Schaltplanseite mit Tastern, Lokwahlschaltern, Richtungsschalter und Drehzahlpotentiometer
+image::old_User_interface_rev2-User_Interface.png["Schematic page 4 for AA battery prototype"]
+
+=== Tipps zum Bau des wiFred AA Batterieprototyps
+
+Die Prototyp-Leiterplatte hat Löcher in der Mitte der Taster-Footprints und LED-Footprints, um ihre Positionen mit einer scharfen Nadel oder ähnlichem auf ein StrapuBox-Gehäuse zu übertragen. Die Positionen der Lokauswahlschalter können auch durch Markieren durch die Nicht-Kupferlöcher an ihren Enden auf das Gehäuse übertragen werden. Siehe <<drilljigPicture>> für Bilder und weitere Details, die Unterschiede zwischen dem AA-Batterieprototyp und den LiPo-Batterierevisionen sind in diesem Aspekt minimal.
+
+Der weitere Aufbau ist die Installation aller Komponenten auf der Leiterplatte, die in <<oldWiFredBOM>> aufgeführt sind.
+
+[#oldWiFredBOM]
+[cols="1,2,1",options="breakable,autowidth"]
+.Liste der Komponenten für AA-Batterie-Prototyp
+|===
+|Designator|Package|Designation
+
+|B101|KEYSTONE1013|BATT_HOLDER
+
+|C206, C205|C_0805_HandSoldering|22p
+
+|C301, C105, C104, C102, C101, C402|C_0805_HandSoldering|22u
+
+|C401, C204, C203, C202, C201, C103|C_0805_HandSoldering|100n
+
+|D301|LED_D3.0mm|STOP - red
+
+|D302|LED_D3.0mm|FORWARD - green
+
+|D303|LED_D3.0mm|REVERSE - green
+
+|IC201|TQFP-32_7x7mm_Pitch0.8mm|ATMEGA328P-A
+
+|K401|Pin_Header_Straight_1x03_Pitch2.54mm|UART_ESP
+
+|K402|Pin_Header_Straight_1x03_Pitch2.54mm|UART_AVR
+
+|L101|L_2424_HandSoldering|22u
+
+|P201|Pin_Header_Straight_2x03_Pitch2.54mm_SMD|ISP
+
+|P401|Pin_Header_Straight_1x02_Pitch2.54mm|ESP_BOOTLOAD
+
+|R301|C_0805_HandSoldering|4k7
+
+|R304, R303, R302|C_0805_HandSoldering|470R
+
+|R401|C_0805_HandSoldering|100k
+
+|R402|C_0805_HandSoldering|47k
+
+|R405, R404, R403, R201|C_0805_HandSoldering|10k
+
+|RV301|P160KNPD|10k lin P160KNPD-4FC20B10K
+
+|SW301|OS102011MS2Q|LOCO1
+
+|SW302|OS102011MS2Q|LOCO2
+
+|SW303|OS102011MS2Q|LOCO3
+
+|SW304|OS102011MS2Q|LOCO4
+
+|SW305|KSC621G|F0
+
+|SW306|KSC621G|F1
+
+|SW307|KSC621G|F2
+
+|SW308|KSC621G|F3
+
+|SW309|KSC621G|F4
+
+|SW310|KSC621G|SHIFT2
+
+|SW311|KSC621G|SHIFT
+
+|SW312|KSC621G|ESTOP
+
+|SW313|100SP1T1B1M1QEH|DIRECTION
+
+|U101|TSSOP-8_4.4x3mm_Pitch0.65mm|L6920D
+
+|U401|ESP-12E_SMD|ESP-12E
+
+|X201|Crystal_SMD_TXC_7M-4pin_3.2x2.5mm_HandSoldering|14.7456MHz
+
+||Gehäuse StrapuBox 6090|
+
+||Zwei Jumper, 2,54 mm|                                
+
+||Potentiometerknopf, 21 mm|
+
+||Drei Befestigungsschrauben, 2,9 mm Durchmesser x 6,5 mm|
+
+|===
+
+Nach der Montage der Leiterplatte mit allen Komponenten und dem Bohren und Schneiden der Löcher und Ausschnitte in das Gehäuse sind nur noch wenige Schritte übrig. Zuerst müssen einige Vorsprünge im Inneren des Gehäuses entfernt werden, damit die Leiterplatte richtig passt. <<breakProtrusions>> zeigt, wie sie leicht entfernt werden können, Reste können mit einem Hobbymesser abgeschnitten werden. Zweitens müssen neue PCB-Montagepads installiert werden, wie in <<#mountingPads>> gezeigt. Für den Prototyp wurde Forex PVC-Schaum verwendet, mit einer Schere geschnitten und mit Sekundenkleber auf das Gehäuse geklebt, um sicherzustellen, dass keine Komponenten auf der Leiterplatte im Weg sind, aber jede Art von leicht zu arbeitendem Material mit einer Dicke von 3 mm kann verwendet werden, solange es selbstschneidende Schrauben nimmt (Prototyp verwendet 2,9 mm x 6,5 mm DIN 7981 Schrauben). Drittens benötigen die beiden Shiftttasten gelbe Farbe auf der Oberseite und die Nothalt-Taste rote Farbe - entweder irgendeine Art von Farbe oder ein Farbmarker wie Edding 751. Schließlich müssen sowohl der ESP8266 als auch der ATMega 328P wie in <<flashing05>> beschrieben programmiert werden.
+
+[#breakProtrusions]
+.Entfernen von Vorsprüngen im Gehäuse, damit die Leiterplatte passt
+image::DSC8654.jpg[alt="Vorsprünge im Gehäuse abbrechen"]
+
+[#mountingPads]
+.Neue PCB-Montagepads aus 3 mm starkem Forex PVC
+image::DSC8658.jpg[alt="Neue Platinenhalter"]
+
+[#background]
+== Hintergrund für die wiFred-Entwicklung
+
+Zum Zeitpunkt des Schreibens dieses Dokuments hat <<JMRI>> bereits eine lange Erfolgsbilanz bei der Bereitstellung eines Servers für die Verwendung von Smartphones als drahtlose Modelleisenbahn-Handregler, zusammen mit Apps wie <<wiThrottleApp>>footnote:[wiThrottle ist auch der Name, den JMRI für das Protokoll und den Server verwendet.] und <<EngineDriver>>. Dieser Server ermöglicht WLAN-Handregler, um Loks jedes Modelleisenbahnlayout zu steuern, zu dem JMRI eine Verbindung aufbauen kann <<jmrihardwaresupport>>. Darüber hinaus bieten <<Digitrax>> und <<MRC>> spezifische Hardwarelösungen an, um die Verbindung der oben genannten Smartphone-Apps mit ihren DCC-Systemen über ein WLAN-Netzwerk zu ermöglichen.
+
+Der <<Fremo>> ist ein europäischer modularer Modelleisenbahnclub, dessen einzigartige Anforderungen an seine DCC-Handregler zur Schaffung der Handregler <<FRED>> und <<FREDI>> führten - eine Reihe von LocoNet-Handregler, die als Hobbyprojekte mit großen Stückzahlen im Umlauf begannen, später von <<Uhlenbrock>> kommerziell erhältlich waren.
+
+=== Spezifikation Wunschliste
+
+Bei modularen Eisenbahnveranstaltungen, insbesondere der Fremo-americaN-Gruppe, haben mehrere Personen die Smartphone-Handregler-Apps ausprobiert und festgestellt, dass ihnen ein schönes, haptisches Feedback fehlt. Aber die Idee der drahtlosen Steuerung ohne Bindung an einen bestimmten Anbieter und deren notwendigerweise teure Ausrüstung fand große Zustimmung. Also wurde eine Wunschliste zusammengestellt, um die Anforderungen an eine drahtlose Drehregler zu definieren:
+
+- Gleicher Formfaktor wie der <<FRED>> mit ähnlicher Bedienung
+
+- Möglichkeit, mindestens zwei, bessere vier Lokomotiven für Doppel-/Dreifachtraktion zu steuern (ähnlich dem Duo-FREDI)
+
+- Akkulaufzeit von mindestens sechs Stunden
+
+- Austauschbare Batterien, so dass, wenn der Akku leer ist, sie schnell gegen ein geladenes Set oder billige Primärzellen ausgetauscht werden können
+
+- Einfache Konfiguration, aber nicht zu einfach, um zu verhindern, dass Bediener versehentlich andere Lokomotiven auswählen
+
+- So wenig Änderung am bestehenden Fremo Loconet Netzwerk wie möglich
+
+- Verwendung des wiThrottle-Protokolls, so dass davon ausgegangen werden kann, dass die Serverseite der Kommunikation funktioniert und nicht ebenso entwickelt werden muss
+
+=== Entwicklungsgeschichte
+
+Die ersten Prototypen des wiFred wurden so gebaut, dass sie mit zwei AA-Zellen betrieben werden, entweder Batterien oder wiederaufladbaren NiMH-Akkus. Wie in <<oldThrottle>> beschrieben, erforderte dies einige spezielle Anpassungen des Gehäuses, um alle Komponenten unterzupassen. Schon damals zeigte die Erfahrung mit den Prototypen, dass die Batteriefachabdeckung nicht wirklich passte und beim Versuch, das Batteriefach zu öffnen und zu schließen, leicht kaputt ging.
+
+So wurden die nächsten Versionen um einen integrierte Lithiumakku herum entwickelt, womit die Option verloren ging, leere Batterien einfach auszutauschen. Dafür war die Laufzeit länger und die Elektronik passte richtig in das Gehäuse. Das Aufladen der zweiten Generation erfolgt über einen Micro-USB-Anschluss, so dass eine Powerbank die Laufzeit des Geräts verlängern kann, wenn der interne Akku erschöpft ist. Außerdem fungieren die Lokauswahlschalter mehr als ein Netzschalter als bei den ersten Prototypen und reduzieren den Stromverbrauch auf einen vernachlässigbaren Betrag, wenn alle Loks deaktiviert sind.
+
+Der neueste Prototyp wird von zwei Prozessoren auf einen einzigen, neuen ESP32-S2-Prozessor umgestellt, was Platz spart, die Anzahl der Komponenten reduziert, alle SMD-Komponenten auf einer Seite der Leiterplatte platziert und einen direkten USB-Firmware-Download ermöglicht. Es wird keine neuen Funktionen gegenüber den früheren LiPo-Akkuversionen enthalten, aber hauptsächlich für den Bastler einfacher zu bauen sein.
+
+=== Drahtlose Uhr
+
+Während der Entwicklung dieses wiFred kam in der americaN-Gruppe der Fremo ein weiteres Thema auf, nämlich drahtlose Uhren mit einstellbarer Taktrate für Timetable & Trainorder-Betrieb. Dies führte zur Ausgliederung des <<wiClock>>-Projekts.
+
+[bibliography]
+== Quellen
+
+- [[[github,Github repository für wiFred]]] newHeiko/wiFred: wiThrottle-compatible hardware controller, https://github.com/newHeiko/wiFred
+
+- [[[JMRI]]] JMRI: A Java Model Railroad Interface, https://www.jmri.org
+
+- [[[jmrihardwaresupport,Supported Hardware]]] JMRI: Hardware Support, https://www.jmri.org/help/en/html/hardware/index.shtml
+
+- [[[wiThrottleApp,wiThrottle]]] WiThrottle, https://www.withrottle.com/html/home.html
+
+- [[[EngineDriver]]] Home | EngineDriver, https://enginedriver.mstevetodd.com/
+
+- [[[Fremo]]] Home - FREMO - Freundeskreis Europäischer Modelleisenbahner e.V., https://www.fremo-net.eu/
+
+- [[[FRED]]] FRED, http://fremodcc.sourceforge.net/diy/fred/fred_d.html
+
+- [[[FREDI]]] FREDI, http://fremodcc.sourceforge.net/diy/fred2/fredi_d.html
+
+- [[[Uhlenbrock]]] Uhlenbrock | FRED, der Handregler für die Intellibox, https://uhlenbrock.de/de_DE/produkte/prodarch/I62AD172-001.htm!ArcEntryInfo=0004.41.I62AD172
+
+- [[[Digitrax,Digitrax LNWI]]] LocoNet WiFi interface, https://www.digitrax.com/products/wireless/lnwi/
+
+- [[[MRC,MRC Prodigy WiFi]]] Prodigy WiFi, https://www.modelrectifier.com/Prodigy-WiFi-s/332.htm
+
+- [[[rpiImage,Steve Todd]]] JMRI RaspberryPi as Access Point | M Steve Todd, https://mstevetodd.com/rpi
+
+- [[[wiClock]]] wiClock, a WiFi-JMRI-Clock, zu finden unter https://github.com/newHeiko/WiFi-JMRI-Clock und Dokumentation unter https://newHeiko.github.io/WiFi-JMRI-Clock

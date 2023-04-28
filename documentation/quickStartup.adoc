@@ -1,9 +1,0 @@
-== First startup
-
-. Charge device with a micro USB charger until charging LED switches to green
-. Turn on device with charger still connected (calibrates low battery threshold)
-. Wait for red LED on top to stop flashing and stay lit
-. Use any WiFi device to search for and connect to network wiFred-configXXXX
-. Connect to http://config.local and configure device
-
-More information can be found at https://newHeiko.github.io/wiFred.

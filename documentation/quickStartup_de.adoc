@@ -1,9 +1,0 @@
-== Erste Inbetriebnahme
-
-. Laden Sie das Gerät mit einem Micro-USB- oder USB-C-Ladegerät, bis die LADE-LED auf grün schaltet
-. Gerät mit noch angeschlossenem Ladegerät einschalten (kalibriert Batteriespannungsmessung)
-. Warten Sie, bis die rote LED oben aufhört zu blinken und leuchtet
-. Verwenden Sie ein beliebiges WLAN-Gerät, um nach dem Netzwerk wiFred-configXXXX zu suchen und eine Verbindung herzustellen
-. Herstellen einer Verbindung mit http://config.local und Konfigurieren des Geräts
-
-Weitere Informationen finden Sie unter https://newHeiko.github.io/wiFred/documentation/docu_de.html.
