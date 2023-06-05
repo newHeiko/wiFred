@@ -1,6 +1,6 @@
 # wiFred
 wiThrottle-compatible hardware controller
-
+x
 This repo contains schematics, PCB and documentation for the wiFred, a wiThrottle-compatible WiFi hardware controller developed to unchain the Fremo Fred [1] / Fredi [2] from its loconet cable.
 
 ![wiFred rev0.5](documentation/images/2021-01-23-preview0001.jpg)
