@@ -29,7 +29,7 @@
 #include <ESPAsyncUDP.h>
 
 #include "wifi.h"
-#include "locoHandling.h"
+#include "locoHandling.h"     // MODES, MODES_LENGTH
 #include "config.h"
 #include "lowbat.h"
 #include "stateMachine.h"
@@ -58,7 +58,7 @@ void handleWiFi(void)
   switch(wiFredState)
   {
     case STATE_CONFIG_AP:
-      dnsServer.processNextRequest();
+      dnsServer.processNextRequest(); // @suppress("No break at end of case")
       // intentional fall-through
 
     case STATE_CONNECTED:
@@ -217,7 +217,7 @@ void writeMainPage()
     free(locoServer.name);
     locoServer.name = strdup(server.arg("loco.serverName").c_str());
     locoServer.port = server.arg("loco.serverPort").toInt();
-    locoServer.automatic = server.hasArg("loco.automatic");
+    locoServer.automatic = server.hasArg("loco.automatic");  //sloeber>> hasArg(String("loco.automatic")) makes sloeber happy
 
     if(!locoServer.automatic)
     {
@@ -234,6 +234,7 @@ void writeMainPage()
     if(server.hasArg (String("loco.address") + i+1) )
     {
       locos[i].address = server.arg(String("loco.address") + i+1).toInt();
+      locos[i].mode = strdup(server.arg(String("loco.mode") + i+1).c_str());
       locos[i].longAddress = server.hasArg(String("loco.longAddress") + i+1);
       locos[i].direction = (eDirection) server.arg(String("loco.direction") + i+1).toInt();
       saveLocoConfig(i);
@@ -244,6 +245,7 @@ void writeMainPage()
   if(loco >= 1 && loco <= 4 && server.hasArg("loco.address"))
   {
     locos[loco-1].address = server.arg("loco.address").toInt();
+    locos[loco-1].mode = strdup(server.arg("loco.mode").c_str());
     locos[loco-1].longAddress = server.hasArg("loco.longAddress");
     locos[loco-1].direction = (eDirection) server.arg("loco.direction").toInt();
     saveLocoConfig(loco-1);
@@ -357,7 +359,7 @@ void writeMainPage()
   }
 
   String resp = String("<!DOCTYPE HTML>\r\n")
-              + "<html><head><title>wiFred configuration page</title></head>\r\n"
+              + "<html lang=\"en\"><head><meta charset=\"utf-8\"><title>wiFred configuration page</title></head>\r\n"
               + "<body><h1>wiFred configuration page</h1>\r\n"
               + "<hr>General configuration and status<hr>\r\n"
               + "<form action=\"index.html\" method=\"get\"><table border=0>"
@@ -377,6 +379,17 @@ void writeMainPage()
     resp      += String("<hr>Loco configuration for loco: ") + (i+1) + "\r\n" 
               + "<form action=\"index.html\" method=\"get\"><table border=0>"
               + "<tr><td>DCC address: (-1 to disable)</td> <td><input type=\"text\" name=\"loco.address\" value=\"" + locos[i].address + "\"></td></tr>"
+              + "<tr><td>Speed Step Mode: </td> <td><select name='loco.mode'>";
+    for(int j=0; j<MODES_LENGTH; ++j)
+    {
+      resp += String("<option");
+      if( strcmp(MODES[j], locos[i].mode) == 0 )
+      {
+         resp += String(" selected='selected'");
+      }
+      resp += String(">") + MODES[j] + "</option>";
+    }
+    resp      += String("</select></td></tr>")
               + "<tr><td>Direction:</td><td>"
               + "<input type=\"radio\" name=\"loco.direction\" value=\"" + DIR_NORMAL + "\"" + (locos[i].direction == DIR_NORMAL ? " checked" : "" ) + ">Forward"
               + "<input type=\"radio\" name=\"loco.direction\" value=\"" + DIR_REVERSE + "\"" + (locos[i].direction == DIR_REVERSE ? " checked" : "" ) + ">Reverse"
@@ -632,6 +645,7 @@ void getConfigXML()
           {
            resp      += " <LOCO ID=\"" + String(i+1) + "\">\r\n" 
               + "  <DCCadress value=\""+ locos[i].address + "\"/>\r\n"
+              + "  <Mode value=\""+ locos[i].mode + "\" />\r\n"
               + "  <Direction value=\""+ locos[i].direction + "\" />\r\n"
               + "  <LongAdress value=\""+ locos[i].longAddress + "\" />\r\n"
               + "  <FUNCTIONS>\r\n" ; 

@@ -21,6 +21,7 @@
  */
 
 #include <Ticker.h>
+//sloeber>> #include <WString.h>       // class String
 
 #include <stdbool.h>
 
