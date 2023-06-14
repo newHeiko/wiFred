@@ -58,9 +58,16 @@ typedef struct
   uint16_t port;
 } serverInfo;
 
+const int MODES_LENGTH = 12;
+
+extern const char* MODES[MODES_LENGTH];
+
+const char MODE_DEFAULT[] = "128";
+
 typedef struct
 {
   int16_t address;
+  char* mode; // values are from MODES and always allocated on the heap
   bool longAddress;
   functionInfo functions[MAX_FUNCTION + 1];
   eDirection direction;

@@ -44,6 +44,7 @@
 
 #define FN_LOCO_STUB "/loco"
 #define FIELD_LOCO_ADDRESS "address"
+#define FIELD_LOCO_MODE "mode"
 #define FIELD_LOCO_LONG "long"
 #define FIELD_LOCO_REVERSE "reverse"
 #define FIELD_LOCO_DIRECTION "direction"
