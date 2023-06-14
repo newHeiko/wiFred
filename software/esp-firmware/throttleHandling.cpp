@@ -21,6 +21,7 @@
 
 #include <stdbool.h>
 #include <Ticker.h>
+//sloeber>> #include <WString.h>       // class String
 
 #include "locoHandling.h"
 #include "stateMachine.h"
@@ -69,7 +70,7 @@ Ticker reduceCalibValues;
 /**
  * Flag to show we want to save new config data
  */
-volatile boolean saveAnalog = false;
+volatile bool saveAnalog = false;
 
 /**
  * Potentiometer value for zero speed (counterclockwise limit)

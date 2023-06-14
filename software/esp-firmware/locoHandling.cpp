@@ -24,12 +24,35 @@
 
 #include <WiFi.h>
 #include <ESPmDNS.h>
+//sloeber>> #include <esp32-hal-log.h>    // log_d()
 
 #include "locoHandling.h"
 #include "lowbat.h"
 #include "config.h"
 #include "stateMachine.h"
 #include "throttleHandling.h"
+
+// see jmri.jmrit.withrottle.ThrottleController#decodeSpeedStepMode()
+// and jmri.SpeedStepMode.
+const char* MODES[MODES_LENGTH]
+{
+  //"unknown",
+  // from: decodeSpeedStepMode
+  "128",         //    DCC 126 speed steps
+  "28",          //    DCC 28 speed steps
+  "27",          //    DCC 27 speed steps
+  "14",          //    DCC 14 speed steps
+  "motorola_28", //    Motorola Trinary
+  "tmcc_32",     //    Lionel TMCC 32 speed step mode
+  "incremental",
+  // from SpeedStepMode:
+  "1",           //    SpeedStepMode.NMRA_DCC_128: DCC 126 speed steps
+  "2",           //    SpeedStepMode.NMRA_DCC_28:  DCC 28 speed steps
+  "4",           //    SpeedStepMode.NMRA_DCC_27:  DCC 27 speed steps
+  "8",           //    SpeedStepMode.NMRA_DCC_14:  DCC 14 speed steps
+  "16"           //    SpeedStepMode.MOTOROLA_28:  Motorola Trinary
+};
+
 
 locoInfo locos[4];
 
@@ -211,9 +234,8 @@ void locoHandler(void)
               if(!isOnlyLoco(currentLoco))
               {
                 break;
-              }
-
-            // intentionally fall through
+              } // @suppress("No break at end of case")
+              // intentionally fall through
 
             case THROTTLE_MOMENTARY:
             case THROTTLE_LOCKING:
@@ -426,10 +448,9 @@ void setFunction(uint8_t f)
         if(!isOnlyLoco(l))
         {
           break;
-        }
-      
-      // intentionally fall through
-      
+        } // @suppress("No break at end of case")
+        // intentionally fall through
+
       case THROTTLE:
       case THROTTLE_LOCKING:
       // if this is the first loco which uses this function
@@ -445,10 +466,9 @@ void setFunction(uint8_t f)
           {
             globalFunctionStatus[f] = ALWAYS_ON;
           }
-        }
+        } // @suppress("No break at end of case")
+        // intentionally fall through
 
-      // intentionally fall through
-      
       case THROTTLE_MOMENTARY:
         client.print(String("MTA") + locoThrottleID[l] + "<;>F1" + f + "\n");
         break;
@@ -485,10 +505,9 @@ void clearFunction(uint8_t f)
         if(!isOnlyLoco(l))
         {
           break;
-        }
-      
-      // intentionally fall through
-      
+        } // @suppress("No break at end of case")
+        // intentionally fall through
+
       case THROTTLE:
       case THROTTLE_LOCKING:
       case THROTTLE_MOMENTARY:
@@ -653,10 +672,9 @@ void setLocoFunctions(uint8_t loco)
         if(!isOnlyLoco(loco))
         {
           break;
-        }
-      
-      // intentionally fall through
-      
+        } // @suppress("No break at end of case")
+        // intentionally fall through
+
       case THROTTLE_MOMENTARY:
         if(centerPosition && centerFunction == f)
         {

@@ -36,6 +36,7 @@
 #define NO_ACTIVITY_TIMEOUT (1000L * 60 * 60 * 3) // 3 hours
 
 #include <WiFi.h>
+//sloeber>> #include <IPAddress.h>   // class IPAddress
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -57,9 +58,16 @@ typedef struct
   uint16_t port;
 } serverInfo;
 
+const int MODES_LENGTH = 12;
+
+extern const char* MODES[MODES_LENGTH];
+
+const char MODE_DEFAULT[] = "128";
+
 typedef struct
 {
   int16_t address;
+  char* mode; // values are from MODES and always allocated on the heap
   bool longAddress;
   functionInfo functions[MAX_FUNCTION + 1];
   eDirection direction;
