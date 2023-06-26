@@ -382,12 +382,12 @@ void writeMainPage()
               + "<tr><td>Speed Step Mode: </td> <td><select name='loco.mode'>";
     for(int j=0; j<MODES_LENGTH; ++j)
     {
-      resp += String("<option");
-      if( strcmp(MODES[j], locos[i].mode) == 0 )
+      resp += String("<option value=\"") + MODES[j].val + "\"";
+      if( strcmp(MODES[j].val, locos[i].mode) == 0 )
       {
-         resp += String(" selected='selected'");
+         resp += String(" selected");
       }
-      resp += String(">") + MODES[j] + "</option>";
+      resp += String(">") + MODES[j].val + " - "+ MODES[j].text + "</option>";
     }
     resp      += String("</select></td></tr>")
               + "<tr><td>Direction:</td><td>"

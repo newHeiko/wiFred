@@ -58,11 +58,17 @@ typedef struct
   uint16_t port;
 } serverInfo;
 
-const int MODES_LENGTH = 12;
+const int MODES_LENGTH = 13;
 
-extern const char* MODES[MODES_LENGTH];
+typedef struct ModeEntry {
+  const char val[12];
+  const char text[30];
+} ModeEntry_t;
 
-const char MODE_DEFAULT[] = "128";
+extern const ModeEntry_t MODES[MODES_LENGTH];
+
+const char MODE_DEFAULT[] = ""; //"128";
+#define MODE_DO_NOT_SEND "" // See requestLoco (should be 'const char MODE_DO_NOT_SEND[] = ""')
 
 typedef struct
 {

@@ -23,6 +23,8 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
 
+#include <string.h> // strcmp()
+
 #include "locoHandling.h"
 #include "lowbat.h"
 #include "config.h"
@@ -31,23 +33,24 @@
 
 // see jmri.jmrit.withrottle.ThrottleController#decodeSpeedStepMode()
 // and jmri.SpeedStepMode.
-const char* MODES[MODES_LENGTH]
+const ModeEntry_t MODES[MODES_LENGTH]
 {
   //"unknown",
-  // from: decodeSpeedStepMode
-  "128",         //    DCC 126 speed steps
-  "28",          //    DCC 28 speed steps
-  "27",          //    DCC 27 speed steps
-  "14",          //    DCC 14 speed steps
-  "motorola_28", //    Motorola Trinary
-  "tmcc_32",     //    Lionel TMCC 32 speed step mode
-  "incremental",
+  { MODE_DO_NOT_SEND, "(do not set speed step mode)" },
+  // from decodeSpeedStepMode():
+  { "128",         "DCC 126 speed steps"         }, // DCC 126 speed steps
+  { "28",          "DCC 28 speed steps"          }, // DCC 28 speed steps
+  { "27",          "DCC 27 speed steps"          }, // DCC 27 speed steps
+  { "14",          "DCC 14 speed steps"          }, // DCC 14 speed steps
+  { "motorola_28", "Motorola Trinary"            }, // Motorola Trinary
+  { "tmcc_32",     "Lionel TMCC 32"              }, // Lionel TMCC 32 speed step mode
+  { "incremental", "do not know"                 },
   // from SpeedStepMode:
-  "1",           //    SpeedStepMode.NMRA_DCC_128: DCC 126 speed steps
-  "2",           //    SpeedStepMode.NMRA_DCC_28:  DCC 28 speed steps
-  "4",           //    SpeedStepMode.NMRA_DCC_27:  DCC 27 speed steps
-  "8",           //    SpeedStepMode.NMRA_DCC_14:  DCC 14 speed steps
-  "16"           //    SpeedStepMode.MOTOROLA_28:  Motorola Trinary
+  { "1",           "DCC 126 speed steps"         }, // SpeedStepMode.NMRA_DCC_128: DCC 126 speed steps
+  { "2",           "DCC 28 speed steps"          }, // SpeedStepMode.NMRA_DCC_28:  DCC 28 speed steps
+  { "4",           "DCC 27 speed steps"          }, // SpeedStepMode.NMRA_DCC_27:  DCC 27 speed steps
+  { "8",           "DCC 14 speed steps"          }, // SpeedStepMode.NMRA_DCC_14:  DCC 14 speed steps
+  { "16",          "Motorola Trinary"            }  // SpeedStepMode.MOTOROLA_28:  Motorola Trinary
 };
 
 
@@ -637,7 +640,10 @@ void requestLoco(uint8_t loco)
   // '+' - Add a locomotive to the throttle
   client.print(String("MT+") + locoThrottleID[loco] + "<;>" + locoThrottleID[loco] + "\n");
   // 'A' - Action, 's' - set speed step mode
-  client.print(String("MTA") + locoThrottleID[loco] + "<;>s" + locos[loco].mode + "\n");
+  if (strcmp(MODE_DO_NOT_SEND, locos[loco].mode) != 0)
+  {
+    client.print(String("MTA") + locoThrottleID[loco] + "<;>s" + locos[loco].mode + "\n");
+  }
   // 'A' - Action, 'X' - emergency stop
   client.print(String("MTA") + locoThrottleID[loco] + "<;>X\n");
   setESTOP();
