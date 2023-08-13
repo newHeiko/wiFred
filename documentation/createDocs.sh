@@ -38,7 +38,7 @@ done
 echo "Creating pdf files"
 for j in de en
 do
-	for i in about assembly config esp12-schematic esp32-schematic leds server usage pdfmaster version
+	for i in about assembly config esp12-schematic esp32-schematic leds server usage pdfmaster
 	do
 		if [[ ${i}_$j.adoc -nt pdfmaster_$j.pdf ]]
 		then
