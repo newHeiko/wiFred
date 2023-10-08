@@ -24,6 +24,9 @@
  * Default 4MB with spiffs (1.2MB APP/1.5MB SPIFFS), 160MHz (WiFi),
  * QIO, 40MHz, 4MB (32Mb), 921600, None on /dev/ttyUSB0
  */
+/* Boards:
+ * - ESP32S2 Dev Module * esp32:esp32:esp32s2:UploadSpeed=921600,CDCOnBoot=default,MSCOnBoot=default,DFUOnBoot=default,UploadMode=default,CPUFreq=160,FlashFreq=80,FlashMode=qio,FlashSize=4M,PartitionScheme=default,DebugLevel=none,PSRAM=disabled,EraseFlash=none,JTAGAdapter=default,CONSOLEBAUD=115200
+ */
 
 #include "wifi.h"
 #include "config.h"
