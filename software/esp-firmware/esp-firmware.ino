@@ -28,6 +28,9 @@
  * https://github.com/me-no-dev/ESPAsyncUDP to be installed in the Arduino
  * IDE, i.e. clone the github repo above to your sketchbook/libraries folder.
  */
+/* Boards:
+ * - Generic ESP8266 Module * esp8266:esp8266:generic:led=2,baud=115200,xtal=80,CrystalFreq=26,eesz=4M1M,FlashMode=dout,FlashFreq=40,ResetMethod=nodtr_nosync,dbg=Disabled,lvl=None____,ip=hb2f,vt=flash,exception=disabled,stacksmash=disabled,wipe=none,sdk=nonosdk_191122,ssl=basic,mmu=3232,non32xfer=fast,CONSOLEBAUD=115200
+ */
 
 #include "wifi.h"
 #include "config.h"
