@@ -1,7 +1,8 @@
 (sym_lib_table
-  (lib (name wfred_rev2-rescue)(type Legacy)(uri ${KIPRJMOD}/wfred_rev2-rescue.lib)(options "")(descr ""))
-  (lib (name ESP8266)(type Legacy)(uri ${KISYSMOD}/ESP8266.lib)(options "")(descr ""))
-  (lib (name MCP73831T-2ACI_OT)(type Legacy)(uri ${KISYSMOD}/MCP73831T-2ACI_OT.lib)(options "")(descr ""))
-  (lib (name NCV8161BSN300T1G)(type Legacy)(uri ${KISYSMOD}/NCV8161BSN300T1G.lib)(options "")(descr ""))
-  (lib (name wfred_rev6-rescue)(type Legacy)(uri ${KIPRJMOD}/wfred_rev6-rescue.lib)(options "")(descr ""))
+  (version 7)
+  (lib (name "wfred_rev2-rescue")(type "Legacy")(uri "${KIPRJMOD}/wfred_rev2-rescue.lib")(options "")(descr ""))
+  (lib (name "ESP8266")(type "Legacy")(uri "${KISYSMOD}/ESP8266.lib")(options "")(descr ""))
+  (lib (name "MCP73831T-2ACI_OT")(type "Legacy")(uri "${KISYSMOD}/MCP73831T-2ACI_OT.lib")(options "")(descr ""))
+  (lib (name "NCV8161BSN300T1G")(type "Legacy")(uri "${KISYSMOD}/NCV8161BSN300T1G.lib")(options "")(descr ""))
+  (lib (name "wfred_rev6-rescue")(type "KiCad")(uri "${KIPRJMOD}/wfred_rev6-rescue.kicad_sym")(options "")(descr ""))
 )
