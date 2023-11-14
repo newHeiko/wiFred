@@ -23,10 +23,10 @@
  * 
  * Versions:
  *    Arduino IDE 1.8.19
- *    esp32 2.0.5
+ *    esp32 2.0.14
  * 
  * Libraries:
- *    ArduinoJson 6.19.4
+ *    ArduinoJson 6.21.3
  * 
  * Board settings:
  *    Board: "ESP32S2 Dev Module"
@@ -40,13 +40,13 @@
  *    Flash Mode "QIO"
  *    Flash Size: "4MB (32Mb)"
  *    Partion Scheme: "Default 4MB with spiffs (1.2MB APP/1.5MB SPIFFS)"
- *    Core Debug Level: "Verbose"
+ *    Core Debug Level: "None"
  *    PSRAM: "Disabled"
  *    Erase All Flash Before Sketch Upload: "Disabled"
  *    Port: "COMxx"
  */
 /* Boards:
- * - ESP32S2 Dev Module * esp32:esp32:esp32s2:UploadSpeed=921600,CDCOnBoot=default,MSCOnBoot=default,DFUOnBoot=default,UploadMode=default,CPUFreq=160,FlashFreq=80,FlashMode=qio,FlashSize=4M,PartitionScheme=default,DebugLevel=none,PSRAM=disabled,EraseFlash=none,JTAGAdapter=default,CONSOLEBAUD=115200
+ * - ESP32S2 Dev Module * esp32:esp32:esp32s2:UploadSpeed=921600,CDCOnBoot=default,MSCOnBoot=default,DFUOnBoot=default,UploadMode=default,CPUFreq=160,FlashFreq=40,FlashMode=qio,FlashSize=4M,PartitionScheme=default,DebugLevel=none,PSRAM=disabled,EraseFlash=none,JTAGAdapter=default,CONSOLEBAUD=115200
  */
 
 #include "wifi.h"
