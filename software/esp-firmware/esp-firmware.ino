@@ -20,9 +20,30 @@
  * 
  * This project was made for ESP32-S2
  * with Arduino ESP32 from the 2.0 series
- * Board settings: ESP32S2 Dev Module, UART0, Disabled,
- * Default 4MB with spiffs (1.2MB APP/1.5MB SPIFFS), 160MHz (WiFi),
- * QIO, 40MHz, 4MB (32Mb), 921600, None on /dev/ttyUSB0
+ * 
+ * Versions:
+ *    Arduino IDE 1.8.19
+ *    esp32 2.0.5
+ * 
+ * Libraries:
+ *    ArduinoJson 6.19.4
+ * 
+ * Board settings:
+ *    Board: "ESP32S2 Dev Module"
+ *    Upload Speed: "921600"
+ *    USB CDC On Boot: "Disabled"
+ *    USB Firmware MSC On Boot; "Disabled"
+ *    USB DFU On Boot: "Disabled"
+ *    Upload Mode: "UART0"
+ *    CPU Frequency: "160MHz (WiFI/BT)
+ *    Flash Frequency: "40 MHz"
+ *    Flash Mode "QIO"
+ *    Flash Size: "4MB (32Mb)"
+ *    Partion Scheme: "Default 4MB with spiffs (1.2MB APP/1.5MB SPIFFS)"
+ *    Core Debug Level: "Verbose"
+ *    PSRAM: "Disabled"
+ *    Erase All Flash Before Sketch Upload: "Disabled"
+ *    Port: "COMxx"
  */
 /* Boards:
  * - ESP32S2 Dev Module * esp32:esp32:esp32s2:UploadSpeed=921600,CDCOnBoot=default,MSCOnBoot=default,DFUOnBoot=default,UploadMode=default,CPUFreq=160,FlashFreq=80,FlashMode=qio,FlashSize=4M,PartitionScheme=default,DebugLevel=none,PSRAM=disabled,EraseFlash=none,JTAGAdapter=default,CONSOLEBAUD=115200

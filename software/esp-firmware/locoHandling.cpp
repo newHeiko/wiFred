@@ -24,12 +24,38 @@
 
 #include <WiFi.h>
 #include <ESPmDNS.h>
+//sloeber>> #include <esp32-hal-log.h>    // log_d()
+
+#include <string.h> // strcmp()
 
 #include "locoHandling.h"
 #include "lowbat.h"
 #include "config.h"
 #include "stateMachine.h"
 #include "throttleHandling.h"
+
+// see jmri.jmrit.withrottle.ThrottleController#decodeSpeedStepMode()
+// and jmri.SpeedStepMode.
+const ModeEntry_t MODES[MODES_LENGTH]
+{
+  //"unknown",
+  { MODE_DO_NOT_SEND, "(do not set speed step mode)" },
+  // from decodeSpeedStepMode():
+  { "128",         "DCC 126 speed steps"         }, // DCC 126 speed steps
+  { "28",          "DCC 28 speed steps"          }, // DCC 28 speed steps
+  { "27",          "DCC 27 speed steps"          }, // DCC 27 speed steps
+  { "14",          "DCC 14 speed steps"          }, // DCC 14 speed steps
+  { "motorola_28", "Motorola Trinary"            }, // Motorola Trinary
+  { "tmcc_32",     "Lionel TMCC 32"              }, // Lionel TMCC 32 speed step mode
+  { "incremental", "do not know"                 },
+  // from SpeedStepMode:
+  { "1",           "DCC 126 speed steps"         }, // SpeedStepMode.NMRA_DCC_128: DCC 126 speed steps
+  { "2",           "DCC 28 speed steps"          }, // SpeedStepMode.NMRA_DCC_28:  DCC 28 speed steps
+  { "4",           "DCC 27 speed steps"          }, // SpeedStepMode.NMRA_DCC_27:  DCC 27 speed steps
+  { "8",           "DCC 14 speed steps"          }, // SpeedStepMode.NMRA_DCC_14:  DCC 14 speed steps
+  { "16",          "Motorola Trinary"            }  // SpeedStepMode.MOTOROLA_28:  Motorola Trinary
+};
+
 
 locoInfo locos[4];
 
@@ -211,9 +237,8 @@ void locoHandler(void)
               if(!isOnlyLoco(currentLoco))
               {
                 break;
-              }
-
-            // intentionally fall through
+              } // @suppress("No break at end of case")
+              // intentionally fall through
 
             case THROTTLE_MOMENTARY:
             case THROTTLE_LOCKING:
@@ -426,10 +451,9 @@ void setFunction(uint8_t f)
         if(!isOnlyLoco(l))
         {
           break;
-        }
-      
-      // intentionally fall through
-      
+        } // @suppress("No break at end of case")
+        // intentionally fall through
+
       case THROTTLE:
       case THROTTLE_LOCKING:
       // if this is the first loco which uses this function
@@ -445,10 +469,9 @@ void setFunction(uint8_t f)
           {
             globalFunctionStatus[f] = ALWAYS_ON;
           }
-        }
+        } // @suppress("No break at end of case")
+        // intentionally fall through
 
-      // intentionally fall through
-      
       case THROTTLE_MOMENTARY:
         client.print(String("MTA") + locoThrottleID[l] + "<;>F1" + f + "\n");
         break;
@@ -485,10 +508,9 @@ void clearFunction(uint8_t f)
         if(!isOnlyLoco(l))
         {
           break;
-        }
-      
-      // intentionally fall through
-      
+        } // @suppress("No break at end of case")
+        // intentionally fall through
+
       case THROTTLE:
       case THROTTLE_LOCKING:
       case THROTTLE_MOMENTARY:
@@ -584,7 +606,7 @@ void requestLoco(uint8_t loco)
     return;
   }
   
-  // first step for new loco: Send "loco acquire" command and send ESTOP command right afterwards to make sure loco is not moving
+  // first step for new loco: Send "loco acquire" command, set speed mode and send ESTOP command right afterwards to make sure loco is not moving
   if(locos[loco].longAddress)
   {
     locoThrottleID[loco] = String("L") + locos[loco].address;
@@ -593,7 +615,14 @@ void requestLoco(uint8_t loco)
   {
     locoThrottleID[loco] = String("S") + locos[loco].address;      
   }
+  // '+' - Add a locomotive to the throttle
   client.print(String("MT+") + locoThrottleID[loco] + "<;>" + locoThrottleID[loco] + "\n");
+  // 'A' - Action, 's' - set speed step mode
+  if (strcmp(MODE_DO_NOT_SEND, locos[loco].mode) != 0)
+  {
+    client.print(String("MTA") + locoThrottleID[loco] + "<;>s" + locos[loco].mode + "\n");
+  }
+  // 'A' - Action, 'X' - emergency stop
   client.print(String("MTA") + locoThrottleID[loco] + "<;>X\n");
   setESTOP();
   locoState[loco] = LOCO_FUNCTIONS;
@@ -653,10 +682,9 @@ void setLocoFunctions(uint8_t loco)
         if(!isOnlyLoco(loco))
         {
           break;
-        }
-      
-      // intentionally fall through
-      
+        } // @suppress("No break at end of case")
+        // intentionally fall through
+
       case THROTTLE_MOMENTARY:
         if(centerPosition && centerFunction == f)
         {

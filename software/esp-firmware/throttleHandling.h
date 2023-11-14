@@ -22,6 +22,9 @@
 #ifndef _THROTTLE_HANDLING_H_
 #define _THROTTLE_HANDLING_H_
 
+//sloeber>> #include <WString.h>       // class String
+//sloeber>> #include <esp32-hal-log.h> // log_d()
+
 #define LED_STOP 14
 #define LED_FWD 39
 #define LED_REV 15

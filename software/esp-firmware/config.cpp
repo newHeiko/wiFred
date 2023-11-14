@@ -20,8 +20,10 @@
  */
 
 #include <stdbool.h>
+//sloeber>> #include <string.h>      // strndup(), strdup()
 #include <FS.h>
 #include <SPIFFS.h>
+//sloeber>> #include <WString.h>     // class String
 #include <ArduinoJson.h>
 
 #include "config.h"
@@ -49,6 +51,7 @@ void initConfig(void)
   for(int i=0; i<4; i++)
   {
     locos[i].address = -1;
+    locos[i].mode = strdup(MODE_DEFAULT); // allocate on heap
     locos[i].direction = DIR_NORMAL;
     locos[i].longAddress = true;
     for(int j=0; j<MAX_FUNCTION + 1; j++)
@@ -178,9 +181,14 @@ void initConfig(void)
       if(!deserializeJson(doc, f))
       {
         locos[i].address = doc[FIELD_LOCO_ADDRESS] | -1;
+        if(doc.containsKey(FIELD_LOCO_MODE))
+        {
+          free(locos[i].mode);
+          locos[i].mode = strdup(doc[FIELD_LOCO_MODE]);
+        }
         if(doc.containsKey(FIELD_LOCO_LONG))
         {
-          locos[i].longAddress = doc[FIELD_LOCO_LONG];          
+          locos[i].longAddress = doc[FIELD_LOCO_LONG];
         }
         if(doc.containsKey(FIELD_LOCO_REVERSE))
         {
@@ -292,6 +300,7 @@ void saveLocoConfig(uint8_t loco)
 
   // save loco configuration for current loco to SPIFFS
   doc[FIELD_LOCO_ADDRESS] = locos[loco].address;
+  doc[FIELD_LOCO_MODE] = locos[loco].mode;
   doc[FIELD_LOCO_LONG] = locos[loco].longAddress;
   doc[FIELD_LOCO_DIRECTION] = locos[loco].direction;
   doc.createNestedArray(FIELD_LOCO_FUNCTIONS);
