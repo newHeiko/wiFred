@@ -124,6 +124,23 @@ void initWiFiSTA(void)
 {
   // count the number of available networks
   uint32_t numNetworks = 0;
+
+  char * hostName = strdup(throttleName);
+
+  for (char * src = throttleName, * dst = hostName; *src != 0;)
+  {
+    if (isalnum(*src))
+    {
+      *dst++ = *src++;
+    }
+    else
+    {
+      src++;
+    }
+    *dst = 0;
+  }
+
+  WiFi.setHostname(hostName);
   WiFi.mode(WIFI_STA);
   for(std::vector<wifiAPEntry>::iterator it = apList.begin() ; it != apList.end(); it++)
   {
