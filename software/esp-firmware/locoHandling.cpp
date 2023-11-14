@@ -369,7 +369,12 @@ void locoConnect(void)
       if(n == 0)
       {
         automaticServerIP = WiFi.localIP();
-        automaticServerIP[3] = 1;
+        IPAddress netmask = WiFi.subnetMask();
+        for(uint32_t i=0; i<=3; i++)
+        {
+          automaticServerIP[i] &= netmask[i];
+        }
+        automaticServerIP[3] += 1;
         automaticServer = strdup(automaticServerIP.toString().c_str());
 #ifdef DEBUG        
         Serial.println(String("No MDNS-announced wiThrottle server found. Trying LNWI/DCCEX at ") + automaticServer + ".");
