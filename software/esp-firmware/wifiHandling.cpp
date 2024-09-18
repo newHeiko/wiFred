@@ -28,7 +28,7 @@
 #include <DNSServer.h>
 #include <ESPAsyncUDP.h>
 
-#include "wifi.h"
+#include "wifiHandling.h"
 #include "locoHandling.h"     // MODES, MODES_LENGTH
 #include "config.h"
 #include "lowbat.h"
@@ -139,7 +139,7 @@ void initWiFiSTA(void)
     *dst = 0;
   }
 
-  WiFi.setHostname(hostName);
+  WiFi.hostname(hostName);
   WiFi.mode(WIFI_STA);
   for(std::vector<wifiAPEntry>::iterator it = apList.begin() ; it != apList.end(); it++)
   {
