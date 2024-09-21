@@ -26,7 +26,7 @@
  *    esp32 3.0.5
  * 
  * Libraries:
- *    ArduinoJson 7.1.0
+ *    ArduinoJson 7.2.0
  * 
  * Board settings:
  *    Board: "ESP32S2 Dev Module"
