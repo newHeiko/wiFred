@@ -114,7 +114,7 @@ void initConfig(void)
       {
         locoServer.port = p;
       }
-      if(doc.containsKey(FIELD_SERVER_AUTOMATIC))
+      if(doc[FIELD_SERVER_AUTOMATIC].is<bool>())
       {
         locoServer.automatic = doc[FIELD_SERVER_AUTOMATIC];
       }
@@ -140,7 +140,7 @@ void initConfig(void)
         wifiAPEntry newAP;
         newAP.ssid = strdup(doc[FIELD_WIFI_SSID] | "");
         newAP.key = strdup(doc[FIELD_WIFI_PSK] | "");
-        if(doc.containsKey(FIELD_WIFI_DISABLED))
+        if(doc[FIELD_WIFI_DISABLED].is<bool>())
         {
           newAP.disabled = doc[FIELD_WIFI_DISABLED];
         }
@@ -175,16 +175,16 @@ void initConfig(void)
       if(!deserializeJson(doc, f))
       {
         locos[i].address = doc[FIELD_LOCO_ADDRESS] | -1;
-        if(doc.containsKey(FIELD_LOCO_MODE))
+        if(doc[FIELD_LOCO_MODE].is<String>())
         {
           free(locos[i].mode);
           locos[i].mode = strdup(doc[FIELD_LOCO_MODE]);
         }
-        if(doc.containsKey(FIELD_LOCO_LONG))
+        if(doc[FIELD_LOCO_LONG].is<bool>())
         {
           locos[i].longAddress = doc[FIELD_LOCO_LONG];
         }
-        if(doc.containsKey(FIELD_LOCO_REVERSE))
+        if(doc[FIELD_LOCO_REVERSE].is<bool>())
         {
           locos[i].reverse = doc[FIELD_LOCO_REVERSE];
           if(locos[i].reverse)
@@ -196,7 +196,7 @@ void initConfig(void)
             locos[i].direction = DIR_NORMAL;
           }
         }
-        if(doc.containsKey(FIELD_LOCO_DIRECTION))
+        if(doc[FIELD_LOCO_DIRECTION].is<int>())
         {
           locos[i].direction = doc[FIELD_LOCO_DIRECTION];
         }
