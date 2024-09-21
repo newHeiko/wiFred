@@ -65,7 +65,7 @@ void initConfig(void)
     return;
   }
   
-  DynamicJsonDocument doc(512);
+  JsonDocument doc;
 
 // read device name from SPIFFS (deprecated)
   if(File f = SPIFFS.open(FN_NAME, "r"))
@@ -217,7 +217,7 @@ void saveLocoServer()
     return;
   }
 
-  DynamicJsonDocument doc(256);
+  JsonDocument doc;
 
   doc[FIELD_SERVER_NAME] = locoServer.name;
   doc[FIELD_SERVER_PORT] = locoServer.port;
@@ -239,7 +239,7 @@ void saveGeneralConfig(void)
     return;
   }
 
-  DynamicJsonDocument doc(256);
+  JsonDocument doc;
 
   doc[FIELD_NAME_NAME] = throttleName;
   doc[FIELD_CONFIG_CENTERSWITCH] = centerFunction;
@@ -270,14 +270,14 @@ void saveLocoConfig(uint8_t loco)
     locos[loco].address = -1;
   }
 
-  DynamicJsonDocument doc(512);
+  JsonDocument doc;
 
   // save loco configuration for current loco to SPIFFS
   doc[FIELD_LOCO_ADDRESS] = locos[loco].address;
   doc[FIELD_LOCO_MODE] = locos[loco].mode;
   doc[FIELD_LOCO_LONG] = locos[loco].longAddress;
   doc[FIELD_LOCO_DIRECTION] = locos[loco].direction;
-  doc.createNestedArray(FIELD_LOCO_FUNCTIONS);
+  doc[FIELD_LOCO_FUNCTIONS].to<JsonArray>();
   for(uint8_t i = 0; i < MAX_FUNCTION + 1; i++)
   {
     doc[FIELD_LOCO_FUNCTIONS].add((int) (locos[loco].functions[i]) );
@@ -300,7 +300,7 @@ void saveWiFiConfig()
     return;
   }
   
-  DynamicJsonDocument doc(256);
+  JsonDocument doc;
 
   String filename;
 
