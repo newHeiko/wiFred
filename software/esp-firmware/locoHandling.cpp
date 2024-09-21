@@ -343,11 +343,11 @@ void locoConnect(void)
       uint32_t n = MDNS.queryService("withrottle", "tcp");
       for(uint32_t i = 0; i < n; i++)
       {
-        log_d("Hostname: %s IP: %s Port: %u", MDNS.hostname(i).c_str(), MDNS.IP(i).toString().c_str(), MDNS.port(i));
+        log_d("Hostname: %s IP: %s Port: %u", MDNS.hostname(i).c_str(), MDNS.address(i).toString().c_str(), MDNS.port(i));
         if(MDNS.port(i) == locoServer.port)
 	      {
 	        automaticServer = strdup(MDNS.hostname(i).c_str());
-	        automaticServerIP = MDNS.IP(i);
+	        automaticServerIP = MDNS.address(i);
 //	        MDNS.removeQuery();
 	        break;          
 	      }
