@@ -28,7 +28,7 @@
 #include <DNSServer.h>
 #include <ESPAsyncUDP.h>
 
-#include "wifi.h"
+#include "wifiHandling.h"
 #include "locoHandling.h"     // MODES, MODES_LENGTH
 #include "config.h"
 #include "lowbat.h"
