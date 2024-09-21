@@ -27,7 +27,7 @@
 #include <ArduinoJson.h>
 
 #include "config.h"
-#include "wifi.h"
+#include "wifiHandling.h"
 #include "locoHandling.h"
 #include "throttleHandling.h"
 

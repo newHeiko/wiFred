@@ -29,7 +29,7 @@
 #include <DNSServer.h>
 #include <AsyncUDP.h>
 
-#include "wifi.h"
+#include "wifiHandling.h"
 #include "locoHandling.h"     // MODES, MODES_LENGTH
 #include "config.h"
 #include "lowbat.h"

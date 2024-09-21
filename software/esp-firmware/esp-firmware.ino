@@ -49,7 +49,7 @@
  * - ESP32S2 Dev Module * esp32:esp32:esp32s2:UploadSpeed=921600,CDCOnBoot=default,MSCOnBoot=default,DFUOnBoot=default,UploadMode=default,CPUFreq=160,FlashFreq=40,FlashMode=qio,FlashSize=4M,PartitionScheme=default,DebugLevel=none,PSRAM=disabled,EraseFlash=none,JTAGAdapter=default,CONSOLEBAUD=115200
  */
 
-#include "wifi.h"
+#include "wifiHandling.h"
 #include "config.h"
 #include "locoHandling.h"
 #include "lowbat.h"

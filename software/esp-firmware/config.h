@@ -24,7 +24,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include "wifi.h"
+#include "wifiHandling.h"
 #include "locoHandling.h"
 
 // Filenames and field names on SPIFFS
