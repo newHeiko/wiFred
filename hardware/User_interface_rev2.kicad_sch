@@ -1,0 +1,6106 @@
+(kicad_sch
+	(version 20231120)
+	(generator "eeschema")
+	(generator_version "8.0")
+	(uuid "4cf5ff71-40d2-418a-a3a9-f1d66ac6adce")
+	(paper "A4")
+	(title_block
+		(title "Wireless FREDI (and clock interface)")
+		(date "2017-11-19")
+		(rev "0.2")
+		(company "Heiko Rosemann (heiko.rosemann@web.de) CC-BY-SA")
+		(comment 4 "Keys, LEDs and Potentiometer for throttle")
+	)
+	(lib_symbols
+		(symbol "power:+BATT"
+			(power)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "+BATT"
+				(at 0 3.556 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"+BATT\""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global power battery"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "+BATT_0_1"
+				(polyline
+					(pts
+						(xy -0.762 1.27) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 2.54) (xy 0.762 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "+BATT_1_1"
+				(pin power_in line
+					(at 0 0 90)
+					(length 0) hide
+					(name "+BATT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "wfred_rev2-rescue:C-RESCUE-wfred_rev2"
+			(pin_numbers hide)
+			(pin_names
+				(offset 0.254)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "C"
+				(at 0 2.54 0)
+				(effects
+					(font
+						(size 1.016 1.016)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "C-RESCUE-wfred_rev2"
+				(at 0.1524 -2.159 0)
+				(effects
+					(font
+						(size 1.016 1.016)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 0.9652 -3.81 0)
+				(effects
+					(font
+						(size 0.762 0.762)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "SM* C? C1-1"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "C-RESCUE-wfred_rev2_0_1"
+				(polyline
+					(pts
+						(xy -2.032 -0.762) (xy 2.032 -0.762)
+					)
+					(stroke
+						(width 0.508)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.032 0.762) (xy 2.032 0.762)
+					)
+					(stroke
+						(width 0.508)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "C-RESCUE-wfred_rev2_1_1"
+				(pin passive line
+					(at 0 5.08 270)
+					(length 4.318)
+					(name "~"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -5.08 90)
+					(length 4.318)
+					(name "~"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "wfred_rev2-rescue:GND-RESCUE-wfred_rev2"
+			(power)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 0.762 0.762)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "GND-RESCUE-wfred_rev2"
+				(at 0 -1.778 0)
+				(effects
+					(font
+						(size 0.762 0.762)
+					)
+					(hide yes)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "GND-RESCUE-wfred_rev2_0_1"
+				(polyline
+					(pts
+						(xy -1.27 0) (xy 0 -1.27) (xy 1.27 0) (xy -1.27 0)
+					)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "GND-RESCUE-wfred_rev2_1_1"
+				(pin power_in line
+					(at 0 0 90)
+					(length 0) hide
+					(name "GND"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "wfred_rev2-rescue:GND-power"
+			(power)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 0.762 0.762)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "GND-power"
+				(at 0 -1.778 0)
+				(effects
+					(font
+						(size 0.762 0.762)
+					)
+					(hide yes)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "GND-power_0_1"
+				(polyline
+					(pts
+						(xy -1.27 0) (xy 0 -1.27) (xy 1.27 0) (xy -1.27 0)
+					)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "GND-power_1_1"
+				(pin power_in line
+					(at 0 0 90)
+					(length 0) hide
+					(name "GND"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "wfred_rev2-rescue:LED-RESCUE-wfred_rev2"
+			(pin_names
+				(offset 1.016) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "D"
+				(at 0 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "LED-RESCUE-wfred_rev2"
+				(at 0 -2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "LED-3MM LED-5MM LED-10MM LED-0603 LED-0805 LED-1206 LEDV"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "LED-RESCUE-wfred_rev2_0_1"
+				(polyline
+					(pts
+						(xy 1.27 1.27) (xy 1.27 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 1.27) (xy 1.27 0) (xy -1.27 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.651 -1.016) (xy 2.794 -2.032) (xy 2.667 -1.397)
+					)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.032 -0.635) (xy 3.175 -1.651) (xy 3.048 -1.016)
+					)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "LED-RESCUE-wfred_rev2_1_1"
+				(pin passive line
+					(at -5.08 0 0)
+					(length 3.81)
+					(name "A"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 0 180)
+					(length 3.81)
+					(name "K"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "wfred_rev2-rescue:LED-device"
+			(pin_names
+				(offset 1.016) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "D"
+				(at 0 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "LED-device"
+				(at 0 -2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "LED-3MM LED-5MM LED-10MM LED-0603 LED-0805 LED-1206 LEDV"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "LED-device_0_1"
+				(polyline
+					(pts
+						(xy 1.27 1.27) (xy 1.27 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 1.27) (xy 1.27 0) (xy -1.27 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.651 -1.016) (xy 2.794 -2.032) (xy 2.667 -1.397)
+					)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.032 -0.635) (xy 3.175 -1.651) (xy 3.048 -1.016)
+					)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "LED-device_1_1"
+				(pin passive line
+					(at -5.08 0 0)
+					(length 3.81)
+					(name "A"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 0 180)
+					(length 3.81)
+					(name "K"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "wfred_rev2-rescue:MIC2860-my_devices"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "IC"
+				(at 0 2.54 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+				)
+			)
+			(property "Value" "MIC2860-my_devices"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "MIC2860-my_devices_0_1"
+				(rectangle
+					(start -10.16 10.16)
+					(end 10.16 -10.16)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "MIC2860-my_devices_1_1"
+				(pin input line
+					(at -15.24 -2.54 0)
+					(length 5.08)
+					(name "EN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -15.24 -7.62 0)
+					(length 5.08)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -15.24 7.62 0)
+					(length 5.08)
+					(name "VIN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 15.24 -2.54 180)
+					(length 5.08)
+					(name "D2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -15.24 2.54 0)
+					(length 5.08)
+					(name "RSET"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 15.24 2.54 180)
+					(length 5.08)
+					(name "D1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "wfred_rev2-rescue:POT-RESCUE-wfred_rev2"
+			(pin_names
+				(offset 1.016) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "RV"
+				(at 0 -2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "POT-RESCUE-wfred_rev2"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "POT-RESCUE-wfred_rev2_0_1"
+				(rectangle
+					(start -3.81 1.27)
+					(end 3.81 -1.27)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 1.27) (xy -0.508 1.778) (xy 0.508 1.778)
+					)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type outline)
+					)
+				)
+			)
+			(symbol "POT-RESCUE-wfred_rev2_1_1"
+				(pin passive line
+					(at -6.35 0 0)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 3.81 270)
+					(length 2.032)
+					(name "2"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 6.35 0 180)
+					(length 2.54)
+					(name "3"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "wfred_rev2-rescue:R-RESCUE-wfred_rev2"
+			(pin_numbers hide)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "R"
+				(at 2.032 0 90)
+				(effects
+					(font
+						(size 1.016 1.016)
+					)
+				)
+			)
+			(property "Value" "R-RESCUE-wfred_rev2"
+				(at 0.1778 0.0254 90)
+				(effects
+					(font
+						(size 1.016 1.016)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at -1.778 0 90)
+				(effects
+					(font
+						(size 0.762 0.762)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 0.762 0.762)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "R? SM0603 SM0805 R?-* SM1206"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "R-RESCUE-wfred_rev2_0_1"
+				(rectangle
+					(start -1.016 3.81)
+					(end 1.016 -3.81)
+					(stroke
+						(width 0.3048)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "R-RESCUE-wfred_rev2_1_1"
+				(pin passive line
+					(at 0 6.35 270)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -6.35 90)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "wfred_rev2-rescue:SWITCH_INV-device"
+			(pin_numbers hide)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "SW"
+				(at -5.08 3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "SWITCH_INV-device"
+				(at -3.81 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "SWITCH_INV-device_0_0"
+				(circle
+					(center -3.81 0)
+					(radius 1.27)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 3.81 -2.54)
+					(radius 1.27)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "SWITCH_INV-device_0_1"
+				(polyline
+					(pts
+						(xy -2.54 0) (xy 3.81 1.27)
+					)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 3.81 2.54)
+					(radius 1.27)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "SWITCH_INV-device_1_1"
+				(pin passive line
+					(at 12.7 2.54 180)
+					(length 7.62)
+					(name "1"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -12.7 0 0)
+					(length 7.62)
+					(name "2"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 12.7 -2.54 180)
+					(length 7.62)
+					(name "3"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "wfred_rev2-rescue:SW_PUSH-device"
+			(pin_numbers hide)
+			(pin_names
+				(offset 1.016) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "SW"
+				(at 3.81 2.794 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "SW_PUSH-device"
+				(at 0 -2.032 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.524 1.524)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "SW_PUSH-device_0_1"
+				(rectangle
+					(start -4.318 1.27)
+					(end 4.318 1.524)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.016 1.524) (xy -0.762 2.286) (xy 0.762 2.286) (xy 1.016 1.524)
+					)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive inverted
+					(at -7.62 0 0)
+					(length 5.08)
+					(name "1"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin passive inverted
+					(at 7.62 0 180)
+					(length 5.08)
+					(name "2"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+			)
+		)
+	)
+	(junction
+		(at 109.22 129.54)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0021a17e-c0de-4423-b4c0-fb40faa9a5c7")
+	)
+	(junction
+		(at 241.3 33.02)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "131a338b-c7b5-472f-a48f-8e1dd3507904")
+	)
+	(junction
+		(at 109.22 160.02)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "579daa3f-272e-48f5-8753-75645e06b81d")
+	)
+	(junction
+		(at 40.64 71.12)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "58fd0e7e-9a3b-481d-bc0a-c86178691b02")
+	)
+	(junction
+		(at 81.28 58.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "59c344b1-6c81-43d5-bf51-a500b8377cc9")
+	)
+	(junction
+		(at 63.5 129.54)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6ab2e6ab-6753-43f6-83e3-7edba0ab164a")
+	)
+	(junction
+		(at 144.78 111.76)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "70780a30-5b1d-4435-8ab0-5bcae359f370")
+	)
+	(junction
+		(at 144.78 142.24)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "72001214-c5f3-479a-94c1-6ec30550843c")
+	)
+	(junction
+		(at 81.28 45.72)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "756d5978-3a99-440b-ad62-a9333b85f6dd")
+	)
+	(junction
+		(at 40.64 45.72)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "84af4422-0263-4a23-9fe6-4fe05ff06b60")
+	)
+	(junction
+		(at 187.96 134.62)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8cd2c9ff-e90f-4276-8a1c-e19048b805d2")
+	)
+	(junction
+		(at 40.64 58.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8d5e4277-c9e4-4cfe-b8c6-e4462ee4c22e")
+	)
+	(junction
+		(at 187.96 124.46)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "9081a352-f0f7-4e63-adac-1904b9fbfbb0")
+	)
+	(junction
+		(at 81.28 71.12)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "91bf983f-a8b7-4085-bbb8-a311a7a29a22")
+	)
+	(junction
+		(at 144.78 127)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "9508a5a9-9c6f-4ad4-b055-d74ea696fb5c")
+	)
+	(junction
+		(at 109.22 144.78)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "aca66e6f-fd8a-4261-b0c4-7cb5e9a0cb7f")
+	)
+	(junction
+		(at 121.92 58.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b2bed314-a617-414e-b9c3-6348e3c0b9da")
+	)
+	(junction
+		(at 241.3 81.28)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d76286e5-063a-4571-a25d-d955043754d6")
+	)
+	(junction
+		(at 121.92 45.72)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e84246cb-6ca2-4445-8750-c1d513d6e0b6")
+	)
+	(junction
+		(at 121.92 71.12)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ec340984-faab-4f4c-92f3-9f30caf6e440")
+	)
+	(wire
+		(pts
+			(xy 81.28 58.42) (xy 81.28 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0248120f-30a0-4c97-a2d3-1c7abfb6e695")
+	)
+	(wire
+		(pts
+			(xy 109.22 144.78) (xy 114.3 144.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "02ced057-4bcd-43a1-bc51-15915f8f953a")
+	)
+	(wire
+		(pts
+			(xy 121.92 58.42) (xy 121.92 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0557bca7-5a7e-48d8-915e-618067dcd7b3")
+	)
+	(wire
+		(pts
+			(xy 187.96 124.46) (xy 193.04 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "063e7637-0955-47f6-a96f-e43163d8fc6b")
+	)
+	(wire
+		(pts
+			(xy 121.92 83.82) (xy 127 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "065cfc2c-2202-4953-8770-afed5073d719")
+	)
+	(wire
+		(pts
+			(xy 203.2 60.96) (xy 195.58 60.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0b163568-96e2-46be-ad13-31458f099cf9")
+	)
+	(wire
+		(pts
+			(xy 241.3 81.28) (xy 241.3 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0b7cc2b4-9285-4a3b-9125-bfda4c53f81d")
+	)
+	(wire
+		(pts
+			(xy 144.78 111.76) (xy 144.78 127)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0de28e83-15ec-4f99-a9e9-14000f53998b")
+	)
+	(wire
+		(pts
+			(xy 109.22 160.02) (xy 109.22 172.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0eb653b5-88e2-4e0e-aaed-c4d5891d593d")
+	)
+	(wire
+		(pts
+			(xy 86.36 45.72) (xy 81.28 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0eb663dc-00d7-40d4-b602-e29d4e6199fc")
+	)
+	(wire
+		(pts
+			(xy 233.68 55.88) (xy 233.68 60.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "112bdef7-e483-4dd2-b564-6035b453494a")
+	)
+	(wire
+		(pts
+			(xy 81.28 71.12) (xy 86.36 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "136b48fd-02d6-456d-a0aa-5f7d648b5ab1")
+	)
+	(wire
+		(pts
+			(xy 241.3 33.02) (xy 233.68 33.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "15ad1afd-8bdc-4dca-95df-739aaf8baabe")
+	)
+	(wire
+		(pts
+			(xy 40.64 45.72) (xy 40.64 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "16c07cbb-6908-4a68-a02a-66dbf88e48b9")
+	)
+	(wire
+		(pts
+			(xy 195.58 55.88) (xy 203.2 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1c567dd1-bc18-4a6f-9e5f-c3c3487945cc")
+	)
+	(wire
+		(pts
+			(xy 121.92 40.64) (xy 121.92 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1c7482c4-5d8b-4363-81a2-1763fd359a3c")
+	)
+	(wire
+		(pts
+			(xy 205.74 119.38) (xy 210.82 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1e9b078b-1863-4779-80f9-2fb473c85bbc")
+	)
+	(wire
+		(pts
+			(xy 144.78 142.24) (xy 144.78 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "20e46a0d-fdd2-47ec-9155-9a56fbe6da38")
+	)
+	(wire
+		(pts
+			(xy 210.82 134.62) (xy 187.96 134.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "25016bf2-9c58-495b-9348-3e30cd004543")
+	)
+	(wire
+		(pts
+			(xy 63.5 144.78) (xy 63.5 149.86)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "255e2bc5-3ac2-4bd2-a886-618f99100731")
+	)
+	(wire
+		(pts
+			(xy 121.92 71.12) (xy 127 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "25ec4d17-88ab-494d-bd3d-1c2ff67140e9")
+	)
+	(wire
+		(pts
+			(xy 81.28 45.72) (xy 81.28 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "26ce3f64-a29a-4e00-9661-a7d46863ae2f")
+	)
+	(wire
+		(pts
+			(xy 121.92 71.12) (xy 121.92 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "28586140-b7bd-4bb3-b47f-4c525b2325de")
+	)
+	(wire
+		(pts
+			(xy 233.68 71.12) (xy 233.68 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "292abd81-c8bd-4cb3-9e90-086786049256")
+	)
+	(wire
+		(pts
+			(xy 142.24 45.72) (xy 149.86 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2ab56b2a-d3d1-4bca-83b6-31d690d72234")
+	)
+	(wire
+		(pts
+			(xy 226.06 81.28) (xy 241.3 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2c1eadb3-fbf2-449c-962a-d3a36a62a349")
+	)
+	(wire
+		(pts
+			(xy 149.86 132.08) (xy 139.7 132.08)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2c3e3bfa-69f2-41dc-9684-c8991613182f")
+	)
+	(wire
+		(pts
+			(xy 114.3 129.54) (xy 109.22 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2d447a5d-114b-4e48-86ce-9acf4dce63ce")
+	)
+	(wire
+		(pts
+			(xy 162.56 58.42) (xy 170.18 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3018fc50-01d2-4af1-82e6-7269d68aa3c3")
+	)
+	(wire
+		(pts
+			(xy 109.22 160.02) (xy 114.3 160.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "33bbc634-4012-481c-b842-e07b0395b4ee")
+	)
+	(wire
+		(pts
+			(xy 144.78 142.24) (xy 139.7 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "378877a7-cdf0-475c-94f8-f3359634938c")
+	)
+	(wire
+		(pts
+			(xy 233.68 78.74) (xy 226.06 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "39476b6c-90b0-41df-afa6-cedac97680a3")
+	)
+	(wire
+		(pts
+			(xy 248.92 55.88) (xy 248.92 60.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3a9e548c-8c22-410a-953c-dc8424f62abe")
+	)
+	(wire
+		(pts
+			(xy 241.3 81.28) (xy 248.92 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3bbc58bc-0d0d-40ed-8f81-944bfee82757")
+	)
+	(wire
+		(pts
+			(xy 187.96 104.14) (xy 187.96 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4428abac-5c0f-471b-a361-1512da42e62f")
+	)
+	(wire
+		(pts
+			(xy 144.78 127) (xy 144.78 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "44faabe5-e12e-4d84-b8b7-a05b28c3ef54")
+	)
+	(wire
+		(pts
+			(xy 241.3 33.02) (xy 241.3 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "46a8d5f5-7247-4e61-99af-fc5f9d743d10")
+	)
+	(wire
+		(pts
+			(xy 246.38 124.46) (xy 246.38 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4733e1f9-b747-4e47-9d78-31266cb36824")
+	)
+	(wire
+		(pts
+			(xy 60.96 71.12) (xy 68.58 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4902896b-7867-4be3-abd9-761deb039167")
+	)
+	(wire
+		(pts
+			(xy 144.78 157.48) (xy 139.7 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "50e2f24b-e389-451e-97ca-1e493071eaa6")
+	)
+	(wire
+		(pts
+			(xy 241.3 129.54) (xy 254 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5369331e-996b-4dc3-954a-6d88d2e9099d")
+	)
+	(wire
+		(pts
+			(xy 241.3 124.46) (xy 246.38 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "547280d4-0854-4cf5-a6eb-09aa38b69191")
+	)
+	(wire
+		(pts
+			(xy 40.64 45.72) (xy 45.72 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "59778fc3-07d9-44f9-85ed-0261f7b323fb")
+	)
+	(wire
+		(pts
+			(xy 187.96 121.92) (xy 187.96 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5cd17ddc-e5d7-4544-ba4e-51d9c6018618")
+	)
+	(wire
+		(pts
+			(xy 233.68 33.02) (xy 233.68 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5ce17c47-3c9b-4501-b6b8-36f54c8ed631")
+	)
+	(wire
+		(pts
+			(xy 76.2 116.84) (xy 38.1 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "61c60d0d-4276-4dfc-b86d-67c3fa89de72")
+	)
+	(wire
+		(pts
+			(xy 101.6 45.72) (xy 109.22 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "67481d02-d608-4610-84e4-8649b2bc7d44")
+	)
+	(wire
+		(pts
+			(xy 101.6 71.12) (xy 109.22 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "68872257-2a38-40e2-b129-85676acf804e")
+	)
+	(wire
+		(pts
+			(xy 40.64 40.64) (xy 40.64 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6dd139fa-b5d4-4a74-8057-5e765b2ff43a")
+	)
+	(wire
+		(pts
+			(xy 205.74 124.46) (xy 210.82 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6e48efc8-8f9e-4384-bc43-034c3c973f1e")
+	)
+	(wire
+		(pts
+			(xy 142.24 58.42) (xy 149.86 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "727d8e0d-8f55-4b0b-b77c-4593f0ec1cfa")
+	)
+	(wire
+		(pts
+			(xy 63.5 129.54) (xy 76.2 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "75a1b906-82eb-42cd-b00b-4d79980b1022")
+	)
+	(wire
+		(pts
+			(xy 121.92 45.72) (xy 121.92 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7aee486e-bc85-4e77-8273-6471a59cc687")
+	)
+	(wire
+		(pts
+			(xy 205.74 129.54) (xy 210.82 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7b532bf6-101b-4256-81c8-42264aecae64")
+	)
+	(wire
+		(pts
+			(xy 248.92 35.56) (xy 248.92 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7ce7b88d-cd5f-46fc-962c-313b112ac5ce")
+	)
+	(wire
+		(pts
+			(xy 139.7 116.84) (xy 149.86 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7e4be3fd-9039-4a9c-8af4-072d7600fd6e")
+	)
+	(wire
+		(pts
+			(xy 254 104.14) (xy 254 109.22)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9111f640-b7cc-445c-b539-2d1e589dda26")
+	)
+	(wire
+		(pts
+			(xy 81.28 40.64) (xy 81.28 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "932004bc-0d48-49ef-bbc6-87a82c08616a")
+	)
+	(wire
+		(pts
+			(xy 81.28 71.12) (xy 81.28 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "94b75e6a-0768-4f2c-8bd7-97a6e184c676")
+	)
+	(wire
+		(pts
+			(xy 256.54 35.56) (xy 248.92 35.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9682a711-33fa-4016-9138-3ca36abae27f")
+	)
+	(wire
+		(pts
+			(xy 63.5 129.54) (xy 63.5 134.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "99512199-9ede-4c97-b8fb-794600ce4599")
+	)
+	(wire
+		(pts
+			(xy 109.22 144.78) (xy 109.22 160.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9ba3dd79-9cfa-4602-af83-4189f465de48")
+	)
+	(wire
+		(pts
+			(xy 60.96 45.72) (xy 68.58 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9f2ab9a8-a97f-436b-88cb-5a627bb93cc7")
+	)
+	(wire
+		(pts
+			(xy 139.7 147.32) (xy 149.86 147.32)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a0fbce02-132b-4114-bcc7-7bad3bb4319b")
+	)
+	(wire
+		(pts
+			(xy 101.6 58.42) (xy 109.22 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a34d0a3e-5626-4bd7-9cdc-2c9ad47c88be")
+	)
+	(wire
+		(pts
+			(xy 60.96 58.42) (xy 68.58 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a37137a4-80c6-47ac-b6a4-bc6884283467")
+	)
+	(wire
+		(pts
+			(xy 139.7 127) (xy 144.78 127)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a61d0757-ddc8-4cca-ae34-bb77946d61c3")
+	)
+	(wire
+		(pts
+			(xy 142.24 71.12) (xy 149.86 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a6238bc0-f83f-4087-9b34-f8e8c55ce849")
+	)
+	(wire
+		(pts
+			(xy 205.74 104.14) (xy 205.74 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a6f5664f-4e47-4bb4-9adb-ed487245514c")
+	)
+	(wire
+		(pts
+			(xy 241.3 55.88) (xy 241.3 60.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "aa9ec141-f679-4fea-a4e3-45262ff07099")
+	)
+	(wire
+		(pts
+			(xy 38.1 135.89) (xy 38.1 149.86)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ae8136b4-7c22-48a9-8c4c-fb355d7572b0")
+	)
+	(wire
+		(pts
+			(xy 144.78 111.76) (xy 149.86 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b44c99d3-5cfc-441f-8b2a-7dcfe1836aac")
+	)
+	(wire
+		(pts
+			(xy 114.3 114.3) (xy 109.22 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b66d6fc9-f08f-433a-a9da-c05709305695")
+	)
+	(wire
+		(pts
+			(xy 40.64 58.42) (xy 45.72 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b6f18320-94a7-4771-a2cb-348a562b7ab3")
+	)
+	(wire
+		(pts
+			(xy 127 45.72) (xy 121.92 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b9adb03f-2ae4-451f-8e21-0bf7b236ad62")
+	)
+	(wire
+		(pts
+			(xy 38.1 116.84) (xy 38.1 123.19)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bc564f16-0a2b-4433-a87e-e682f1fcae0b")
+	)
+	(wire
+		(pts
+			(xy 58.42 129.54) (xy 63.5 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bdbccaee-248a-42db-8432-b86e6fb360f6")
+	)
+	(wire
+		(pts
+			(xy 81.28 83.82) (xy 86.36 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bee3b91a-f7e2-4357-8c77-bad36ff88df4")
+	)
+	(wire
+		(pts
+			(xy 40.64 83.82) (xy 45.72 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c1e670fe-5d65-4a4b-a027-8af962166064")
+	)
+	(wire
+		(pts
+			(xy 149.86 162.56) (xy 139.7 162.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c4805a9d-79c1-48df-9edf-3a03e7aaa136")
+	)
+	(wire
+		(pts
+			(xy 40.64 71.12) (xy 40.64 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c60c4a8c-31c8-4b79-a978-cfcd3bb9245b")
+	)
+	(wire
+		(pts
+			(xy 40.64 58.42) (xy 40.64 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c66cc742-077f-4411-8156-e529c761e54c")
+	)
+	(wire
+		(pts
+			(xy 254 129.54) (xy 254 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c8fda12a-b496-4e33-b759-5d52f2b4348b")
+	)
+	(wire
+		(pts
+			(xy 187.96 124.46) (xy 187.96 134.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cbbb6747-c726-4f67-8cfe-d8cebd8a0efd")
+	)
+	(wire
+		(pts
+			(xy 81.28 58.42) (xy 86.36 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d0c81bbb-2de1-42ed-adf9-593cb6d7ef94")
+	)
+	(wire
+		(pts
+			(xy 246.38 104.14) (xy 246.38 109.22)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d14f45d4-76b3-4c0a-b578-a9f77998ba11")
+	)
+	(wire
+		(pts
+			(xy 162.56 40.64) (xy 162.56 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "da0d7ec9-95ca-4184-ad2d-6921ed008b10")
+	)
+	(wire
+		(pts
+			(xy 68.58 83.82) (xy 60.96 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dd26bd5b-0a3f-4816-bdc1-cd0355185448")
+	)
+	(wire
+		(pts
+			(xy 41.91 129.54) (xy 45.72 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dea06e51-3347-4ce5-8722-f18e7ebefa20")
+	)
+	(wire
+		(pts
+			(xy 142.24 83.82) (xy 149.86 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e4f82afc-8151-48e8-ade1-5f355bf047c5")
+	)
+	(wire
+		(pts
+			(xy 101.6 83.82) (xy 109.22 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e6481614-9dd4-4bd9-8bf7-644120186bff")
+	)
+	(wire
+		(pts
+			(xy 139.7 111.76) (xy 144.78 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e6b2bde6-854c-4bf7-a426-1a4ebd932675")
+	)
+	(wire
+		(pts
+			(xy 121.92 58.42) (xy 127 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e7d2e8ff-8be4-4f85-a2ab-3dc96e9e87f5")
+	)
+	(wire
+		(pts
+			(xy 187.96 134.62) (xy 187.96 139.7)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eabbfa19-35b1-4be3-bdf2-a5960d9d6465")
+	)
+	(wire
+		(pts
+			(xy 248.92 81.28) (xy 248.92 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eac94ea0-f49a-4106-ade2-8a68b9f895cd")
+	)
+	(wire
+		(pts
+			(xy 109.22 129.54) (xy 109.22 144.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f59b5bfd-4830-4e36-bf73-84211d00a769")
+	)
+	(wire
+		(pts
+			(xy 256.54 33.02) (xy 241.3 33.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f84c7046-8cc9-4498-9bb0-2cb5a44c5379")
+	)
+	(wire
+		(pts
+			(xy 40.64 71.12) (xy 45.72 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fd254893-c3f5-4766-9773-4c9101e2b4e3")
+	)
+	(wire
+		(pts
+			(xy 109.22 114.3) (xy 109.22 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fd5cf547-7b3d-44da-8d34-b727cbfff840")
+	)
+	(global_label "SCK"
+		(shape input)
+		(at 256.54 33.02 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "0047651e-81b4-4efe-b3a2-322337e57d7e")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 263.8362 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "F4"
+		(shape output)
+		(at 68.58 83.82 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "02efe781-248d-44d1-80bd-54e86e40291a")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 68.58 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "SPEED_POWER"
+		(shape input)
+		(at 76.2 116.84 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "076c7375-fb35-4749-991b-0ff1cce03280")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 76.2 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "F4"
+		(shape output)
+		(at 109.22 83.82 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "0d33696a-de86-4737-b9d7-8dd785d4e465")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 109.22 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "LOCO4"
+		(shape output)
+		(at 149.86 162.56 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "1f133407-b027-464e-8f16-fe834e5e815b")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 149.86 162.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "LOCO2"
+		(shape output)
+		(at 149.86 132.08 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "2c6c5ab2-21c5-4348-a39d-0009c883b7fe")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 149.86 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "LOCO1"
+		(shape output)
+		(at 149.86 116.84 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "35451162-4510-45c2-ad5c-e08e2d2a91fb")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 149.86 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "F3_F6_SHIFT"
+		(shape input)
+		(at 226.06 78.74 180)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right)
+		)
+		(uuid "374f0db9-c8b1-4908-93f4-dc66f1dabe7c")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 226.06 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "F2"
+		(shape output)
+		(at 203.2 55.88 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "37623d26-8795-4ac9-9988-3d6026e059e6")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 203.2 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "F2"
+		(shape output)
+		(at 68.58 58.42 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "4c22797b-6684-4b61-8597-0de775b3e94c")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 68.58 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "F1"
+		(shape output)
+		(at 149.86 45.72 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "556444ed-256d-4a11-9864-589d6a936369")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 149.86 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "F3_F6_SHIFT"
+		(shape input)
+		(at 121.92 40.64 90)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "5d332c73-f9d9-44d5-a1a7-79672d76528d")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 121.92 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "F4"
+		(shape output)
+		(at 149.86 83.82 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "5e682f9f-e4fb-4dc0-b3e5-ff300050c366")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 149.86 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "LOCO3"
+		(shape output)
+		(at 149.86 147.32 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "5f83f500-571d-4797-a47c-51deabf36c31")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 149.86 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "F1_F4_F7_ESTOP"
+		(shape input)
+		(at 40.64 40.64 90)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "64e9db76-335c-457d-b6ae-8f84fc384b82")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 40.64 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "F1"
+		(shape output)
+		(at 109.22 45.72 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "6f4bf930-22e9-46d0-982e-a755e0a7f110")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 109.22 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "F2"
+		(shape output)
+		(at 109.22 58.42 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "6f7c5494-7692-492a-88a7-40813802623d")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 109.22 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "F3"
+		(shape output)
+		(at 203.2 60.96 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "7e43e336-c9ce-4ed0-8bcb-2503fc42dceb")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 203.2 60.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "F3"
+		(shape output)
+		(at 149.86 71.12 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "81441077-d05b-4c12-80c8-018b22c7f9ad")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 149.86 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "F3"
+		(shape output)
+		(at 109.22 71.12 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "8754d3aa-ebb6-406f-b3a7-d989c56b701a")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 109.22 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "F3"
+		(shape output)
+		(at 68.58 71.12 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "8f06aeb5-f3dc-4daf-b95f-9931171f5c5d")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 68.58 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "F0_F2_F5_F8"
+		(shape input)
+		(at 81.28 40.64 90)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "9f2919df-6811-464f-99bf-5d026f72b0e6")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 81.28 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "MISO"
+		(shape input)
+		(at 256.54 35.56 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "ac96d68a-82d3-4f60-8375-98141d20a846")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 264.8522 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "LOCO_COMMON"
+		(shape output)
+		(at 149.86 111.76 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "b6cdc331-4b08-492b-a943-ca699674f66c")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 149.86 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "F2"
+		(shape output)
+		(at 149.86 58.42 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "cd6ddab6-266e-4775-814f-636964442f50")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 149.86 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "DIRECTION"
+		(shape input)
+		(at 226.06 81.28 180)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right)
+		)
+		(uuid "d33392db-7eeb-4345-9068-4e25dafa24aa")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 226.06 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "SPEED"
+		(shape output)
+		(at 76.2 129.54 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "ed822fff-99d5-4903-afa6-31abd3970584")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 76.2 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "DIRECTION"
+		(shape input)
+		(at 162.56 40.64 90)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "f07beb33-07e5-4be1-8ff7-04b9eec6f180")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 162.56 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "F1"
+		(shape output)
+		(at 68.58 45.72 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left)
+		)
+		(uuid "f2122b07-a311-4d0a-860e-305664a8c99b")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 68.58 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "FLASHLIGHT"
+		(shape input)
+		(at 205.74 129.54 180)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right)
+		)
+		(uuid "f9c0a149-9831-4dbe-8211-6501c6271d3b")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 205.74 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:POT-RESCUE-wfred_rev2")
+		(at 38.1 129.54 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-000059210a4f")
+		(property "Reference" "RV301"
+			(at 35.56 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "10k lin P160KNPD-4FC20B10K"
+			(at 38.1 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "myFootprints:P160KNPD"
+			(at 38.1 129.54 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 38.1 129.54 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 38.1 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser" "858-P160KNP4FC20B10K"
+			(at 38.1 129.54 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "652ffa08-f6d2-464b-85f8-3a8bfa9908b1")
+		)
+		(pin "2"
+			(uuid "2e41d940-ed6e-4c34-8af6-971359c3ce40")
+		)
+		(pin "3"
+			(uuid "5fd0ecdb-6d8a-433c-be95-976cfadb2c09")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "RV301")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:R-RESCUE-wfred_rev2")
+		(at 52.07 129.54 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-000059210b02")
+		(property "Reference" "R301"
+			(at 52.07 131.572 90)
+			(effects
+				(font
+					(size 1.016 1.016)
+				)
+			)
+		)
+		(property "Value" "4k7"
+			(at 52.0954 129.7178 90)
+			(effects
+				(font
+					(size 1.016 1.016)
+				)
+			)
+		)
+		(property "Footprint" "Capacitors_SMD:C_0805_HandSoldering"
+			(at 52.07 127.762 90)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 52.07 129.54 0)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 52.07 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser" "603-RC0805JR-074K7L"
+			(at 52.07 129.54 90)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "6001b1e1-2f2a-4e3c-a568-798fff0e9508")
+		)
+		(pin "2"
+			(uuid "7253d3f9-c0d7-4798-96ae-a1724f792aed")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "R301")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:C-RESCUE-wfred_rev2")
+		(at 63.5 139.7 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-000059210b2f")
+		(property "Reference" "C301"
+			(at 63.5 137.16 0)
+			(effects
+				(font
+					(size 1.016 1.016)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "4u7"
+			(at 63.6524 141.859 0)
+			(effects
+				(font
+					(size 1.016 1.016)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitors_SMD:C_0805_HandSoldering"
+			(at 64.4652 143.51 0)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 63.5 139.7 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 63.5 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Reichelt" "KEM X5R0805 4,7U"
+			(at 63.5 139.7 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7607a8c0-c3ee-4675-bc42-f9f9cd0c758e")
+		)
+		(pin "2"
+			(uuid "2d654681-539a-4695-abc1-fdfaa566e703")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "C301")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:R-RESCUE-wfred_rev2")
+		(at 233.68 49.53 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-0000592110c5")
+		(property "Reference" "R302"
+			(at 231.648 49.53 90)
+			(effects
+				(font
+					(size 1.016 1.016)
+				)
+			)
+		)
+		(property "Value" "220R"
+			(at 233.5022 49.5554 90)
+			(effects
+				(font
+					(size 1.016 1.016)
+				)
+			)
+		)
+		(property "Footprint" "Capacitors_SMD:C_0805_HandSoldering"
+			(at 235.458 49.53 90)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 233.68 49.53 0)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 233.68 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Reichelt" "SMD-0805 220"
+			(at 233.68 49.53 90)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8bc310c1-af6f-40d5-96ca-accfb4971d2e")
+		)
+		(pin "2"
+			(uuid "159abf4c-fe19-42b0-a041-73ca96a7f9e2")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "R302")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:LED-RESCUE-wfred_rev2")
+		(at 233.68 66.04 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-000059211179")
+		(property "Reference" "D301"
+			(at 236.22 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "STOP - red"
+			(at 231.14 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "myFootprints:LED_D3.0mm"
+			(at 233.68 66.04 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 233.68 66.04 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 233.68 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Reichelt" "LED 3MM RT"
+			(at 233.68 66.04 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c77a6b60-6c8e-4aec-a429-d1d2fa2a98c9")
+		)
+		(pin "2"
+			(uuid "67588a5b-6916-474b-98a8-11d023695478")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "D301")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:R-RESCUE-wfred_rev2")
+		(at 248.92 49.53 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-0000592112f9")
+		(property "Reference" "R304"
+			(at 246.888 49.53 90)
+			(effects
+				(font
+					(size 1.016 1.016)
+				)
+			)
+		)
+		(property "Value" "220R"
+			(at 248.7422 49.5554 90)
+			(effects
+				(font
+					(size 1.016 1.016)
+				)
+			)
+		)
+		(property "Footprint" "Capacitors_SMD:C_0805_HandSoldering"
+			(at 250.698 49.53 90)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 248.92 49.53 0)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 248.92 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser" "603-RC0805JR-07470RL"
+			(at 248.92 49.53 90)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "cf049504-a3f2-4101-afd7-7b79f309311f")
+		)
+		(pin "2"
+			(uuid "99c42ecc-870c-4f08-bdb7-45679f142ac0")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "R304")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:LED-RESCUE-wfred_rev2")
+		(at 241.3 66.04 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-000059211323")
+		(property "Reference" "D302"
+			(at 243.84 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "FORWARD - green"
+			(at 238.76 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "myFootprints:LED_D3.0mm"
+			(at 241.3 66.04 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 241.3 66.04 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 241.3 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Reichelt" "LED 3MM GN"
+			(at 241.3 66.04 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f46dec0a-d4a0-4211-8e7c-a66f9abb5cc1")
+		)
+		(pin "2"
+			(uuid "63a2679d-b42f-4796-982c-9cb80b45e9e6")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "D302")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:R-RESCUE-wfred_rev2")
+		(at 241.3 49.53 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-0000592113be")
+		(property "Reference" "R303"
+			(at 239.268 49.53 90)
+			(effects
+				(font
+					(size 1.016 1.016)
+				)
+			)
+		)
+		(property "Value" "220R"
+			(at 241.1222 49.5554 90)
+			(effects
+				(font
+					(size 1.016 1.016)
+				)
+			)
+		)
+		(property "Footprint" "Capacitors_SMD:C_0805_HandSoldering"
+			(at 243.078 49.53 90)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 241.3 49.53 0)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 241.3 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser" "603-RC0805JR-07470RL"
+			(at 241.3 49.53 90)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e331c761-0a29-43b2-a28a-0d35cf9d7842")
+		)
+		(pin "2"
+			(uuid "c725ed1c-6144-4733-a90e-e3997e2ffc13")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "R303")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:LED-RESCUE-wfred_rev2")
+		(at 248.92 66.04 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-0000592113f4")
+		(property "Reference" "D303"
+			(at 251.46 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "REVERSE - green"
+			(at 246.38 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "myFootprints:LED_D3.0mm"
+			(at 248.92 66.04 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 248.92 66.04 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 248.92 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Reichelt" "LED 3MM GN"
+			(at 248.92 66.04 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ac216ad1-e914-4553-9472-24b4f4eae47e")
+		)
+		(pin "2"
+			(uuid "1f408c13-1113-4fc7-a190-d7b660c134e1")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "D303")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:SW_PUSH-device")
+		(at 53.34 83.82 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-000059212d1c")
+		(property "Reference" "SW312"
+			(at 57.15 81.026 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "ESTOP"
+			(at 53.34 85.852 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Buttons_Switches_SMD:SW_SPST_PTS645"
+			(at 53.34 83.82 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 53.34 83.82 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 53.34 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser1" "642-ADTSM65RV"
+			(at 53.34 83.82 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser2" "113-DTSM65RVB"
+			(at 53.34 83.82 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "fdba52d4-6428-44fd-80c3-a8abf713eae0")
+		)
+		(pin "2"
+			(uuid "dfe8f9f4-9263-4473-82b6-2eec315acda9")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "SW312")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:SW_PUSH-device")
+		(at 93.98 45.72 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-0000592b1b9e")
+		(property "Reference" "SW305"
+			(at 97.79 42.926 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "F0"
+			(at 93.98 47.752 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Buttons_Switches_SMD:SW_SPST_PTS645"
+			(at 93.98 45.72 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 93.98 45.72 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 93.98 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser1" "642-ADTSM65KV"
+			(at 53.34 45.72 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Reichelt" "Taster 9319"
+			(at 53.34 45.72 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser2" "113-DTSM-65K-V-B"
+			(at 53.34 45.72 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d8719403-0d19-4e0c-b5ed-fd1c88544512")
+		)
+		(pin "2"
+			(uuid "f3bc7366-2ec8-4080-b955-f16c9fcd002c")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "SW305")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:SW_PUSH-device")
+		(at 53.34 45.72 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-0000592b1c04")
+		(property "Reference" "SW306"
+			(at 57.15 42.926 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "F1"
+			(at 53.34 47.752 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Buttons_Switches_SMD:SW_SPST_PTS645"
+			(at 53.34 45.72 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 53.34 45.72 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 53.34 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser1" "642-ADTSM65KV"
+			(at 53.34 45.72 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Reichelt" "Taster 9319"
+			(at 53.34 45.72 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser2" "113-DTSM-65K-V-B"
+			(at 53.34 45.72 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "eb94334c-aacb-417d-9992-076475bd99a1")
+		)
+		(pin "2"
+			(uuid "f3a73eeb-d9e3-458c-852f-bd37364f53ec")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "SW306")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:SW_PUSH-device")
+		(at 93.98 58.42 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-0000592b1c64")
+		(property "Reference" "SW307"
+			(at 97.79 55.626 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "F2"
+			(at 93.98 60.452 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Buttons_Switches_SMD:SW_SPST_PTS645"
+			(at 93.98 58.42 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 93.98 58.42 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 93.98 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser1" "642-ADTSM65KV"
+			(at 53.34 71.12 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Reichelt" "Taster 9319"
+			(at 53.34 71.12 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser2" "113-DTSM-65K-V-B"
+			(at 53.34 71.12 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c6c5367c-97a8-40a1-8404-c4317b283dc2")
+		)
+		(pin "2"
+			(uuid "73624e5e-d033-47ac-9154-f91fda3a0cce")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "SW307")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:SW_PUSH-device")
+		(at 134.62 45.72 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-0000592b1cc9")
+		(property "Reference" "SW308"
+			(at 138.43 42.926 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "F3"
+			(at 134.62 47.752 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Buttons_Switches_SMD:SW_SPST_PTS645"
+			(at 134.62 45.72 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 134.62 45.72 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 134.62 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser1" "642-ADTSM65KV"
+			(at 53.34 45.72 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Reichelt" "Taster 9319"
+			(at 53.34 45.72 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser2" "113-DTSM-65K-V-B"
+			(at 53.34 45.72 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "29836c97-8d5c-4324-8052-cf9e7cebdc9a")
+		)
+		(pin "2"
+			(uuid "62280533-6ab5-4dda-b1a3-10a9d873a856")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "SW308")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:SW_PUSH-device")
+		(at 53.34 58.42 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-0000592b1d39")
+		(property "Reference" "SW309"
+			(at 57.15 55.626 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "F4"
+			(at 53.34 60.452 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Buttons_Switches_SMD:SW_SPST_PTS645"
+			(at 53.34 58.42 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 53.34 58.42 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 53.34 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser1" "642-ADTSM65KV"
+			(at 53.34 71.12 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Reichelt" "Taster 9319"
+			(at 53.34 71.12 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser2" "113-DTSM-65K-V-B"
+			(at 53.34 71.12 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b6f1c3a8-4ae4-4492-8b21-7f73ba1b5c5e")
+		)
+		(pin "2"
+			(uuid "4b66677d-1ff6-4125-aff1-408709aa1aac")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "SW309")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:SW_PUSH-device")
+		(at 134.62 83.82 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-0000592b1d94")
+		(property "Reference" "SW311"
+			(at 138.43 81.026 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "SHIFT"
+			(at 134.62 85.852 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Buttons_Switches_SMD:SW_SPST_PTS645"
+			(at 134.62 83.82 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 134.62 83.82 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 134.62 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser1" "642-ADTSM65YVTR"
+			(at 134.62 83.82 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser2" "113-DTSM65YVB"
+			(at 134.62 83.82 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f76a8740-aa3d-46e2-b2f7-d3223d40e0b4")
+		)
+		(pin "2"
+			(uuid "ee32563b-5cd1-4349-a597-199acf414a82")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "SW311")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:GND-RESCUE-wfred_rev2")
+		(at 63.5 149.86 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-000059306cc7")
+		(property "Reference" "#PWR035"
+			(at 63.5 149.86 0)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 63.5 151.638 0)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" ""
+			(at 63.5 149.86 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 63.5 149.86 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 63.5 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "de1e3243-a79d-4cf9-b7cd-77970f4cf400")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "#PWR035")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:GND-RESCUE-wfred_rev2")
+		(at 38.1 149.86 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-000059306d0e")
+		(property "Reference" "#PWR036"
+			(at 38.1 149.86 0)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 38.1 151.638 0)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" ""
+			(at 38.1 149.86 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 38.1 149.86 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 38.1 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c394d75f-379e-47d4-b491-6bb34ee31476")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "#PWR036")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:SW_PUSH-device")
+		(at 93.98 71.12 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-00005a125a5b")
+		(property "Reference" "SW310"
+			(at 97.79 68.326 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "F5"
+			(at 93.98 73.152 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Buttons_Switches_SMD:SW_SPST_PTS645"
+			(at 93.98 71.12 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 93.98 71.12 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 93.98 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser1" "642-ADTSM65KV"
+			(at 53.34 96.52 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Reichelt" "Taster 9319"
+			(at 53.34 96.52 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser2" "113-DTSM-65K-V-B"
+			(at 53.34 96.52 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0428f6ac-ee8b-458e-ab43-96dfbdd1f750")
+		)
+		(pin "2"
+			(uuid "1214d53e-34a3-47c9-b00a-65d207559c51")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "SW310")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:SWITCH_INV-device")
+		(at 127 114.3 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-00005a12804b")
+		(property "Reference" "SW301"
+			(at 121.92 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LOCO1"
+			(at 123.19 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "myFootprints:OS102011MS2Q"
+			(at 127 114.3 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 127 114.3 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 127 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser" "611-OS102011MS2QN1"
+			(at 127 114.3 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "60927ea5-55a6-4b68-9c62-a6ffb389ff1c")
+		)
+		(pin "2"
+			(uuid "22299cdb-d68d-40fa-ae1c-fa6a38517cdd")
+		)
+		(pin "3"
+			(uuid "cda67753-df8a-46bb-a5f7-80289021edf3")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "SW301")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:SWITCH_INV-device")
+		(at 127 129.54 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-00005a128104")
+		(property "Reference" "SW302"
+			(at 121.92 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LOCO2"
+			(at 123.19 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "myFootprints:OS102011MS2Q"
+			(at 127 129.54 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 127 129.54 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 127 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser" "611-OS102011MS2QN1"
+			(at 127 129.54 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "4e71de63-5e39-4c3f-b93d-26260a605c95")
+		)
+		(pin "2"
+			(uuid "1f28a4d9-ab7c-460b-a498-2cbe7af3de13")
+		)
+		(pin "3"
+			(uuid "5b82314b-f331-4ffc-9424-5aec6c42c648")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "SW302")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:SWITCH_INV-device")
+		(at 127 144.78 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-00005a12817d")
+		(property "Reference" "SW303"
+			(at 121.92 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LOCO3"
+			(at 123.19 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "myFootprints:OS102011MS2Q"
+			(at 127 144.78 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 127 144.78 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 127 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser" "611-OS102011MS2QN1"
+			(at 127 144.78 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a6d0e00f-4667-4f14-b427-f9b67d5085fa")
+		)
+		(pin "2"
+			(uuid "03b1eef4-b719-483e-afb8-87444f78b485")
+		)
+		(pin "3"
+			(uuid "a9f67ac8-0313-434c-b77d-d687be0c0b84")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "SW303")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:SWITCH_INV-device")
+		(at 127 160.02 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-00005a1281f9")
+		(property "Reference" "SW304"
+			(at 121.92 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LOCO4"
+			(at 123.19 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "myFootprints:OS102011MS2Q"
+			(at 127 160.02 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 127 160.02 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 127 160.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser" "611-OS102011MS2QN1"
+			(at 127 160.02 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "59008483-89a8-4bf1-8031-20991297a625")
+		)
+		(pin "2"
+			(uuid "7543dcce-8324-4c5f-ab11-c6cf43e3be94")
+		)
+		(pin "3"
+			(uuid "aad315a0-c9a9-4eca-9f64-e942249df441")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "SW304")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:GND-RESCUE-wfred_rev2")
+		(at 109.22 172.72 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-00005a12829c")
+		(property "Reference" "#PWR037"
+			(at 109.22 172.72 0)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 109.22 174.498 0)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" ""
+			(at 109.22 172.72 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 109.22 172.72 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 109.22 172.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "5a1ec472-9d0f-48f5-94cb-41f08c0aa355")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "#PWR037")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:SWITCH_INV-device")
+		(at 182.88 58.42 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-00005a153621")
+		(property "Reference" "SW313"
+			(at 177.8 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "DIRECTION"
+			(at 179.07 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "myFootprints:100SP1T1B1M1QEH"
+			(at 182.88 58.42 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 182.88 58.42 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 182.88 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser" "612-100-A1111"
+			(at 182.88 58.42 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f6552a9e-b211-4017-88ae-ede831f801b0")
+		)
+		(pin "2"
+			(uuid "0ef3ae08-8472-4176-a32c-9aa6110c00fe")
+		)
+		(pin "3"
+			(uuid "8a04f8b6-8388-425e-af87-f5ca9263b16b")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "SW313")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:SW_PUSH-device")
+		(at 134.62 58.42 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-00005bdfcffa")
+		(property "Reference" "SW314"
+			(at 138.43 55.626 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "F6"
+			(at 134.62 60.452 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Buttons_Switches_SMD:SW_SPST_PTS645"
+			(at 134.62 58.42 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 134.62 58.42 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 134.62 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser1" "642-ADTSM65KV"
+			(at 53.34 71.12 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Reichelt" "Taster 9319"
+			(at 53.34 71.12 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser2" "113-DTSM-65K-V-B"
+			(at 53.34 71.12 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0461b3ff-a357-4ce1-afaa-42e23e24f9ec")
+		)
+		(pin "2"
+			(uuid "4e15a80b-a042-42ba-8284-fb626c0bb97d")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "SW314")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:SW_PUSH-device")
+		(at 53.34 71.12 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-00005bdfd0f5")
+		(property "Reference" "SW315"
+			(at 57.15 68.326 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "F7"
+			(at 53.34 73.152 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Buttons_Switches_SMD:SW_SPST_PTS645"
+			(at 53.34 71.12 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 53.34 71.12 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 53.34 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser1" "642-ADTSM65KV"
+			(at 53.34 96.52 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Reichelt" "Taster 9319"
+			(at 53.34 96.52 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser2" "113-DTSM-65K-V-B"
+			(at 53.34 96.52 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "89402259-30a9-47d0-bf3e-c4db5e1dcda4")
+		)
+		(pin "2"
+			(uuid "0daba935-e9f1-46a4-9ff8-5d1d248388aa")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "SW315")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:SW_PUSH-device")
+		(at 93.98 83.82 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-00005bdfd17c")
+		(property "Reference" "SW316"
+			(at 97.79 81.026 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "F8"
+			(at 93.98 85.852 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Buttons_Switches_SMD:SW_SPST_PTS645"
+			(at 93.98 83.82 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 93.98 83.82 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 93.98 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser1" "642-ADTSM65KV"
+			(at 53.34 121.92 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Reichelt" "Taster 9319"
+			(at 53.34 121.92 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser2" "113-DTSM-65K-V-B"
+			(at 53.34 121.92 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "cdb151e5-c78a-4719-b4e8-f0c271b5ec08")
+		)
+		(pin "2"
+			(uuid "7f62f063-093b-42cf-be1b-3a5c13c00bc1")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "SW316")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:MIC2860-my_devices")
+		(at 226.06 127 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-00005cd17656")
+		(property "Reference" "IC301"
+			(at 226.06 124.46 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Value" "MIC2860-2PYD6"
+			(at 226.06 127 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Footprint" "TO_SOT_Packages_SMD:SOT-23-6_Handsoldering"
+			(at 226.06 127 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 226.06 127 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 226.06 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser" "998-MIC2860-2PYD6TR"
+			(at 226.06 127 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c691d25f-7354-4937-be3e-b27cb4a28d82")
+		)
+		(pin "2"
+			(uuid "528e7826-e3f1-4997-b22b-f96f4145ef25")
+		)
+		(pin "3"
+			(uuid "19a179ca-dc7b-4090-bc96-ad2c7e8daba6")
+		)
+		(pin "4"
+			(uuid "6c81ab58-e77a-4a14-9d74-0d4e09944877")
+		)
+		(pin "5"
+			(uuid "b8cd7ceb-900e-40c1-a620-9c6ef7faff4f")
+		)
+		(pin "6"
+			(uuid "6452136e-0195-491f-9e6d-095582a5cb27")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "IC301")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:LED-device")
+		(at 246.38 114.3 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-00005cd176d3")
+		(property "Reference" "D304"
+			(at 248.92 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Cree C543A-WMN-CCCKK141"
+			(at 243.84 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "myFootprints:LED_D5.0mm_Horicontal_FLIPPED_O1.27mm"
+			(at 246.38 114.3 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 246.38 114.3 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 246.38 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser" "941-C543AWMNCCCKK141"
+			(at 246.38 114.3 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "45ab83de-ad22-459f-815d-9d3099342da2")
+		)
+		(pin "2"
+			(uuid "479c3456-ac0d-484d-af15-c3492d256001")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "D304")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:LED-device")
+		(at 254 114.3 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-00005cd1782f")
+		(property "Reference" "D305"
+			(at 256.54 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Cree C543A-WMN-CCCKK141"
+			(at 251.46 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "LEDs:LED_D5.0mm_Horicontal_O1.27mm"
+			(at 254 114.3 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 254 114.3 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 254 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser" "941-C543AWMNCCCKK141"
+			(at 254 114.3 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "fe84530c-65e7-4fa2-89b9-96261c07010c")
+		)
+		(pin "2"
+			(uuid "50c05fba-eb91-4e14-a409-93157bd96fc7")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "D305")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+BATT")
+		(at 246.38 104.14 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-00005cd1798e")
+		(property "Reference" "#PWR038"
+			(at 246.38 105.41 0)
+			(effects
+				(font
+					(size 0.508 0.508)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+BATT"
+			(at 246.38 101.6 0)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 246.38 104.14 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 246.38 104.14 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 246.38 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "28e0b926-c73c-4d61-99bd-4b227c701da9")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "#PWR038")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+BATT")
+		(at 254 104.14 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-00005cd17a12")
+		(property "Reference" "#PWR039"
+			(at 254 105.41 0)
+			(effects
+				(font
+					(size 0.508 0.508)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+BATT"
+			(at 254 101.6 0)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 254 104.14 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 254 104.14 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 254 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "3c47cba3-eb80-4e53-bdca-4cab7f1d0d62")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "#PWR039")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+BATT")
+		(at 205.74 104.14 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-00005cd17a5e")
+		(property "Reference" "#PWR040"
+			(at 205.74 105.41 0)
+			(effects
+				(font
+					(size 0.508 0.508)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+BATT"
+			(at 205.74 101.6 0)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 205.74 104.14 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 205.74 104.14 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 205.74 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7f002a9d-afd4-43d9-a5f9-515d3b76d16f")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "#PWR040")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:R-RESCUE-wfred_rev2")
+		(at 199.39 124.46 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-00005cd17c99")
+		(property "Reference" "R305"
+			(at 199.39 122.428 90)
+			(effects
+				(font
+					(size 1.016 1.016)
+				)
+			)
+		)
+		(property "Value" "15k"
+			(at 199.3646 124.2822 90)
+			(effects
+				(font
+					(size 1.016 1.016)
+				)
+			)
+		)
+		(property "Footprint" "Capacitors_SMD:C_0805_HandSoldering"
+			(at 199.39 126.238 90)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 199.39 124.46 0)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 199.39 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Reichelt" "SMD-0805 15,0K"
+			(at 199.39 124.46 90)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b6af91fb-4b9d-47c1-a7fb-ca938b51e164")
+		)
+		(pin "2"
+			(uuid "bde801ae-21d2-4194-855e-2e7826e0817d")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "R305")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:GND-power")
+		(at 187.96 139.7 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-00005cd17dba")
+		(property "Reference" "#PWR041"
+			(at 187.96 139.7 0)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 187.96 141.478 0)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" ""
+			(at 187.96 139.7 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 187.96 139.7 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 187.96 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "1ea27d6d-e757-4629-a82f-f180b4590735")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "#PWR041")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wfred_rev2-rescue:C-RESCUE-wfred_rev2")
+		(at 187.96 116.84 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-00005cd18eb9")
+		(property "Reference" "C302"
+			(at 187.96 114.3 0)
+			(effects
+				(font
+					(size 1.016 1.016)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1u"
+			(at 188.1124 118.999 0)
+			(effects
+				(font
+					(size 1.016 1.016)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitors_SMD:C_0805_HandSoldering"
+			(at 188.9252 120.65 0)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 187.96 116.84 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 187.96 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Reichelt" "X7R-G0805 1,0/25"
+			(at 187.96 116.84 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c7dfa2ce-6b27-4210-aed2-33379d86d60e")
+		)
+		(pin "2"
+			(uuid "d5363612-49bf-4688-9ef2-409b4d121d57")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "C302")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+BATT")
+		(at 187.96 104.14 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00000000-0000-0000-0000-00005cd18f9c")
+		(property "Reference" "#PWR042"
+			(at 187.96 105.41 0)
+			(effects
+				(font
+					(size 0.508 0.508)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+BATT"
+			(at 187.96 101.6 0)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 187.96 104.14 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 187.96 104.14 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 187.96 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "dade88f0-a567-4766-a9c4-5966340542b0")
+		)
+		(instances
+			(project "wfred_rev2"
+				(path "/c8446b34-a4b7-42de-9697-f091864e46ad/00000000-0000-0000-0000-00005920dd4a"
+					(reference "#PWR042")
+					(unit 1)
+				)
+			)
+		)
+	)
+)
