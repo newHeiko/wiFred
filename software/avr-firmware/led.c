@@ -1,6 +1,6 @@
 /**
  * This file is part of the wiFred wireless model railroading throttle project
- * Copyright (C) 2018  Heiko Rosemann
+ * Copyright (C) 2018-2025  Heiko Rosemann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,10 +30,13 @@ volatile ledInfo LEDs[3];
  */
 void initLEDs(void)
 {
-  DDRB |= (1<<PB4) | (1<<PB5);
   DDRC |= (1<<PC4);
 #ifdef WITH_FLASHLIGHT
   PORTC &= ~(1<<PC4);
+#else
+  PORTC |= (1<<PC4);
+  PORTB |= (1<<PB4) | (1<<PB5);
+  DDRB |= (1<<PB4) | (1<<PB5);
 #endif
   for(uint8_t led = 0; led < 3; led++)
     {
@@ -49,6 +52,7 @@ void initLEDs(void)
  */
 void setLEDoutput(uint8_t led)
 {
+#ifndef WITH_FLASHLIGHT
   switch(led)
     {
     case LED_FORWARD:
@@ -58,14 +62,17 @@ void setLEDoutput(uint8_t led)
       PORTB &= ~(1<<PB5);
       break;
     case LED_STOP:
-#ifndef WITH_FLASHLIGHT
       PORTC &= ~(1<<PC4);
-#endif
       break;
     default:
       return;
     }
-  LEDs[led].ledStatus = true;
+#else
+  if(led < 3)
+    {
+      LEDs[led].ledStatus = true;
+    }
+#endif
 }
       
 /**
@@ -75,6 +82,7 @@ void setLEDoutput(uint8_t led)
  */
 void clearLEDoutput(uint8_t led)
 {
+#ifndef WITH_FLASHLIGHT
   switch(led)
     {
     case LED_FORWARD:
@@ -84,14 +92,17 @@ void clearLEDoutput(uint8_t led)
       PORTB |= (1<<PB5);
       break;
     case LED_STOP:
-#ifndef WITH_FLASHLIGHT
       PORTC |= (1<<PC4);
-#endif
       break;
     default:
       return;
     }
-  LEDs[led].ledStatus = false;
+#else
+  if(led < 3)
+    {
+      LEDs[led].ledStatus = false;
+    }
+#endif
 }
 
 

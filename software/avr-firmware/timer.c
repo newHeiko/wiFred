@@ -103,6 +103,9 @@ ISR(TIMER0_COMPA_vect)
 #ifdef WITH_FLASHLIGHT
 	  // disable flashlight	  
 	  PORTC &= ~(1<<PC4);
+          // disable multiplexed LEDs
+          PORTB &= ~(1<<PB4);
+          PORTB &= ~(1<<PB5);
 #endif
 	  // disable unneeded pullups to save power
 	  PORTD &= ~(0xf0);

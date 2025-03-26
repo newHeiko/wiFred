@@ -1,6 +1,6 @@
 /**
  * This file is part of the wiFred wireless model railroading throttle project
- * Copyright (C) 2018  Heiko Rosemann
+ * Copyright (C) 2018-2025  Heiko Rosemann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,14 +51,6 @@ volatile keyInfo keyPress;
  * Variable to save key release detections
  */
 volatile keyInfo keyRelease;
-
-/**
- * Handle function keys F1 ... F8
- *
- * Returns: Number of characters written to dest
- * Parameters: dest: buffer to write string to (minimum sizeof("F00_DN") bytes)
- *                f: Number of function (1..8)
- */
 
 /**
  * Function to enable IRQ to wake up from power down mode
@@ -140,12 +132,16 @@ void debounceKeys(void)
   static uint8_t ct2 = 0;
   uint8_t i;
   
-  
+  // set matrix row low for key readout (PB0..3)
+  // set LED high for multiplexing (PB4, PB5) on 0.5+ hardware
   if(ct2 % 2 == 0)
     {
+#ifdef WITH_FLASHLIGHT
+      DDRB &= ~0x0f & ~(1<<PB4) & ~(1<<PB5);
+      PORTB |= (1<<PB4) | (1<<PB5);
+#else
       DDRB &= ~0x0f;
-      DDRC &= ~0x0f;
-      PORTC |= 0x0f;
+#endif
       switch(ct2/2)
 	{
 	case 0:
@@ -155,38 +151,31 @@ void debounceKeys(void)
 	  DDRB |= (1<<1);
 	  break;  
 	case 2:
+	  DDRB |= (1<<2);
+#ifdef WITH_FLASHLIGHT
 	  if(LEDs[LED_STOP].ledStatus)
 	    {
-	      DDRC |= (1<<PC2);
+	      DDRB |= (1<<PB5);
 	    }
-	  else
-	    {
-	      PORTC &= ~(1<<PC2);
-	    }	  
-	  DDRB |= (1<<2);
+#endif
 	  break;  
 	case 3:
 	  DDRB |= (1<<3);
+#ifdef WITH_FLASHLIGHT
 	  if(LEDs[LED_FORWARD].ledStatus)
 	    {
-	      DDRC |= (1<<PC0);
+	      DDRB |= (1<<PB5);
 	    }
-	  else
-	    {
-	      PORTC &= ~(1<<PC0);
-	    }	  
 	  if(LEDs[LED_REVERSE].ledStatus)
 	    {
-	      DDRC |= (1<<PC3);
+	      DDRB |= (1<<PB4);
 	    }
-	  else
-	    {
-	      PORTC &= ~(1<<PC3);
-	    }	  
+#endif
 	  break;  
 	}
       if(ct2 == 0)
 	{
+          // read loco selection switches (PD4..7)
 	  i = (keyState.byte[0] & 0xf0) ^ (PIND & 0xf0);
 	  ct0[4] = ~( ct0[4] & i );
 	  ct1[4] = ct0[4] ^ (ct1[4] & i);
@@ -198,6 +187,7 @@ void debounceKeys(void)
     }
   else
     {
+      // read key matrix columns (PC0..3)
       i = (keyState.byte[ct2/2] & 0x0f) ^ ~(PINC | 0xf0);
       ct0[ct2/2] = ~( ct0[ct2/2] & i );
       ct1[ct2/2] = ct0[ct2/2] ^ (ct1[ct2/2] & i);
