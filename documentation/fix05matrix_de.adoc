@@ -1,0 +1,62 @@
+= Notwendige Reparaturarbeiten an wiFreds der Revisionen 0.5 und 0.51
+Heiko Rosemann
+0.1, 3-28-2025: Erste Ausgabe
+:description: Fehlerbeseitigung an der LED-Tasten-Matrix um mehrfache Funktionsauslösungen zu verhindern
+:url-repo: https://github.com/newHeiko/wiFred
+:icons: image
+:iconsdir: images/icons/
+:imagesdir: images/
+:lang: de
+:toc:
+
+// tag::largefile[]
+
+Intensive Nutzung der wiFreds der Revisionen 0.5 und 0.51 brachte einen Fehler in der Tastatur- und LED-Matrix ans Licht. Mit Platinen der Revisionen 0.5 und 0.51 kann es in bestimmten Situationen dazu kommen, dass die Betätigung einer Funktionstaste vom wiFred als mehrere Funktionstasten interpretiert wird. Besonders auffällig ist dies, wenn F2, F5 oder F8 auch den Nothalt aktivieren. Dieses Dokument beschreibt eine Reparatur, die an vielen wiFreds erfolgreich angewendet wurde und auch in Schaltplan und Platine der Revision 0.52 eingeflossen ist. Die LEDs werden hierbei aus der Tastatur-Matrix herausgenommen und an andere Pins des AVR angeschlossen.
+
+== Erforderliche Werkzeuge und Bauelemente
+
+Diese Reparatur braucht etwas Entlötlitze, insgesamt drei bedrahtete 220-Ohm-Widerstände der Größe 0207 (die üblichen 0,25W-Kohleschicht oder 0,6W-Metallschicht-Widerstände passen) und etwas Schrumpfschlauch mit ca. 2,4mm Durchmesser.
+
+Um im Anschluss die Firmware zu aktualisieren, ist zudem ein AVR-ISP-Programmierer für den typischen ISP-Anschluss an P201 auf der Platine nötig.
+
+== Schrittweise Anleitung zur Reparatur
+
+Als erstes die SMD-Widerstände R302, R303 und R304 entfernen und ihre Pads von Lötzinn befreien, wie in <<fix05matrix-001>> und <<fix05matrix-002>> gezeigt.
+
+[#fix05matrix-001]
+.Platine rev0.51 - die Hälfte, die die zu entfernenden SMD-Widerstände R302, R303 und R304 enthält
+image::fix05keyMatrix-0001.jpg[alt="Platine wie ursprünglich entwickelt"]
+
+[#fix05matrix-002]
+.Platine rev0.51 nach der Entfernung von R302, R303 und R304
+image::fix05keyMatrix-0002.jpg[alt="Platine ohne R302, R303 und R304"]
+
+Anschließend den ersten der bedrahteten 220-Ohm-Widerstände (Größe 0207) so kurz ablängen und biegen, dass er Pin 1 von P201 zum äußeren Pad des ehemaligen R304 verbindet, und ihn so einlöten wie in <<fix05keymatrix-003>> gezeigt.
+
+[#fix05keymatrix-003]
+.Platine rev0.51 mit dem ersten Austausch-Widerstand
+image::fix05keyMatrix-0003.jpg[alt="Platine mit dem ersten der drei Austausch-Widerstände"]
+
+Die Anschlussdrähte des zweiten bedrahteten 220-Ohm-Widerstands müssen ein wenig komplexer geformt werden. Er soll Pin 3 von P201 (den mittleren in er oberen Reihe) verbinden mit dem inneren (linken) Pad von ehemals R303, wie <<fix05keymatrix-004>> zeigt. Da der längere Anschlussdraht dieses Widerstands nahe an verschiedenen Metallteilen im Inneren des wiFred verbeiläuft, empfiehlt sich eine Abdeckung mit einem passenden Stück Schrumpfschlauch, wie <<fix05keymatrix-005>> zeigt. Der Schrumpfschlauch muss dazu nicht geschrumpft werden, da er vom Widerstand und der Lötstelle in Position gehalten wird.
+
+[#fix05keymatrix-004]
+.Platine rev0.51 mit dem zweiten Austausch-Widerstand probehalber aufgelegt, aber noch nicht gelötet
+image::fix05keyMatrix-0004.jpg[alt="Anpassung des zweiten Austausch-Widerstands"]
+
+[#fix05keymatrix-005]
+.Platine rev0.51 mit dem zweiten Austausch-Widerstand eingelötet nach dem Aufschieben eines Stücks Schrumpfschlauch auf den blanken, oberen Anschlussdraht
+image::fix05keyMatrix-0005.jpg[alt="Zweiter Austausch-Widerstand mit einem Stück Schrumpfschlauch eingelötet"]
+
+Der dritte bedrahtete 220-Ohm-Widerstand wird ähnlich installiert wie der zweite. Er wird ebenfalls an Pin 3 von P201 angelötet, aber dann an das obere (innere) Pad von ehemals R302 wie <<fix05keymatrix-006>> zeigt. Auch dieser Widerstand hat einen langen, blanken Anschlussdraht, der zwischen anderen Metallteilen im wiFred schwebt, so dass auch hier eine Isolierung mit einem Stück Schrumpfschlauch zu empfehlen ist. Ferner blockiert dieser Widerstand die untere rechte Platinenbefestigungsschraube, so dass der Anschluss entweder etwas anders gebogen werden sollte als im Bild oder die Schraube entfernt oder sichergestellt sein sollte, dass die Platine auf absehbare Zeit nicht aus dem Gehäuse entfernt werden muss.
+
+[#fix05keymatrix-006]
+.Platine rev0.51 mit allen drei Austausch-Widerständen
+image::fix05keyMatrix-0006.jpg[alt="Alle drei Austausch-Widerstände installiert"]
+
+== Erforderliche Software
+
+Damit die LEDs an ihren neuen Anschlüssen leuchten, ist eine neue Firmware nötig. Sie ist über das Github-Repository verfügbar und hat das Datum 2025-03-26.
+
+Vor dem Update der AVR-Firmware wird empfohlen, die ESP12-Firmware über das Webinterface zu aktualisieren. Zum Zeitpunkt der Erstellung dieser Zeilen sollte jede Firmware mit -esp12.bin im Dateinamen funktionieren, beginnend mit 2022-10-16-ff2c954-esp12.bin.
+
+// end::largefile[]

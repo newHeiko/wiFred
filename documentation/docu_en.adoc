@@ -623,6 +623,9 @@ image::wfred-controller_rev2-Controller.png[alt="Schematic sheet 3 for rev0.5]
 .Schematic sheet including pushbutton switches, loco selection switches, direction switch, speed potentiometer and flashlight LEDs with controller
 image::User_interface_rev2-User_Interface.png[alt="Schematic sheet 4 for rev0.5]
 
+include::fix05matrix_en.adoc[leveloffset=+2,lines=1]
+include::fix05matrix_en.adoc[leveloffset=+2,tag=largefile]
+
 [#hintsFor05]
 === Hints for building revisions up to 0.5
 

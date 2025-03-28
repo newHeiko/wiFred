@@ -491,6 +491,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_writing_the_firmware_to_the_esp32_s2_wroom">Writing the firmware to the ESP32-S2-WROOM</a></li>
 <li><a href="#_hints_for_building_revision_0_6">Hints for building revision 0.6</a></li>
 <li><a href="#_up_to_revision_0_5">Up to revision 0.5</a></li>
+<li><a href="#_required_pcb_fixes_for_wifred_revisions_0_5_and_0_51">Required PCB fixes for wiFred revisions 0.5 and 0.51</a></li>
 <li><a href="#hintsFor05">Hints for building revisions up to 0.5</a></li>
 <li><a href="#flashing05">Writing the firmware to revision 0.5 and older wiFreds</a></li>
 <li><a href="#oldThrottle">AA battery first prototype</a></li>
@@ -1844,6 +1845,81 @@ The wiFred is designed to be configured in configuration mode. If the IP address
 </div>
 </div>
 <div class="sect2">
+<h3 id="_required_pcb_fixes_for_wifred_revisions_0_5_and_0_51">Required PCB fixes for wiFred revisions 0.5 and 0.51</h3>
+<div class="paragraph">
+<p>Intensive use of the wiFred of revisions 0.5 and 0.51 revealed a mistake in the way the LEDs and key switches are connected to the AVR on PCBs with rev0.5 and rev0.51: In certain situations, pressing one function key will be read as multiple key presses. This is most obvious with F2, F5 or F8 also activating ESTOP. This document describes a fix which has been implemented successfully in many wiFreds and also incorporated into the rev0.52 PCB and schematic. It removes the LEDs from the key read-in matrix.</p>
+</div>
+<div class="sect3">
+<h4 id="_tools_and_parts_needed">Tools and parts needed</h4>
+<div class="paragraph">
+<p>This work requires some solder wick, a total of three 220-Ohm THT resistors of size 0207 (the usual 0.25W carbon film or 0.6W metal film types are fine) and some length of heat-shrink tube of about 2.4mm diameter.</p>
+</div>
+<div class="paragraph">
+<p>To update the firmware, an AVR programmer for the regular AVR ISP connector P201 on the PCB is required.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_how_to_fix_step_by_step">How to fix, step by step</h4>
+<div class="paragraph">
+<p>First, remove the SMD resistors R302, R303 and R304 as shown in <a href="#fix05matrix-001">PCB rev0.51 showing the half with resistors R302, R303 and R304 to be removed</a> and <a href="#fix05matrix-002">PCB rev0.51 after removal of R302, R303 and R304</a> and clean their pads with some solder wick.</p>
+</div>
+<div id="fix05matrix-001" class="imageblock">
+<div class="content">
+<img src="images/fix05keyMatrix-0001.jpg" alt="PCB as originally designed">
+</div>
+<div class="title">Figure 22. PCB rev0.51 showing the half with resistors R302, R303 and R304 to be removed</div>
+</div>
+<div id="fix05matrix-002" class="imageblock">
+<div class="content">
+<img src="images/fix05keyMatrix-0002.jpg" alt="PCB without R302, R303 and R304">
+</div>
+<div class="title">Figure 23. PCB rev0.51 after removal of R302, R303 and R304</div>
+</div>
+<div class="paragraph">
+<p>Next, get the first of the 220-Ohm THT resistors (size 0207), cut and bend the leads very short so it connects Pin 1 of P201 to the outer pad of former R304 and solder it as shown in <a href="#fix05keymatrix-003">PCB rev0.51 with the first of three replacement resistors installed</a>.</p>
+</div>
+<div id="fix05keymatrix-003" class="imageblock">
+<div class="content">
+<img src="images/fix05keyMatrix-0003.jpg" alt="PCB with first of three replacement resistors">
+</div>
+<div class="title">Figure 24. PCB rev0.51 with the first of three replacement resistors installed</div>
+</div>
+<div class="paragraph">
+<p>The second 220-Ohm THT resistors needs a little more shaping of its leads. It should connect pin 3 of P201 (center pin in the upper row) with the inner, left pad of former R303, as shown in <a href="#fix05keymatrix-004">PCB rev0.51 with the second of three replacement resistors test-fit, but not yet soldered</a>. As the longer lead of that resistor passes close to a couple of metal pieces in the wiFred, it is recommended to cut a piece of heat-shrink tube and fit it over the bare metal of the lead, as shown in <a href="#fix05keymatrix-005">PCB rev0.51 with the second of three replacement resistors soldered after covering the bare lead with heat-shrink tube</a>. It is not required to actually shrink it as it will be held in place by the resistor and the solder point.</p>
+</div>
+<div id="fix05keymatrix-004" class="imageblock">
+<div class="content">
+<img src="images/fix05keyMatrix-0004.jpg" alt="Test fitting the second of three replacement resistors">
+</div>
+<div class="title">Figure 25. PCB rev0.51 with the second of three replacement resistors test-fit, but not yet soldered</div>
+</div>
+<div id="fix05keymatrix-005" class="imageblock">
+<div class="content">
+<img src="images/fix05keyMatrix-0005.jpg" alt="Installed the second of three replacement resistors with heat-shrink tube">
+</div>
+<div class="title">Figure 26. PCB rev0.51 with the second of three replacement resistors soldered after covering the bare lead with heat-shrink tube</div>
+</div>
+<div class="paragraph">
+<p>The final 220-Ohm THT resistor is installed in a similar fashion to the second one, also attaching to pin 3 of P201 and connecting it to the center (upper) pad of former R302 as shown in <a href="#fix05keymatrix-006">PCB rev0.51 with all three replacement resistors installed</a>. It also has a long bare lead floating close to other metal parts, so insulation with heat-shrink tube is recommended. Also it blocks access to the lower right (in the picture) screw attaching the PCB to the housing, so either bend it a little different from the picture, remove the screw or make sure access to the top side of the PCB is not required.</p>
+</div>
+<div id="fix05keymatrix-006" class="imageblock">
+<div class="content">
+<img src="images/fix05keyMatrix-0006.jpg" alt="All three replacement resistors installed">
+</div>
+<div class="title">Figure 27. PCB rev0.51 with all three replacement resistors installed</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_software_required">Software required</h4>
+<div class="paragraph">
+<p>To make the LEDs light up with their new connections, a new AVR firmware is required. It is distributed through the github repository and dated 2025-03-26.</p>
+</div>
+<div class="paragraph">
+<p>Before updating the AVR firmware, it is recommended to update the ESP12 firmware through the web interface of the wiFred. As of this writing, any firmware with -esp12.bin in the filename should work, starting from 2022-10-16-ff2c954-esp12.bin.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="hintsFor05">Hints for building revisions up to 0.5</h3>
 <div class="paragraph">
 <p>The PCB has holes in the center of the LED footprints to enable transferring their positions to a StrapuBox housing with a sharp needle or to drill pilot holes with a 1 mm drill. For all other holes, there is a drill jig available which also allows the drilling of pilot holes for the pushbutton switches, the direction control switch and the speed potentiometer. <a href="#drilljigPicture">Using the original PCB and drilling jig to transfer the positions of the holes to the housing - better results will be achieved when the PCBs are screwed in position</a> shows the process and its results. Holes for the pushbutton switches should be drilled at 3.5 mm diameter. Holes for the LEDs should be drilled at 3 mm diameter and holes for the speed potentiometer at 8 mm, for the direction switch at 6.5 mm diameter. The cutouts for the loco selection switches are best drilled at 1.5 mm and extended to fit when the PCB is assembled with a jigsaw or a sharp hobby knife and a file.</p>
@@ -2241,7 +2317,7 @@ The wiFred is designed to be configured in configuration mode. If the IP address
 <div class="content">
 <img src="images/DSC0146.jpg" alt="AVR programming">
 </div>
-<div class="title">Figure 22. Programming connection for ATMega_328P - Pin 1 on purple cable</div>
+<div class="title">Figure 28. Programming connection for ATMega_328P - Pin 1 on purple cable</div>
 </div>
 </div>
 <div class="sect3">
@@ -2253,7 +2329,7 @@ The wiFred is designed to be configured in configuration mode. If the IP address
 <div class="content">
 <img src="images/DSC0138.jpg" alt="ESP8266 programming">
 </div>
-<div class="title">Figure 23. Programming connection for ESP8266 - GND on orange wire, then TXD of programming cable (RXD of ESP8266), then RXD of programming cable (TXD of ESP8266) - also note the jumper on P401</div>
+<div class="title">Figure 29. Programming connection for ESP8266 - GND on orange wire, then TXD of programming cable (RXD of ESP8266), then RXD of programming cable (TXD of ESP8266) - also note the jumper on P401</div>
 </div>
 <div class="paragraph">
 <p>All files in the <strong>software/esp-firmware</strong>-subdirectory of the <a href="#github">[Github repository for wiFred]</a> need to be placed in a folder, then the main sketch <strong>arduino_main_sketch.ino.ino</strong> needs to be opened with the Arduino IDE. Settings for the Arduino IDE can be found inside the main file, programming the device should work using the <strong>Upload</strong>-button in the <strong>Sketch</strong>-menu.</p>
@@ -2268,7 +2344,7 @@ The wiFred is designed to be configured in configuration mode. If the IP address
 <div class="content">
 <img src="images/DSC0149.jpg" alt="Serial communication jumpers">
 </div>
-<div class="title">Figure 24. Communication jumpers for connecting the ESP8266 and the ATMega 328P</div>
+<div class="title">Figure 30. Communication jumpers for connecting the ESP8266 and the ATMega 328P</div>
 </div>
 </div>
 </div>
@@ -2287,25 +2363,25 @@ The wiFred is designed to be configured in configuration mode. If the IP address
 <div class="content">
 <img src="images/old_wfred_rev2.png" alt="Schematic page 1 for AA battery prototype">
 </div>
-<div class="title">Figure 25. Master schematic sheet with batteries and power supply</div>
+<div class="title">Figure 31. Master schematic sheet with batteries and power supply</div>
 </div>
 <div id="oldSchematicPage2" class="imageblock">
 <div class="content">
 <img src="images/old_wfred-wifi-Wifi_connection.png" alt="Schematic page 2 for AA battery prototype">
 </div>
-<div class="title">Figure 26. Schematic sheet including ESP8266 for WiFi connection with bootloader enabling jumper and connection to programming cable</div>
+<div class="title">Figure 32. Schematic sheet including ESP8266 for WiFi connection with bootloader enabling jumper and connection to programming cable</div>
 </div>
 <div id="oldSchematicPage3" class="imageblock">
 <div class="content">
 <img src="images/old_wfred-controller_rev2-Controller.png" alt="Schematic page 3 for AA battery prototype">
 </div>
-<div class="title">Figure 27. Schematic sheet including ATMega 328P along with crystal and in system programming header</div>
+<div class="title">Figure 33. Schematic sheet including ATMega 328P along with crystal and in system programming header</div>
 </div>
 <div id="oldSchematicPage4" class="imageblock">
 <div class="content">
 <img src="images/old_User_interface_rev2-User_Interface.png" alt="Schematic page 4 for AA battery prototype">
 </div>
-<div class="title">Figure 28. Schematic sheet including pushbutton switches, loco selection switches, direction switch and speed potentiometer</div>
+<div class="title">Figure 34. Schematic sheet including pushbutton switches, loco selection switches, direction switch and speed potentiometer</div>
 </div>
 </div>
 <div class="sect2">
@@ -2535,13 +2611,13 @@ The wiFred is designed to be configured in configuration mode. If the IP address
 <div class="content">
 <img src="images/DSC8654.jpg" alt="Remove protrusions">
 </div>
-<div class="title">Figure 29. Removing protrusions inside the housing so the PCB fits</div>
+<div class="title">Figure 35. Removing protrusions inside the housing so the PCB fits</div>
 </div>
 <div id="mountingPads" class="imageblock">
 <div class="content">
 <img src="images/DSC8658.jpg" alt="New mounting pads">
 </div>
-<div class="title">Figure 30. New PCB mounting pads made from 3 mm thick Forex PVC</div>
+<div class="title">Figure 36. New PCB mounting pads made from 3 mm thick Forex PVC</div>
 </div>
 </div>
 </div>
@@ -2691,7 +2767,7 @@ The wiFred is designed to be configured in configuration mode. If the IP address
 <div id="footer">
 <div id="footer-text">
 Version 0.3<br>
-Last updated 2025-03-26 21:21:34 +0100
+Last updated 2025-03-28 19:19:31 +0100
 </div>
 </div>
 </body>

@@ -31,5 +31,12 @@ asciidoctor -b html5 docu_de.adoc
 dblatex -P figure.note="/etc/asciidoc/images/icons/note" -P figure.important="/etc/asciidoc/images/icons/important" -P figure.warning="/etc/asciidoc/images/icons/warning" -P doc.collab.show=0 -P paper.type=a4paper -P page.margin.top=15mm -P page.margin.bottom=15mm -P page.margin.inner=20mm -P page.margin.outer=20mm docu_en.xml 
 dblatex -P figure.note="/etc/asciidoc/images/icons/note" -P figure.important="/etc/asciidoc/images/icons/important" -P figure.warning="/etc/asciidoc/images/icons/warning" -P doc.collab.show=0 -P paper.type=a4paper -P page.margin.top=15mm -P page.margin.bottom=15mm -P page.margin.inner=20mm -P page.margin.outer=20mm docu_de.xml
 
+asciidoctor -b docbook fix05matrix_en.adoc
+asciidoctor -b docbook fix05matrix_de.adoc
+asciidoctor -b html5 fix05matrix_en.adoc
+asciidoctor -b html5 fix05matrix_de.adoc
+dblatex -P figure.note="/etc/asciidoc/images/icons/note" -P figure.important="/etc/asciidoc/images/icons/important" -P figure.warning="/etc/asciidoc/images/icons/warning" -P doc.collab.show=0 -P paper.type=a4paper -P page.margin.top=15mm -P page.margin.bottom=15mm -P page.margin.inner=20mm -P page.margin.outer=20mm fix05matrix_en.xml
+dblatex -P figure.note="/etc/asciidoc/images/icons/note" -P figure.important="/etc/asciidoc/images/icons/important" -P figure.warning="/etc/asciidoc/images/icons/warning" -P doc.collab.show=0 -P paper.type=a4paper -P page.margin.top=15mm -P page.margin.bottom=15mm -P page.margin.inner=20mm -P page.margin.outer=20mm fix05matrix_de.xml
+
 
 exit

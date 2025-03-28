@@ -621,6 +621,9 @@ image::wfred-controller_rev2-Controller.png[alt="Schematic sheet 3 for rev0.5]
 .Schaltplanseite mit Tastern, Lokwahlschaltern, Richtungsschalter, Drehzahlpotentiometer und Taschenlampen-LEDs mit Controller
 image::User_interface_rev2-User_Interface.png[alt="Schematic sheet 4 for rev0.5]
 
+include::fix05matrix_de.adoc[leveloffset=+2,lines=1]
+include::fix05matrix_de.adoc[leveloffset=+2,tag=largefile]
+
 [#hintsFor05]
 === Tipps zum Aufbau der Revision bis 0.5
 
