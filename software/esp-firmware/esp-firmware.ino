@@ -23,10 +23,11 @@
  * 
  * Versions:
  *    Arduino IDE 1.8.19
- *    esp32 3.0.5
+ *    esp32 3.1.3
+ *            (3.2.0 has an issue linking, 3.2.1 requires GLIBC 2.3.5 which I don't have)
  * 
  * Libraries:
- *    ArduinoJson 7.2.0
+ *    ArduinoJson 7.4.2
  * 
  * Board settings:
  *    Board: "ESP32S2 Dev Module"
@@ -96,7 +97,9 @@ void loop() {
   if(emptyBattery &&
       wiFredState != STATE_LOCO_ONLINE &&
       wiFredState != STATE_WAIT_ON_RED_KEY &&
-      wiFredState != STATE_STARTUP)
+      wiFredState != STATE_STARTUP &&
+      wiFredState != STATE_LOWPOWER_WAITING &&
+      wiFredState != STATE_LOWPOWER)
   {
     switchState(STATE_LOWPOWER_WAITING, 100);
   }
