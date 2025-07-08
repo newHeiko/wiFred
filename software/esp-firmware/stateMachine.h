@@ -32,6 +32,8 @@ enum state { STATE_STARTUP, STATE_CONNECTING, STATE_CONNECTED,
 
 extern state wiFredState;
 
+const char* nameState(state x);
+
 void switchState(state newState, uint32_t timeout = UINT32_MAX);
 
 #endif

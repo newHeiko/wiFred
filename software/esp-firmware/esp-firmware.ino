@@ -1,6 +1,6 @@
 /**
  * This file is part of the wiFred wireless model railroading throttle project
- * Copyright (C) 2018-2024 Heiko Rosemann
+ * Copyright (C) 2018-2025 Heiko Rosemann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,12 +19,12 @@
  * form the main loop.
  * 
  * This project was made for ESP32-S2
- * with Arduino ESP32 from the 3.0 series
+ * with Arduino ESP32 from the 3.2 series
  * 
  * Versions:
  *    Arduino IDE 1.8.19
- *    esp32 3.1.3
- *            (3.2.0 has an issue linking, 3.2.1 requires GLIBC 2.3.5 which I don't have)
+ *    esp32 3.2.0
+ *            (3.2.1 requires GLIBC 2.35 which I don't have)
  * 
  * Libraries:
  *    ArduinoJson 7.4.2
@@ -319,9 +319,32 @@ void loop() {
   }
 }
 
+const char* nameState(state x)
+{
+  switch (x)
+  {
+    case STATE_STARTUP:                 return "STARTUP";
+    case STATE_CONNECTING:              return "CONNECTING";
+    case STATE_CONNECTED:               return "CONNECTED";
+    case STATE_LOCO_CONNECTING:         return "LOCO_CONNECTING";
+    case STATE_LOCO_WAITFORTIMEOUT:     return "LOCO_WAITFORTIMEOUT";
+    case STATE_LOCO_ONLINE:             return "LOCO_ONLINE";
+    case STATE_LOCOS_OFF:               return "LOCOS_OFF";
+    case STATE_CONFIG_AP:               return "CONFIG_AP";
+    case STATE_CONFIG_STATION_WAITING:  return "CONFIG_STATION_WAITING";
+    case STATE_CONFIG_STATION:          return "CONFIG_STATION";
+    case STATE_LOWPOWER_WAITING:        return "LOWPOWER_WAITING";
+    case STATE_LOWPOWER:                return "LOWPOWER";
+    case STATE_WAIT_ON_RED_KEY:         return "WAIT_ON_RED_KEY";
+    case STATE_WAIT_ON_YELLOW_KEY:      return "WAIT_ON_YELLOW_KEY";
+    case STATE_WAIT_ON_F0_KEY:          return "WAIT_ON_F0_KEY";
+    default:                            return "<invalid>";
+  }
+} 
+
 void switchState(state newState, uint32_t timeout)
 {
-  log_d("Old state: %d, New state: %d", wiFredState, newState);
+  log_d("Old state: %d: %s, New state: %d: %s", wiFredState, nameState(wiFredState), newState, nameState(newState));
   wiFredState = newState;
   if(timeout == UINT32_MAX)
   {
