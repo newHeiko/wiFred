@@ -82,7 +82,9 @@ void loop() {
   if(emptyBattery &&
       wiFredState != STATE_LOCO_ONLINE &&
       wiFredState != STATE_WAIT_ON_RED_KEY &&
-      wiFredState != STATE_STARTUP)
+      wiFredState != STATE_STARTUP &&
+      wiFredState != STATE_LOWPOWER_WAITING &&
+      wiFredState != STATE_LOWPOWER)
   {
     switchState(STATE_LOWPOWER_WAITING, 100);
   }
