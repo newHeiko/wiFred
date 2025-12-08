@@ -550,6 +550,49 @@ void clearFunction(uint8_t f)
 }
 
 /**
+ * Force all funtions to off (false) - but only if connected
+ */
+void resetAllFunctions(void)
+{
+  if(wiFredState != STATE_LOCO_ONLINE)
+  {
+    return;
+  }
+  for(uint8_t l = 0; l < 4; l++)
+  {
+    // skip inactive locos
+    if(locoState[l] != LOCO_ACTIVE)
+    {
+      continue;
+    }
+    for(uint8_t f = 0; f <= MAX_FUNCTION; f++)
+    {
+      
+      switch(locos[l].functions[f])
+      {
+        case THROTTLE_SINGLE:
+          if(!isOnlyLoco(l))
+          {
+            break;
+          } // @suppress("No break at end of case")
+          // intentionally fall through
+
+        case THROTTLE:
+        case THROTTLE_LOCKING:
+        case THROTTLE_MOMENTARY:
+          client.print(String("MTA") + locoThrottleID[l] + "<;>f0" + f + "\n");
+          break;
+
+        case ALWAYS_ON:
+        case ALWAYS_OFF:
+        case IGNORE:
+          break;
+      }
+    }
+  }
+}
+
+/**
  * Set current direction - only accepts the direction change if speed is zero
  */
 void setReverse(bool newReverse)

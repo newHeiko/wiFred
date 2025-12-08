@@ -21,6 +21,7 @@
  */
 
 #include <Ticker.h>
+#include <millisDelay.h>    // From the SafeString library (https://github.com/PowerBroker2/SafeString)
 //sloeber>> #include <WString.h>       // class String
 
 #include <stdbool.h>
@@ -91,9 +92,8 @@ unsigned int blinkLED;
  */
 void ledBlinkHandler(void)
 {
-  if(blinkLED > 0)
+  if(blinkLED > 0 && --blinkLED > 0)
   {
-    blinkLED--;
   }
   else
   {
@@ -273,6 +273,8 @@ void handleThrottle(void)
     avrRevision = strdup("unknown");
   }
 
+  static millisDelay allFunctionsResetTimer;
+
   // try to set direction
   setReverse(reverseOut);
 
@@ -418,6 +420,17 @@ void handleThrottle(void)
         switchState(STATE_STARTUP, TOTAL_NETWORK_TIMEOUT_MS);
       }
     }
+    allFunctionsResetTimer.start(5000);
+  }
+  else if (getInputState(KEY_ESTOP) == false)
+  {
+    allFunctionsResetTimer.stop();
+  }
+
+  if (allFunctionsResetTimer.justFinished() && wiFredState == STATE_LOCO_ONLINE)
+  {
+    setLEDblink(1);
+    resetAllFunctions();
   }
 
   // if there is input on the serial port

@@ -154,6 +154,11 @@ void setFunction(uint8_t f);
 void clearFunction(uint8_t f);
 
 /**
+ * Force all funtions to off (false) - but only if connected
+ */
+void resetAllFunctions(void);
+
+/**
  * Set current throttle status to ESTOP
  */
 void setESTOP(void);
