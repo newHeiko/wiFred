@@ -1,6 +1,6 @@
 /**
  * This file is part of the wiFred wireless model railroading throttle project
- * Copyright (C) 2018-2022 Heiko Rosemann
+ * Copyright (C) 2018-2026 Heiko Rosemann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,6 +52,8 @@ const int KEY_PIN[] = { 3, 11, 4, 37, 12, 5, 38, 13, 6,
 #define CENTER_FUNCTION_IGNORE -2
 
 #define CENTER_FUNCTION_ESTOP_TIMEOUT 500
+
+#define ALL_FUNCTION_RESET_TIMEOUT 5000
 
 /**
  * Potentiometer value for zero speed (counterclockwise limit)

@@ -27,6 +27,7 @@
  * 
  * Libraries:
  *    ArduinoJson 7.4.2
+ *    SafeString 4.1.42
  * 
  * Board settings:
  *    Board: "ESP32S2 Dev Module"

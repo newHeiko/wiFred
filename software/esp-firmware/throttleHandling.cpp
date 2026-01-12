@@ -1,6 +1,6 @@
 /**
  * This file is part of the wiFred wireless model railroading throttle project
- * Copyright (C) 2018-2022 Heiko Rosemann
+ * Copyright (C) 2018-2026 Heiko Rosemann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 
 #include <stdbool.h>
 #include <Ticker.h>
-#include <millisDelay.h>    // From the SafeString library (https://github.com/PowerBroker2/SafeString)
+#include <millisDelay.h>
 //sloeber>> #include <WString.h>       // class String
 
 #include "locoHandling.h"
@@ -564,7 +564,7 @@ void handleThrottle(void)
         switchState(STATE_STARTUP, TOTAL_NETWORK_TIMEOUT_MS);
       }
     }
-    allFunctionsResetTimer.start(5000);
+    allFunctionsResetTimer.start(ALL_FUNCTION_RESET_TIMEOUT);
   }
   else if (getInputState(KEY_ESTOP) == false)
   {
