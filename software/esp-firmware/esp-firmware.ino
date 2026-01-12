@@ -1,6 +1,6 @@
 /**
  * This file is part of the wiFred wireless model railroading throttle project
- * Copyright (C) 2018-2025 Heiko Rosemann
+ * Copyright (C) 2018-2026 Heiko Rosemann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,12 +19,11 @@
  * form the main loop.
  * 
  * This project was made for ESP32-S2
- * with Arduino ESP32 from the 3.2 series
+ * with Arduino ESP32 from the 3.3 series
  * 
  * Versions:
  *    Arduino IDE 1.8.19
- *    esp32 3.2.0
- *            (3.2.1 requires GLIBC 2.35 which I don't have)
+ *    esp32 3.3.5
  * 
  * Libraries:
  *    ArduinoJson 7.4.2
