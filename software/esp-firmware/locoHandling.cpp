@@ -532,7 +532,7 @@ void clearFunction(uint8_t f)
 }
 
 /**
- * Force all funtions to off (false) - but only if connected
+ * Force all functions to off (false) - but only if connected
  */
 void resetAllFunctions(void)
 {
