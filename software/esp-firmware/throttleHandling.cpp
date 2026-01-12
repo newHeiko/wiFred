@@ -21,6 +21,7 @@
 
 #include <stdbool.h>
 #include <Ticker.h>
+#include <millisDelay.h>    // From the SafeString library (https://github.com/PowerBroker2/SafeString)
 //sloeber>> #include <WString.h>       // class String
 
 #include "locoHandling.h"
@@ -194,7 +195,7 @@ void setLEDblink(unsigned int number)
   if(number > 0)
   {
     blinkLED = number;
-    ledStopOnTime = 100;
+    ledStopOnTime = 10;
     ledOn(LED_STOP);
     ledStopTickerOn.attach_ms(300, ledBlinkHandler);
   }
@@ -403,6 +404,8 @@ bool blockDirectionChange()
  */
 void handleThrottle(void)
 {
+  static millisDelay allFunctionsResetTimer;
+
   setReverse(reverseOut);
   
   // handle direction switch
@@ -561,6 +564,17 @@ void handleThrottle(void)
         switchState(STATE_STARTUP, TOTAL_NETWORK_TIMEOUT_MS);
       }
     }
+    allFunctionsResetTimer.start(5000);
+  }
+  else if (getInputState(KEY_ESTOP) == false)
+  {
+    allFunctionsResetTimer.stop();
+  }
+
+  if (allFunctionsResetTimer.justFinished() && wiFredState == STATE_LOCO_ONLINE)
+  {
+    setLEDblink(1);
+    resetAllFunctions();
   }
 
   static uint32_t nextOutput;
