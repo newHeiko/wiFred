@@ -170,8 +170,9 @@ void ledOn(int ledPin)
  */
 void ledBlinkHandler(void)
 {
-  if(blinkLED > 0 && --blinkLED > 0)
+  if(blinkLED > 0)
   {
+    blinkLED--;
     ledOn(LED_STOP);
     ledStopTickerOff.once_ms(100, ledOff, LED_STOP);
   }
