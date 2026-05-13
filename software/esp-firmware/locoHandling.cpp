@@ -309,8 +309,12 @@ void locoConnect(void)
 {
   if(locoServer.automatic && automaticServer != nullptr)
     {
-      log_d("Trying to connect to automatic server %s...", automaticServer);
-      if(client.connect(automaticServerIP, locoServer.port))
+      log_d("Trying to connect to automatic server %s IP=%s...", automaticServer, automaticServerIP.toString().c_str());
+      String mdnsHostname = String(automaticServer) + ".local";
+      bool connected = (automaticServerIP == IPAddress(0, 0, 0, 0))
+                       ? client.connect(mdnsHostname.c_str(), locoServer.port)
+                       : client.connect(automaticServerIP, locoServer.port);
+      if(connected)
 	    {
         log_d("...succeeded.");
 	      client.setNoDelay(true);
