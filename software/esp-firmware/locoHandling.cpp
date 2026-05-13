@@ -306,25 +306,29 @@ void locoConnect(void)
   if(locoServer.automatic && automaticServer != nullptr)
     {
 #ifdef DEBUG
-      Serial.println(String("Trying to connect to automatic server ") + automaticServer + "...");
+      Serial.println(String("Trying to connect to automatic server ") + automaticServer + " IP=" + automaticServerIP.toString() + "...");
 #endif
-      if(client.connect(automaticServerIP, locoServer.port))
-	    {
+      String mdnsHostname = String(automaticServer) + ".local";
+      bool connected = (automaticServerIP == IPAddress(0, 0, 0, 0))
+        ? client.connect(mdnsHostname.c_str(), locoServer.port)
+        : client.connect(automaticServerIP, locoServer.port);
+      if(connected)
+        {
 #ifdef DEBUG
-        Serial.println("...succeeded.");
+          Serial.println("...succeeded.");
 #endif
-	      client.setNoDelay(true);
-	      client.setTimeout(10);
-	      switchState(STATE_LOCO_CONNECTING, 10 * 1000);
-	    }
+          client.setNoDelay(true);
+          client.setTimeout(10);
+          switchState(STATE_LOCO_CONNECTING, 10 * 1000);
+        }
       else
-      {
+        {
 #ifdef DEBUG
-        Serial.println("...failed. Resetting server info.");
+          Serial.println("...failed. Resetting server info.");
 #endif
-        free(automaticServer);
-        automaticServer = nullptr;
-      }
+          free(automaticServer);
+          automaticServer = nullptr;
+        }
     }
   else if(!locoServer.automatic)
     {
