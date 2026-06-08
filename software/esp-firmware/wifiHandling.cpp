@@ -633,7 +633,7 @@ void getConfigXML()
 //     char * hostName = strdup(throttleName);
 
    /* collect response */      
-   String resp = String("<?XML version=\"1.0\" encoding=\"UTF?8\"?>\r\n")
+   String resp = String("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n")
                
           + "<wiFred>\r\n"
                   + "<structurVersion value=\"1\"/>\r\n"
