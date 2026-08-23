@@ -679,7 +679,7 @@ void getConfigXML()
            for(std::vector<wifiAPEntry>::iterator it = apList.begin() ; it != apList.end(); ++it)
            {
                 resp += String(" <NETWORK>\r\n  <SSID value=\"") + it->ssid + "\"/>\r\n";
-                resp += String("  <Key value=\"") + it->key + "\"/>\r\n";
+                resp += String("  <Key value=\"****\"/>\r\n";
                 if(!it->disabled)
                 {
                   resp += "  <Enabled value=\"1\" />\r\n";     
