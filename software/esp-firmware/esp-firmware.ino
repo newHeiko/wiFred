@@ -23,11 +23,11 @@
  * 
  * Versions:
  *    Arduino IDE 1.8.19
- *    esp32 3.3.5
+ *    esp32 3.3.11
  * 
  * Libraries:
- *    ArduinoJson 7.4.2
- *    SafeString 4.1.42
+ *    ArduinoJson 7.4.3
+ *    SafeString 4.1.45
  * 
  * Board settings:
  *    Board: "ESP32S2 Dev Module"
