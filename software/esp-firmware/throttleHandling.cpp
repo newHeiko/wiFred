@@ -112,7 +112,7 @@ void setLEDblink(unsigned int number)
 {
   if(number > 0)
   {
-    blinkLED = number - 1;
+    blinkLED = number;
     Serial.println("L3:10/30");
     Serial.flush();
     blinkTicker.attach_ms(300, ledBlinkHandler);
