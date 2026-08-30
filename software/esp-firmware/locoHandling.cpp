@@ -40,15 +40,14 @@ const ModeEntry_t MODES[MODES_LENGTH]
 {
   //"unknown",
   { MODE_DO_NOT_SEND, "(do not set speed step mode)" },
-  // from decodeSpeedStepMode():
+  // from SpeedStepMode:
   { "128",         "DCC 126 speed steps"         }, // DCC 126 speed steps
   { "28",          "DCC 28 speed steps"          }, // DCC 28 speed steps
   { "27",          "DCC 27 speed steps"          }, // DCC 27 speed steps
   { "14",          "DCC 14 speed steps"          }, // DCC 14 speed steps
   { "motorola_28", "Motorola Trinary"            }, // Motorola Trinary
-  { "tmcc_32",     "Lionel TMCC 32"              }, // Lionel TMCC 32 speed step mode
   { "incremental", "do not know"                 },
-  // from SpeedStepMode:
+  // from decodeSpeedStepMode():
   { "1",           "DCC 126 speed steps"         }, // SpeedStepMode.NMRA_DCC_128: DCC 126 speed steps
   { "2",           "DCC 28 speed steps"          }, // SpeedStepMode.NMRA_DCC_28:  DCC 28 speed steps
   { "4",           "DCC 27 speed steps"          }, // SpeedStepMode.NMRA_DCC_27:  DCC 27 speed steps
