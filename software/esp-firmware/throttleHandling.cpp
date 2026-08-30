@@ -696,7 +696,7 @@ void adcCallback(void)
     }
     else if(batteryBuffer < LOW_BATTERY_THRESHOLD)
     {
-      emptyBattery = true;
+      lowBattery = true;
     }
     else
     {
