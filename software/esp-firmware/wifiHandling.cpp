@@ -699,25 +699,25 @@ void getConfigXML()
            resp +="<NETWORKS>\r\n";
            for(std::vector<wifiAPEntry>::iterator it = apList.begin() ; it != apList.end(); ++it)
            {
-                resp += String(" <NETWORK>\r\n  <SSID value=\"") + it->ssid + "\"/>\r\n";
-                resp += String("  <Key value=\"****\"/>\r\n";
-                if(!it->disabled)
-                {
-                  resp += "  <Enabled value=\"1\" />\r\n";     
-                }
-                else
-                {
-                  resp += "  <Enabled value=\"0\" />\r\n"; 
-                }
-                resp += " </NETWORK>\r\n";
+             resp += String(" <NETWORK>\r\n  <SSID value=\"") + it->ssid + "\"/>\r\n";
+             resp += String("  <Key value=\"****\"/>\r\n");
+             if(!it->disabled)
+               {
+                 resp += "  <Enabled value=\"1\" />\r\n";     
+               }
+             else
+               {
+                 resp += "  <Enabled value=\"0\" />\r\n"; 
+               }
+             resp += " </NETWORK>\r\n";
                 
            }
            resp +="</NETWORKS>\r\n";
 
            resp += "<LOCOSERVER>\r\n";
-            resp += "   <ServerName value=\""  + String(locoServer.name) + "\" />\r\n";
-            resp += "   <Port value=\"" + String(locoServer.port) + "\" />\r\n";
-            resp += "   <Automatic value=\"" + String(locoServer.automatic) +"\" />\r\n";
+           resp += "   <ServerName value=\""  + String(locoServer.name) + "\" />\r\n";
+           resp += "   <Port value=\"" + String(locoServer.port) + "\" />\r\n";
+           resp += "   <Automatic value=\"" + String(locoServer.automatic) +"\" />\r\n";
            resp +="</LOCOSERVER>\r\n";
 
            resp += "<centerSwitch value=\"" + String(centerFunction) + "\" />\r\n";
