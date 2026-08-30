@@ -194,7 +194,7 @@ void setLEDblink(unsigned int number)
 
   if(number > 0)
   {
-    blinkLED = number;
+    blinkLED = number - 1;
     ledStopOnTime = 10;
     ledOn(LED_STOP);
     ledStopTickerOn.attach_ms(300, ledBlinkHandler);
