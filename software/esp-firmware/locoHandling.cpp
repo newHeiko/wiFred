@@ -654,7 +654,7 @@ void requestLoco(uint8_t loco)
     return;
   }
   
-  // first step for new loco: Send "loco acquire" command, set speed mode and send ESTOP command right afterwards to make sure loco is not moving
+  // first step for new loco: Send "loco acquire" command and send ESTOP command right afterwards to make sure loco is not moving
   if(locos[loco].longAddress)
   {
     locoThrottleID[loco] = String("L") + locos[loco].address;
@@ -665,11 +665,6 @@ void requestLoco(uint8_t loco)
   }
   // '+' - Add a locomotive to the throttle
   client.print(String("MT+") + locoThrottleID[loco] + "<;>" + locoThrottleID[loco] + "\n");
-  // 'A' - Action, 's' - set speed step mode
-  if (strcmp(MODE_DO_NOT_SEND, locos[loco].mode) != 0)
-  {
-    client.print(String("MTA") + locoThrottleID[loco] + "<;>s" + locos[loco].mode + "\n");
-  }
   // 'A' - Action, 'X' - emergency stop
   client.print(String("MTA") + locoThrottleID[loco] + "<;>X\n");
   setESTOP();
@@ -678,7 +673,7 @@ void requestLoco(uint8_t loco)
 }
 
 /**
- * Correctly set functions and direction on newly acquired loco
+ * Correctly set functions, direction and speed step mode on newly acquired loco
  */
 void setLocoFunctions(uint8_t loco)
 {
@@ -768,6 +763,12 @@ void setLocoFunctions(uint8_t loco)
   else
   {
     client.print(String("MTA") + locoThrottleID[loco] + "<;>R1\n");
+  }
+
+  // 'A' - Action, 's' - set speed step mode
+  if (strcmp(MODE_DO_NOT_SEND, locos[loco].mode) != 0)
+  {
+    client.print(String("MTA") + locoThrottleID[loco] + "<;>s" + locos[loco].mode + "\n");
   }
 
   // flush all client data

@@ -58,7 +58,7 @@ typedef struct
   uint16_t port;
 } serverInfo;
 
-const int MODES_LENGTH = 13;
+const int MODES_LENGTH = 12;
 
 typedef struct ModeEntry {
   const char val[12];
